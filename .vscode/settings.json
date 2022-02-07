@@ -1,0 +1,15 @@
+{
+    "i18n-ally.localesPaths": [
+        "resources/lang",
+        "script/resources/lang",
+        "public/plugins/bower_components/jquery-asColorPicker-master/i18n",
+        "public/plugins/bower_components/summernote/lang",
+        "public/plugins/bower_components/moment/src/locale",
+        "script/public/plugins/bower_components/jquery-asColorPicker-master/i18n",
+        "script/public/plugins/bower_components/summernote/lang",
+        "public/plugins/bower_components/moment/src/lib/locale",
+        "script/public/plugins/bower_components/moment/src/locale",
+        "script/public/plugins/bower_components/moment/src/lib/locale"
+    ],
+    "i18n-ally.keystyle": "nested"
+}
