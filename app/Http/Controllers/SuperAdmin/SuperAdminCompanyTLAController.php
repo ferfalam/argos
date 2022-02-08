@@ -94,7 +94,13 @@ class SuperAdminCompanyTLAController extends SuperAdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $id = CompanyTLA::where("id", $id)->first();
+        $id->type = $request->type;
+        $id->name = $request->name;
+        $id->slug = str_slug($request->name);
+        $id->update();
+
+        return Reply::successWithData(__('Success'), ['status' => 'success', 'tla' => $id]);
     }
 
     /**

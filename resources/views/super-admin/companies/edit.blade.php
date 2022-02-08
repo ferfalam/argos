@@ -300,7 +300,7 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div class="col-xs-12 text-center">
+                                        <div style="display: none" class="col-xs-12 text-center">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 250px; height: 80px;">
 
@@ -552,26 +552,27 @@
                                                     <label for="tva_intrat" class="">N°TVA intrat</label>
                                                 </td>
                                                 <td>
-                                                    <select name="tva_intrat" id="tva_intrat" class="form-control select2">
-                                                        <option value="" disabled>N°TVA intrat</option>
-                                                        @foreach ($tla as $t)
-                                                            @if ($t->type == 'tva_intrat')
-                                                                @if ($t->name == $companySubSettings->tva_intrat)
-                                                                    <option value=" {{ $t->name }} " selected>
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
-                                                                @else
-                                                                    <option value=" {{ $t->name }} ">
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
-                                                                @endif
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
+                                                    <input name="tva_intrat" id="tva_intrat" value="{{$companySubSettings->tva_intrat}}" class="form-control">
+{{--                                                    <select name="tva_intrat" id="tva_intrat" class="form-control select2">--}}
+{{--                                                        <option value="" disabled>N°TVA intrat</option>--}}
+{{--                                                        @foreach ($tla as $t)--}}
+{{--                                                            @if ($t->type == 'tva_intrat')--}}
+{{--                                                                @if ($t->name == $companySubSettings->tva_intrat)--}}
+{{--                                                                    <option value=" {{ $t->name }} " selected>--}}
+{{--                                                                        {{ ucfirst(strtolower($t->name)) }}</option>--}}
+{{--                                                                @else--}}
+{{--                                                                    <option value=" {{ $t->name }} ">--}}
+{{--                                                                        {{ ucfirst(strtolower($t->name)) }}</option>--}}
+{{--                                                                @endif--}}
+{{--                                                            @endif--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
                                                 </td>
-                                                <td>
-                                                    <a href="javascript:;" class="text-info plus-form">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="tva_intrat">
-                                                    </a>
-                                                </td>
+{{--                                                <td>--}}
+{{--                                                    <a href="javascript:;" class="text-info plus-form">--}}
+{{--                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="tva_intrat">--}}
+{{--                                                    </a>--}}
+{{--                                                </td>--}}
                                             </tr>
                                             <tr>
                                                 <td>
