@@ -178,7 +178,7 @@ return array(
     'ticketDashboard' => 'Tableau de bord du ticket',
     'financeDashboard' => 'Finance Tableau de bord',
     'clients' => 'Clientes',
-    'employees' => 'Des employés',
+    'employees' => 'Liste des Utilisateurs',
     'projects' => 'Projets',
     'taskRequest' => 'Demande de tâche',
     'taskCalendar' => 'Calendrier de la tâche',
