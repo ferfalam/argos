@@ -445,7 +445,7 @@
     <main class="main" style="padding: 0">     
         {{-- Navbar Start --}}
         <div class="header navbar-header" style="display: flex; align-items: center; justify-content: space-between;">
-          <div class="text-center" style="color: white">{{$user->company->company_name}}E </div>
+          <div class="text-center" style="color: white">{{$user->company->company_name}} </div>
           @if ((company()->package_id == 8||company()->package_id == 2) && round((strtotime(date('Y-m-d', strtotime(company()->created_at. ' + 15 days'))) - time())/ (60 * 60 * 24))>0)
             @php
                 $banner = true;
@@ -471,7 +471,7 @@
 
           <ul class="nav user-menu">
             <li class="nav-item dropdown ">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <a href="{{ route('admin.user-chat.index') }}" >
                 <i class="fa">
                   <ion-icon name="chatbubbles"></ion-icon>
                 </i>
@@ -479,7 +479,7 @@
             </li>
 
             <li class="nav-item dropdown ">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <a href="{{ route('admin.events.index') }}" class="dropdown-toggle nav-link" data-toggle="dropdown">
                 <i class="fa fa-calendar"></i> 
               </a>
             </li>
@@ -517,7 +517,10 @@
               <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                 <span class="user-img">
                   <img src="{{ $user->image_url }}" alt="">
-                  <span class="status online"></span>
+					 <span class="status online"></span></span>
+                        <span>{{ ucwords($user->name) }}</span>
+                    </a>
+                  
                 </span>
               </a>
               <div class="dropdown-menu">
