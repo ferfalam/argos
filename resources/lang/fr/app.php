@@ -158,7 +158,15 @@ return array(
   'deactive' => "DeActive",
   'notification' => "Notification",
   'connexion' => 'Connexion',
+  'function' => 'Fonction',
 
+  'addContact' => 'Add a Contact',
+  'contactList' => "Contact List",
+  'contactName' => "Contact Name",
+  'contactFile' => "Contact File",
+  'contact_type' => "Contact Type",
+  "visibility" => "Visibilité",
+  'attach_to' => "Rattachement",
 
   'months' =>
   array(

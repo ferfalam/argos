@@ -1082,6 +1082,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
+            Route::get("contacts/create", 'AdminContactController@create')->name('contact.create');
 			Route::get("documents", 'AdminDocumentController@index')->name('document.index');
 
             Route::get('language/change-language', 'AdminProfileSettingsController@changeLanguage')->name('language.change-language');

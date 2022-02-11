@@ -141,6 +141,15 @@ return array(
   'deactive' => "DeActive",
   'notification' => "Notification",
   'connexion' => 'Connexion',
+  // New Insertion
+  'function' => 'Function',
+  'addContact' => 'Add a Contact',
+  'contactList' => "Contact List",
+  'contactName' => "Contact Name",
+  'contactFile' => "Contact File",
+  'contact_type' => "Contact Type",
+  "visibility" => "Visibility",
+  'attach_to' => "Attach To",
 
   'otherinfo' => 'Other information',
   'profil' => 'Profile',

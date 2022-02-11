@@ -470,15 +470,15 @@
           </div>
 
           <ul class="nav user-menu">
-            <li class="nav-item dropdown ">
-              <a href="{{ route('admin.user-chat.index') }}" >
+            <li class="nav-item dropdown" tooltip="@lang('Chat')">
+              <a href="{{ route('admin.user-chat.index') }}"  >
                 <i class="fa">
                   <ion-icon name="chatbubbles"></ion-icon>
                 </i>
               </a>
             </li>
 
-            <li class="nav-item dropdown ">
+            <li class="nav-item dropdown" tooltip="@lang('app.menu.Events')">
               <a href="{{ route('admin.events.index') }}" class="dropdown-toggle nav-link" data-toggle="dropdown">
                 <i class="fa fa-calendar"></i> 
               </a>
@@ -587,7 +587,7 @@
 <!-- /#wrapper -->
 
 {{--Footer sticky notes--}}
-<div id="footer-sticky-notes" class="bg-light row hidden-xs hidden-sm">
+{{-- <div id="footer-sticky-notes" class="bg-light row hidden-xs hidden-sm">
     <div class="col-xs-12" id="sticky-note-header">
         <div class="col-xs-10" style="line-height: 30px">
             @lang('app.menu.stickyNotes') <a href="javascript:;" onclick="showCreateNoteModal()"
@@ -642,7 +642,7 @@
         @endforeach
 
     </div>
-</div>
+</div> --}}
 {{--sticky note end--}}
 
 {{--Timer Modal--}}
@@ -752,7 +752,16 @@
 <script src="{{ asset('plugins/bower_components/icheck/icheck.init.js') }}"></script>
 <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ asset('js/jquery.magnific-popup-init.js') }}"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 
+<script>
+  $('*[tooltip]').each(function(i, el){
+   tippy(el, {
+      content: $(el).attr('tooltip'),
+    });
+  })
+</script>
 
 <script>
   //reload page if landed via back button

@@ -21,4 +21,10 @@ class AdminContactController extends AdminBaseController
     $this->pageTitle = 'app.menu.contacts';
     return view('admin.contact.index', $this->data);
   }
+
+  public function create()
+  {
+    $this->pageTitle = 'app.addContact';
+    return view('admin.contact.create', $this->data);
+  }
 }

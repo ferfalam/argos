@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('page-title')
 <div class="row bg-title">
     <!-- .page title -->
@@ -54,7 +55,7 @@
                                     <a class="mytooltip" href="javascript:void(0)">
                                         <i class="fa fa-info-circle"></i><span class="tooltip-content5"><span class="tooltip-text3"><span
                                                         class="tooltip-inner2">@lang('modules.employees.employeeIdInfo')</span></span></span></a>
-                                    <input type="text" name="employee_id" id="employee_id" class="form-control"
+                                        <input type="text" name="employee_id" id="employee_id" class="form-control"
                                            value="{{ $employeeDetail->employee_id }}" autocomplete="nope">
                                 </div>
                             </div>
@@ -349,9 +350,6 @@
                         @endforeach @endif
 
                     </div>
-
-
-
                 </div>
                 <div class="form-actions">
                     <button type="submit" id="save-form" class="btn btn-success"><i
