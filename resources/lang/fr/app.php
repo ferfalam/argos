@@ -143,6 +143,21 @@ return array(
   'annuler' => 'Annuler',
   'enregistrer' => 'Enregistrer',
   'ficheutilisateur' => 'FICHE UTILISATEUR',
+  'civility' => 'Genre',
+  'lastnamefirstname' => 'Nom/Prénom',
+  'adresse' => 'Addres',
+  'pays' => 'Pays',
+  'cp' => 'Code Postal/Ville',
+  'user_id' => "ID Utilisateur",
+  'start_date' => "Date Entrée",
+  'login_email' => "Login/Email",
+  'end_date' => "Date Sortie",
+  'services' => "Serivces",
+  'compentancy' => "Compantancy",
+  'active' => 'Active',
+  'deactive' => "DeActive",
+  'notification' => "Notification",
+  'connexion' => 'Connexion',
 
 
   'months' =>

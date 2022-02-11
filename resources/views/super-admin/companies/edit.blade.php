@@ -77,7 +77,7 @@
 
         fieldset .form-group label,
         fieldset tr td {
-            min-width: max-content;
+            /* min-width: max-content; */
             margin-right: 5px;
             vertical-align: middle;
         }
@@ -300,7 +300,7 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div style="display: none" class="col-xs-12 text-center">
+                                        <div class="col-xs-12 text-center">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 250px; height: 80px;">
 
@@ -873,7 +873,7 @@
                         </div>
 
                         <div class="form-actions" style="margin-top: 20px">
-                            <button class="btn btn-reset" type="reset">@lang('app.annuler')</button>
+                            {{-- <button class="btn btn-reset" type="reset">@lang('app.annuler')</button> --}}
                             <button type="submit" id="save-form" class="btn btn-success">@lang('app.update')</button>
                         </div>
                         {!! Form::close() !!}

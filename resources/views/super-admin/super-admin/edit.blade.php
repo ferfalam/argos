@@ -247,6 +247,20 @@
                                                     </a>
                                                 </td>
                                             </tr>
+
+                                            <tr>
+                                                <td><label for="name" class="required">@lang('app.user_id')
+                                                    </label></td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="name" name="name"
+                                                        value="">
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
                                             <tr>
                                                 <td><label for="firstnamelastname"
                                                         class="required">@lang('app.lastnamefirstname') </label></td>
@@ -345,7 +359,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>
                                                     <label for="qualification"
                                                         class="required">@lang('app.qualification')</label>
@@ -366,7 +380,7 @@
                                                     <a href="javascript:;" class="text-info plus-form">
                                                         <img src="{{ asset('img/plus.png') }}" alt="" data-type="qualification"> </a>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
                                             <tr>
                                                 <td>
                                                     <label for="birthday"
@@ -458,12 +472,25 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label for="observation" class="required">@lang('app.observation')</label>
+                                                    <label for="start_date"
+                                                        class="required">@lang('app.start_date')</label>
                                                 </td>
                                                 <td>
-                                                    <textarea class="form-control" name="observation" id="observation"
-                                                        style="width:100%"
-                                                        rows="2"> {{ $userDetail->observation }} </textarea>
+                                                    <input type="text" name="start_date" class="form-control datepicker">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="end_date"
+                                                        class="required">@lang('app.end_date')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="end_date" class="form-control datepicker">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -513,12 +540,13 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <label for="company_email"
-                                                        class="required">@lang('app.email')</label>
+                                                    <label for="service" class="required">@lang('app.services')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="email" name="company_email" class="form-control"
-                                                        value="{{ $userDetail->username }}" autocomplete="nope">
+                                                    <select name="service" id="service" class="form-control select2">
+                                                        <option value="Service A">Service A</option>
+                                                        <option value="Service B" disabled>Service B</option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -526,13 +554,30 @@
                                                     </a>
                                                 </td>
                                             </tr>
+
                                             <tr>
+                                                <td>
+                                                    <label for="compentancy"
+                                                        class="required">@lang('app.compentancy')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="compentancy" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                           
+                                            {{-- <tr>
                                                 <td>
                                                     <label for="tel">@lang('app.tel')</label>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex">
-                                                        {{-- <div class="input-group-btn">
+                                                        <div class="input-group-btn">
                                                             <button type="button" class="btn dropdown-toggle"
                                                                 data-toggle="dropdown" aria-haspopup="true"
                                                                 aria-expanded="false"><span class="flag-icon flag-icon-fr"
@@ -552,13 +597,14 @@
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
-                                                        </div><!-- /btn-group --> --}}
+                                                        </div><!-- /btn-group -->
                                                         <input type="text" name="tel" id="tel"
                                                             class="form-control phone-input ccpicker" aria-label="..."
                                                             value=" {{ explode(' ', $userDetail->tel)[1] }} ">
                                                     </div><!-- /input-group -->
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
+                                            
                                             <tr>
                                                 <td>
                                                     <label for="mobile">@lang('app.mobile')</label>
@@ -593,6 +639,30 @@
                                                     </div><!-- /input-group -->
                                                 </td>
                                             </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label for="" class="mb-0">@lang('app.notification')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="notification" value="male">
+                                                            <label for="notification" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="notification" value="female">
+                                                            <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
                                         </table>
                                     </fieldset>
                                 </div>
@@ -619,6 +689,43 @@
                                                     <input type="password" name="password" class="form-control">
                                                 </td>
                                             </tr>
+
+                                            
+                                            <tr>
+                                                <td>
+                                                    <label for="connexion" class="required">@lang('app.connexion')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="connexion" id="connexion" class="form-control select2">
+                                                        <option value="Service A">Service A</option>
+                                                        <option value="Service B" disabled>Service B</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label for="status" class="required">@lang('app.status')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="status" id="status" class="form-control select2">
+                                                        <option value="Service A">Service A</option>
+                                                        <option value="Service B" disabled>Service B</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+
                                         </table>
                                     </fieldset>
                                 </div>
@@ -628,7 +735,7 @@
                         </div>
 
                         <div class="form-actions" style="margin-top: 20px">
-                            <button class="btn btn-reset" type="reset">@lang('app.annuler')</button>
+                            {{-- <button class="btn btn-reset" type="reset">@lang('app.annuler')</button> --}}
                             <button type="submit" id="save-form" class="btn btn-success">@lang('app.update') </button>
                         </div>
                         {!! Form::close() !!}
