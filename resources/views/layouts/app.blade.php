@@ -478,11 +478,12 @@
               </a>
             </li>
 
-            <li class="nav-item dropdown" tooltip="@lang('app.menu.Events')">
-              <a href="{{ route('admin.events.index') }}" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <li class="nav-item" tooltip="@lang('app.menu.Events')">
+              <a href="{{ route('admin.events.index') }}" class="nav-link">
                 <i class="fa fa-calendar"></i> 
               </a>
             </li>
+            
             <li class="nav-item dropdown show-user-notifications">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i> 
