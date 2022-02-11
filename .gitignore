@@ -23,3 +23,4 @@ Homestead.yaml
 *.pem
 /config/iosCertificates/*.pem
 public/modules
+*.zip
