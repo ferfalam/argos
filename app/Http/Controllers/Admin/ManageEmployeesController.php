@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CompanyTLA;
 use App\Country;
 use App\DataTables\Admin\EmployeesDataTable;
 use App\Designation;
@@ -42,6 +43,8 @@ class ManageEmployeesController extends AdminBaseController
         parent::__construct();
         $this->pageTitle = 'app.menu.employees';
         $this->pageIcon = 'icon-user';
+        $this->countries = Country::all();
+        $this->tla = CompanyTLA::all();
         $this->middleware(function ($request, $next) {
             abort_if(!in_array('employees', $this->user->modules), 403);
             return $next($request);

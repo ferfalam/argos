@@ -214,7 +214,7 @@ return array(
     'employees' =>
     array(
         'addNewEmployee' => 'Ajouter un nouvel utilisateur',
-        'editEmployee' => 'editEmployee',
+        'editEmployee' => "Modifier l'employé",
         'createTitle' => 'Ajouter des informations sur les employés',
         'employeeName' => 'Nom de l\'employé',
         'employeeEmail' => 'Email des employés',

@@ -24,6 +24,15 @@
         height: 72px;
       }
 
+      .panel-height-max{
+          max-height: 600px;
+          overflow-y: auto;
+      }
+
+      .list-task .list-group-item, .list-task .list-group-item:first-child{
+          display: flex;
+      }
+
       .panel-default {
         border: 1px solid #ddd !important;
       }
@@ -221,7 +230,7 @@
 
         @if(in_array('tasks',$modules)  && in_array('overdue_tasks',$activeWidgets))
                 <div class="col-md-6">
-                    <div class="panel panel-inverse">
+                    <div class="panel panel-inverse panel-height-max">
                         <div class="panel-heading">@lang('modules.dashboard.overdueTasks')</div>
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
