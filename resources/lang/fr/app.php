@@ -351,7 +351,7 @@ return array(
   'no' => 'Non',
   'day' => 'Jour',
   'week' => 'La semaine',
-  'submit' => 'Soumettre',
+  'submit' => 'Mettre a jour',
   'required' => 'Obligatoire',
   'filterBy' => 'Filtrer par',
   'others' => 'Autres',
