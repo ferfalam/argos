@@ -38,7 +38,7 @@
                         <li><a href="{{ route('admin.teams.index') }}" class="{{ request()->routeIs('admin.teams.index') ? 'active' : '' }}">@lang('app.department')</a></li>
                         <li><a href="{{ route('admin.designations.index') }}" class="{{ request()->routeIs('admin.designations.index') ? 'active' : '' }}">@lang('app.menu.designation')</a></li>
                     @endif
-
+  <li><a href="{{ route('admin.attendances.summary') }}" class="{{ request()->routeIs('admin.attendances.summary') ? '' : '' }}">@lang('app.timer') </a></li>
                     @if (in_array('attendance', $modules))
                         <li><a href="{{ route('admin.attendances.summary') }}" class="{{ request()->routeIs('admin.attendances.summary') ? 'active' : '' }}">@lang('app.menu.attendance') </a></li>
                     @endif
