@@ -110,6 +110,10 @@
                 </select>
             </div>
         </div> 
+        <br>
+		<br> 
+		<div class="col-md-12">
+			</div> 
         <div class="col-md-12">
             <div class="form-group p-t-10">
                 <x-button id="apply-filters" classes="btn btn-cs-green col-md-6" title="app.apply"></x-button>
