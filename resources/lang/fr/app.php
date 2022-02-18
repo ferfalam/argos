@@ -60,7 +60,7 @@ return array(
   'completed' => 'Complété',
   'hideCompletedTasks' => 'Masquer les tâches terminées',
   'dueDate' => 'Date d\'échéance',
-  'timer' => 'Minuteur',
+  'timer' => 'MTimer',
   'dueOn' => 'Sur',
   'status' => 'Statut',
   'listofsuperadmin' => 'LISTE DES SUPER ADMIN',
