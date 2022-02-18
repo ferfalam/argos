@@ -1076,7 +1076,9 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('paypal', array('as' => 'status', 'uses' => 'AdminPaypalController@getPaymentStatus'));
             });
 
-            Route::get("suppliers", 'AdminSuppliersController@index')->name('suppliers.index');
+            // Route::get("suppliers", 'AdminSuppliersController@index')->name('suppliers.index');
+            Route::get("suppliers/create", 'AdminSuppliersController@create')->name('suppliers.create');
+            Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');

@@ -107,7 +107,7 @@ return array(
     ),
     'client' =>
     array(
-        'createTitle' => 'Ajouter des informations client',
+        'createTitle' => 'FICHE CLIENT',
         'companyDetails' => 'Détails de l\'entreprise',
         'clientOtherDetails' => 'Client autres détails',
         'companyName' => 'Nom de la compagnie',

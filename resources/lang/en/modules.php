@@ -108,7 +108,7 @@ return array(
     ),
     'client' =>
     array(
-        'createTitle' => 'Add Client Info',
+        'createTitle' => 'Customer card',
         'companyDetails' => 'Company Details',
         'clientOtherDetails' => 'Client Other Details',
         'companyName' => 'Company Name',

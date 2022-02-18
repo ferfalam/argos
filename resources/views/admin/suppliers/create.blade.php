@@ -1059,91 +1059,91 @@
         var cat_id = $(this).val();
         getCategory(cat_id);
            
-        });
-        function getCategory(cat_id){
-            var url = "{{route('admin.clients.getSubcategory')}}";
-            var token = "{{ csrf_token() }}";
-            $.easyAjax({
-            url: url,
-            type: "POST",
-            data: {'_token': token, cat_id: cat_id},
-            success: function (data) {
-                var options = [];
-                var rData = [];
-                rData = data.subcategory;
-                $.each(rData, function( index, value ) {
-                    var selectData = '';
-                    selectData = '<option value="'+value.id+'">'+value.category_name+'</option>';
-                    options.push(selectData);
-                });
-                $('#sub_category_id').html(options);
-                $('#sub_category_id').selectpicker('refresh');
+      });
 
-            }
-        })
+      function getCategory(cat_id){
+        var url = "{{route('admin.clients.getSubcategory')}}";
+        var token = "{{ csrf_token() }}";
+        $.easyAjax({
+        url: url,
+        type: "POST",
+        data: {'_token': token, cat_id: cat_id},
+        success: function (data) {
+          var options = [];
+          var rData = [];
+          rData = data.subcategory;
+          $.each(rData, function( index, value ) {
+            var selectData = '';
+            selectData = '<option value="'+value.id+'">'+value.category_name+'</option>';
+            options.push(selectData);
+          });
+          $('#sub_category_id').html(options);
+          $('#sub_category_id').selectpicker('refresh');
+        }
+      })
     }
     
     
     $(".select2").select2({
         formatNoMatches: function () {
-            return "{{ __('messages.noRecordFound') }}";
+          return "{{ __('messages.noRecordFound') }}";
         }
     });
 
     $(".date-picker").datepicker({
-        todayHighlight: true,
-        autoclose: true,
-        weekStart:'{{ $global->week_start }}',
-        format: '{{ $global->date_picker_format }}',
+      todayHighlight: true,
+      autoclose: true,
+      weekStart:'{{ $global->week_start }}',
+      format: '{{ $global->date_picker_format }}',
     });
 
     $('#save-form').click(function () {
         $.easyAjax({
-            url: '{{route('admin.clients.store')}}',
-            container: '#createClient',
-            type: "POST",
-            redirect: true,
-            data: $('#createClient').serialize()
+          url: '{{route('admin.clients.store')}}',
+          container: '#createClient',
+          type: "POST",
+          redirect: true,
+          data: $('#createClient').serialize()
         })
     });
 
     $('.summernote').summernote({
-        height: 200,                 // set editor height
-        minHeight: null,             // set minimum height of editor
-        maxHeight: null,             // set maximum height of editor
-        focus: false,
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough']],
-            ['fontsize', ['fontsize']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ["view", ["fullscreen"]]
-        ]
+      height: 200,                 // set editor height
+      minHeight: null,             // set minimum height of editor
+      maxHeight: null,             // set maximum height of editor
+      focus: false,
+      toolbar: [
+          // [groupName, [list of button]]
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough']],
+          ['fontsize', ['fontsize']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ["view", ["fullscreen"]]
+      ]
     });
 
     $('#addClientCategory').click(function () {
-        var url = '{{ route('admin.clientCategory.create')}}';
-        $('#modelHeading').html('...');
-        $.ajaxModal('#clientCategoryModal', url);
+      var url = '{{ route('admin.clientCategory.create')}}';
+      $('#modelHeading').html('...');
+      $.ajaxModal('#clientCategoryModal', url);
     })
 
     $('#addClientSubCategory').click(function () {
-        var url = '{{ route('admin.clientSubCategory.create')}}';
-        $('#modelHeading').html('...');
-        $.ajaxModal('#clientCategoryModal', url);
+      var url = '{{ route('admin.clientSubCategory.create')}}';
+      $('#modelHeading').html('...');
+      $.ajaxModal('#clientCategoryModal', url);
     })
 
     $('#random_password').change(function () {
         var randPassword = $(this).is(":checked");
 
         if(randPassword){
-            $('#password').val('{{ str_random(8) }}');
-            $('#password').attr('readonly', 'readonly');
+          $('#password').val('{{ str_random(8) }}');
+          $('#password').attr('readonly', 'readonly');
         }
         else{
-            $('#password').val('');
-            $('#password').removeAttr('readonly');
+          $('#password').val('');
+          $('#password').removeAttr('readonly');
         }
     });
 
