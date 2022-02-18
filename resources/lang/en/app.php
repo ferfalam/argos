@@ -151,6 +151,12 @@ return array(
   "visibility" => "Visibility",
   'attach_to' => "Attach To",
 
+  'clientsList' => "Clients List",
+  "addClient" => "Add New Client",
+  "socailReason" => "Social Reason",
+  "identification" => "Identification",
+  "observation" => "Observation",
+
   'otherinfo' => 'Other information',
   'profil' => 'Profile',
   'qualification' => 'Qualification',

@@ -421,6 +421,112 @@
         }
 
         
+        legend {
+          display: inline-block;
+          padding: 0;
+          margin-left: 20px;
+          margin-bottom: 0px;
+          font-size: 15px;
+          line-height: inherit;
+          font-family: var(--font-primary);
+          font-weight: 400;
+          border-bottom: none;
+          width: max-content;
+          padding-right: 20px;
+          color: #333;
+        }
+
+        fieldset {
+          border: 1px solid #DBD2D2;
+          padding: 10px;
+          height: 100%;
+        }
+
+        fieldset .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        fieldset .form-group label,
+        fieldset tr td {
+            min-width: max-content;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        td:nth-child(1) {
+            display: flex;
+            align-items: center;
+            padding: 15px 0px;
+        }
+
+        td:nth-child(3) {
+            padding-left: 5px;
+        }
+
+        fieldset table td label {
+            color: #000000 !important;
+            font-family: "Roboto", sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 500;
+        }
+
+        fieldset table .required:after {
+            content: " *";
+            color: red;
+        }
+
+        fieldset .form-group input,
+        fieldset .form-group textarea {
+            margin-left: auto;
+        }
+
+        .input-group-btn .flag-icon {
+            width: 17px;
+            height: 14px;
+        }
+
+        .input-group-btn .btn {
+            padding: 6px 8px !important;
+            background-color: white;
+            border: 1px solid #CCCCD1;
+        }
+
+        .datepicker td:nth-child(1),.category-table td:nth-child(1) {
+            display: table-cell;
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            max-height: 200px;
+            overflow: auto;
+        }
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
     </style>
 
 </head>
