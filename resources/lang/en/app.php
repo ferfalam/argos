@@ -63,6 +63,7 @@ return array(
   'timer' => 'Timer',
   'dueOn' => 'Due On',
   'status' => 'Status',
+  'milestone_type' => 'Milestone  Type',
   'listofsuperadmin' => 'LIST OF SUPER ADMIN',
   'addsuperadmin' => 'ADD SUPER ADMIN',
   'task' => 'Task',

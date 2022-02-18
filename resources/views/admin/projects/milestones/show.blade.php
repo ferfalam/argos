@@ -78,6 +78,23 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-check-label required" for="">@lang('app.milestone_type')</label>
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" value="None">
+                                        <label class="form-check-label"  for="none">None</label>
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" value="Research">
+                                        <label class="form-check-label" for="research">Research</label>
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" value="Development">
+                                        <label class="form-check-label" for="development">Development</label>
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" value="Construction">
+                                        <label class="form-check-label" for="construction">Construction</label>
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" value="Exploitation">
+                                        <label class="form-check-label" for="exploitation">Exploitation</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>@lang('modules.projects.milestoneCost')</label>
