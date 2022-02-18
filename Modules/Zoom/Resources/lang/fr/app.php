@@ -7,7 +7,7 @@ return array(
         'zoom' => 'zoom',
         'room' => 'Pièce',
         'zoomMeeting' => "Visio-Conférence",
-        'zoomSetting' => 'Paramètre Zoom',
+        'zoomSetting' => 'Paramètres Zoom',
     ),
     'meetings' =>
     array(

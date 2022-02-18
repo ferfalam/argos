@@ -198,10 +198,10 @@
                                                             @if ($l->type == 'legal_form')
                                                                 @if ($l->name == $companySubSettings->legal_form)
                                                                     <option value=" {{ $l->name }} " selected>
-                                                                        {{ ucfirst(strtolower($l->name)) }}</option>
+                                                                        {{ ucfirst($l->name) }}</option>
                                                                 @else
                                                                     <option value=" {{ $l->name }} ">
-                                                                        {{ ucfirst(strtolower($l->name)) }}</option>
+                                                                        {{ ucfirst($l->name) }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -231,10 +231,10 @@
                                                         @foreach ($countries as $country)
                                                             @if (explode('|', $company->address)[1] == $country->name)
                                                                 <option value=" {{ $country->name }} " selected>
-                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                                    {{ ucfirst($country->name) }}</option>
                                                             @else
                                                                 <option value=" {{ $country->name }} ">
-                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                                    {{ ucfirst($country->name) }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -255,10 +255,10 @@
                                                             @if ($t->type == 'city')
                                                                 @if ($t->name == explode('|', $company->address)[2])
                                                                     <option value=" {{ $t->name }} " selected>
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                        {{ ucfirst($t->name) }}</option>
                                                                 @else
                                                                     <option value=" {{ $t->name }} ">
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                        {{ ucfirst($t->name) }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -284,10 +284,10 @@
                                                             @if ($a->type == 'activity_sector')
                                                                 @if ($a->name == $company->activity_field)
                                                                     <option value=" {{ $a->name }} " selected>
-                                                                        {{ ucfirst(strtolower($a->name)) }}</option>
+                                                                        {{ ucfirst($a->name) }}</option>
                                                                 @else
                                                                     <option value=" {{ $a->name }} ">
-                                                                        {{ ucfirst(strtolower($a->name)) }}</option>
+                                                                        {{ ucfirst($a->name) }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -354,7 +354,7 @@
                                                                             data-flag="flag-icon-{{ strtolower($country->iso) }}">
                                                                             <span
                                                                                 class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
-                                                                            {{ ucfirst(strtolower($country->name)) }}
+                                                                            {{ ucfirst($country->name) }}
                                                                         </a>
                                                                     </li>
                                                                 @endforeach
@@ -393,7 +393,7 @@
                                                                             data-flag="flag-icon-{{ strtolower($country->iso) }}">
                                                                             <span
                                                                                 class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
-                                                                            {{ ucfirst(strtolower($country->name)) }}
+                                                                            {{ ucfirst($country->name) }}
                                                                         </a>
                                                                     </li>
                                                                 @endforeach
@@ -431,7 +431,7 @@
                                             {{-- data-flag="flag-icon-{{ strtolower($country->iso) }}"> --}}
                                             {{-- <span --}}
                                             {{-- class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span> --}}
-                                            {{-- {{ ucfirst(strtolower($country->name)) }} --}}
+                                            {{-- {{ ucfirst($country->name) }} --}}
                                             {{-- </a> --}}
                                             {{-- </li> --}}
                                             {{-- @endforeach --}}
@@ -559,10 +559,10 @@
 {{--                                                            @if ($t->type == 'tva_intrat')--}}
 {{--                                                                @if ($t->name == $companySubSettings->tva_intrat)--}}
 {{--                                                                    <option value=" {{ $t->name }} " selected>--}}
-{{--                                                                        {{ ucfirst(strtolower($t->name)) }}</option>--}}
+{{--                                                                        {{ ucfirst($t->name) }}</option>--}}
 {{--                                                                @else--}}
 {{--                                                                    <option value=" {{ $t->name }} ">--}}
-{{--                                                                        {{ ucfirst(strtolower($t->name)) }}</option>--}}
+{{--                                                                        {{ ucfirst($t->name) }}</option>--}}
 {{--                                                                @endif--}}
 {{--                                                            @endif--}}
 {{--                                                        @endforeach--}}

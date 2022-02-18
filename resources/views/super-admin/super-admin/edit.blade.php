@@ -318,10 +318,10 @@
                                                             @if ($t->type == 'city')
                                                                 @if ($t->name == explode('|', $userDetail->address)[2])
                                                                     <option value=" {{ $t->name }} " selected>
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                        {{ ucfirst($t->name) }}</option>
                                                                 @else
                                                                     <option value=" {{ $t->name }} ">
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                        {{ ucfirst($t->name) }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -371,7 +371,7 @@
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'qualification')
                                                                 <option value="{{ $t->name }}">
-                                                                    {{ ucfirst(strtolower($t->name)) }}
+                                                                    {{ ucfirst($t->name) }}
                                                                 </option>
                                                             @endif
                                                         @endforeach
@@ -408,10 +408,10 @@
                                                         @foreach ($countries as $country)
                                                             @if (explode('|', $userDetail->address)[1] == $country->name)
                                                                 <option value=" {{ $country->name }} " selected>
-                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                                    {{ ucfirst($country->name) }}</option>
                                                             @else
                                                                 <option value=" {{ $country->name }} ">
-                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                                    {{ ucfirst($country->name) }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -433,10 +433,10 @@
                                                         @foreach ($countries as $country)
                                                             @if (explode('|', $userDetail->address)[1] == $country->name)
                                                                 <option value=" {{ $country->name }} " selected>
-                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                                    {{ ucfirst($country->name) }}</option>
                                                             @else
                                                                 <option value=" {{ $country->name }} ">
-                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                                    {{ ucfirst($country->name) }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -592,7 +592,7 @@
                                                                             data-flag="flag-icon-{{ strtolower($country->iso) }}">
                                                                             <span
                                                                                 class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
-                                                                            {{ ucfirst(strtolower($country->name)) }}
+                                                                            {{ ucfirst($country->name) }}
                                                                         </a>
                                                                     </li>
                                                                 @endforeach
@@ -627,7 +627,7 @@
                                                                             data-flag="flag-icon-{{ strtolower($country->iso) }}">
                                                                             <span
                                                                                 class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
-                                                                            {{ ucfirst(strtolower($country->name)) }}
+                                                                            {{ ucfirst(($country->name) }}
                                                                         </a>
                                                                     </li>
                                                                 @endforeach

@@ -110,10 +110,14 @@
                 </select>
             </div>
         </div> 
+        <br>
+		<br> 
+		<div class="col-md-12">
+			</div> 
         <div class="col-md-12">
             <div class="form-group p-t-10">
                 <x-button id="apply-filters" classes="btn btn-cs-green col-md-6" title="app.apply"></x-button>
-                <x-button id="reset-filters" classes="btn btn-inverse col-md-offset-1 col-md-5 rounded-pill" title="app.reset"></x-button>
+                 <x-button id="reset-filters" classes="btn btn-cs-green col-md-6" title="app.reset"></x-button>
             </div>
         </div>
     </form>

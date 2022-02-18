@@ -566,20 +566,25 @@
             <div class="bg-white rounded-pill" style="padding: 0px 10px">
                 {{\Carbon\Carbon::now()->format('H:i A')}}
             </div>
-
+			
             <div>
+				<ul class="nav user-menu">
+				<li class="nav-item dropdown" tooltip="@lang('Timer')">
               <a href="{{route('admin.attendances.summary')}}">
                 <img src="{{asset("img/clock.png")}}" alt="" style="width: 40px; height:  40px">
+				  
               </a>
+					</li>
+					</ul>
             </div>
 
           </div>
 
           <ul class="nav user-menu">
-            <li class="nav-item dropdown" tooltip="@lang('Chat')">
-              <a href="{{ route('admin.user-chat.index') }}"  >
-                <i class="fa">
-                  <ion-icon name="chatbubbles"></ion-icon>
+            <li class="nav-item" tooltip="@lang('Chat')">
+              <a href="{{ route('admin.user-chat.index') }}"  class="nav-link"  >
+                <i class="fa fa-comments">
+                 
                 </i>
               </a>
             </li>
