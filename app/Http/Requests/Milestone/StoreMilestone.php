@@ -27,6 +27,7 @@ class StoreMilestone extends FormRequest
         $rules = [
             'project_id' => 'required',
             'milestone_title' => 'required',
+            'milestone_type' => 'required',
             'summary' => 'required'
         ];
 

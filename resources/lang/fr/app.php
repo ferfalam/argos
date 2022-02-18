@@ -12,6 +12,7 @@ return array(
   'emailAddress' => 'Adresse e-mail',
   'working' => 'Travail',
   'note' => 'Noter',
+    'milestone_type' => 'Milestone Type',
   'todefine' => 'a definir',
   'nom1' => 'Nom',
   'postesociete' => 'Poste/Société',
