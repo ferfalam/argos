@@ -200,7 +200,7 @@ return array(
     'hrDashboard' => 'Dashboard HR',
     'ticketDashboard' => 'Tableau de bord du ticket',
     'financeDashboard' => 'Finance Tableau de bord',
-    'clients' => 'Clientes',
+    'clients' => 'Clients',
     'employees' => 'Liste des Utilisateurs',
     'projects' => 'Projets',
     'taskRequest' => 'Demande de tâche',
