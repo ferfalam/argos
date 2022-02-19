@@ -1081,6 +1081,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
+            Route::get("mailing/compose", 'AdminMailingController@compose')->name('mailing.compose');
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
