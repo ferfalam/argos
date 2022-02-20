@@ -116,7 +116,13 @@
 @endsection
 
 
+
+
 @section('content')
+
+    @php
+        // dd($dataTable)
+    @endphp
     <div class="panel-4">
         <div class="panel-heading">
             <h2>@lang('app.clientsList')</h2>
@@ -253,7 +259,9 @@
         })
 
         $('#apply-filters').click(function () {
+
             $('#clients-table').on('preXhr.dt', function (e, settings, data) {
+
                 var startDate = $('#start-date').val();
 
                 if (startDate == '') {
@@ -281,14 +289,14 @@
                 data['project_id'] = project_id;
                 data['contract_type_id'] = contract_type_id;
                 data['country_id'] = country_id;
-
             });
-            
+
             $.easyBlockUI('#clients-table');
 
             window.LaravelDataTables["clients-table"].draw();
-
+            
             $.easyUnblockUI('#clients-table');
+
         });
 
         $('#reset-filters').click(function () {

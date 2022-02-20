@@ -157,6 +157,7 @@ return array(
   "socailReason" => "Social Reason",
   "identification" => "Identification",
   "observation" => "Observation",
+  'created_at' => "Created At",
 
   'otherinfo' => 'Other information',
   'profil' => 'Profile',
