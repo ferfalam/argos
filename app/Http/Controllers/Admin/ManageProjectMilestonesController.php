@@ -114,6 +114,7 @@ class ManageProjectMilestonesController extends AdminBaseController
         $milestone->summary = $request->summary;
         $milestone->cost = ($request->cost == '') ? '0' : $request->cost;
         $milestone->currency_id = $request->currency_id;
+        $milestone->type = $request->milestone_type;
         $milestone->status = $request->status;
         $milestone->due_date = ($request->due_date != '') ? Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d') : null;
         $milestone->save();
