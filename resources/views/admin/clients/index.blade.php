@@ -179,7 +179,9 @@
             cb(start, end);
 
         });
+
         var subCategories = @json($subcategories);
+
         $('#category_id').change(function (e) {
             // get projects of selected users
             var opts = '';
@@ -193,6 +195,7 @@
         })
 
             $('#sub_category_id').html('<option value="0">Select Sub Category...</option>'+opts)
+            
             $("#sub_category_id").select2({
                 formatNoMatches: function () {
                     return "{{ __('messages.noRecordFound') }}";

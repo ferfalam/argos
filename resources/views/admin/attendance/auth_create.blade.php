@@ -156,7 +156,7 @@
             bFilter: false,
             bInfo: false,
             ajax: {
-                url: "{!! route('admin.attendances.data') !!}",
+                url: "{!! route('admin.attendances.mydata') !!}",
                 data: function (d) {
                     console.log(d);
                     d.date = $('#attendance_date').val();
@@ -200,7 +200,6 @@
                 var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
                 $('.js-switch').each(function() {
                     new Switchery($(this)[0], $(this).data());
-
                 });
 
             },

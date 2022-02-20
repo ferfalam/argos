@@ -903,6 +903,10 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('attendances/bulk-store', ['uses' => 'ManageAttendanceController@bulkAttendanceStore'])->name('attendances.bulk-store');
                 Route::get('attendances/detail', ['uses' => 'ManageAttendanceController@attendanceDetail'])->name('attendances.detail');
                 Route::get('attendances/data', ['uses' => 'ManageAttendanceController@data'])->name('attendances.data');
+                // New Route
+                Route::get('attendances/create/my', ['uses' => 'ManageAttendanceController@myAttendance'])->name('attendances.myAttendance');
+                Route::get('attendances/mydata', ['uses' => 'ManageAttendanceController@mydata'])->name('attendances.mydata');
+                
                 Route::get('attendances/check-holiday', ['uses' => 'ManageAttendanceController@checkHoliday'])->name('attendances.check-holiday');
                 Route::get('attendances/employeeData/{startDate?}/{endDate?}/{userId?}', ['uses' => 'ManageAttendanceController@employeeData'])->name('attendances.employeeData');
                 Route::get('attendances/refresh-count/{startDate?}/{endDate?}/{userId?}', ['uses' => 'ManageAttendanceController@refreshCount'])->name('attendances.refreshCount');
