@@ -116,7 +116,13 @@
 @endsection
 
 
+
+
 @section('content')
+
+    @php
+        // dd($dataTable)
+    @endphp
     <div class="panel-4">
         <div class="panel-heading">
             <h2>@lang('app.clientsList')</h2>
@@ -179,7 +185,9 @@
             cb(start, end);
 
         });
+
         var subCategories = @json($subcategories);
+
         $('#category_id').change(function (e) {
             // get projects of selected users
             var opts = '';
@@ -193,6 +201,7 @@
         })
 
             $('#sub_category_id').html('<option value="0">Select Sub Category...</option>'+opts)
+            
             $("#sub_category_id").select2({
                 formatNoMatches: function () {
                     return "{{ __('messages.noRecordFound') }}";
@@ -250,7 +259,9 @@
         })
 
         $('#apply-filters').click(function () {
+
             $('#clients-table').on('preXhr.dt', function (e, settings, data) {
+
                 var startDate = $('#start-date').val();
 
                 if (startDate == '') {
@@ -262,6 +273,7 @@
                 if (endDate == '') {
                     endDate = null;
                 }
+
                 var category_id = $('#category_id').val();
                 var sub_category_id = $('#sub_category_id').val();
                 var project_id = $('#project_id').val();
@@ -277,11 +289,14 @@
                 data['project_id'] = project_id;
                 data['contract_type_id'] = contract_type_id;
                 data['country_id'] = country_id;
-
             });
+
             $.easyBlockUI('#clients-table');
+
             window.LaravelDataTables["clients-table"].draw();
+            
             $.easyUnblockUI('#clients-table');
+
         });
 
         $('#reset-filters').click(function () {
@@ -299,7 +314,6 @@
         })
 
         function exportData(){
-
             var client = $('#client').val();
             var status = $('#status').val();
 

@@ -23,22 +23,25 @@ class ClientsDataTable extends BaseDataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($row) {
-
                 $action = '<div class="btn-group dropdown m-r-10">
                  <span aria-expanded="false" data-toggle="dropdown" class=" dropdown-toggle " type="button"><ion-icon name="ellipsis-vertical"></ion-icon></span>
                 <ul role="menu" class="dropdown-menu pull-right">
                   <li><a href="' . route('admin.clients.edit', [$row->id]) . '"><i class="fa fa-pencil" aria-hidden="true"></i> ' . trans('app.edit') . '</a></li>
                   <li><a href="' . route('admin.clients.show', [$row->user_id]) . '"><i class="fa fa-search" aria-hidden="true"></i> ' . __('app.view') . '</a></li>
                   <li><a href="javascript:;"  data-user-id="' . $row->user_id . '"  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> ' . trans('app.delete') . '</a></li>';
-
                 $action .= '</ul> </div>';
-
                 return $action;
+            })
+            ->addColumn('country', function($row){
+                return '<span class="flag-icon flag-icon-'. strtolower($row->iso) .'" style="width : 60px !important; height:30px !important;"></span>';
+            })
+            ->addColumn('city', function($row){
+                return $row->city;
             })
             ->editColumn(
                 'name',
                 function ($row) {
-                    return '<a href="' . route('admin.clients.show', $row->user_id) . '">' . ucfirst($row->name) . '</a>';
+                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.clients.show', $row->user_id) . '"> <img src="'. $row->image_url .'" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->name) . ' <br> ' . $row->country . '</a>';
                 }
             )
             ->editColumn(
@@ -56,9 +59,8 @@ class ClientsDataTable extends BaseDataTable
                     return Carbon::parse($row->created_at)->format($this->global->date_format);
                 }
             )
-
             ->addIndexColumn()
-            ->rawColumns(['name', 'mobile', 'action', 'status']);
+            ->rawColumns(['name', 'mobile', 'action', 'country', 'status']);
     }
 
     /**
@@ -79,9 +81,11 @@ class ClientsDataTable extends BaseDataTable
                 'client_details.name',
                 'client_details.company_name',
                 'client_details.email',
+                'client_details.city',
                 'client_details.created_at',
                 'client_details.mobile',
-                'countries.phonecode'
+                'countries.phonecode',
+                'countries.iso'
             )
             ->groupBy('client_details.id');
 
@@ -165,11 +169,12 @@ class ClientsDataTable extends BaseDataTable
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
-            __('app.name') => ['data' => 'name', 'name' => 'name'],
             __('modules.client.companyName') => ['data' => 'company_name', 'name' => 'client_details.company_name'],
-            __('app.email') => ['data' => 'email', 'name' => 'email'],
+            __('Contact principal') => ['data' => 'name', 'name' => 'name'],
+            __('app.city') => ['data' => 'city', 'name' => 'city'],
+            __('app.country') => ['data' => 'country', 'name' => 'country'],
+            __('app.created_at') => ['data' => 'created_at', 'name' => 'created_at'],
             __('app.mobile') => ['data' => 'mobile', 'name' => 'mobile'],
-            __('app.createdAt') => ['data' => 'created_at', 'name' => 'created_at'],
             Column::computed('action', __('app.action'))
                 ->exportable(false)
                 ->printable(false)

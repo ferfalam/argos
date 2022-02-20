@@ -158,6 +158,7 @@ return array(
   'active' => 'Active',
   'deactive' => "DeActive",
   'notification' => "Notification",
+  'created_at' => "Date création",
   'connexion' => 'Connexion',
   'function' => 'Fonction',
 
@@ -168,6 +169,8 @@ return array(
   'contact_type' => "Contact Type",
   "visibility" => "Visibilité",
   'attach_to' => "Rattachement",
+  'createdAt' => 'Date création',
+  'created_at' => 'Date création',
 
   'months' =>
   array(
