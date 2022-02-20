@@ -265,6 +265,7 @@
                 if (endDate == '') {
                     endDate = null;
                 }
+
                 var category_id = $('#category_id').val();
                 var sub_category_id = $('#sub_category_id').val();
                 var project_id = $('#project_id').val();
@@ -282,8 +283,11 @@
                 data['country_id'] = country_id;
 
             });
+            
             $.easyBlockUI('#clients-table');
+
             window.LaravelDataTables["clients-table"].draw();
+
             $.easyUnblockUI('#clients-table');
         });
 
@@ -302,7 +306,6 @@
         })
 
         function exportData(){
-
             var client = $('#client').val();
             var status = $('#status').val();
 
