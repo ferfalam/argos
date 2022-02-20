@@ -534,6 +534,12 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::get('currency/update/exchange-rates', ['uses' => 'CurrencySettingController@updateExchangeRate'])->name('currency.update-exchange-rates');
                         Route::resource('currency', 'CurrencySettingController');
 
+                        Route::resource('tla', 'AdminCompanyTLAController');
+                        Route::get('tla/create/{type}', 'AdminCompanyTLAController@create2');
+                        Route::post('tla/destroy/{type}', 'AdminCompanyTLAController@destroy');
+
+                        Route::post('language-settings/update-data/{id?}', ['uses' => 'AdminLanguageSettingsController@updateData'])->name('language-settings.update-data');
+                        Route::resource('language-settings', 'AdminLanguageSettingsController');
 
                         Route::post('theme-settings/activeTheme', ['uses' => 'ThemeSettingsController@activeTheme'])->name('theme-settings.activeTheme');
                         Route::post('theme-settings/roundedTheme', ['uses' => 'ThemeSettingsController@roundedTheme'])->name('theme-settings.roundedTheme');

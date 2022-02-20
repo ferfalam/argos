@@ -26,15 +26,30 @@ class StoreRequest extends CoreRequest
     public function rules()
     {
         $rules = [
-            'employee_id' => 'required|unique:employee_details',
+            // 'employee_id' => 'required|unique:employee_details',
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'slack_username' => 'nullable|unique:employee_details,slack_username',
             'hourly_rate' => 'nullable|numeric',
-            'joining_date' => 'required',
-            'department' => 'required',
-            'designation' => 'required',
+            'address' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'service' => 'required',
+            'connexion' => 'required',
+            'status' => 'required',
+            'profil' => 'required',
+            'birthday' => 'required|date',
+            'native_country' => 'required',
+            'nationality' => 'required',
+            'language' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'compentancy' => 'required',
+            'employee_id' => 'required',
+            // 'joining_date' => 'required',
+            // 'department' => 'required',
+            // 'designation' => 'required',
         ];
 
         if (request()->get('custom_fields_data')) {

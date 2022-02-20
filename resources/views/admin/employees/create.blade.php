@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/cc-picker/jquery.ccpicker.css') }}">
 
 <style>
     .form-body{
@@ -216,7 +217,7 @@
 
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
-                    {!! Form::open(['id' => 'createClient', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::open(['id' => 'createEmployee', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <div class="form-body form-input" style="margin-top: 40px">
 
                         <div class="row">
@@ -227,17 +228,17 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <label for="" class="mb-0">@lang('app.civility')</label>
+                                                <label for="" class="mb-0">@lang('app.gender')</label>
                                             </td>
                                             <td>
                                                 <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="civility" value="male">
-                                                        <label for="civility" style="margin-bottom: 0px">M</label>
+                                                        <input type="radio" name="gender" value="male">
+                                                        <label for="gender" style="margin-bottom: 0px">M</label>
                                                     </div>
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="civility" value="female">
-                                                        <label for="civility" style="margin-bottom: 0px">Mme</label>
+                                                        <input type="radio" name="gender" value="female">
+                                                        <label for="gender" style="margin-bottom: 0px">Mme</label>
                                                     </div>
                                                 </div>
                                             </td>
@@ -251,7 +252,7 @@
                                             <td><label for="name" class="required">@lang('app.user_id')
                                                 </label></td>
                                             <td>
-                                                <input type="text" class="form-control" id="name" name="name"
+                                                <input type="text" class="form-control" id="employee_id" name="employee_id"
                                                     value="">
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -288,7 +289,7 @@
                                             <td>
                                                 <select name="country" id="country" class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value=" {{ $country->name }} ">
+                                                        <option value=" {{ $country->id }} ">
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -374,7 +375,7 @@
                                                     class="required">@lang('app.datenaissance')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="birthday" class="form-control datepicker">
+                                                <input type="text" name="birthday" id="birthday" class="form-control datepicker">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -440,18 +441,20 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a href=" {{ route('super-admin.language-settings.create') }} " style="background: none">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
+                                                <a href="{{ route('admin.language-settings.create') }}" style="background:none" >
+                                                    <img src="{{ asset('img/plus.png') }}" alt="" data-type="language" >
                                                 </a>
                                             </td>
                                         </tr>
+
+                                        
                                         <tr>
                                             <td>
                                                 <label for="start_date"
                                                     class="required">@lang('app.start_date')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="start_date" class="form-control datepicker">
+                                                <input type="text" name="start_date" id="start_date"  class="form-control datepicker">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -465,7 +468,7 @@
                                                     class="required">@lang('app.end_date')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="end_date" class="form-control datepicker">
+                                                <input type="text" name="end_date" id="end_date" class="form-control datepicker">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -552,7 +555,7 @@
                                                     class="required">@lang('app.compentancy')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="compentancy" class="form-control">
+                                                <input type="text" name="compentancy" id="compentancy" class="form-control">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -604,11 +607,11 @@
                                             <td>
                                                 <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="notification" value="male">
+                                                        <input type="radio" name="notification" value="1">
                                                         <label for="notification" style="margin-bottom: 0px">@lang('app.active')</label>
                                                     </div>
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="notification" value="female">
+                                                        <input type="radio" name="notification" value="0">
                                                         <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
                                                     </div>
                                                 </div>
@@ -633,7 +636,7 @@
                                                 <label for="email" class="required">@lang('app.login_email')</label>
                                             </td>
                                             <td>
-                                                <input type="email" name="email" class="form-control">
+                                                <input type="email" name="email" id="email" class="form-control">
                                             </td>
                                         </tr>
                                         <tr>
@@ -642,7 +645,7 @@
                                                     class="required">@lang('app.motdepasse')</label>
                                             </td>
                                             <td>
-                                                <input type="password" name="password" class="form-control">
+                                                <input type="password" name="password" id="password" class="form-control">
                                             </td>
                                         </tr>
 
@@ -697,6 +700,30 @@
         </div>
     </div>
 </div> <!-- .row -->
+
+
+{{--Ajax Modal--}}
+<div class="modal fade bs-modal-md in" id="departmentModel" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-md" id="modal-data-application">
+   <div class="modal-content">
+       <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+           <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+       </div>
+       <div class="modal-body">
+           Loading...
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn default" data-dismiss="modal">Close</button>
+           <button type="button" class="btn blue">Save changes</button>
+       </div>
+   </div>
+   <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+{{--Ajax Modal Ends--}}
 
 @endsection
 
@@ -1034,7 +1061,21 @@
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('plugins/cc-picker/jquery.ccpicker.js') }}"></script>
 <script data-name="basic">
+
+
+        $(".ccpicker").CcPicker({
+            dataUrl: "{{ asset('data.json') }}"
+        });
+
+        $("#mobile").CcPicker("setCountryByPhoneCode", "33");
+        $("#tel").CcPicker("setCountryByPhoneCode", "33");
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+
     function checkboxChange(parentClass, id){
         var checkedData = '';
         $('.'+parentClass).find("input[type= 'checkbox']:checked").each(function () {
@@ -1118,7 +1159,25 @@
             type: "POST",
             redirect: true,
             file: (document.getElementById("image").files.length == 0) ? false : true,
-            data: $('#createEmployee').serialize()
+            data: $('#createEmployee').serialize(),
+            error: function (response) {
+                    $("input").css("border-color", "#ccc")
+                    $("input").attr("title", ``)
+                    $("textarea").css("border-color", "#ccc")
+                    $("textarea").attr("title", ``)
+                    $("select").css("border-color", "#ccc")
+                    $("select").attr("title", ``)
+                    let obj = response.responseJSON.errors
+                    for (const property in obj) {
+                        if(property == 'city'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)    
+                        }else{
+                            $("#"+property).css("border-color", "#ef1f1f")
+                            $("#"+property).attr("title", `${obj[property]}`)
+                        }
+                    }
+            },
         })
     });
 
@@ -1148,6 +1207,15 @@
         $('#modelHeading').html("@lang('messages.manageDepartment')");
         $.ajaxModal('#departmentModel', url);
     });
+
+    $('.plus-form').click(function() {
+            let target = $(event.target)[0];
+            console.log(target.dataset.type)
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+            $('#modelHeading').html('...');
+            $.ajaxModal('#departmentModel', url);
+    })
 
 </script>
 @endpush

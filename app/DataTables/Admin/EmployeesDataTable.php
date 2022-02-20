@@ -64,7 +64,7 @@ class EmployeesDataTable extends BaseDataTable
             ->addColumn('action', function ($row) {
 
                 $action = '<div class="btn-group dropdown m-r-10">
-                 <span aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" type="button"><ion-icon name="ellipsis-vertical"></ion-icon></span>
+                 <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button"><i class="fa fa-gears" style="color: #000;"></i></button>
                     <ul role="menu" class="dropdown-menu pull-right">
                     <li><a href="' . route('admin.employees.edit', [$row->id]) . '"><i class="fa fa-pencil" aria-hidden="true"></i> ' . trans('app.edit') . '</a></li>
                   <li><a href="' . route('admin.employees.show', [$row->id]) . '"><i class="fa fa-search" aria-hidden="true"></i> ' . __('app.view') . '</a></li>';
@@ -225,7 +225,7 @@ class EmployeesDataTable extends BaseDataTable
                 ->orderable(false)
                 ->searchable(false)
                 ->width(150)
-                ->addClass('text-center')
+                ->addClass('action-align')
         ];
     }
 

@@ -1,6 +1,8 @@
 (function($) {
     'use strict';
     $.easyAjax = function(options) {
+
+        
         var defaults = {
             type: 'GET',
             container: 'body',
@@ -19,6 +21,8 @@
         };
 
         var opt = defaults;
+
+        
 
         // Extend user-set options over defaults
         if (options) {
@@ -140,6 +144,7 @@
 
             opt.data = data;
         }
+
 
         Pace.restart();
         Pace.track(function () {

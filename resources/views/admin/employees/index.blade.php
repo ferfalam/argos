@@ -10,6 +10,11 @@
         <x-link type="link" url="{{ route('admin.employees.create') }}" id="createTaskCategory" classes="btn btn-cs-blue" icon="fa fa-plus" title="modules.employees.addNewEmployee"/>
     </x-slot>
 </x-main-header>
+<style type="text/css">
+    .action-align{
+      text-align: center !important;
+    }
+</style>
 @endsection
 
 @push('head-script')

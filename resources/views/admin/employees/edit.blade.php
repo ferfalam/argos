@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/cc-picker/jquery.ccpicker.css') }}">
+
 
 <style>
     .form-body{
@@ -217,7 +219,7 @@
 
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
-                    {!! Form::open(['id' => 'createClient', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::open(['id' => 'updateEmployee', 'class' => 'ajax-form', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
                     <div class="form-body form-input" style="margin-top: 40px">
 
                         <div class="row">
@@ -228,17 +230,17 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <label for="" class="mb-0">@lang('app.civility')</label>
+                                                <label for="" class="mb-0">@lang('app.gender')</label>
                                             </td>
                                             <td>
                                                 <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="civility" value="male">
-                                                        <label for="civility" style="margin-bottom: 0px">M</label>
+                                                        <input type="radio" name="gender" value="male" @if($userDetail->gender == "male") Checked @endif>
+                                                        <label for="gender" style="margin-bottom: 0px">M</label>
                                                     </div>
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="civility" value="female">
-                                                        <label for="civility" style="margin-bottom: 0px">Mme</label>
+                                                        <input type="radio" name="gender" value="female" @if($userDetail->gender == "female") Checked @endif>
+                                                        <label for="gender" style="margin-bottom: 0px">Mme</label>
                                                     </div>
                                                 </div>
                                             </td>
@@ -252,7 +254,7 @@
                                             <td><label for="name" class="required">@lang('app.user_id')
                                                 </label></td>
                                             <td>
-                                                <input type="text" class="form-control" id="name" name="name"
+                                                <input type="text" class="form-control" id="employee_id" name="employee_id"
                                                     value="">
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -265,7 +267,7 @@
                                                 </label></td>
                                             <td>
                                                 <input type="text" class="form-control" id="name" name="name"
-                                                    value="">
+                                                 @if($userDetail->name) value="{{$userDetail->name}}" @else value="" @endif >
                                             <td>
                                                 <a href="#!" class="invisible">
                                                     <img src="{{ asset('img/plus.png') }}" alt="">
@@ -276,7 +278,7 @@
                                             <td><label for="address" class="required">@lang('app.address')</label>
                                             </td>
                                             <td><textarea class="form-control" name="address" id="address"
-                                                    style="width:100%" rows="2"></textarea></td>
+                                                    style="width:100%" rows="2" >{{$userDetail->address}}</textarea></td>
                                             <td>
                                                 <a href="#!" class="invisible">
                                                     <img src="{{ asset('img/plus.png') }}" alt="">
@@ -287,9 +289,9 @@
                                             <td><label for="country" class="required">@lang('app.pays')</label>
                                             </td>
                                             <td>
-                                                <select name="country" id="country" class="form-control select2">
+                                                <select name="country" id="country"   class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value=" {{ $country->name }} ">
+                                                        <option value=" {{ $country->name }}" @if($userDetail->country_id == $country->id) selected @endif >
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -375,7 +377,7 @@
                                                     class="required">@lang('app.datenaissance')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="birthday" class="form-control datepicker">
+                                                <input type="text" name="birthday" id="birthday" value="{{ $userDetail->birthday }}" class="form-control datepicker">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -392,7 +394,7 @@
                                                 <select name="native_country" id="native_country"
                                                     class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value=" {{ $country->name }} ">
+                                                        <option value="{{ $country->name }}"  @if($userDetail->native_country == $country->id) selected @endif >
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -412,7 +414,7 @@
                                                 <select name="nationality" id="nationality"
                                                     class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value=" {{ $country->name }} ">
+                                                        <option value="{{ $country->name }}"  @if($userDetail->nationality == $country->id) selected @endif >
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -441,7 +443,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a href=" {{ route('super-admin.language-settings.create') }} " style="background: none">
+                                                <a href=" {{ route('admin.language-settings.create') }} " style="background: none">
                                                     <img src="{{ asset('img/plus.png') }}" alt="">
                                                 </a>
                                             </td>
@@ -452,7 +454,7 @@
                                                     class="required">@lang('app.start_date')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="start_date" class="form-control datepicker">
+                                                <input type="text" name="start_date" id="start_date"   value="{{date('Y-m-d',strtotime($employeeDetail->joining_date))}}"  class="form-control datepicker">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -466,7 +468,7 @@
                                                     class="required">@lang('app.end_date')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="end_date" class="form-control datepicker">
+                                                <input type="text" name="end_date" id="end_date" value=" {{date('Y-m-d',strtotime($employeeDetail->last_date))}} "  class="form-control datepicker">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -553,7 +555,7 @@
                                                     class="required">@lang('app.compentancy')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="compentancy" class="form-control">
+                                                <input type="text" name="compentancy" id="compentancy"  class="form-control">
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -593,7 +595,7 @@
                                                         </ul>
                                                     </div><!-- /btn-group --> --}}
                                                     <input type="text" name="mobile" id="mobile"
-                                                        class="form-control phone-input ccpicker" aria-label="...">
+                                                        class="form-control phone-input ccpicker" aria-label="..." value="{{ $userDetail->mobile }}" >
                                                 </div><!-- /input-group -->
                                             </td>
                                         </tr>
@@ -605,11 +607,11 @@
                                             <td>
                                                 <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="notification" value="male">
+                                                        <input type="radio" name="notification" @if($userDetail->email_notifications == 1) checked @endif  value="1">
                                                         <label for="notification" style="margin-bottom: 0px">@lang('app.active')</label>
                                                     </div>
                                                     <div class="form-group mb-0">
-                                                        <input type="radio" name="notification" value="female">
+                                                        <input type="radio" name="notification"   @if($userDetail->email_notifications == 0) checked @endif value="0">
                                                         <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
                                                     </div>
                                                 </div>
@@ -634,7 +636,7 @@
                                                 <label for="email" class="required">@lang('app.login_email')</label>
                                             </td>
                                             <td>
-                                                <input type="email" name="email" class="form-control">
+                                                <input type="email" name="email" id="email"  class="form-control" value="{{ $userDetail->email }}" >
                                             </td>
                                         </tr>
                                         <tr>
@@ -643,7 +645,7 @@
                                                     class="required">@lang('app.motdepasse')</label>
                                             </td>
                                             <td>
-                                                <input type="password" name="password" class="form-control">
+                                                <input type="password" name="password" id="password"  class="form-control">
                                             </td>
                                         </tr>
 
@@ -670,8 +672,8 @@
                                             </td>
                                             <td>
                                                 <select name="status" id="status" class="form-control select2">
-                                                    <option value="Service A">Service A</option>
-                                                    <option value="Service B" disabled>Service B</option>
+                                                    <option value="active" @if($userDetail->status == 'active') selected @endif >active</option>
+                                                    <option value="deactive" @if($userDetail->status == 'deactive') selected @endif  >deactive</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -737,6 +739,7 @@
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
                     {!! Form::open(['id'=>'updateEmployee','class'=>'ajax-form','method'=>'PUT']) !!}
+
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-3">
@@ -1061,7 +1064,22 @@
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('plugins/cc-picker/jquery.ccpicker.js') }}"></script>
+
 <script data-name="basic">
+
+        $(".ccpicker").CcPicker({
+            dataUrl: "{{ asset('data.json') }}"
+        });
+
+        $("#mobile").CcPicker("setCountryByPhoneCode", "33");
+        $("#tel").CcPicker("setCountryByPhoneCode", "33");
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+        
+
     function checkboxChange(parentClass, id){
         var checkedData = '';
         $('.'+parentClass).find("input[type= 'checkbox']:checked").each(function () {
@@ -1143,7 +1161,25 @@
                 type: "POST",
                 redirect: true,
                 file: (document.getElementById("image").files.length == 0) ? false : true,
-                data: $('#updateEmployee').serialize()
+                data: $('#updateEmployee').serialize(),
+                error: function (response) {
+                    $("input").css("border-color", "#ccc")
+                    $("input").attr("title", ``)
+                    $("textarea").css("border-color", "#ccc")
+                    $("textarea").attr("title", ``)
+                    $("select").css("border-color", "#ccc")
+                    $("select").attr("title", ``)
+                    let obj = response.responseJSON.errors
+                    for (const property in obj) {
+                        if(property == 'city'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)    
+                        }else{
+                            $("#"+property).css("border-color", "#ef1f1f")
+                            $("#"+property).attr("title", `${obj[property]}`)
+                        }
+                    }
+                },
             })
         });
 
@@ -1160,6 +1196,16 @@
             $('#modelHeading').html("@lang('messages.manageDepartment')");
             $.ajaxModal('#departmentModel', url);
         });
+
+        $('.plus-form').click(function() {
+            let target = $(event.target)[0];
+            console.log(target.dataset.type)
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+            $('#modelHeading').html('...');
+            $.ajaxModal('#departmentModel', url);
+        })
+
 </script>
 
 @endpush

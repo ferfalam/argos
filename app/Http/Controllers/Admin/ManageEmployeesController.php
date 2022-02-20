@@ -63,7 +63,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->departments = Team::all();
         $this->designations = Designation::all();
         $this->totalEmployees = count($this->employees);
-        $this->roles = Role::where('roles.name', '<>', 'client')->get();
+        $this->roles = Role::where('roles.name','Employee')->get();
         $whoseProjectCompleted = ProjectMember::join('projects', 'projects.id', '=', 'project_members.project_id')
             ->join('users', 'users.id', '=', 'project_members.user_id')
             ->select('users.*')
@@ -78,7 +78,7 @@ class ManageEmployeesController extends AdminBaseController
 
                 $query->select('user_id as id')->from('project_members');
             })
-            ->where('roles.name', '<>', 'client')
+            ->where('roles.name','Employee')
             ->get();
 
         $this->freeEmployees = $whoseProjectCompleted->merge($notAssignedProject)->count();
@@ -128,10 +128,11 @@ class ManageEmployeesController extends AdminBaseController
             return Reply::error(__('messages.downGradePackageForAddEmployees', ['employeeCount' => company()->employees->count(), 'maxEmployees' => $company->package->max_employees]));
         }
         DB::beginTransaction();
-        try {
+        // try {
             $data = $request->all();
             $data['password'] = Hash::make($request->password);
 
+            
             if ($request->hasFile('image')) {
                 $data['image'] = Files::upload($request->image, 'avatar', 300);
             }
@@ -142,18 +143,49 @@ class ManageEmployeesController extends AdminBaseController
             } else {
                 $data['locale'] = company()->locale;
             }
-            $user = User::create($data);
 
-            $user->employeeDetail()->create([
-                'employee_id' => $request->employee_id,
+            $user =  new User();
+            $user->name = $data['name'];
+            $user->email =$data['email'];
+            $user->password = $data['password'];
+            $user->remember_token = $data['_token'];
+            $user->mobile = $data['mobile'];
+            $user->gender = $data['gender'];
+            $user->address = $data['address'];
+            $user->country_id = $data['country_id'];
+            $user->birthday = $data['birthday'];
+            $user->native_country = $data['native_country'];
+            $user->nationality = $data['nationality'];
+            $user->language = $data['language'];
+            $user->save();
+
+            
+            $empDetail = [
+                'employee_id' => $user->id,
                 'address' => $request->address,
-                'hourly_rate' => $request->hourly_rate,
-                'slack_username' => $request->slack_username,
-                'joining_date' => Carbon::createFromFormat($this->global->date_format, $request->joining_date)->format('Y-m-d'),
-                'last_date' => ($request->last_date != '') ? Carbon::createFromFormat($this->global->date_format, $request->last_date)->format('Y-m-d') : null,
-                'department_id' => $request->department,
-                'designation_id' => $request->designation,
-            ]);
+                'hourly_rate' => $request->hourly_rate?$request->hourly_rate:0,
+                'slack_username' => $request->slack_username ? $request->slack_username :'',
+                'joining_date' => $request->start_date,
+                'last_date' => ($request->end_date != '') ? $request->end_date : null,
+                'department_id' => $request->department?$request->department:'',
+                'designation_id' => $request->designation?$request->designation:'',
+            ];
+
+
+            $employee = new EmployeeDetails();
+            $employee->user_id = $user->id;
+            $employee->address = $request->address;
+            $employee->employee_id = $user->id;
+            $employee->hourly_rate =  $request->hourly_rate?$request->hourly_rate:0;
+            $employee->slack_username = $request->slack_username ? $request->slack_username :'';
+            $employee->joining_date = $request->start_date;
+            $employee->last_date =  ($request->end_date != '') ? $request->end_date : null;
+            $employee->department_id = $request->department?$request->department:'';
+            $employee->designation_id = $request->designation?$request->designation:'';
+            $employee->save();
+            exit;
+            
+            
 
             $tags = json_decode($request->tags);
             if (!empty($tags)) {
@@ -176,14 +208,14 @@ class ManageEmployeesController extends AdminBaseController
             $role = Role::where('name', 'employee')->first();
             $user->attachRole($role->id);
             DB::commit();
-        } catch (\Swift_TransportException $e) {
-            DB::rollback();
-            return Reply::error('Please configure SMTP details to add employee. Visit Settings -> Email setting to set SMTP', 'smtp_error');
-        } catch (\Exception $e) {
-            DB::rollback();
+        // } catch (\Swift_TransportException $e) {
+        //     DB::rollback();
+        //     return Reply::error('Please configure SMTP details to add employee. Visit Settings -> Email setting to set SMTP', 'smtp_error');
+        // } catch (\Exception $e) {
+        //     DB::rollback();
 
-            return Reply::error('Some error occured when inserting the data. Please try again or contact support');
-        }
+        //     return Reply::error('Some error occured when inserting the data. Please try again or contact support');
+        // }
         $this->logSearchEntry($user->id, $user->name, 'admin.employees.show', 'employee');
 
         if ($request->has('ajax_create')) {
@@ -286,17 +318,19 @@ class ManageEmployeesController extends AdminBaseController
         }
         $user->mobile = $request->input('mobile');
         $user->country_id = $request->input('phone_code');
+        $user->address = $request->input('address');
         $user->gender = $request->input('gender');
+        $user->birthday = $request->input('birthday');
         $user->status = $request->input('status');
         $user->login = $request->login;
-        $user->email_notifications = $request->email_notifications;
-
+        $user->email_notifications = $request->input('notification');
+        
         if ($request->hasFile('image')) {
             $user->image = Files::upload($request->image, 'avatar', 300);
         }
-
+        
         $user->save();
-
+        
         $tags = json_decode($request->tags);
         if (!empty($tags)) {
             EmployeeSkill::where('user_id', $user->id)->delete();
@@ -311,8 +345,8 @@ class ManageEmployeesController extends AdminBaseController
                 $skill->save();
             }
         }
-
-
+        
+        
         $employee = EmployeeDetails::where('user_id', '=', $user->id)->first();
         if (empty($employee)) {
             $employee = new EmployeeDetails();
@@ -322,25 +356,25 @@ class ManageEmployeesController extends AdminBaseController
         $employee->address = $request->address;
         $employee->hourly_rate = $request->hourly_rate;
         $employee->slack_username = $request->slack_username;
-        $employee->joining_date = Carbon::createFromFormat($this->global->date_format, $request->joining_date)->format('Y-m-d');
-
+        $employee->joining_date = $request->start_date;
+        
         $employee->last_date = null;
-
-        if ($request->last_date != '') {
-            $employee->last_date = Carbon::createFromFormat($this->global->date_format, $request->last_date)->format('Y-m-d');
+        
+        if ($request->end_date != '') {
+            $employee->last_date = $request->end_date;
         }
-
+        
         $employee->department_id = $request->department;
         $employee->designation_id = $request->designation;
         $employee->save();
-
+        
         // To add custom fields data
         if ($request->get('custom_fields_data')) {
             $employee->updateCustomFieldData($request->get('custom_fields_data'));
         }
-
+        
         session()->forget('user');
-
+        
         return Reply::redirect(route('admin.employees.index'), __('messages.employeeUpdated'));
     }
 
