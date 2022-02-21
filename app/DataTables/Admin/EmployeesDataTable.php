@@ -32,7 +32,7 @@ class EmployeesDataTable extends BaseDataTable
                     return $value->id == $row->current_role;
                 })->first();
 
-                if ($row->id != user()->id) {
+                if ($row->id != user()->id && (!$isAdmin) ) {
 
                     $btn = (($row->current_role_name == 'admin' || $isAdmin) ? 'btn-danger' : 'btn-info');
                     $roleNameOther = '';

@@ -252,7 +252,7 @@
                                             <td><label for="name" class="required">@lang('app.user_id')
                                                 </label></td>
                                             <td>
-                                                <input type="text" class="form-control" id="employee_id" name="employee_id"
+                                                <input type="text" class="form-control" id="user_id" name="user_id"
                                                     value="">
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -308,7 +308,7 @@
                                                     <option value="" disabled>@lang('app.cp')</option>
                                                     @foreach ($tla as $t)
                                                         @if ($t->type == 'city')
-                                                            <option value=" {{ $t->name }} ">
+                                                            <option value=" {{ $t->id }} ">
                                                                 {{ ucfirst(strtolower($t->name)) }}</option>
                                                         @endif
                                                     @endforeach
@@ -335,10 +335,20 @@
                                             </td>
                                             <td>
                                                 <select name="profil" id="profil" class="form-control select2">
-                                                    <option value="Super Admin">Super Admin</option>
-                                                    <option value="Admin" disabled>Admin</option>
-                                                    <option value="Collaborateur" disabled>Collaborateur</option>
-                                                    <option value="Profil Externe" disabled>Profil Externe</option>
+                                                
+                                                    @foreach($roles as $role)
+                                                        @if($role->name != 'superadmin')
+                                                        <option value="{{ $role->id}}"   >
+                                                            @if($role->name == 'employee')
+                                                            Collaborateur
+                                                            @elseif($role->name == 'client')
+                                                            Profil Externe
+                                                            @else
+                                                                admin
+                                                            @endif
+                                                        </option>
+                                                        @endif
+                                                    @endforeach
                                                 </select>
                                             </td>
                                             <td>
@@ -433,7 +443,7 @@
                                                         English
                                                     </option>
                                                     @foreach ($languageSettings as $language)
-                                                        <option value="{{ $language->language_name }}"
+                                                        <option value="{{ $language->language_code }}"
                                                             @if ($global->locale == $language->language_code) selected @endif>
                                                             {{ $language->language_name }}
                                                         </option>
@@ -538,8 +548,9 @@
                                             </td>
                                             <td>
                                                 <select name="service" id="service" class="form-control select2">
-                                                    <option value="Service A">Service A</option>
-                                                    <option value="Service B" disabled>Service B</option>
+                                                    @foreach($teams as $team)
+                                                        <option value="{{ $team->id }} ">{{ $team->team_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </td>
                                             <td>
@@ -555,7 +566,7 @@
                                                     class="required">@lang('app.compentancy')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="compentancy" id="compentancy" class="form-control">
+                                                <input name='tags' id='tags'   placeholder='@lang('app.skills')'  >
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -649,7 +660,7 @@
                                             </td>
                                         </tr>
 
-                                        <tr>
+                                        {{-- <tr>
                                             <td>
                                                 <label for="connexion" class="required">@lang('app.connexion')</label>
                                             </td>
@@ -664,7 +675,7 @@
                                                     <img src="{{ asset('img/plus.png') }}" alt="">
                                                 </a>
                                             </td>
-                                        </tr>
+                                        </tr> --}}
 
                                         <tr>
                                             <td>
@@ -672,8 +683,8 @@
                                             </td>
                                             <td>
                                                 <select name="status" id="status" class="form-control select2">
-                                                    <option value="Service A">Service A</option>
-                                                    <option value="Service B" disabled>Service B</option>
+                                                    <option value="active" >active</option>
+                                                    <option value="deactive"  >deactive</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -1168,10 +1179,16 @@ aria-hidden="true">
                     $("select").css("border-color", "#ccc")
                     $("select").attr("title", ``)
                     let obj = response.responseJSON.errors
+
+                    console.log(obj);
                     for (const property in obj) {
-                        if(property == 'city'){
+                        if(property == 'city' ){
                             $("#"+property).prev().css("border-color", "#ef1f1f")
-                            $("#"+property).prev().attr("title", `${obj[property]}`)    
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'tags'){
+                            console.log(property);
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
                         }else{
                             $("#"+property).css("border-color", "#ef1f1f")
                             $("#"+property).attr("title", `${obj[property]}`)

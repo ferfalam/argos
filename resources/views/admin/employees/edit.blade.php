@@ -254,8 +254,8 @@
                                             <td><label for="name" class="required">@lang('app.user_id')
                                                 </label></td>
                                             <td>
-                                                <input type="text" class="form-control" id="employee_id" name="employee_id"
-                                                    value="">
+                                                <input type="text" class="form-control" id="user_id" name="user_id"
+                                                    value="{{$userDetail->user_id}}">
                                             <td>
                                                 <a href="#!" class="invisible">
                                                     <img src="{{ asset('img/plus.png') }}" alt="">
@@ -291,7 +291,7 @@
                                             <td>
                                                 <select name="country" id="country"   class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value=" {{ $country->name }}" @if($userDetail->country_id == $country->id) selected @endif >
+                                                        <option value=" {{ $country->id }}" @if($userDetail->country_id == $country->id) selected @endif >
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -310,7 +310,7 @@
                                                     <option value="" disabled>@lang('app.cp')</option>
                                                     @foreach ($tla as $t)
                                                         @if ($t->type == 'city')
-                                                            <option value=" {{ $t->name }} ">
+                                                            <option value=" {{ $t->id }}" @if($userDetail->city_id == $t->id) selected @endif  >
                                                                 {{ ucfirst(strtolower($t->name)) }}</option>
                                                         @endif
                                                     @endforeach
@@ -337,10 +337,20 @@
                                             </td>
                                             <td>
                                                 <select name="profil" id="profil" class="form-control select2">
-                                                    <option value="Super Admin">Super Admin</option>
-                                                    <option value="Admin" disabled>Admin</option>
-                                                    <option value="Collaborateur" disabled>Collaborateur</option>
-                                                    <option value="Profil Externe" disabled>Profil Externe</option>
+
+                                                    @foreach($roles as $role)
+                                                        @if($role->name != 'superadmin')
+                                                        <option value="{{ $role->id}}"  @if($role->id == $userDetail->role[0]->role_id) selected @endif   >
+                                                            @if($role->name == 'employee')
+                                                            Collaborateur
+                                                            @elseif($role->name == 'client')
+                                                            Profil Externe
+                                                            @else
+                                                                admin
+                                                            @endif
+                                                        </option>
+                                                        @endif
+                                                    @endforeach
                                                 </select>
                                             </td>
                                             <td>
@@ -394,7 +404,7 @@
                                                 <select name="native_country" id="native_country"
                                                     class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value="{{ $country->name }}"  @if($userDetail->native_country == $country->id) selected @endif >
+                                                        <option value="{{ $country->name }}"  @if($userDetail->native_country == $country->name) selected @endif >
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -414,7 +424,7 @@
                                                 <select name="nationality" id="nationality"
                                                     class="form-control select2">
                                                     @foreach ($countries as $country)
-                                                        <option value="{{ $country->name }}"  @if($userDetail->nationality == $country->id) selected @endif >
+                                                        <option value="{{ $country->name }}"  @if($userDetail->nationality == $country->name) selected @endif >
                                                             {{ ucfirst(strtolower($country->name)) }}</option>
                                                     @endforeach
                                                 </select>
@@ -435,8 +445,8 @@
                                                         English
                                                     </option>
                                                     @foreach ($languageSettings as $language)
-                                                        <option value="{{ $language->language_name }}"
-                                                            @if ($global->locale == $language->language_code) selected @endif>
+                                                        <option value="{{ $language->language_code }}"
+                                                            @if ($userDetail->language == $language->language_code) selected @endif>
                                                             {{ $language->language_name }}
                                                         </option>
                                                     @endforeach
@@ -538,8 +548,9 @@
                                             </td>
                                             <td>
                                                 <select name="service" id="service" class="form-control select2">
-                                                    <option value="Service A">Service A</option>
-                                                    <option value="Service B" disabled>Service B</option>
+                                                    @foreach($teams as $team)
+                                                        <option value="{{ $team->id }} ">{{ $team->team_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </td>
                                             <td>
@@ -555,7 +566,7 @@
                                                     class="required">@lang('app.compentancy')</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="compentancy" id="compentancy"  class="form-control">
+                                                <input name='tags' placeholder='@lang('app.skills')' value='{{ $EmployeeSkill }}' >
                                             </td>
                                             <td>
                                                 <a href="#!" class="invisible">
@@ -649,7 +660,7 @@
                                             </td>
                                         </tr>
 
-                                        <tr>
+                                        {{-- <tr>
                                             <td>
                                                 <label for="connexion" class="required">@lang('app.connexion')</label>
                                             </td>
@@ -664,7 +675,7 @@
                                                     <img src="{{ asset('img/plus.png') }}" alt="">
                                                 </a>
                                             </td>
-                                        </tr>
+                                        </tr> --}}
 
                                         <tr>
                                             <td>
@@ -1056,6 +1067,13 @@
 </div>
 <!-- .row -->
 
+<?php
+    $countryCode = $userDetail->tel;
+    if($countryCode == "")
+    {
+        $countryCode = "33";
+    } 
+?>
 
 @endsection
  @push('footer-script')
@@ -1072,8 +1090,8 @@
             dataUrl: "{{ asset('data.json') }}"
         });
 
-        $("#mobile").CcPicker("setCountryByPhoneCode", "33");
-        $("#tel").CcPicker("setCountryByPhoneCode", "33");
+        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ $countryCode}}");
+        $("#tel").CcPicker("setCountryByPhoneCode", "{{ $countryCode}}");
 
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
@@ -1109,10 +1127,11 @@
                 return "{{ __('messages.noRecordFound') }}";
             }
         });
+
             var input = document.querySelector('input[name=tags]'),
                 // init Tagify script on the above inputs
                 tagify = new Tagify(input, {
-                    whitelist : {!! json_encode($skills) !!},
+                    whitelist : {!! json_encode($EmployeeSkill) !!},
                     //  blacklist : [".NET", "PHP"] // <-- passed as an attribute in this demo
                 });
 
@@ -1170,8 +1189,9 @@
                     $("select").css("border-color", "#ccc")
                     $("select").attr("title", ``)
                     let obj = response.responseJSON.errors
+                    console.log(obj);
                     for (const property in obj) {
-                        if(property == 'city'){
+                        if(property == 'city' || property == 'tags' ){
                             $("#"+property).prev().css("border-color", "#ef1f1f")
                             $("#"+property).prev().attr("title", `${obj[property]}`)    
                         }else{

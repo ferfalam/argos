@@ -136,7 +136,7 @@
                             <table>
                                 <tr>
                                     <td><strong>@lang('modules.employees.employeeId')</strong></td>
-                                    <td class="text-muted">{{ ucwords($employee->employeeDetail->employee_id) }}</td>
+                                    <td class="text-muted">{{ ucwords($employee->id) }}</td>
                                 </tr>
                                 
                                 <tr>
@@ -155,9 +155,35 @@
                                 </tr>
 
                                 <tr>
+                                    <td><strong>@lang('app.user_id')</strong></td>
+                                    <td class="text-muted">{{ $employee->user_id }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>@lang('app.role')</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee->roles)) ? $employee->roles[0]->display_name : '-' }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>@lang('app.department')</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee->employeeDetail)) ? $employee->employeeDetail->department->team_name : '-' }}</td>
+                                </tr>
+
+                                <tr>
                                     <td><strong>@lang('app.address')</strong></td>
                                     <td class="text-muted">{{ (!is_null($employee->employeeDetail)) ? $employee->employeeDetail->address : '-' }}</td>
                                 </tr>
+                                
+                                <tr>
+                                    <td><strong>@lang('City')</strong></td>
+                                    <td class="text-muted">{{ (!is_null($cityName)) ? $cityName->name: '-' }}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td><strong>@lang('app.country')</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee->country))?$employee->country->name:'-' }}</td>
+                                </tr>
+
 
                                 <tr>
                                     <td><strong>@lang('app.designation')</strong></td>
@@ -180,8 +206,13 @@
                                 </tr>
 
                                 <tr>
+                                    <td><strong>@lang('modules.employees.lastDate')</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee->employeeDetail)) ? date('d-m-Y',strtotime($employee->employeeDetail->last_date)) : '-' }}</td>
+                                </tr>
+
+                                <tr>
                                     <td><strong>@lang('modules.employees.gender')</strong></td>
-                                    <td class="text-muted">{{ $employee->gender }}</td>
+                                    <td class="text-muted">{{ $employee->gender != "" ? $employee->gender : '-'   }}</td>
                                 </tr>
 
                                 <tr>
@@ -194,6 +225,40 @@
                                     <td class="text-muted">{{ (count($employee->employee) > 0) ? $employee->employee[0]->hourly_rate : '-' }}</td>
                                 </tr>
 
+                                <tr>
+                                    <td><strong>CompanyName</strong></td>
+                                    <td class="text-muted">{{ ucwords($employeeCountry->company_name) }}</td>
+                                 </tr>
+                                 
+                                 <tr>
+                                    <td><strong>Birthday</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee)) ? $employee->birthday : '-' }}</td>
+                                 </tr>
+                                 
+                                 <tr>
+                                    <td><strong>Native Country</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee)) ? $employee->native_country : '-' }}</td>
+                                 </tr>
+                                 
+                                 <tr>
+                                    <td><strong>Nationality</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee)) ? $employee->nationality : '-' }}</td>
+                                 </tr>
+
+                                 <tr>
+                                    <td><strong>Language</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee)) ? $employee->language : '-' }}</td>
+                                 </tr>
+                                 
+                                 <tr>
+                                    <td><strong>Notificaiton Status</strong></td>
+                                    <td class="text-muted">@if($employee->email_notifications == 1) Active @else Inactive @endif</td>
+                                 </tr>
+
+                                 <tr>
+                                    <td><strong>Status</strong></td>
+                                    <td class="text-muted">{{ (!is_null($employee)) ? $employee->status : '-' }}</td>
+                                 </tr>
                             </table>
 
                             

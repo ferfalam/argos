@@ -30,7 +30,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'id'
     ];
     protected $fillable = [
-        'name', 'email', 'password', 'mobile', 'login', 'status', 'image', 'gender', 'locale', 'onesignal_player_id', 'email_notifications', 'country_id',"country", "city", "address", "birthday", "image", "qualification", "native_country", "language"
+        'name', 'email', 'password', 'mobile', 'login', 'status', 'image', 'gender', 'locale', 'onesignal_player_id', 'email_notifications', 'country_id',"country", "city_id", "address", "birthday","user_id","image", "qualification", "native_country","nationality","tel","language"
     ];
 
     /**
@@ -212,6 +212,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         return $this->hasMany(RoleUser::class, 'user_id');
     }
+
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'role_user');
+    }
+
 
     public function attendee()
     {
@@ -558,4 +563,5 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $this->notify(new ResetPassword($token));
     }
 
+    
 }
