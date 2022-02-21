@@ -27,6 +27,12 @@
     #my-event{
     overflow-y: scroll;
     }
+
+    #calendar table tbody tr td:nth-child(1){
+        display: revert;
+        align-items: center;
+        padding: 0px;
+    }
     </style>
 @endpush
 
