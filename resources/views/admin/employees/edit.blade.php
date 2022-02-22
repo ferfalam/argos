@@ -340,7 +340,7 @@
 
                                                     @foreach($roles as $role)
                                                         @if($role->name != 'superadmin')
-                                                        <option value="{{ $role->id}}"  @if($role->id == $userDetail->role[0]->role_id) selected @endif   >
+                                                        <option value="{{ $role->id}}"  @if($role->name == 'admin') disabled @endif   @if($role->id == $userDetail->role[0]->role_id) selected @endif   >
                                                             @if($role->name == 'employee')
                                                             Collaborateur
                                                             @elseif($role->name == 'client')

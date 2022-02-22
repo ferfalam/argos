@@ -552,7 +552,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'users.created_at')
-            ->where('roles.name', '<>', 'client')
+            ->where('roles.name', 'Employee')
             ->groupBy('users.id')
             ->where('users.company_id', $companyID)
             ->get();

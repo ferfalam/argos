@@ -127,7 +127,7 @@ class ManageEmployeesController extends AdminBaseController
             return Reply::error(__('messages.downGradePackageForAddEmployees', ['employeeCount' => company()->employees->count(), 'maxEmployees' => $company->package->max_employees]));
         }
         DB::beginTransaction();
-        // try {
+        try {
             $data = $request->all();
             $data['password'] = Hash::make($request->password);
             
@@ -170,32 +170,36 @@ class ManageEmployeesController extends AdminBaseController
             $user->save();
             
             $role = $request->profil;
-            $updateUserRole = RoleUser::updateOrCreate(['user_id'=>$user->id],['role_id'=> $role]); 
+            $UserRole = new RoleUser();
+            $UserRole->user_id = $user->id;
+            $UserRole->role_id = $role;
+            $UserRole->save(); 
             
-            $empDetail = [
-                'employee_id' => $user->id,
-                'address' => $request->address,
-                'hourly_rate' => $request->hourly_rate?$request->hourly_rate:0,
-                'slack_username' => $request->slack_username ? $request->slack_username :'',
-                'joining_date' => $request->start_date,
-                'last_date' => ($request->end_date != '') ? $request->end_date : null,
-                'department_id' => $request->department?$request->department:'',
-                'designation_id' => $request->designation?$request->designation:'',
-            ];
+            // $empDetail = [
+            //     'employee_id' => $user->id,
+            //     'address' => $request->address,
+            //     'hourly_rate' => $request->hourly_rate?$request->hourly_rate:0,
+            //     'slack_username' => $request->slack_username ? $request->slack_username :'',
+            //     'joining_date' => $request->start_date,
+            //     'last_date' => ($request->end_date != '') ? $request->end_date : null,
+            //     'department_id' => $request->department?$request->department:'',
+            //     'designation_id' => $request->designation?$request->designation:'',
+            // ];
             
-          
             
             $employee = new EmployeeDetails();
             $employee->user_id = $user->id;
             $employee->address = $request->address;
             $employee->employee_id = $user->id;
             $employee->hourly_rate =  $request->hourly_rate?$request->hourly_rate:0;
-            $employee->slack_username = $request->slack_username ? $request->slack_username :'';
+            $employee->slack_username = $request->slack_username == "" ? $request->slack_username :'';
             $employee->joining_date = date('Y-m-d',strtotime($request->start_date));
             $employee->last_date =  ($request->end_date != '') ? date('Y-m-d',strtotime($request->end_date)) : null;
             $employee->department_id = $request->service?$request->service:'';
             $employee->save();
-    
+     
+            
+            
             
             
           
@@ -218,18 +222,18 @@ class ManageEmployeesController extends AdminBaseController
                 $user->employeeDetail->updateCustomFieldData($request->get('custom_fields_data'));
             }
            
-            $role = Role::where('name', 'employee')->first();
-            $user->attachRole($role->id);
+            // $role = Role::where('name', 'employee')->first();
+            // $user->attachRole($role->id);
             DB::commit();
             
-        // } catch (\Swift_TransportException $e) {
-        //     DB::rollback();
-        //     return Reply::error('Please configure SMTP details to add employee. Visit Settings -> Email setting to set SMTP', 'smtp_error');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
+        } catch (\Swift_TransportException $e) {
+            DB::rollback();
+            return Reply::error('Please configure SMTP details to add employee. Visit Settings -> Email setting to set SMTP', 'smtp_error');
+        } catch (\Exception $e) {
+            DB::rollback();
 
-        //     return Reply::error('Some error occured when inserting the data. Please try again or contact support');
-        // }
+            return Reply::error('Some error occured when inserting the data. Please try again or contact support');
+        }
         $this->logSearchEntry($user->id, $user->name, 'admin.employees.show', 'employee');
 
         if ($request->has('ajax_create')) {
@@ -386,7 +390,7 @@ class ManageEmployeesController extends AdminBaseController
             $employee = new EmployeeDetails();
             $employee->user_id = $user->id;
         }
-        $employee->employee_id = $request->employee_id;
+        $employee->employee_id = $user->id;
         $employee->address = $request->address;
         $employee->hourly_rate = $request->hourly_rate;
         $employee->slack_username = $request->slack_username;

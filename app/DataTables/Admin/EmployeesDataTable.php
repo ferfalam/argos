@@ -22,6 +22,7 @@ class EmployeesDataTable extends BaseDataTable
     {
         $roles = Role::where('name', '<>', 'client')->get();
         $firstAdmin = User::firstAdmin();
+        
         return datatables()
             ->eloquent($query)
             ->addColumn('role', function ($row) use ($roles, $firstAdmin) {
@@ -46,9 +47,9 @@ class EmployeesDataTable extends BaseDataTable
                     $status .= '<ul role="menu" class="dropdown-menu pull-right">';
                     foreach ($roles as $role) {
                         if ($role->name == 'admin' || $role->name == 'employee') {
-                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' . __('app.' . $role->name) . '</a></li>';
+                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' .  $role->display_name . '</a></li>';
                         } else {
-                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' . ucwords($role->name) . '</a></li>';
+                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' . $role->display_name . '</a></li>';
                         }
                     }
                     $status .= '</ul>';
