@@ -534,6 +534,12 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::get('currency/update/exchange-rates', ['uses' => 'CurrencySettingController@updateExchangeRate'])->name('currency.update-exchange-rates');
                         Route::resource('currency', 'CurrencySettingController');
 
+                        Route::resource('tla', 'AdminCompanyTLAController');
+                        Route::get('tla/create/{type}', 'AdminCompanyTLAController@create2');
+                        Route::post('tla/destroy/{type}', 'AdminCompanyTLAController@destroy');
+
+                        Route::post('language-settings/update-data/{id?}', ['uses' => 'AdminLanguageSettingsController@updateData'])->name('language-settings.update-data');
+                        Route::resource('language-settings', 'AdminLanguageSettingsController');
 
                         Route::post('theme-settings/activeTheme', ['uses' => 'ThemeSettingsController@activeTheme'])->name('theme-settings.activeTheme');
                         Route::post('theme-settings/roundedTheme', ['uses' => 'ThemeSettingsController@roundedTheme'])->name('theme-settings.roundedTheme');
@@ -903,6 +909,10 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('attendances/bulk-store', ['uses' => 'ManageAttendanceController@bulkAttendanceStore'])->name('attendances.bulk-store');
                 Route::get('attendances/detail', ['uses' => 'ManageAttendanceController@attendanceDetail'])->name('attendances.detail');
                 Route::get('attendances/data', ['uses' => 'ManageAttendanceController@data'])->name('attendances.data');
+                // New Route
+                Route::get('attendances/create/my', ['uses' => 'ManageAttendanceController@myAttendance'])->name('attendances.myAttendance');
+                Route::get('attendances/mydata', ['uses' => 'ManageAttendanceController@mydata'])->name('attendances.mydata');
+                
                 Route::get('attendances/check-holiday', ['uses' => 'ManageAttendanceController@checkHoliday'])->name('attendances.check-holiday');
                 Route::get('attendances/employeeData/{startDate?}/{endDate?}/{userId?}', ['uses' => 'ManageAttendanceController@employeeData'])->name('attendances.employeeData');
                 Route::get('attendances/refresh-count/{startDate?}/{endDate?}/{userId?}', ['uses' => 'ManageAttendanceController@refreshCount'])->name('attendances.refreshCount');
@@ -1076,12 +1086,16 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('paypal', array('as' => 'status', 'uses' => 'AdminPaypalController@getPaymentStatus'));
             });
 
-            Route::get("suppliers", 'AdminSuppliersController@index')->name('suppliers.index');
+            // Route::get("suppliers", 'AdminSuppliersController@index')->name('suppliers.index');
+            Route::get("suppliers/create", 'AdminSuppliersController@create')->name('suppliers.create');
+            Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
+            Route::get("mailing/compose", 'AdminMailingController@compose')->name('mailing.compose');
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
+            Route::get("contacts/create", 'AdminContactController@create')->name('contact.create');
 			Route::get("documents", 'AdminDocumentController@index')->name('document.index');
 
             Route::get('language/change-language', 'AdminProfileSettingsController@changeLanguage')->name('language.change-language');

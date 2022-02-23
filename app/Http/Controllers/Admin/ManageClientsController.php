@@ -26,6 +26,7 @@ use App\Notes;
 use App\ContractType;
 use App\ClientCategory;
 use App\ClientSubCategory;
+use App\CompanyTLA;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -39,6 +40,8 @@ class ManageClientsController extends AdminBaseController
         parent::__construct();
         $this->pageTitle = 'app.menu.clients';
         $this->pageIcon = 'icon-people';
+        $this->countries = Country::all();
+        $this->tla = CompanyTLA::all();
         $this->middleware(function ($request, $next) {
             abort_if(!in_array('clients', $this->user->modules), 403);
             return $next($request);

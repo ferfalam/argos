@@ -27,8 +27,17 @@
     #my-event{
     overflow-y: scroll;
     }
+    #calendar table tbody tr td:nth-child(1){
+        display: revert;
+        align-items: center;
+        padding: 0px;
+    }
+
+    /* Comment to push the changes again */
     </style>
+
 @endpush
+
 
 @section('filter-section')
 <div class="row" " id="ticket-filters">

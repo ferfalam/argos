@@ -4,7 +4,7 @@ return array(
     'dashboard' =>
     array(
         'totalClients' => 'Total des clients',
-        'totalEmployees' => 'Total des employés',
+        'totalEmployees' => 'Total des utilisateurs',
         'totalProjects' => 'Total des projets',
         'totalPaidInvoices' => 'Factures payées',
         'totalHoursLogged' => 'Heures enregistrées',
@@ -31,7 +31,7 @@ return array(
         'nextFollowUp' => 'Suivi suivant',
         'holidayCheck' => 'Aujourd\'hui est des vacances pour',
         'totalArchiveProjects' => 'Projets archivés totaux',
-        'freeEmployees' => 'Ne fonctionne pas sur le projet',
+        'freeEmployees' => 'Utilisateurs non concerné par les projets',
         'totalCompanies' => 'Total des entreprises',
         'activeCompanies' => 'Entreprises actives',
         'licenseExpired' => 'Licence expirée',
@@ -107,7 +107,7 @@ return array(
     ),
     'client' =>
     array(
-        'createTitle' => 'Ajouter des informations client',
+        'createTitle' => 'FICHE CLIENT',
         'companyDetails' => 'Détails de l\'entreprise',
         'clientOtherDetails' => 'Client autres détails',
         'companyName' => 'Nom de la compagnie',
@@ -213,8 +213,8 @@ return array(
     ),
     'employees' =>
     array(
-        'addNewEmployee' => 'Ajouter un nouvel employé',
-        'editEmployee' => 'editEmployee',
+        'addNewEmployee' => 'Ajouter un nouvel utilisateur',
+        'editEmployee' => "Modifier l'employé",
         'createTitle' => 'Ajouter des informations sur les employés',
         'employeeName' => 'Nom de l\'employé',
         'employeeEmail' => 'Email des employés',
@@ -238,10 +238,10 @@ return array(
         'slackUsername' => 'Nom d\'utilisateur Slack',
         'joiningDate' => 'Date d\'inscription',
         'gender' => 'Le genre',
-        'title' => 'Sélectionnez Employé',
-        'role' => 'Rôle',
+        'title' => 'Sélectionnez Utilisateur',
+        'role' => 'Profil',
         'lastDate' => 'Date de sortie',
-        'employeeId' => 'ID d\'employé',
+        'employeeId' => 'Matricule',
         'employeeIdInfo' => 'L\'identifiant d\'employé est l\'identifiant unique distribué aux employés',
         'chooseDepartment' => 'Choisir le département',
         'chooseDesignation' => 'Choisissez la désignation',
@@ -1372,7 +1372,7 @@ return array(
     array(
         'attendance' => 'Présence',
         'clients' => 'Clientes',
-        'employees' => 'Des employés',
+        'employees' => 'Liste des Utilisateurs',
         'estimates' => 'Estimations',
         'events' => 'Événements',
         'expenses' => 'Dépenses',

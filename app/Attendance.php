@@ -61,6 +61,7 @@ class Attendance extends BaseModel
                 'attendances.half_day',
                 'attendances.working_from',
                 'users.image',
+                'users.id AS cs_user_id',
                 'designations.name as designation_name',
                 DB::raw('@attendance_date as atte_date'),
                 'attendances.id as attendance_id'

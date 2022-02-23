@@ -89,6 +89,9 @@ class HomeController extends FrontBaseController
      */
     public function index($slug = null)
     {
+
+    
+
         if ($this->global->setup_homepage == 'custom') {
             return response(file_get_contents($this->global->custom_homepage_url));
         }

@@ -57,15 +57,17 @@ class LoginController extends FrontBaseController
     public function showLoginForm()
     {
         $this->themeSetting = ThemeSetting::withoutGlobalScopes([CompanyScope::class])->first();
-
+        
+        
+        
         if (!$this->isLegal()) {
             return redirect('verify-purchase');
         }
-
+        
         if ($this->global->frontend_disable) {
             return view('auth.login', $this->data);
         }
-
+        
         if ($this->setting->front_design == 1 && $this->setting->login_ui == 1) {
             return view('saas.login', $this->data);
         }

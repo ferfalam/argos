@@ -6,9 +6,9 @@
         @lang($pageTitle) 
     </x-slot>
 
-    <x-slot name="btns">
+    {{-- <x-slot name="btns">
         <x-link type="link" url="{{ route('admin.clients.create') }}" id="createTaskCategory" classes="btn btn-cs-blue" icon="fa fa-plus" title="modules.client.addNewClient"/>
-    </x-slot>
+    </x-slot> --}}
 </x-main-header>
 @endsection
 
@@ -65,16 +65,6 @@
             </select>
         </x-filter-form-group>
 
-        <x-filter-form-group label="modules.productCategory.subCategory">
-            <select class="form-control select2" name="sub_category_id" id="sub_category_id"
-            data-style="form-control">
-                <option value="all">@lang('modules.client.all')</option>
-                @foreach($subcategories as $subcategory)
-                    <option value="{{$subcategory->id}}">{{ $subcategory->category_name }}</option>
-                @endforeach
-            </select>
-        </x-filter-form-group>
-
         <x-filter-form-group label="modules.logTimeSetting.project">
             <select class="form-control select2" name="project_id" id="project_id"
             data-style="form-control">
@@ -105,17 +95,43 @@
             </select>
         </x-filter-form-group>
 
+      
+
         <x-filter-btn-group class="p-t-10">
             <x-button id="apply-filters" classes="btn btn-cs-green col-md-6" title="app.apply"></x-button>
             <x-button id="reset-filters" classes="btn btn-inverse col-md-offset-1 col-md-5 rounded-pill" title="app.reset"></x-button>
         </x-filter-btn-group>
+
+        <x-filter-form-group hidden label="modules.productCategory.subCategory">
+            <select class="form-control select2" name="sub_category_id" id="sub_category_id"
+            data-style="form-control">
+                <option value="all">@lang('modules.client.all')</option>
+                @foreach($subcategories as $subcategory)
+                    <option value="{{$subcategory->id}}">{{ $subcategory->category_name }}</option>
+                @endforeach
+            </select>
+        </x-filter-form-group>
     </form>
 </div>
 @endsection
 
 
+
+
 @section('content')
-    <x-table :dataTable="$dataTable"></x-table>
+
+    @php
+        // dd($dataTable)
+    @endphp
+    <div class="panel-4">
+        <div class="panel-heading">
+            <h2>@lang('app.clientsList')</h2>
+            <a href="{{route('admin.clients.create')}}" class="btn btn-cs-blue">@lang('app.addClient')</a>
+        </div>
+        <div class="panel-body">
+            <x-table :dataTable="$dataTable"></x-table>
+        </div>
+    </div>
 @endsection
 
 @push('footer-script')
@@ -169,7 +185,9 @@
             cb(start, end);
 
         });
+
         var subCategories = @json($subcategories);
+
         $('#category_id').change(function (e) {
             // get projects of selected users
             var opts = '';
@@ -183,6 +201,7 @@
         })
 
             $('#sub_category_id').html('<option value="0">Select Sub Category...</option>'+opts)
+            
             $("#sub_category_id").select2({
                 formatNoMatches: function () {
                     return "{{ __('messages.noRecordFound') }}";
@@ -240,7 +259,9 @@
         })
 
         $('#apply-filters').click(function () {
+
             $('#clients-table').on('preXhr.dt', function (e, settings, data) {
+
                 var startDate = $('#start-date').val();
 
                 if (startDate == '') {
@@ -252,6 +273,7 @@
                 if (endDate == '') {
                     endDate = null;
                 }
+
                 var category_id = $('#category_id').val();
                 var sub_category_id = $('#sub_category_id').val();
                 var project_id = $('#project_id').val();
@@ -267,11 +289,14 @@
                 data['project_id'] = project_id;
                 data['contract_type_id'] = contract_type_id;
                 data['country_id'] = country_id;
-
             });
+
             $.easyBlockUI('#clients-table');
+
             window.LaravelDataTables["clients-table"].draw();
+            
             $.easyUnblockUI('#clients-table');
+
         });
 
         $('#reset-filters').click(function () {
@@ -289,7 +314,6 @@
         })
 
         function exportData(){
-
             var client = $('#client').val();
             var status = $('#status').val();
 

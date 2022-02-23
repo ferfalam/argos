@@ -822,7 +822,6 @@
                         </div>
 
                         <div class="form-actions" style="margin-top: 20px">
-                            <button class="btn btn-reset" type="reset">Annuler</button>
                             <button type="submit" id="save-form" class="btn btn-success"> Enregistrer</button>
                         </div>
                         {!! Form::close() !!}

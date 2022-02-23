@@ -30,6 +30,11 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
 <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
+<style>
+    .white-box{
+        display: grid;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -50,6 +55,7 @@
                     <table  id="attendance-table">
                     </table>
                 </div>
+                
                 <div id="holidayBox" style="display: none">
                     <div class="alert alert-primary"> @lang('modules.attendance.holidayfor') <span id="holidayReason"> </span>. </div>
                 </div>
@@ -102,6 +108,7 @@
         }
     });
     checkHoliday();
+
     jQuery('#attendance_date').datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -111,6 +118,7 @@
     }).on('changeDate', function (ev) {
         checkHoliday();
     });
+    
     function checkHoliday() {
         var selectedDate = $('#attendance_date').val();
         var token = "{{ csrf_token() }}";

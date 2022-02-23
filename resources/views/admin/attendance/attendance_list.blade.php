@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="display: -webkit-box">
     <div class="col-xs-12">
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -27,11 +27,11 @@
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
-                    <div class="row">
+                    <div class="row" style="display: -webkit-box;">
                         @if($row->total_clock_in < $maxAttandenceInDay)
                         {!! Form::open(['id'=>'attendance-container-'.$row->id,'class'=>'ajax-form','method'=>'POST']) !!}
                         <div class="form-body ">
-                            <div class="row">
+                            <div class="row" style="display: -webkit-box;">
 
                                 <div class="col-md-4">
                                     <div class="input-group bootstrap-timepicker timepicker">

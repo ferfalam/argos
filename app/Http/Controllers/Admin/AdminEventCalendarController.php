@@ -98,8 +98,8 @@ class AdminEventCalendarController extends AdminBaseController
                     'id' => $value->id,
                     'title' => $value->event_name,
                     'className' => $value->label_color,
-                    'start' => $value->start_date_time,
-                    'end' => $value->end_date_time,
+                    'start' => Carbon::parse($value->start_date_time)->addHour(),
+                    'end' => Carbon::parse($value->end_date_time)->addHour(),
                         
                 ];
             }else{
@@ -107,8 +107,8 @@ class AdminEventCalendarController extends AdminBaseController
                     'id' => $value->id,
                     'title' => $value->event_name,
                     'className' => $value->label_color,
-                    'start' => $value->start_date_time,
-                    'end' => $value->end_date_time
+                    'start' => Carbon::parse($value->start_date_time)->addHour(),
+                    'end' => Carbon::parse($value->end_date_time)->addHour(),
                 ];
             }
                 

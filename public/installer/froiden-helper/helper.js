@@ -1,6 +1,7 @@
 (function($) {
     'use strict';
     $.easyAjax = function(options) {
+        
         var defaults = {
             type: 'GET',
             container: 'body',

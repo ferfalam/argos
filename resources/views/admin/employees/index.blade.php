@@ -10,6 +10,11 @@
         <x-link type="link" url="{{ route('admin.employees.create') }}" id="createTaskCategory" classes="btn btn-cs-blue" icon="fa fa-plus" title="modules.employees.addNewEmployee"/>
     </x-slot>
 </x-main-header>
+<style type="text/css">
+    .action-align{
+      text-align: center !important;
+    }
+</style>
 @endsection
 
 @push('head-script')
@@ -100,7 +105,17 @@
                 </select>
             </div>
         </div>
+	
+	<div class="col-xs-12">
+	
+	 </div>
+	<div class="col-xs-12">
+	
+	 </div>
+	
+	
         <div class="col-xs-12">
+			<br>
             <div class="form-group ">
                 <button type="button" id="apply-filters" class="btn btn-success col-md-6"><i class="fa fa-check"></i> @lang('app.apply')</button>
                 <button type="button" id="reset-filters" class="btn btn-inverse col-md-5 col-md-offset-1"><i class="fa fa-refresh"></i> @lang('app.reset')</button>

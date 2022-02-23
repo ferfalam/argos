@@ -20,6 +20,7 @@ class UpdateRequest extends SuperAdminBaseRequest
             'sub_domain' => module_enabled('Subdomain') ? 'required|min:4|max:50|sub_domain|unique:companies,sub_domain,'.$this->route('company') : '',
             'company_phone' => 'required',
             'username' => '',
+            'tva_intrat' => '',
             'address' => 'required',
             'userid' => 'required'
         ];

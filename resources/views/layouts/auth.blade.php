@@ -59,10 +59,7 @@
         </div>
 
         <div id="auth-form">
-
-
             @yield('content')
-
         </div>
     </div>
 

@@ -1007,3 +1007,8 @@ textarea.form-control {
   max-height: 100%;
   overflow-y: unset;
 }
+
+
+.table > tbody > tr > td:first-of-type{
+  display: revert !important;
+}

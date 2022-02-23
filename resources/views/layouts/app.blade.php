@@ -421,6 +421,112 @@
         }
 
         
+        legend {
+          display: inline-block;
+          padding: 0;
+          margin-left: 20px;
+          margin-bottom: 0px;
+          font-size: 15px;
+          line-height: inherit;
+          font-family: var(--font-primary);
+          font-weight: 400;
+          border-bottom: none;
+          width: max-content;
+          padding-right: 20px;
+          color: #333;
+        }
+
+        fieldset {
+          border: 1px solid #DBD2D2;
+          padding: 10px;
+          height: 100%;
+        }
+
+        fieldset .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        fieldset .form-group label,
+        fieldset tr td {
+            min-width: max-content;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        td:nth-child(1) {
+            display: flex;
+            align-items: center;
+            padding: 15px 0px;
+        }
+
+        td:nth-child(3) {
+            padding-left: 5px;
+        }
+
+        fieldset table td label {
+            color: #000000 !important;
+            font-family: "Roboto", sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 500;
+        }
+
+        fieldset table .required:after {
+            content: " *";
+            color: red;
+        }
+
+        fieldset .form-group input,
+        fieldset .form-group textarea {
+            margin-left: auto;
+        }
+
+        .input-group-btn .flag-icon {
+            width: 17px;
+            height: 14px;
+        }
+
+        .input-group-btn .btn {
+            padding: 6px 8px !important;
+            background-color: white;
+            border: 1px solid #CCCCD1;
+        }
+
+        .datepicker td:nth-child(1),.category-table td:nth-child(1) {
+            display: table-cell;
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            max-height: 200px;
+            overflow: auto;
+        }
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
     </style>
 
 </head>
@@ -445,7 +551,7 @@
     <main class="main" style="padding: 0">     
         {{-- Navbar Start --}}
         <div class="header navbar-header" style="display: flex; align-items: center; justify-content: space-between;">
-          <div class="text-center" style="color: white">E33 LISBONNE </div>
+          <div class="text-center" style="color: white">{{$user->company->company_name}} </div>
           @if ((company()->package_id == 8||company()->package_id == 2) && round((strtotime(date('Y-m-d', strtotime(company()->created_at. ' + 15 days'))) - time())/ (60 * 60 * 24))>0)
             @php
                 $banner = true;
@@ -460,29 +566,34 @@
             <div class="bg-white rounded-pill" style="padding: 0px 10px">
                 {{\Carbon\Carbon::now()->format('H:i A')}}
             </div>
-
+			
             <div>
-              <a href="{{route('admin.attendances.summary')}}">
-                <img src="{{asset("img/clock.png")}}" alt="" style="width: 40px; height:  40px">
+				<ul class="nav user-menu">
+				<li class="nav-item dropdown" tooltip="@lang('Timer')">
+              <a href="{{route('admin.attendances.myAttendance')}}">
+                <img src="{{asset("img/clock.png")}}" alt="" style="width: 40px; height:  40px">				  
               </a>
+					</li>
+					</ul>
             </div>
 
           </div>
 
           <ul class="nav user-menu">
-            <li class="nav-item dropdown ">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                <i class="fa">
-                  <ion-icon name="chatbubbles"></ion-icon>
+            <li class="nav-item" tooltip="@lang('Chat')">
+              <a href="{{ route('admin.user-chat.index') }}"  class="nav-link"  >
+                <i class="fa fa-comments">
+                 
                 </i>
               </a>
             </li>
 
-            <li class="nav-item dropdown ">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <li class="nav-item" tooltip="@lang('app.menu.Events')">
+              <a href="{{ route('admin.events.index') }}" class="nav-link">
                 <i class="fa fa-calendar"></i> 
               </a>
             </li>
+            
             <li class="nav-item dropdown show-user-notifications">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i> 
@@ -517,7 +628,10 @@
               <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                 <span class="user-img">
                   <img src="{{ $user->image_url }}" alt="">
-                  <span class="status online"></span>
+					 <span class="status online"></span></span>
+                        <span>{{ ucwords($user->name) }}</span>
+                    </a>
+                  
                 </span>
               </a>
               <div class="dropdown-menu">
@@ -584,7 +698,7 @@
 <!-- /#wrapper -->
 
 {{--Footer sticky notes--}}
-<div id="footer-sticky-notes" class="bg-light row hidden-xs hidden-sm">
+{{-- <div id="footer-sticky-notes" class="bg-light row hidden-xs hidden-sm">
     <div class="col-xs-12" id="sticky-note-header">
         <div class="col-xs-10" style="line-height: 30px">
             @lang('app.menu.stickyNotes') <a href="javascript:;" onclick="showCreateNoteModal()"
@@ -639,7 +753,7 @@
         @endforeach
 
     </div>
-</div>
+</div> --}}
 {{--sticky note end--}}
 
 {{--Timer Modal--}}
@@ -749,7 +863,16 @@
 <script src="{{ asset('plugins/bower_components/icheck/icheck.init.js') }}"></script>
 <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ asset('js/jquery.magnific-popup-init.js') }}"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 
+<script>
+  $('*[tooltip]').each(function(i, el){
+   tippy(el, {
+      content: $(el).attr('tooltip'),
+    });
+  })
+</script>
 
 <script>
   //reload page if landed via back button

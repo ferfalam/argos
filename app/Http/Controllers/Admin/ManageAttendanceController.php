@@ -16,6 +16,7 @@ use App\Team;
 use App\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use GPBMetadata\Google\Api\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -223,6 +224,13 @@ class ManageAttendanceController extends AdminBaseController
         return Reply::success(__('messages.attendanceSaveSuccess'));
     }
 
+    public function myAttendance(Request $request){
+        // $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
+        // $attendances = Attendance::attendanceByDate($date)->where('user_id', auth()->user()->id);
+        $this->row = auth()->user();
+        return view('admin.attendance.auth_create', $this->data);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -243,6 +251,7 @@ class ManageAttendanceController extends AdminBaseController
 
         return DataTables::of($attendances)
             ->editColumn('id', function ($row) {
+                
                 return view('admin.attendance.attendance_list', ['row' => $row, 'global' => $this->global, 'maxAttandenceInDay' => $this->maxAttandenceInDay])->render();
             })
             ->rawColumns(['id'])
@@ -258,6 +267,43 @@ class ManageAttendanceController extends AdminBaseController
             ->removeColumn('designation_name')
             ->removeColumn('total_clock_in')
             ->removeColumn('clock_in')
+            ->make();
+    }
+
+    public function mydata(Request $request)
+    {
+
+        $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
+        $attendances = Attendance::attendanceByDate($date);
+
+        return DataTables::of($attendances)
+            ->editColumn('id', function ($row) {
+                if($row->cs_user_id == auth()->user()->id){
+                    return view('admin.attendance.my_attendance_list', ['row' => $row, 'global' => $this->global, 'maxAttandenceInDay' => $this->maxAttandenceInDay])->render();
+                }
+            })
+            ->rawColumns(['id'])
+            ->removeColumn('name')
+            ->removeColumn('clock_in_time')
+            ->removeColumn('clock_out_time')
+            ->removeColumn('image')
+            ->removeColumn('attendance_id')
+            ->removeColumn('working_from')
+            ->removeColumn('late')
+            ->removeColumn('half_day')
+            ->removeColumn('clock_in_ip')
+            ->removeColumn('designation_name')
+            ->removeColumn('total_clock_in')
+            ->removeColumn('clock_in')
+            ->setRowAttr([
+                'style' => function ($row) {
+                    if($row->cs_user_id == auth()->user()->id){
+                        return "display: block;";
+                    }else{
+                        return "display: none;";
+                    }
+                }
+            ])
             ->make();
     }
 

@@ -21,4 +21,8 @@ class AdminMailingController extends AdminBaseController
   {
     return view('admin.mailing.index', $this->data);
   }
+
+  public function compose(){
+    return view('admin.mailing.compose', $this->data);
+  }
 }

@@ -30,7 +30,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'id'
     ];
     protected $fillable = [
-        'name', 'email', 'password', 'mobile', 'login', 'status', 'image', 'gender', 'locale', 'onesignal_player_id', 'email_notifications', 'country_id',"country", "city", "address", "birthday", "image", "qualification", "native_country", "language"
+        'name', 'email', 'password', 'mobile', 'login', 'status', 'image', 'gender', 'locale', 'onesignal_player_id', 'email_notifications', 'country_id',"country", "city_id", "address", "birthday","user_id","image", "qualification", "native_country","nationality","tel","language"
     ];
 
     /**
@@ -213,6 +213,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->hasMany(RoleUser::class, 'user_id');
     }
 
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'role_user');
+    }
+
+
     public function attendee()
     {
         return $this->hasMany(EventAttendee::class, 'user_id');
@@ -259,7 +264,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $users = User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'users.status', 'users.email_notifications', 'users.created_at', 'users.image', 'users.mobile', 'users.country_id')
-            ->where('roles.name', '<>', 'client');
+            ->where('roles.name','Employee');
 
         if (!is_null($exceptId)) {
             $users->where('users.id', '<>', $exceptId);
@@ -547,7 +552,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'users.created_at')
-            ->where('roles.name', '<>', 'client')
+            ->where('roles.name', 'Employee')
             ->groupBy('users.id')
             ->where('users.company_id', $companyID)
             ->get();
@@ -558,4 +563,5 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $this->notify(new ResetPassword($token));
     }
 
+    
 }

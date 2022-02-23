@@ -22,6 +22,7 @@ class EmployeesDataTable extends BaseDataTable
     {
         $roles = Role::where('name', '<>', 'client')->get();
         $firstAdmin = User::firstAdmin();
+        
         return datatables()
             ->eloquent($query)
             ->addColumn('role', function ($row) use ($roles, $firstAdmin) {
@@ -32,7 +33,7 @@ class EmployeesDataTable extends BaseDataTable
                     return $value->id == $row->current_role;
                 })->first();
 
-                if ($row->id != user()->id) {
+                if ($row->id != user()->id && (!$isAdmin) ) {
 
                     $btn = (($row->current_role_name == 'admin' || $isAdmin) ? 'btn-danger' : 'btn-info');
                     $roleNameOther = '';
@@ -46,9 +47,9 @@ class EmployeesDataTable extends BaseDataTable
                     $status .= '<ul role="menu" class="dropdown-menu pull-right">';
                     foreach ($roles as $role) {
                         if ($role->name == 'admin' || $role->name == 'employee') {
-                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' . __('app.' . $role->name) . '</a></li>';
+                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' .  $role->display_name . '</a></li>';
                         } else {
-                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' . ucwords($role->name) . '</a></li>';
+                            $status .= '<li><a href="javascript:;" data-user-id="' . $row->id . '" class="assign_role" data-role-id="' . $role->id . '">' . $role->display_name . '</a></li>';
                         }
                     }
                     $status .= '</ul>';
@@ -64,7 +65,7 @@ class EmployeesDataTable extends BaseDataTable
             ->addColumn('action', function ($row) {
 
                 $action = '<div class="btn-group dropdown m-r-10">
-                 <span aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" type="button"><ion-icon name="ellipsis-vertical"></ion-icon></span>
+                 <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button"><i class="fa fa-gears" style="color: #000;"></i></button>
                     <ul role="menu" class="dropdown-menu pull-right">
                     <li><a href="' . route('admin.employees.edit', [$row->id]) . '"><i class="fa fa-pencil" aria-hidden="true"></i> ' . trans('app.edit') . '</a></li>
                   <li><a href="' . route('admin.employees.show', [$row->id]) . '"><i class="fa fa-search" aria-hidden="true"></i> ' . __('app.view') . '</a></li>';
@@ -130,7 +131,7 @@ class EmployeesDataTable extends BaseDataTable
             ->leftJoin('designations', 'employee_details.designation_id', '=', 'designations.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'employee_details.employee_id', 'users.created_at', 'roles.name as roleName', 'roles.id as roleId', 'users.image', 'users.status', \DB::raw('(select user_roles.role_id from role_user as user_roles where user_roles.user_id = users.id ORDER BY user_roles.role_id DESC limit 1) as `current_role`'), \DB::raw('(select roles.name from roles as roles where roles.id = current_role limit 1) as `current_role_name`'), 'designations.name as designation_name')
-            ->where('roles.name', '<>', 'client');
+            ->where('roles.name', '<>', 'client')->where('users.company_id', company()->id);
 
         if ($request->status != 'all' && $request->status != '') {
             $users = $users->where('users.status', $request->status);
@@ -225,7 +226,7 @@ class EmployeesDataTable extends BaseDataTable
                 ->orderable(false)
                 ->searchable(false)
                 ->width(150)
-                ->addClass('text-center')
+                ->addClass('action-align')
         ];
     }
 

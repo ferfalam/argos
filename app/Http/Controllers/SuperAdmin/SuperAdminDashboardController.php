@@ -13,6 +13,7 @@ use App\Package;
 use App\PaypalInvoice;
 use App\PaystackInvoice;
 use App\Project;
+use App\ProjectMilestone;
 use App\RazorpayInvoice;
 use App\StripeInvoice;
 use App\Task;
@@ -45,8 +46,8 @@ class SuperAdminDashboardController extends SuperAdminBaseController
         $this->totalCompanies = Company::count();
         $this->totalEmployees = EmployeeDetails::count();
         $this->totalClients = ClientDetails::count();
-        $this->tasksresearche = Project::where('status','not started')->count();
-        $this->tasksprogress = Project::where('status','in progress')->count();
+        $this->tasksresearche = ProjectMilestone::where('type','Research')->count();
+        $this->tasksprogress = ProjectMilestone::where('type','Development')->count();
 
         $this->totalPackages = Package::where('default', '!=', 'trial')->count();
         $this->activeCompanies = Company::where('status', '=', 'active')->count();
