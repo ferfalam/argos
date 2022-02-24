@@ -428,7 +428,12 @@
                                                 </td>
                                                 <td>
                                                     <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
+                                                        @foreach ($languageSettings as $language)
+                                                            <option value="{{ $language->language_code }}"
+                                                                    @if ($global->locale == $language->language_code) selected @endif>
+                                                                {{ $language->language_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
