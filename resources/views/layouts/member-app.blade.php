@@ -442,127 +442,263 @@
 
     <link rel="stylesheet" href="{{asset("css/overwrites.css")}}">
 
+    <style>
+      
+        .main-header .page-title {
+            font-size: 25px !important;
+            color: rgba(255, 0, 0, 1) !important;
+        }
+    
+        .flag-icon {
+            width: 49px;
+            height: 33px;
+            border-radius: 10000px;
+            background-size: cover;
+        }
+    
+    
+        .main-drop .dropdown-toggle{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    
+        
+        legend {
+        display: inline-block;
+        padding: 0;
+        margin-left: 20px;
+        margin-bottom: 0px;
+        font-size: 15px;
+        line-height: inherit;
+        font-family: var(--font-primary);
+        font-weight: 400;
+        border-bottom: none;
+        width: max-content;
+        padding-right: 20px;
+        color: #333;
+        }
+    
+        fieldset {
+        border: 1px solid #DBD2D2;
+        padding: 10px;
+        height: 100%;
+        }
+    
+        fieldset .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+            width: 100%;
+            flex-grow: 1;
+        }
+    
+        fieldset .form-group label,
+        fieldset tr td {
+            min-width: max-content;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    
+        td:nth-child(1) {
+            display: flex;
+            align-items: center;
+            padding: 15px 0px;
+        }
+    
+        td:nth-child(3) {
+            padding-left: 5px;
+        }
+    
+        fieldset table td label {
+            color: #000000 !important;
+            font-family: "Roboto", sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 500;
+        }
+    
+        fieldset table .required:after {
+            content: " *";
+            color: red;
+        }
+    
+        fieldset .form-group input,
+        fieldset .form-group textarea {
+            margin-left: auto;
+        }
+    
+        .input-group-btn .flag-icon {
+            width: 17px;
+            height: 14px;
+        }
+    
+        .input-group-btn .btn {
+            padding: 6px 8px !important;
+            background-color: white;
+            border: 1px solid #CCCCD1;
+        }
+    
+        .datepicker td:nth-child(1),.category-table td:nth-child(1) {
+            display: table-cell;
+        }
+    
+        .my-custom-scrollbar {
+            position: relative;
+            max-height: 200px;
+            overflow: auto;
+        }
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+    
+    
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    
+    
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+    
+    
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    
+        .header{
+            position: static !important;
+            /* height: 70px; */
+        }
+          
+    </style>
+
 </head>
 <body class="fix-sidebar @if($rtl == 1) rtl @endif">
 <!-- Preloader -->
 <div class="preloader">
     <div class="cssload-speeding-wheel"></div>
 </div>
-<div id="wrapper">
-    @php 
-    $filterSection = false;
-    @endphp
-    <div class="header">
-        <div class="header-left">
-            <a href="/" class="logo">
-                <img src="/img/logo.png">
-            </a>
-        </div>
-        <a class="toggle_btn open-close hidden-xs waves-effect waves-light" href="javascript:void(0);">
-            <span class="bar-icon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-        </a>
-        {{-- <div id="google_translate_element" style="display: none;"></div> --}}
-        <ul class="nav user-menu">
-            <li class="nav-item dropdown show-user-notifications">
-                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                    <i class="fa fa-bell-o"></i> <span class="badge badge-pill noti-count">{{count($user->unreadNotifications)}}</span>
-                </a>
-                <div class="dropdown-menu notifications">
-                    <div class="noti-content">
-                        <ul class="notification-list mailbox"></ul>
-                    </div>
-                </div>
-            </li>
-            {{-- <li class="nav-item" >
-                <select class="selectpicker language-switcher  pull-right" data-width="fit" onchange="translateLanguage(this.value);" id="trans">
-                    <option value="en" @if($global->locale == "en") selected @endif data-content='<span class="flag-icon flag-icon-gb"></span>'>En</option>
-                    @foreach($languageSettings as $language)
-                        <option value="{{ $language->language_code }}" @if($global->locale == $language->language_code) selected @endif  data-content='<span class="flag-icon @if($language->language_code == 'zh-CN') flag-icon-cn @elseif($language->language_code == 'zh-TW') flag-icon-tw @else flag-icon-{{ $language->language_code }} @endif"></span>'>{{ $language->language_code }}</option>
-                    @endforeach
-                </select>
-            </li> --}}
-
-            <li class="nav-item dropdown main-drop">
-                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  @php
-                    if ($global->locale == 'en') {
-                      $flagIcon = "gb";
-                    }else if ($global->locale == 'fr') {
-                      $flagIcon = "fr";
-                    }
-                  @endphp
-                  <span class="flag-icon flag-icon-{{$flagIcon}}"></span>
-                  <span style="color: inherit;font-size:15px;padding-left:5px">{{ ucwords($global->locale) }}</span></span>
-                </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item dropdown-custom" href="{{ route('member.language.change', ['lang' => 'en']) }}">English</a>
-                  <a class="dropdown-item dropdown-custom" href="{{ route('member.language.change', ['lang' => 'fr']) }}">French</a>
-                </div>
-            </li>
-          
-
-            <li class="nav-item dropdown has-arrow main-drop">
-                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <span class="user-img"><img src="{{ $user->image_url }}" alt="">
-                            <span class="status online"></span></span>
-                    <span>{{ ucwords($user->name) }}</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item dropdown-custom" href="{{ route('logout') }}">@lang('app.logout')</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                </div>
-            </li>
-        </ul>
-    </div>
+<div id="wrapper" class="wrapper">
+    
+    <!-- Left navbar-header -->
+    @include('sections.member_left_sidebar')
+    <!-- Left navbar-header end -->
 
     <div class="wrapper">
-        <!-- Left navbar-header -->
-        @include('sections.member_left_sidebar')
-        <!-- Left navbar-header end -->
         
         {{-- Just A Section for the Chat Content --}}
         @yield("chat-content")
-
-        <main class="main">
-            <div class="main-header">
-                @yield('page-title')
-                <button class="btn btn-inverse filter-section-close">
-                  <ion-icon name="filter-outline"></ion-icon>
-                </button>
+        
+        <main class="main" style="margin-top:0px; padding:0px;">
+            @php 
+            $filterSection = false;
+            @endphp
+            <div class="header">
+{{--                 
+                <a class="toggle_btn open-close hidden-xs waves-effect waves-light" href="javascript:void(0);">
+                    <span class="bar-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a> --}}
+                {{-- <div id="google_translate_element" style="display: none;"></div> --}}
+                <ul class="nav user-menu">
+                    <li class="nav-item dropdown show-user-notifications">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i> <span class="badge badge-pill noti-count">{{count($user->unreadNotifications)}}</span>
+                        </a>
+                        <div class="dropdown-menu notifications">
+                            <div class="noti-content">
+                                <ul class="notification-list mailbox"></ul>
+                            </div>
+                        </div>
+                    </li>
+                    {{-- <li class="nav-item" >
+                        <select class="selectpicker language-switcher  pull-right" data-width="fit" onchange="translateLanguage(this.value);" id="trans">
+                            <option value="en" @if($global->locale == "en") selected @endif data-content='<span class="flag-icon flag-icon-gb"></span>'>En</option>
+                            @foreach($languageSettings as $language)
+                                <option value="{{ $language->language_code }}" @if($global->locale == $language->language_code) selected @endif  data-content='<span class="flag-icon @if($language->language_code == 'zh-CN') flag-icon-cn @elseif($language->language_code == 'zh-TW') flag-icon-tw @else flag-icon-{{ $language->language_code }} @endif"></span>'>{{ $language->language_code }}</option>
+                            @endforeach
+                        </select>
+                    </li> --}}
+        
+                    <li class="nav-item dropdown main-drop">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                          @php
+                            if ($global->locale == 'en') {
+                              $flagIcon = "gb";
+                            }else if ($global->locale == 'fr') {
+                              $flagIcon = "fr";
+                            }
+                          @endphp
+                          <span class="flag-icon flag-icon-{{$flagIcon}}"></span>
+                          {{-- <span style="color: inherit;font-size:15px;padding-left:5px">{{ ucwords($global->locale) }}</span></span> --}}
+                        </a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item dropdown-custom" href="{{ route('member.language.change', ['lang' => 'en']) }}">English</a>
+                          <a class="dropdown-item dropdown-custom" href="{{ route('member.language.change', ['lang' => 'fr']) }}">French</a>
+                        </div>
+                    </li>
+                  
+        
+                    <li class="nav-item dropdown has-arrow main-drop">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    <span class="user-img"><img src="{{ $user->image_url }}" alt="">
+                                    <span class="status online"></span></span>
+                            <span>{{ ucwords($user->name) }}</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item dropdown-custom" href="{{ route('logout') }}">@lang('app.logout')</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
-            <div class="main-content">
-                @if (!empty($__env->yieldContent('filter-section')))
-                @php
-                  $filterSection = true;
-                @endphp
-    
-                <div class="panel panel-default filter-section" style="margin-top: 24px">
-                  <div class="panel-body">
-                    <h4 class="text-primary"> @lang('app.filterResults') </h4>
-    
-                    @yield('filter-section')
-                  </div>
+            <div class="main" style="margin-top:0px;">
+                <div class="main-header">
+                    @yield('page-title')
+                    <button class="btn btn-inverse filter-section-close">
+                      <ion-icon name="filter-outline"></ion-icon>
+                    </button>
                 </div>
-                @endif
-
-                @if (!empty($__env->yieldContent('other-section')))
-                    <div class="col-md-3 filter-section other-section">
-                        @yield('other-section')
+    
+                <div class="main-content">
+                    @if (!empty($__env->yieldContent('filter-section')))
+                    @php
+                      $filterSection = true;
+                    @endphp
+        
+                    <div class="panel panel-default filter-section" style="margin-top: 24px">
+                      <div class="panel-body">
+                        <h4 class="text-primary"> @lang('app.filterResults') </h4>
+        
+                        @yield('filter-section')
+                      </div>
                     </div>
-                @endif
-
-                @yield('content')
-
-                @include('sections.right_sidebar')
-
+                    @endif
+    
+                    @if (!empty($__env->yieldContent('other-section')))
+                        <div class="col-md-3 filter-section other-section">
+                            @yield('other-section')
+                        </div>
+                    @endif
+    
+                    @yield('content')
+    
+                    @include('sections.right_sidebar')
+    
+                </div>
             </div>
+
         </main>
     </div>
 

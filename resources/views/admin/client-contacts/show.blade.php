@@ -24,7 +24,8 @@
         <div style="display: grid;">
             
             <x-slot name="btns">
-                <a href="javascript:;" id="show-add-form" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
+                {{-- <a href="" id="show-add-form" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a>  --}}
+                <a href="{{route('admin.contact.create')}}" id="" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
             </x-slot>
 
             <div class="col-xs-12">

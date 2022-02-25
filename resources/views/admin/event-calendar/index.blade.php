@@ -84,7 +84,7 @@
             <x-button id="reset-filters" classes="btn btn-inverse col-md-offset-1 col-md-5 rounded-pill" title="app.reset"></x-button>                
         </x-filter-btn-group>
 
-{{-- 
+        {{-- 
         <div class="col-md-3">
             <h5>@lang('app.select') @lang('app.employees')</h5>
 
