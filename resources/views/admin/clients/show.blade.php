@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td><strong>@lang('app.email')</strong></td>
-                <td>{{ $clientDetail->email }}</td>
+                <td>{{ $clientDetail->email }}, {{$email}} </td>
             </tr>
             <tr>
                 <td><strong>@lang('app.mobile')</strong></td>
@@ -38,25 +38,25 @@
                 <td>{{ (!empty($clientDetail) ) ? ucwords($clientDetail->company_name) : '-'}}</td>
             </tr>
             
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('modules.client.website')</strong></td>
                 <td>{{ $clientDetail->website ?? '-' }}</td>
-            </tr>
+            </tr> --}}
 
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('app.gstNumber')</strong></td>
                 <td>{{ $clientDetail->gst_number ?? '-' }}</td>
-            </tr>
+            </tr> --}}
 
             <tr>
                 <td><strong>@lang('app.address')</strong></td>
                 <td>{!!  (!empty($clientDetail)) ? ucwords($clientDetail->address) : '-' !!}</td>
             </tr>
 
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('app.shippingAddress')</strong></td>
                 <td>{{ $clientDetail->shipping_address ?? '-' }}</td>
-            </tr>
+            </tr> --}}
 
             @if($clientDetail->category_id != null)
             <tr>
@@ -72,10 +72,94 @@
             </tr>
             @endif
 
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('app.note')</strong></td>
                 <td>{{ $clientDetail->note }}</td>
+            </tr> --}}
+
+            <tr>
+                <td><strong>@lang('app.name_ucfirst')</strong></td>
+                <td>{{ $clientDetail->company_name }}</td>
             </tr>
+
+            <tr>
+                <td><strong>@lang('app.country')</strong></td>
+                <td>{{ $country->name }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>@lang('app.city')</strong></td>
+                <td>{{ $clientDetail->city }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>@lang('app.observation')</strong></td>
+                <td>{{ $client->observation }}</td>
+            </tr>
+
+            {{-- <tr>
+                <td><strong>@lang('app.email')</strong></td>
+                <td>{{ $clientDetail->email}}</td>
+            </tr> --}}
+
+            <tr>
+                <td><strong>@lang('app.civility')</strong></td>
+                <td>{{ $client->gender }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>@lang('app.tel')</strong></td>
+                <td>{{ $clientDetail->tel }} , {{ $client->tel }}</td>
+            </tr>
+           
+            <tr>
+                <td><strong>@lang('app.mobile')</strong></td>
+                <td>{{ $clientDetail->mobile }} , {{ $client->mobile }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Fax</strong></td>
+                <td>{{ $clientDetail->fax }} , {{ $client->fax }}</td>
+            </tr>
+
+            <!-- <tr>
+                <td><strong>@lang('app.category')</strong></td>
+                <td>{{ $category-> category_name}}</td>
+            </tr>
+
+            <tr>
+                <td><strong>@lang('app.subCategory')</strong></td>
+                <td>{{ $sub_category->category_name}}</td>
+            </tr> -->
+
+            <tr>
+                <td><strong>@lang('app.langue')</strong></td>
+                <td>{{ $language->language_name}}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Function</strong></td>
+                <td>{{ $client->function}}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Notification Par Mail</strong></td>
+                @if($client->email_notifications == 1)
+                    <td>Yes</td>
+                @else
+                    <td>No</td>
+                @endif
+            </tr>
+
+            <tr>
+                <td><strong>Notification Par SMS</strong></td>
+                @if($client->sms_notification == 1)
+                    <td>Yes</td>
+                @else
+                    <td>No</td>
+                @endif
+            </tr>
+
 
             @if(isset($fields))
                 @foreach($fields as $field)

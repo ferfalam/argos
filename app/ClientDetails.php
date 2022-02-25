@@ -31,7 +31,9 @@ class ClientDetails extends BaseModel
         'office_phone',
         'city',
         'state',
-        'postal_code'
+        'postal_code',
+        'tel',
+        'fax',
     ];
 
     protected $default = [

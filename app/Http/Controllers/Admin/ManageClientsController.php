@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\Client\UpdateClientRequest;
 use App\Http\Requests\Gdpr\SaveConsentUserDataRequest;
 use App\Invoice;
 use App\Lead;
+use App\LanguageSetting;
 use App\Helper\Files;
 use App\Notifications\NewUser;
 use App\Payment;
@@ -31,6 +32,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+
 
 class ManageClientsController extends AdminBaseController
 {
@@ -117,7 +119,7 @@ class ManageClientsController extends AdminBaseController
         }
 
         $existing_user = User::withoutGlobalScopes(['active', CompanyScope::class])->select('id', 'email')->where('email', $request->input('email'))->first();
-        $new_code = Country::select('phonecode')->where('id', $request->phone_code)->first();
+        $new_code = Country::select('phonecode')->where('id', $request->p_mobile_phoneCode)->first();
         // if no user found create new user with random password
         if (!$existing_user) {
             // $password = str_random(8);
@@ -126,30 +128,46 @@ class ManageClientsController extends AdminBaseController
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('password'));
-            $user->mobile = ($new_code != null) ? $new_code->phonecode.' '.$request->input('mobile') : '';
-            $user->country_id = $request->input('phone_code');
-
-            if ($request->has('lead')) {
-                $user->country_id = $request->input('country_id');
-            }
+            $user->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+            $user->gender =   isset($request->gender) ? $request->input('gender'):'' ;
+            $user->tel =  $request->input('p_phone_phoneCode').' '.$request->input('p_phone');
+            $user->email_notifications =  $request->input('emailNotification');
+            $user->sms_notification	 =  $request->input('smsNotification');
+            $user->language =  $request->input('language');
+            $user->observation =  isset($request->observation)?$request->input('observation'):'';
+            $user->city_id =  $request->input('city');
+            $user->country_id =  $request->input('country');
+            $user->address =  $request->input('address');
+            $user->fax =  $request->input('p_fax_phoneCode').' '.$request->input('p_fax');
+            $user->function =  $request->input('function');
+    
+            
             if($request->input('locale') != ''){
                 $user->locale = $request->input('locale');
             }else{
                 $user->locale = company()->locale;
-
             }
-            $user->save();
+            
+            if ($request->hasFile('image')) {
+                $user->image = Files::upload($request->image, 'avatar', 300);
+            }
 
+            
+            $user->save();
+            
             // attach role
             $role = Role::where('name', 'client')->first();
             $user->attachRole($role->id);
-
+            
+            
+            
             if ($request->has('lead')) {
                 $lead = Lead::findOrFail($request->lead);
                 $lead->client_id = $user->id;
                 $lead->save();
             }
         }
+       
 
         $existing_client_count = ClientDetails::select('id', 'email', 'company_id')
             ->where(
@@ -158,31 +176,27 @@ class ManageClientsController extends AdminBaseController
                 ]
             )->count();
 
+            $city = CompanyTLA::where('id',$request->input('city'))->first();
+
+                  
         if ($existing_client_count === 0) {
             $client = new ClientDetails();
             $client->user_id = $existing_user ? $existing_user->id : $user->id;
             $client->name = $request->salutation.' '.$request->input('name');
-            $client->email = $request->input('email');
-            $client->mobile = ($new_code != null) ? $new_code->phonecode.' '.$request->input('mobile') : ' ';
-            $client->office_phone = $request->input('office_phone');
-            $client->city = $request->input('city');
-            $client->state = $request->input('state');
-            $client->postal_code = $request->input('postal_code');
-            $client->country_id = $request->country_id;
+            $client->email = $request->input('company_email');
+            $client->mobile = $request->mobile_phoneCode .' '.$request->input('mobile');
+            $client->city =    $city->name;
+            $client->country_id = $request->country;
             $client->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
             $client->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
             $client->company_name = $request->company_name;
             $client->address = $request->address;
-            $client->website = $request->hyper_text.''.$request->website;
-            $client->note = $request->note;
-            $client->skype = $request->skype;
-            $client->facebook = $request->facebook;
-            $client->twitter = $request->twitter;
-            $client->linkedin = $request->linkedin;
-            $client->gst_number = $request->gst_number;
-            $client->shipping_address = $request->shipping_address;
-            if ($request->has('email_notifications')) {
-                $client->email_notifications = $request->email_notifications;
+            $client->shipping_address = $request->address;
+            $client->tel =  $request->input('company_phone_phoneCode').' '.$request->input('company_phone');
+            $client->fax =  $request->input('fax_phoneCode').' '.$request->input('fax');
+
+            if ($request->has('emailNotification')) {
+                $client->email_notifications = $request->emailNotification;
             }
             $client->save();
 
@@ -236,12 +250,19 @@ class ManageClientsController extends AdminBaseController
      */
     public function show($id)
     {
+        $user = DB::table('users')->where('id',$id)->get(); 
+
         $this->client = User::findClient($id);
         $this->categories = ClientCategory::all();
         $this->subcategories = ClientSubCategory::all();
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
         $this->clientStats = $this->clientStats($id);
-
+        $this->country = Country::where('id',$this->client->country_id)->first();
+        $this->category = ClientCategory::where('id',$this->clientDetail->category_id)->first();
+        $this->sub_category = ClientSubCategory::where('id',$this->clientDetail->sub_category_id)->first();
+        $this->language = LanguageSetting::where('language_code',$this->client->language)->first();
+        $this->email = $user[0]->email; 
+        
         if (!is_null($this->clientDetail)) {
             $this->clientDetail = $this->clientDetail->withCustomFields();
             $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
@@ -259,7 +280,7 @@ class ManageClientsController extends AdminBaseController
     {
         $this->userDetail = ClientDetails::join('users', 'client_details.user_id', '=', 'users.id')
             ->where('client_details.id', $id)
-            ->select('client_details.id', 'client_details.name', 'client_details.email', 'client_details.user_id', 'client_details.mobile', 'users.locale', 'users.status', 'users.login')
+            ->select('client_details.id','client_details.address', 'client_details.name', 'client_details.email', 'client_details.user_id', 'client_details.mobile', 'client_details.category_id', 'client_details.sub_category_id', 'client_details.tel','client_details.fax', 'users.locale','users.function', 'users.status', 'users.login','users.country_id','users.observation','users.email_notifications' ,'users.sms_notification', 'users.city_id','users.gender','users.language', 'users.email as userEmail','users.mobile as userMoblie','users.id as userId','users.tel as userTel','users.fax as userFax' )
             ->first();
 
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->userDetail->user_id)->first();
@@ -311,40 +332,51 @@ class ManageClientsController extends AdminBaseController
         $new_code = Country::select('phonecode')->where('id', $request->phone_code)->first();
         $client = ClientDetails::find($id);
 
+        $city = CompanyTLA::where('id',$request->input('city'))->first();
+
         $client->company_name = $request->company_name;
         $client->name = $request->input('name');
-        $client->email = $request->input('email');
-        $client->mobile = ($new_code != null) ? $new_code->phonecode.' '.$request->input('mobile') : ' ';
-        $client->country_id = $request->input('country_id');
+        $client->email = $request->input('company_email');
+        $client->mobile =   $request->mobile_phoneCode .' '.$request->input('mobile');
+        $client->tel =  $request->input('company_phone_phoneCode').' '.$request->input('company_phone');
+        $client->fax =  $request->input('fax_phoneCode').' '.$request->input('fax');
+        $client->country_id = $request->input('country');
         $client->address = $request->address;
-        $client->office_phone = $request->input('office_phone');
-        $client->city = $request->input('city');
-        $client->state = $request->input('state');
-        $client->postal_code = $request->input('postal_code');
+        $client->city = $city->name;
         $client->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
         $client->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
-        $client->website = $request->hyper_text.''.$request->website;
-        $client->note = $request->note;
-        $client->skype = $request->skype;
-        $client->facebook = $request->facebook;
-        $client->twitter = $request->twitter;
-        $client->linkedin = $request->linkedin;
-        $client->gst_number = $request->gst_number;
-        $client->shipping_address = $request->shipping_address;
-        $client->email_notifications = $request->email_notifications;
+        $client->shipping_address = $request->address;
+        $client->email_notifications = $request->emailNotification;
         $client->save();
+
         $user = User::withoutGlobalScope('active')->findOrFail($client->user_id);
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->country_id = $request->input('phone_code');
+        $user->observation =  isset($request->observation)?$request->input('observation'):'';
+        $user->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+        $user->gender =   isset($request->gender) ? $request->input('gender'):'' ;
+        $user->tel =  $request->input('p_phone_phoneCode').' '.$request->input('p_phone');
+        $user->email_notifications =  $request->input('emailNotification');
+        $user->sms_notification	 =  $request->input('smsNotification');
+        $user->language =  $request->input('language');
+        $user->city_id =  $request->input('city');
+        $user->country_id =  $request->input('country');
+        $user->address =  $request->input('address');
+        $user->fax =  $request->input('p_fax_phoneCode').' '.$request->input('p_fax');
+        $user->function =  $request->input('function');
+    
+
+
         if ($request->password != '') {
             $user->password = Hash::make($request->input('password'));
         }
         if ($request->hasFile('image')) {
+          
             $user->image = Files::upload($request->image, 'avatar', 300);
         }
 
         $user->save();
+        
         // To add custom fields data
         if ($request->get('custom_fields_data')) {
             $client->updateCustomFieldData($request->get('custom_fields_data'));

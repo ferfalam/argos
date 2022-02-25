@@ -570,7 +570,7 @@
             <div>
 				<ul class="nav user-menu">
 				<li class="nav-item dropdown" tooltip="@lang('Timer')">
-              <a href="{{route('admin.attendances.myAttendance')}}">
+              <a href="{{route('admin.attendances.myAttendance')}}" class="d-flex align-items-center">
                 <img src="{{asset("img/clock.png")}}" alt="" style="width: 40px; height:  40px">				  
               </a>
 					</li>

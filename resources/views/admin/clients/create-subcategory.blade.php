@@ -91,7 +91,7 @@
                     });
 
                     $('#sub_category_id').html(options);
-                    $('#sub_category_id').selectpicker('refresh');
+                    // $('#sub_category_id').selectpicker('refresh');
                 }
             }
         });
@@ -131,7 +131,7 @@
                          if(category_id == category ){
                             getCategory(category);
                          }
-                        $('#sub_category_id').selectpicker('refresh');
+                        // $('#sub_category_id').selectpicker('refresh');
                         $('#sub_category_id').html(options);
                         $('#category_name').val('');
                     }

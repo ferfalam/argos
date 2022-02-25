@@ -44,6 +44,11 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <style>
+
+
+#s2id_category_id{
+    width: 210px !important;
+   }
  .salutation .form-control {
      padding: 2px 2px;
    }
@@ -210,6 +215,8 @@
     .category-table {
         max-width: 560px !important;
     }
+
+  
 </style>
 @endpush
 
@@ -260,7 +267,7 @@
                                                 <td>
                                                     <select name="country" id="country" class="form-control select2">
                                                         @foreach ($countries as $country)
-                                                            <option value=" {{ $country->name }} ">
+                                                            <option value=" {{ $country->id }} ">
                                                                 {{ ucfirst(strtolower($country->name)) }}</option>
                                                         @endforeach
                                                     </select>
@@ -281,7 +288,7 @@
                                                         <option value="" disabled>@lang('app.cp')</option>
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'city')
-                                                                <option value=" {{ $t->name }} ">
+                                                                <option value=" {{ $t->id }} ">
                                                                     {{ ucfirst(strtolower($t->name)) }}</option>
                                                             @endif
                                                         @endforeach
@@ -296,7 +303,7 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <legend>Observation </legend>
+                                        <legend>Description </legend>
                                         <table>
                                             <tr>
                                                 <td colspan="3" style="padding-top: 0px">
@@ -384,17 +391,41 @@
                                         <legend>Informations Générales </legend>
                                         <table>
                                             
-                                            <tr>
+                                            <tr >        
                                                 <td>
-                                                    <label for="country" class="required">Catégorie Client</label>
+                                                    <label for="category_id" class="required">Catégorie Client</label>
                                                 </td>
-                                                <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
+                                                <td >
+                                                    <select  name="category_id" id="category_id" class="form-control select2">
+                                                        @foreach ($categories as $categorie)
+                                                            <option value="{{ $categorie->id }}" >
+                                                                {{ $categorie->category_name }}
+                                                            </option>
+                                                        @endforeach     
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
+                                                    <a href="Javascript:;" class="text-info category-form " >
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="category">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <label for="sub_category_id" class="required">Sous Catégorie</label>
+                                                </td>
+                                                <td>
+                                                    <select  name="sub_category_id" id="sub_category_id" class="form-control select2">
+                                                        @foreach ($subcategories as $subcategorie)
+                                                            <option value="{{ $subcategorie->id }}" >
+                                                                {{ $subcategorie->category_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="Javascript:;" class="text-info subcategory-form ">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -402,31 +433,23 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="country" class="required">Sous Catégorie</label>
+                                                    <label for="language" class="required">Langue</label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
+                                                    <select name="language" id="language" class="form-control select2">
+                                                        <option @if ($global->locale == 'en') selected @endif value="en">
+                                                            English
+                                                        </option>
+                                                        @foreach ($languageSettings as $language)
+                                                            <option value="{{ $language->language_code }}"
+                                                                @if ($global->locale == $language->language_code) selected @endif>
+                                                                {{ $language->language_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="country" class="required">Langue</label>
-                                                </td>
-                                                <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!">
+                                                    <a href="Javascript:;" class="text-info language-form "> 
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -442,11 +465,12 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="country" class="required">Notification Par Mail</label>
+                                                    <label for="emailNotification" class="required">Notification Par Mail</label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Oui / Non</option>
+                                                    <select name="emailNotification" id="emailNotification" class="form-control select2">
+                                                        <option value="1">Oui</option>
+                                                        <option value="0">Non</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -458,11 +482,12 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="country" class="required">Notification Par SMS</label>
+                                                    <label for="smsNotification" class="required">Notification Par SMS</label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Oui / Non</option>
+                                                    <select name="smsNotification" id="smsNotification" class="form-control select2">
+                                                        <option value="1">Oui</option>
+                                                        <option value="0">Non</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -490,12 +515,12 @@
                                                     <td>
                                                         <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                             <div class="form-group mb-0">
-                                                                <input type="radio" name="civility" value="male">
-                                                                <label for="civility" style="margin-bottom: 0px">M</label>
+                                                                <input type="radio" name="gender" value="male">
+                                                                <label for="gender" style="margin-bottom: 0px">M</label>
                                                             </div>
                                                             <div class="form-group mb-0">
-                                                                <input type="radio" name="civility" value="female">
-                                                                <label for="civility" style="margin-bottom: 0px">Mme</label>
+                                                                <input type="radio" name="gender" value="female">
+                                                                <label for="gender" style="margin-bottom: 0px">Mme</label>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -508,10 +533,10 @@
 
                                                 <tr>
                                                     <td>
-                                                        <label for="admin_name" class="required">Nom/Prénom</label>
+                                                        <label for="name" class="required">Nom/Prénom</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="admin_name" name="admin_name" value="">
+                                                        <input type="text" class="form-control" id="name" name="name" value="">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -549,11 +574,22 @@
 
                                                 <tr>
                                                     <td>
+                                                        <label for="password"
+                                                            class="required">@lang('app.motdepasse')</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="password" name="password" id="password" class="form-control">
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td>
                                                         <label for="tel" class="required">Tel</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="company_phone" id="company_phone"
+                                                            <input type="text" name="p_phone" id="p_phone"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
                                                     </td>
@@ -570,7 +606,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="mobile" id="mobile"
+                                                            <input type="text" name="p_mobile" id="p_mobile"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
                                                     </td>
@@ -587,7 +623,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="fax" id="fax"
+                                                            <input type="text" name="p_fax" id="p_fax"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
                                                     </td>
@@ -1077,7 +1113,7 @@
                     options.push(selectData);
                 });
                 $('#sub_category_id').html(options);
-                $('#sub_category_id').selectpicker('refresh');
+                // $('#sub_category_id').selectpicker('refresh');
 
             }
         })
@@ -1103,7 +1139,40 @@
             container: '#createClient',
             type: "POST",
             redirect: true,
-            data: $('#createClient').serialize()
+            file: (document.getElementById("image").files.length == 0) ? false : true,
+            data: $('#createClient').serialize(),
+            error: function (response) {
+                    $("input").css("border-color", "#ccc")
+                    $("input").attr("title", ``)
+                    $("textarea").css("border-color", "#ccc")
+                    $("textarea").attr("title", ``)
+                    $("select").css("border-color", "#ccc")
+                    $("select").attr("title", ``)
+                    let obj = response.responseJSON.errors
+
+                    console.log(obj);
+                    for (const property in obj) {
+                        if(property == 'country' ){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'sub_category_id'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'city'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'category_id'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'sub_category_id'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else{
+                            $("#"+property).css("border-color", "#ef1f1f")
+                            $("#"+property).attr("title", `${obj[property]}`)
+                        }
+                    }
+            }
         })
     });
 
@@ -1151,6 +1220,42 @@
     $(".ccpicker").CcPicker({
         dataUrl: "{{ asset('data.json') }}"
     });
+
+    $('.category-form').click(function() {
+            let target = $(event.target)[0];
+        
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.clientCategory.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+
+    $('.subcategory-form').click(function() {
+            let target = $(event.target)[0];
+        
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.clientSubCategory.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+    
+    $('.language-form').click(function() {
+            let target = $(event.target)[0];
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.language-settings.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+    
+
+    $('.plus-form').click(function() {
+            let target = $(event.target)[0];
+        
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
 </script>

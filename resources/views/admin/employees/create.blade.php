@@ -451,7 +451,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a href="{{ route('admin.language-settings.create') }}" style="background:none" >
+                                                <a href="Javascript:;" class="text-info plus-form "> 
                                                     <img src="{{ asset('img/plus.png') }}" alt="" data-type="language" >
                                                 </a>
                                             </td>
@@ -1198,6 +1198,9 @@ aria-hidden="true">
         })
     });
 
+    
+
+
     $('#random_password').change(function () {
         var randPassword = $(this).is(":checked");
 
@@ -1227,11 +1230,18 @@ aria-hidden="true">
 
     $('.plus-form').click(function() {
             let target = $(event.target)[0];
-            console.log(target.dataset.type)
-            const field = $('#' + target.dataset.type)
-            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
-            $('#modelHeading').html('...');
-            $.ajaxModal('#departmentModel', url);
+            if(target.dataset.type ==  'city'){
+                console.log(target.dataset.type)
+                const field = $('#' + target.dataset.type)
+                const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+                $('#modelHeading').html('...');
+                $.ajaxModal('#departmentModel', url);
+            }
+            if(target.dataset.type == 'language'){
+                const url = '{{ route('admin.language-settings.create') }}';
+                $('#modelHeading').html('...');
+                $.ajaxModal('#departmentModel', url);
+            }
     })
 
 </script>

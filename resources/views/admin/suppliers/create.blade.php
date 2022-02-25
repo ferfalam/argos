@@ -389,12 +389,15 @@
                                                     <label for="country" class="required">Catégorie Client</label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
+                                                    <select name="client_category" id="client_category" class="form-control select2">
                                                         <option value="Selection">Selection</option>
+                                                        @foreach($categories as $category)
+                                                            <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                                            @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
+                                                    <a href="#!" class="client_category">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -405,12 +408,15 @@
                                                     <label for="country" class="required">Sous Catégorie</label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
+                                                    <select name="client_sub_category" id="client_sub_category" class="form-control select2">
                                                         <option value="Selection">Selection</option>
+                                                        @foreach($subcategories as $category)
+                                                            <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
+                                                    <a href="#!" class="client_sub_category">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -422,11 +428,16 @@
                                                 </td>
                                                 <td>
                                                     <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
+                                                        @foreach ($languageSettings as $language)
+                                                            <option value="{{ $language->language_code }}"
+                                                                    @if ($global->locale == $language->language_code) selected @endif>
+                                                                {{ $language->language_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
+                                                    <a href="{{url('admin/settings/language-settings/create')}}">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -1030,6 +1041,28 @@
         <!-- /.modal-dialog -->
     </div>
     {{--Ajax Modal Ends--}}
+    {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="departmentModel" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Ajax Modal Ends--}}
 @endsection
 
 @push('footer-script')
@@ -1147,7 +1180,31 @@
         }
     });
 
-    
+    $('.plus-form').click(function() {
+        let target = $(event.target)[0];
+        console.log(target.dataset.type)
+        const field = $('#' + target.dataset.type)
+        const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+        $('#modelHeading').html('...');
+        $.ajaxModal('#departmentModel', url);
+    });
+    $('.client_category').click(function() {
+        let target = $(event.target)[0];
+        console.log(target.dataset.type)
+        const field = $('#' + target.dataset.type)
+        const url = '{{ url('admin/clientCategory/create') }}/';
+        $('#modelHeading').html('...');
+        $.ajaxModal('#departmentModel', url);
+    });
+    $('.client_sub_category').click(function() {
+        let target = $(event.target)[0];
+        console.log(target.dataset.type)
+        const field = $('#' + target.dataset.type)
+        const url = '{{ url('admin/clientSubCategory/create') }}/';
+        $('#modelHeading').html('...');
+        $.ajaxModal('#departmentModel', url);
+    });
+    //clientCategory
     $(".ccpicker").CcPicker({
         dataUrl: "{{ asset('data.json') }}"
     });

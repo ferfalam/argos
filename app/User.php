@@ -30,7 +30,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'id'
     ];
     protected $fillable = [
-        'name', 'email', 'password', 'mobile', 'login', 'status', 'image', 'gender', 'locale', 'onesignal_player_id', 'email_notifications', 'country_id',"country", "city_id", "address", "birthday","user_id","image", "qualification", "native_country","nationality","tel","language"
+        'name', 'email', 'password', 'mobile', 'login', 'status', 'image', 'gender', 'locale', 'onesignal_player_id', 'email_notifications', 'country_id',"country", "city_id", "address", "birthday","user_id","image", "qualification", "native_country","nationality","tel","fax","sms_notification","function","language"
     ];
 
     /**
@@ -401,7 +401,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public static function findClient($id)
     {
-        return User::withoutGlobalScopes([CompanyScope::class, 'active'])->findOrFail($id);
+        return User::findOrFail($id);
     }
 
     public function getModulesAttribute()

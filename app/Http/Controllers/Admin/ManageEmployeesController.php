@@ -151,7 +151,7 @@ class ManageEmployeesController extends AdminBaseController
                 'email' => $data['email'],
                 'password' => $data['password'],
                 'remember_token' => $data['_token'],
-                'mobile' => $data['mobile'],
+                'mobile' => $data['mobile_phoneCode'].' '.$data['mobile'],
                 'user_id' => $data['user_id'],
                 'gender' => isset($data['gender'])?$data['gender']:'',
                 'address' => $data['address'],
@@ -166,7 +166,7 @@ class ManageEmployeesController extends AdminBaseController
             ]);
             
             $user->email_notifications	= $email_notify;
-            $user->tel = $data['mobile_phoneCode'];
+           
             $user->save();
             
             $role = $request->profil;
@@ -345,7 +345,7 @@ class ManageEmployeesController extends AdminBaseController
         }
 
 
-        $user->mobile = $request->input('mobile');
+        $user->mobile = $request->input('mobile_phoneCode').' '. $request->input('mobile');
         $user->country_id = $request->input('country');
         $user->address = $request->input('address');
         $user->gender = $request->input('gender');
@@ -358,7 +358,6 @@ class ManageEmployeesController extends AdminBaseController
         $user->nationality = $request->input('nationality');
         $user->language = $request->input('language');
         $user->email_notifications = $request->input('notification');
-        $user->tel = $request->input('mobile_phoneCode');
         
         if ($request->hasFile('image')) {
             $user->image = Files::upload($request->image, 'avatar', 300);

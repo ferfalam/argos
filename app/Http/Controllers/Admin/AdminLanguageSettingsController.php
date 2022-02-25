@@ -24,7 +24,6 @@ class AdminLanguageSettingsController extends AdminBaseController
     public function index()
     {
         $this->languages = LanguageSetting::all();
-        $this->languages = LanguageSetting::all();
         return view('admin.language-settings.index', $this->data);
     }
 
@@ -91,8 +90,10 @@ class AdminLanguageSettingsController extends AdminBaseController
         $setting->status = $request->status;
         $setting->save();
         session(['language_setting' => \App\LanguageSetting::where('status', 'enabled')->get()]);
-
-        return Reply::redirect(route('admin.language-settings.index'), __('messages.languageAdded'));
+    
+        $languageData =LanguageSetting::all();
+    
+        return Reply::successWithData( __('messages.languageAdded'),['data' => $languageData ]);
     }
 
     /**
@@ -101,6 +102,8 @@ class AdminLanguageSettingsController extends AdminBaseController
      */
     public function create(Request $request)
     {
+
+        $this->languages = LanguageSetting::all();
         return view('admin.language-settings.create', $this->data);
     }
 
@@ -123,7 +126,9 @@ class AdminLanguageSettingsController extends AdminBaseController
     public function destroy($id)
     {
         LanguageSetting::destroy($id);
-        return Reply::success(__('messages.languageDeleted'));
+        $languageData =LanguageSetting::all();
+
+        return Reply::successWithData(__('messages.languageDeleted'),['data' => $languageData ]);
     }
 
 }

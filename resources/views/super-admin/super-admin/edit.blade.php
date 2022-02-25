@@ -593,6 +593,22 @@
                                            
                                             {{-- <tr>
                                                 <td>
+                                                    <label for="compentancy"
+                                                        class="required">@lang('app.compentancy')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="compentancy" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                           
+                                            {{-- <tr>
+                                                <td>
                                                     <label for="tel">@lang('app.tel')</label>
                                                 </td>
                                                 <td>

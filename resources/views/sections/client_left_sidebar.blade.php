@@ -4,9 +4,16 @@
     }
 </style>
 
-<nav id="sidebar" onclick="width()" role="navigation" style="margin-top: 60px;">
+<nav id="sidebar" onclick="width()" >
 
-    <ul class="list-unstyled components" >
+    <ul class="list-unstyled components" style="padding-top: 0px" >
+
+        <div class="sidebar-logo">
+            <a href="/" class="">
+                <img src="{{asset('img/sidebar-logo.png')}}">
+            </a>
+        </div>
+
 
         <h4 class="sidebar-heading">@lang('app.main')</h4>
 

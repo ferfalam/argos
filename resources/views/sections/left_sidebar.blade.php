@@ -49,11 +49,9 @@
                                 class="{{ request()->routeIs('admin.designations.index') ? 'active' : '' }}">@lang('app.menu.designation')</a>
                         </li>
                     @endif
-
-                    <li><a href="{{ route('admin.attendances.myAttendance') }}"
-                            class="{{ request()->routeIs('admin.attendances.myAttendance') ? '' : '' }}">@lang('app.timer')
-                        </a></li>
-
+ 				
+           <li><a href="{{ route('admin.attendances.myAttendance') }}" class="{{ request()->routeIs('admin.attendances.myAttendance') ? '' : '' }}">@lang('app.timer') </a></li>
+                   
                     @if (in_array('attendance', $modules))
                         <li><a href="{{ route('admin.attendances.summary') }}"
                                 class="{{ request()->routeIs('admin.attendances.summary') ? 'active' : '' }}">@lang('app.menu.attendance')
@@ -157,14 +155,10 @@
 
         @if (in_array('projects', $modules) || in_array('tasks', $modules) || in_array('timelogs', $modules) || in_array('contracts', $modules))
             <li>
-                <a href="#projects" data-toggle="collapse" aria-expanded="{{ $is_project_active ? 'true' : 'false' }}">
-                    <ion-icon name="rocket-outline"></ion-icon>Projets
-                </a>
-                <ul class="collapse list-unstyled {{ $is_project_active ? 'in' : '' }}" id="projects">
+                <a href="#projects" data-toggle="collapse" aria-expanded="{{$is_project_active ? 'true' : 'false'}}"> <ion-icon name="rocket-outline"></ion-icon>Projets </a>
+                <ul class="collapse list-unstyled {{$is_project_active ? 'in' : ''}}" id="projects">
                     @if (in_array('projects', $modules))
-                        <li><a href="{{ route('admin.projects.index') }}"
-                                class="{{ request()->routeIs('admin.projects.index') ? 'active' : '' }}">Liste des
-                                projets </a></li>
+                        <li><a href="{{ route('admin.projects.index') }}" class="{{ request()->routeIs('admin.projects.index') ? 'active' : '' }}">Liste des projets </a></li>
                     @endif
 
                     @if (in_array('tasks', $modules))
@@ -172,9 +166,7 @@
                                 class="{{ request()->routeIs('admin.all-tasks.index') ? 'active' : '' }}">@lang('app.menu.tasks')
                             </a></li>
                         {{-- <li><a href="{{ route('admin.taskboard.index') }}" class="{{ request()->routeIs('admin.taskboard.index') ? 'active' : '' }}">@lang('modules.tasks.taskBoard')</a></li> --}}
-                        <li><a href="{{ route('admin.contracts.index') }}"
-                                class="{{ request()->routeIs('admin.contracts.index') ? 'active' : '' }}">Liste des
-                                Contrats</a></li>
+                        <li><a href="{{ route('admin.contracts.index') }}" class="{{ request()->routeIs('admin.contracts.index') ? 'active' : '' }}">Liste des Contrats</a></li>
                     @endif
                 </ul>
             </li>

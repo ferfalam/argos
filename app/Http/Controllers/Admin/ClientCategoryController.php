@@ -48,6 +48,8 @@ class ClientCategoryController extends AdminBaseController
         $categoryData = ClientCategory::all();
         return Reply::successWithData(__('messages.categoryAdded'), ['data' => $categoryData]);
     }
+
+    
    
     /**
      * Display the specified resource.
