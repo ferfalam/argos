@@ -42,7 +42,7 @@
                     @forelse($tla as $key=>$t)
                         <tr id="cat-{{ $t->id }}">
                             <td>{{ $key+1 }}</td>
-                            <td id="catn-{{ $t->id }}">{{ ucwords($t->name) }}</td>
+                            <td id="catn-{{ $t->id }}">{{ $t->name }}</td>
                             <td><a href="javascript:;" data-cat-id="{{ $t->id }}" class="btn btn-sm btn-danger btn-rounded delete-category" onclick="deleteOption({{ $t->id }})">@lang("app.remove")</a>&nbsp;<a href="javascript:;" data-edit-id="{{ $t->id }}" class="btn btn-sm btn-danger btn-rounded delete-category" onclick="editOption({{ $t->id }},'{{$t->name}}')">@lang("app.edit")</a></td>
                         </tr>
                     @empty
@@ -164,23 +164,12 @@
                     $("#{{$type}} option").each(function()
                     {
                         // Add $(this).val() to your list
-                        console.log($(this).val());
-                        if ($('#old_option_id')===$(this).val()){
-                            $(this).val($('#option_name').val());
-                            $(this).html($('#option_name').val());
+                        if ($('#old_option_id').val().trim()==$(this).val().trim()){
+                            $(this).val($('#edit_option_name').val());
+                            $(this).text($('#edit_option_name').val());
                         }
                     });
                     $('#{{$type}}').trigger('change.select2');
-                    {{--let pos = $('.category-table tbody').children().length + 1;--}}
-                    {{--$('.category-table tbody' ).append(--}}
-                    {{--    '<tr id="cat-' + response.tla.id + '">'+--}}
-                    {{--    '<td>'+ pos +'</td>'+--}}
-                    {{--    '<td>' + response.tla.name + '</td>'+--}}
-                    {{--    '<td><a href="javascript:;" data-cat-id="' + response.tla.id + '" class="btn btn-sm btn-danger btn-rounded delete-category" onclick="deleteOption(' + response.tla.id + ')">@lang("app.remove")</a></td>'+--}}
-                    {{--    '</tr>'--}}
-                    {{--);--}}
-                    {{--$('#{{$type}}').append('<option value="' + response.tla.name + '">' + response.tla.name + '</option>');--}}
-                    {{--$('#option_name').val("") ;--}}
                 }
             }
         });

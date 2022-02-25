@@ -199,7 +199,7 @@
                                                         @foreach ($tla as $l)
                                                             @if ($l->type == 'legal_form')
                                                                 <option value=" {{ $l->name }} ">
-                                                                    {{ ucfirst(strtolower($l->name)) }}</option>
+                                                                    {{ $l->name }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select></td>
@@ -246,7 +246,7 @@
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'city')
                                                                 <option value=" {{ $t->name }} ">
-                                                                    {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                    {{ $t->name }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -269,7 +269,7 @@
                                                         @foreach ($tla as $a)
                                                             @if ($a->type == 'activity_sector')
                                                                 <option value=" {{ $a->name }} ">
-                                                                    {{ ucfirst(strtolower($a->name)) }}</option>
+                                                                    {{ $a->name }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -517,7 +517,7 @@
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'tva_intrat')
                                                                 <option value=" {{ $t->name }} ">
-                                                                    {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                    {{ $t->name }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -529,7 +529,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label for="description" class="required">Description</label>
+                                                    <label for="description" class="">Description</label>
                                                 </td>
                                                 <td>
                                                     <textarea class="form-control" name="description" id="description"
@@ -905,7 +905,6 @@
 
         $('.plus-form').click(function() {
             let target = $(event.target)[0];
-            console.log(target)
             const field = $('#' + target.dataset.type)
             const url = '{{ route('super-admin.tla.create') }}/' + target.dataset.type;
             $('#modelHeading').html('...');

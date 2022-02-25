@@ -20,6 +20,7 @@ return array(
   'taskCreatedSuccessfully' => 'Tâche créée avec succès.',
   'membersAddedSuccessfully' => 'Les membres ont ajouté avec succès.',
   'taskUpdatedSuccessfully' => 'Tâche mise à jour avec succès.',
+  'meetingUpdatedSuccessfully' => 'Zoom meeting mise à jour avec succès.',
   'taskDeletedSuccessfully' => 'Tâche supprimée avec succès.',
   'clientUploadedAFileToTheProject' => '(Client) Téléchargé un fichier sur le projet.',
   'fileUploadedSuccessfully' => 'Fichier téléchargé avec succès.',

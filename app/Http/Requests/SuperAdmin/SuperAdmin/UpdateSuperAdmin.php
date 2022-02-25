@@ -15,21 +15,24 @@ class UpdateSuperAdmin extends SuperAdminBaseRequest
     public function rules()
     {
         return [
+            'username' => 'required',
+            'email' => 'required',
             'name'  => 'required',
+            'password'  => 'required',
             'civility'  => 'required',
             'address'  => 'required',
+            'departement_id' => "required",
             'country'  => 'required',
             'city'  => 'required',
             'qualification'  => 'required',
-            'birthday'  => 'required|date:Y-m-d',
             'native_country'  => 'required',
             'nationality'  => 'required',
             'language'  => 'required',
-            'observation'  => 'required',
-            'tel' => 'required',
+            'birthday'  => 'required',
+            //'company_email' => 'required|unique:users,username',
+            //'tel' => 'required',
             'mobile' => 'required',
-            'image' => 'sometimes|file'
+            'image' => 'image'
         ];
     }
-
 }

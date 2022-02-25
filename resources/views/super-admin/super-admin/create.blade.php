@@ -221,7 +221,7 @@
                                                 <td>
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="civility" value="male">
+                                                            <input type="radio" name="civility" value="male" checked>
                                                             <label for="civility" style="margin-bottom: 0px">M</label>
                                                         </div>
                                                         <div class="form-group mb-0">
@@ -237,10 +237,10 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td><label for="name" class="required">@lang('app.user_id')
+                                                <td><label for="username" class="required">@lang('app.user_id')
                                                     </label></td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="name" name="name"
+                                                    <input type="text" class="form-control" id="username" name="username"
                                                         value="">
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -297,7 +297,7 @@
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'city')
                                                                 <option value=" {{ $t->name }} ">
-                                                                    {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                    {{$t->name }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -305,6 +305,28 @@
                                                 <td>
                                                     <a href="javascript:;" class="text-info plus-form">
                                                         <img src="{{ asset('img/plus.png') }}" alt="" data-type="city">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <label for="qualification" class="required">@lang('app.qualification')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="qualification" id="qualification" class="form-control select2">
+                                                        @foreach ($designations as $designation)
+                                                            <option value=" {{ $designation->name }} ">
+                                                                {{$designation->name }}</option>
+                                                        @endforeach
+                                                        {{-- <option value="Admin" disabled>Admin</option>
+                                                        <option value="Collaborateur" disabled>Collaborateur</option>
+                                                        <option value="Profil Externe" disabled>Profil Externe</option> --}}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
                                             </tr>
@@ -324,9 +346,9 @@
                                                 <td>
                                                     <select name="profil" id="profil" class="form-control select2">
                                                         <option value="Super Admin">Super Admin</option>
-                                                        <option value="Admin" disabled>Admin</option>
+                                                        {{-- <option value="Admin" disabled>Admin</option>
                                                         <option value="Collaborateur" disabled>Collaborateur</option>
-                                                        <option value="Profil Externe" disabled>Profil Externe</option>
+                                                        <option value="Profil Externe" disabled>Profil Externe</option> --}}
                                                     </select>
                                                 </td>
                                                 <td>
@@ -363,7 +385,7 @@
                                                         class="required">@lang('app.datenaissance')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="birthday" class="form-control datepicker">
+                                                    <input type="text" id="birthday" name="birthday" class="form-control datepicker">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -437,10 +459,10 @@
                                             <tr>
                                                 <td>
                                                     <label for="start_date"
-                                                        class="required">@lang('app.start_date')</label>
+                                                        class="">@lang('app.start_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="start_date" class="form-control datepicker">
+                                                    <input type="text" id="start_date" name="start_date" class="form-control datepicker">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -451,10 +473,10 @@
                                             <tr>
                                                 <td>
                                                     <label for="end_date"
-                                                        class="required">@lang('app.end_date')</label>
+                                                        class="">@lang('app.end_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="end_date" class="form-control datepicker">
+                                                    <input type="text" id="end_date" name="end_date" class="form-control datepicker">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -515,15 +537,14 @@
                                 <div class="col-md-4">
                                     <fieldset>
                                         <legend>@lang('app.cordonnees')</legend>
-
                                         <table>
-
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>
-                                                    <label for="service" class="required">@lang('app.services')</label>
+                                                    <label for="compentancy"
+                                                        class="required">@lang('app.compentancy')</label>
                                                 </td>
                                                 <td>
-                                                    <select name="service" id="service" class="form-control select2">
+                                                    <select name="skill" id="skill" class="form-control select2">
                                                         <option value="Service A">Service A</option>
                                                         <option value="Service B" disabled>Service B</option>
                                                     </select>
@@ -533,15 +554,19 @@
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
 
                                             <tr>
                                                 <td>
-                                                    <label for="compentancy"
-                                                        class="required">@lang('app.compentancy')</label>
+                                                    <label for="service" class="required">@lang('app.services')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="compentancy" class="form-control">
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
+                                                            data-placeholder="Sélectionner Départements" name="departement_id[]" required>
+                                                        @foreach($groups as $group)
+                                                            <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                        @endforeach
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -549,9 +574,6 @@
                                                     </a>
                                                 </td>
                                             </tr>
-
-                                           
-
                                             <tr>
                                                 <td>
                                                     <label for="mobile">@lang('app.mobile')</label>
@@ -593,11 +615,11 @@
                                                 <td>
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="notification" value="male">
+                                                            <input type="radio" name="notification" value="1" checked>
                                                             <label for="notification" style="margin-bottom: 0px">@lang('app.active')</label>
                                                         </div>
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="notification" value="female">
+                                                            <input type="radio" name="notification" value="0">
                                                             <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
                                                         </div>
                                                     </div>
@@ -622,7 +644,7 @@
                                                     <label for="email" class="required">@lang('app.login_email')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="email" name="email" class="form-control">
+                                                    <input type="email" id="email" name="email" class="form-control">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -640,10 +662,16 @@
                                                     <label for="connexion" class="required">@lang('app.connexion')</label>
                                                 </td>
                                                 <td>
-                                                    <select name="connexion" id="connexion" class="form-control select2">
-                                                        <option value="Service A">Service A</option>
-                                                        <option value="Service B" disabled>Service B</option>
-                                                    </select>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="connexion" value="1" checked>
+                                                            <label for="connexion" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="connexion" value="0">
+                                                            <label for="connexion" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -657,10 +685,16 @@
                                                     <label for="status" class="required">@lang('app.status')</label>
                                                 </td>
                                                 <td>
-                                                    <select name="status" id="status" class="form-control select2">
-                                                        <option value="Service A">Service A</option>
-                                                        <option value="Service B" disabled>Service B</option>
-                                                    </select>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="status" value="1" checked>
+                                                            <label for="status" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="status" value="0">
+                                                            <label for="status" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -745,6 +779,12 @@
                     $("select").attr("title", ``)
                     let obj = response.responseJSON.errors
                     for (const property in obj) {
+                        if (property == "departement_id") {
+                            $("#s2id_autogen8").css("border-color", "#ef1f1f")
+                            $("#s2id_autogen8").css("border-style", "solid")
+                            $("#s2id_autogen8").css("border-width", "1px")
+                            $("#s2id_autogen8").attr("title", `${obj[property]}`)
+                        }
                         $("#"+property).css("border-color", "#ef1f1f")
                         $("#"+property).attr("title", `${obj[property]}`)
                     }

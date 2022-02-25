@@ -1244,7 +1244,7 @@ return array(
         'clientTaskNotification' => "Notification de tâche client",
         'clientViewTask' => "Tâche View Client",
         'selectClient' => "Sélectionnez Client",
-        'dropFile' => "Goutte",
+        'dropFile' => "Téléverser un fichier",
         'budgetInfo' => "Informations sur le budget",
         'clientInfo' => "Informations client",
         'note' => "Noter",

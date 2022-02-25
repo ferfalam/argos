@@ -97,7 +97,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
 
         $companyDetail = $this->storeAndUpdate($company, $compannySubSetting, $request);
         $globalCurrency = GlobalCurrency::findOrFail($request->devise);
-        
+
         $currency = Currency::where('currency_code', $globalCurrency->currency_code)
             ->where('company_id', $companyDetail->id)->first();
 
@@ -301,17 +301,17 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         $this->storeAndUpdate($company, $compannySubSetting, $request);
         $company->currency_id = $request->currency_id;
         $company->save();
-        
+
         // To add custom fields data
         if ($request->get('custom_fields_data')) {
             $company->updateCustomFieldData($request->get('custom_fields_data'));
         }
-        
+
         $savearr = [
             'email' => $request->email,
             'name' => $request->admin_name,
         ];
-        
+
         if (!is_null($request->password)) {
             $savearr['password'] = bcrypt($request->password);
         }
@@ -398,16 +398,16 @@ class SuperAdminCompanyController extends SuperAdminBaseController
                 $class = ($row->status == 'active') ? 'label-custom' : 'label-danger';
                 // return '<span class="label ' . $class . '">' . ucfirst($row->status) . '</span>';
                 $flag = Country::where('name', explode('|', $row->address)[1])->get()[0]->iso;
-                return '<span class="flag-icon flag-icon-' . strtolower($flag) . '"></span>&nbsp;<span>'.explode('|', $row->address)[1].'</span>';
+                return '<span class="flag-icon flag-icon-' . strtolower($flag) . '"></span>&nbsp;<span>' . explode('|', $row->address)[1] . '</span>';
             })
             ->editColumn('company_email', function ($row) {
                 $admins = $row->admins()->get();
                 $res = '<div class="table-admin-images" data-row-id="' . $row->id . '" >';
                 foreach ($admins as $admin) {
-                     $res .= '<img class="protip" data-pt-title="'.$admin->name.'" data-pt-scheme="black" src="' . asset($admin->getImageUrlAttribute()) . '" alt="">' ;
+                    $res .= '<img class="protip" data-pt-title="' . $admin->name . '" data-pt-scheme="black" src="' . asset($admin->getImageUrlAttribute()) . '" alt="">';
                 }
-				 $companyUser = User::withoutGlobalScope(CompanyScope::class)->withoutGlobalScope('active')->where('company_id', $row->id)->first();
-                $res .=  $companyUser->name. '</div>';
+                $companyUser = User::withoutGlobalScope(CompanyScope::class)->withoutGlobalScope('active')->where('company_id', $row->id)->first();
+                $res .=  $companyUser->name . '</div>';
                 return $res;
                 //     
                 //     <img src="' . asset("img/user-2.png") . '" alt="">
@@ -468,7 +468,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         //TODO ce fichier à été modifier
         $company->company_name = $request->input('company_name');
         $company->company_email = $request->input('company_email');
-        $company->company_phone = "+".$request->input('company_phone_phoneCode')." ".$request->input('company_phone');
+        $company->company_phone = "+" . $request->input('company_phone_phoneCode') . " " . $request->input('company_phone');
         $company->address = $request->input('address') . '|' . $request->get('country') . '|' . $request->get('city');
 
         //        $company->timezone = $request->input('timezone');
@@ -493,7 +493,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
 
         $company->save();
 
-        $compannySubSetting->mobile = "+".$request->input('mobile_phoneCode')." ".$request->input('mobile');
+        $compannySubSetting->mobile = "+" . $request->input('mobile_phoneCode') . " " . $request->input('mobile');
         $compannySubSetting->description = $request->input('description');
         $compannySubSetting->tva_intrat = $request->get('tva_intrat');
         $compannySubSetting->legal_form = $request->get('legal_form');

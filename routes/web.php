@@ -456,7 +456,6 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::resource('employee-docs', 'EmployeeDocsController');
                     }
                 );
-
                 Route::post('projects/gantt-task-update/{id}', ['uses' => 'ManageProjectsController@updateTaskDuration'])->name('projects.gantt-task-update');
                 Route::get('projects/ajaxCreate/{columnId?}', ['uses' => 'ManageProjectsController@ajaxCreate'])->name('projects.ajaxCreate');
                 Route::get('projects/archive-data', ['uses' => 'ManageProjectsController@archiveData'])->name('projects.archive-data');

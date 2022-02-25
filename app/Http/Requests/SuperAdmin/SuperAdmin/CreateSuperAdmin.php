@@ -14,26 +14,26 @@ class CreateSuperAdmin extends SuperAdminBaseRequest
      */
     public function rules()
     {
-        //TODO ce fichier à été modifier
+        //dd($_REQUEST);
         return [
+            'username' => 'required',
             'email' => 'required|unique:users,email',
             'name'  => 'required',
             'password'  => 'required',
             'civility'  => 'required',
             'address'  => 'required',
+            'departement_id' => "required",
             'country'  => 'required',
+            'birthday'  => 'required',
             'city'  => 'required',
             'qualification'  => 'required',
-            'birthday'  => 'required|date:Y-m-d',
             'native_country'  => 'required',
             'nationality'  => 'required',
             'language'  => 'required',
-            'observation'  => 'required',
-            'company_email' => 'required|unique:users,username',
-            'tel' => 'required',
+            //'company_email' => 'required|unique:users,username',
+            //'tel' => 'required',
             'mobile' => 'required',
             'image' => 'image'
         ];
     }
-
 }

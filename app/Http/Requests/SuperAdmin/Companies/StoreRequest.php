@@ -5,7 +5,7 @@ namespace App\Http\Requests\SuperAdmin\Companies;
 use App\Http\Requests\SuperAdmin\SuperAdminBaseRequest;
 use App\Scopes\CompanyScope;
 use App\User;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator; 
 
 class StoreRequest extends SuperAdminBaseRequest
 {
@@ -50,7 +50,7 @@ class StoreRequest extends SuperAdminBaseRequest
             'city' => 'required',
             'devise' => 'required',
             'language' => 'required',
-            'description' => 'required',
+            //'description' => 'required',
             'admin_name' => 'required',
             'mobile' => 'required'
         ];

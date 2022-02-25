@@ -198,10 +198,10 @@
                                                             @if ($l->type == 'legal_form')
                                                                 @if ($l->name == $companySubSettings->legal_form)
                                                                     <option value=" {{ $l->name }} " selected>
-                                                                        {{ ucfirst($l->name) }}</option>
+                                                                        {{ $l->name }}</option>
                                                                 @else
                                                                     <option value=" {{ $l->name }} ">
-                                                                        {{ ucfirst($l->name) }}</option>
+                                                                        {{ $l->name }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -255,10 +255,10 @@
                                                             @if ($t->type == 'city')
                                                                 @if ($t->name == explode('|', $company->address)[2])
                                                                     <option value=" {{ $t->name }} " selected>
-                                                                        {{ ucfirst($t->name) }}</option>
+                                                                        {{ $t->name }}</option>
                                                                 @else
                                                                     <option value=" {{ $t->name }} ">
-                                                                        {{ ucfirst($t->name) }}</option>
+                                                                        {{ $t->name }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -284,10 +284,10 @@
                                                             @if ($a->type == 'activity_sector')
                                                                 @if ($a->name == $company->activity_field)
                                                                     <option value=" {{ $a->name }} " selected>
-                                                                        {{ ucfirst($a->name) }}</option>
+                                                                        {{ $a->name }}</option>
                                                                 @else
                                                                     <option value=" {{ $a->name }} ">
-                                                                        {{ ucfirst($a->name) }}</option>
+                                                                        {{ $a->name }}</option>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -576,7 +576,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label for="description" class="required">Description</label>
+                                                    <label for="description" class="">Description</label>
                                                 </td>
                                                 <td>
                                                     <textarea class="form-control" name="description" id="description"

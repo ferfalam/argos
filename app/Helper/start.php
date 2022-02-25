@@ -92,10 +92,8 @@ if (!function_exists('worksuite_plugins')) {
 
     function worksuite_plugins()
     {
-
         if (!session()->has('worksuite_plugins')) {
             $plugins = \Nwidart\Modules\Facades\Module::allEnabled();
-
             session(['worksuite_plugins' => array_keys($plugins)]);
         }
         return session('worksuite_plugins');

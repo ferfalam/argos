@@ -20,7 +20,7 @@
                     <tr id="method-{{ $method->id }}">
                         <td>{{ ($key+1) }}</td>
                         <td>{{ ucwords($method->name) }}</td>
-                        <td>{!! ucwords($method->description) !!} </td>
+                        <td>{{ ucwords($method->description) }} </td>
                         <td>
                             @if($method->status == 'yes')
                                 <label class="label label-success">

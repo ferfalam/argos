@@ -4,12 +4,14 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\CompanyTLA;
 use App\Country;
+use App\Designation;
 use App\Helper\Files;
 use App\Helper\Reply;
 use App\Http\Requests\SuperAdmin\SuperAdmin\CreateSuperAdmin;
 use App\Http\Requests\SuperAdmin\SuperAdmin\UpdateSuperAdmin;
 use App\Mail\SuperAdmin;
 use App\Mail\UpdateSuperAdmin as MailUpdateSuperAdmin;
+use App\Team;
 use App\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -59,6 +61,9 @@ class SuperAdminController extends SuperAdminBaseController
     {
         $generatedBy = new User();
         // $this->countries = Country::all();
+
+        $this->groups = Team::with('member', 'member.user')->get();
+        $this->designations = Designation::with('members', 'members.user')->get();
         return view('super-admin.super-admin.create', $this->data);
     }
 
@@ -74,13 +79,19 @@ class SuperAdminController extends SuperAdminBaseController
         //dd($request);
         DB::beginTransaction();
         $user = new User();
-//        $user->name = $request->input('name');
-//        $user->email = $request->input('email');
-//        $user->password = Hash::make($request->input('password'));
-//        $user->mobile = $request->input('mobile');
-//        $user->login = 'enable';
-//        $user->status = 'active';
-//        $user->super_admin = '1';
+        //        $user->name = $request->input('name');
+        //        $user->email = $request->input('email');
+        //        $user->password = Hash::make($request->input('password'));
+        //        $user->mobile = $request->input('mobile');
+        //        $user->login = 'enable';
+        //        $user->status = 'active';
+        //        $user->super_admin = '1';
+
+        $observation = [
+            "departement" => $request->departement_id,
+            "start_date" => $request->input("start_date"),
+            "end_date" => $request->input("end_date")
+        ];
 
         $user->gender = $request->input("civility");
         $user->name = $request->input("name");
@@ -91,17 +102,16 @@ class SuperAdminController extends SuperAdminBaseController
         $user->native_country = $request->input("native_country");
         $user->nationality = $request->input("nationality");
         $user->language = $request->input("language");
-        $user->observation = $request->input("observation");
+        $user->observation = json_encode($observation);
 
-        $user->username = $request->input("company_email");
-        $user->tel = "+".$request->input('tel_phoneCode')." ".$request->input('tel');
-        $user->mobile = "+".$request->input('mobile_phoneCode')." ".$request->input('mobile');
+        $user->username = $request->input("username");
+        $user->tel = "";
+        $user->mobile = "+" . $request->input('mobile_phoneCode') . " " . $request->input('mobile');
         $user->email = $request->input("email");
         $user->password = Hash::make($request->input('password'));
-        $user->login = 'enable';
-        $user->status = 'active';
+        $user->login = $request->input("connexion") == "1" ? 'enable' : 'disable';
+        $user->status = $request->input("status") == "1" ? 'active' : 'deactive';
         $user->super_admin = '1';
-//        TODO END
 
         if ($request->hasFile('image')) {
             Files::deleteFile($user->image, 'avatar');
@@ -138,7 +148,8 @@ class SuperAdminController extends SuperAdminBaseController
         $this->userDetail = User::withoutGlobalScope('active')->where('super_admin', '1')
             ->findOrFail($id);
         $this->tla = CompanyTLA::all();
-
+        $this->groups = Team::with('member', 'member.user')->get();
+        $this->designations = Designation::with('members', 'members.user')->get();
         return view('super-admin.super-admin.edit', $this->data);
     }
 
@@ -163,15 +174,15 @@ class SuperAdminController extends SuperAdminBaseController
             'email' => [
                 'required',
                 Rule::unique('users')->ignore($id)
-            ],
-            'company_email' => [
-                'required',
-                Rule::unique('users', 'username')->ignore($id)
-            ],
+            ]
+            // 'company_email' => [
+            //     'required',
+            //     Rule::unique('users', 'username')->ignore($id)
+            // ],
         ]);
 
         if ($user->email != $request->input("email") || $request->password != '') {
-           $mail = true;
+            $mail = true;
         }
 
         $user->gender = $request->input("civility");
@@ -183,20 +194,26 @@ class SuperAdminController extends SuperAdminBaseController
         $user->native_country = $request->input("native_country");
         $user->nationality = $request->input("nationality");
         $user->language = $request->input("language");
-        $user->observation = $request->input("observation");
+        $observation = [
+            "departement" => $request->departement_id,
+            "start_date" => $request->input("start_date"),
+            "end_date" => $request->input("end_date")
+        ];
+        $user->observation = json_encode($observation);
 
-        $user->username = $request->input("company_email");
-        $user->tel = "+" . $request->input('tel_phoneCode') . " " . $request->input('tel');
+        $user->username = $request->input("username");
+        //$user->tel = "+" . $request->input('tel_phoneCode') . " " . $request->input('tel');
         $user->mobile = "+" . $request->input('mobile_phoneCode') . " " . $request->input('mobile');
         $user->email = $request->input("email");
-        $user->super_admin =1;
+        $user->super_admin = 1;
         //$user->super_admin = $request->input("profil") == "Super Admin" ? 1 : 0;
 
         if ($request->password != '') {
             $user->password = Hash::make($request->input('password'));
         }
         if ($this->user->id != $user->id) {
-            $user->status = $request->input('status');
+            $user->status =  $request->input("status") == "1" ? 'active' : 'deactive';
+            $user->login =  $request->input("connexion") == "1" ? 'enable' : 'disable';
         }
 
         if ($request->hasFile('image')) {
@@ -226,7 +243,7 @@ class SuperAdminController extends SuperAdminBaseController
         User::destroy($id);
         return Reply::success(__('messages.userDeleted'));
     }
-    
+
     public function data(Request $request)
     {
         $users = User::allSuperAdmin();
