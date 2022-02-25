@@ -453,8 +453,8 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a href=" {{ route('admin.language-settings.create') }} " style="background: none">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
+                                                <a href="Javascript:;" class="text-info language-form "> 
+                                                    <img src="{{ asset('img/plus.png') }}" alt="" data-type="language" >
                                                 </a>
                                             </td>
                                         </tr>
@@ -606,7 +606,7 @@
                                                         </ul>
                                                     </div><!-- /btn-group --> --}}
                                                     <input type="text" name="mobile" id="mobile"
-                                                        class="form-control phone-input ccpicker" aria-label="..." value="{{ $userDetail->mobile }}" >
+                                                        class="form-control phone-input ccpicker" aria-label="..." value="{{ explode(" ",$userDetail->mobile)[1] }}" >
                                                 </div><!-- /input-group -->
                                             </td>
                                         </tr>
@@ -1067,13 +1067,7 @@
 </div>
 <!-- .row -->
 
-<?php
-    $countryCode = $userDetail->tel;
-    if($countryCode == "")
-    {
-        $countryCode = "33";
-    } 
-?>
+
 
 @endsection
  @push('footer-script')
@@ -1090,8 +1084,8 @@
             dataUrl: "{{ asset('data.json') }}"
         });
 
-        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ $countryCode}}");
-        $("#tel").CcPicker("setCountryByPhoneCode", "{{ $countryCode}}");
+        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->mobile)[0] }}");
+        $("#tel").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->mobile)[0] }}");
 
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
@@ -1225,6 +1219,15 @@
             $('#modelHeading').html('...');
             $.ajaxModal('#departmentModel', url);
         })
+
+
+        $('.language-form').click(function() {
+            let target = $(event.target)[0];
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.language-settings.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#departmentModel', url);
+    })
 
 </script>
 

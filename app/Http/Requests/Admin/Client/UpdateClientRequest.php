@@ -33,9 +33,26 @@ class UpdateClientRequest extends CoreRequest
                     $query->where('company_id', company()->id);
                 })->ignore($this->route('client'), 'id')
             ],
-            // 'slack_username' => 'nullable|unique:employee_details,slack_username,'.$this->route('client'),
-            'name'  => 'required',
-            'website' => 'nullable|url',
+            'company_name' => 'required|max:200',
+            'address' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'company_phone' => 'required|digits:10',
+            'mobile' => 'required|digits:10',
+            'fax' => 'required|digits:10',
+            'company_email' => 'required|email',
+            'category_id' => 'required',
+            'sub_category_id' => 'required',
+            'language' => 'required',
+            'emailNotification' => 'required',
+            'smsNotification' => 'required',
+            'name' => 'required',
+            'function' => 'required',
+            'password' => 'nullable|min:6',
+            'p_phone' => 'required|digits:10',
+            'p_mobile' => 'required|digits:10',
+            'p_fax' => 'required|digits:10',
+
         ];
         if (!is_null(request()->get('website'))) {
             $type = request()->get('website');

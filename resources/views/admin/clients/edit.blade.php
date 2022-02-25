@@ -44,8 +44,15 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <style>
- .salutation .form-control {
-     padding: 2px 2px;
+    
+    #s2id_category_id{
+        width: 210px !important;
+    }
+    .salutation .form-control {
+        padding: 2px 2px;
+    }
+   #s2id_category{
+    width: 210px !important;
    }
   .select-category button{
     background-color: white !important;
@@ -221,19 +228,19 @@
 
                 <div class="panel-wrapper collapse in" aria-expanded="true">
                     <div class="panel-body">
-                        {!! Form::open(['id' => 'createClient', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        {!! Form::open(['id' => 'updateClient', 'class' => 'ajax-form', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
                         <div class="form-body" style="margin-top:   0px">
 
                             <div class="row">
 
                                 <div class="col-md-4">
                                     <fieldset>
-                                        <legend>Identifications</legend>
+                                       <legend>Identifications</legend>
                                         <table>
                                             <tr>
                                                 <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="company_name" name="company_name" value="">
+                                                    <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $clientDetail->company_name }}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -245,7 +252,7 @@
                                                 <td><label for="address" class="required">@lang('app.address')</label>
                                                 </td>
                                                 <td><textarea class="form-control" name="address" id="address"
-                                                        style="width:100%" rows="2"></textarea></td>
+                                                        style="width:100%" rows="2">{{$userDetail->address}}</textarea></td>
                                                 <td>
                                                     <a href="#!" class="invisible">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
@@ -260,8 +267,8 @@
                                                 <td>
                                                     <select name="country" id="country" class="form-control select2">
                                                         @foreach ($countries as $country)
-                                                            <option value=" {{ $country->name }} ">
-                                                                {{ ucfirst(strtolower($country->name)) }}</option>
+                                                            <option value=" {{ $country->id }} " 
+                                                                @if($country->id == $userDetail->country_id) selected @endif>{{ ucfirst(strtolower($country->name)) }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -281,7 +288,7 @@
                                                         <option value="" disabled>@lang('app.cp')</option>
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'city')
-                                                                <option value=" {{ $t->name }} ">
+                                                                <option value="{{ $t->id }}" @if($t->id == $userDetail->city_id) selected @endif>
                                                                     {{ ucfirst(strtolower($t->name)) }}</option>
                                                             @endif
                                                         @endforeach
@@ -296,11 +303,11 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <legend>Observation </legend>
+                                        <legend>Description </legend>
                                         <table>
                                             <tr>
                                                 <td colspan="3" style="padding-top: 0px">
-                                                    <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5"></textarea>
+                                                    <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5">{{$userDetail->observation}}</textarea>
                                                 </td>
                                             </tr>
                                         </table>
@@ -318,7 +325,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="company_phone" id="company_phone"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="{{explode(" ",$userDetail->tel)[1]}}" >
                                                     </div>
                                                 </td>
                                                 <td>
@@ -327,7 +334,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
-
+                                            
                                             <tr>
                                                 <td>
                                                     <label for="mobile" class="required">Mobile</label>
@@ -335,7 +342,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="mobile" id="mobile"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
+                                                            class="form-control phone-input ccpicker" aria-label="..." value=" {{ explode(" ",$userDetail->mobile)[1] }}">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -352,7 +359,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="fax" id="fax"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="{{explode(" ",$userDetail->fax)[1]}}" >
                                                     </div>
                                                 </td>
                                                 <td>
@@ -367,7 +374,7 @@
                                                     <label for="company_email" class="required">Email</label>
                                                 </td>
                                                 <td>
-                                                    <input type="email" id="company_email" name="company_email" class="form-control">
+                                                    <input type="email" id="company_email" name="company_email" value="{{$userDetail->email}}" class="form-control">
 
                                                 </td>
                                                 <td>
@@ -380,21 +387,45 @@
                                         </table>
                                     </fieldset>
 
-                                    <fieldset>
+                                     <fieldset>
                                         <legend>Informations Générales </legend>
                                         <table>
                                             
-                                            <tr>
+                                            <tr >        
                                                 <td>
-                                                    <label for="country" class="required">Catégorie Client</label>
+                                                    <label for="category_id" class="required">Catégorie Client</label>
                                                 </td>
-                                                <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
+                                                <td >
+                                                    <select  name="category_id" id="category_id" class="form-control select2">
+                                                        @foreach ($categories as $categorie)
+                                                            <option value="{{ $categorie->id }}" @if($categorie->id == $userDetail->category_id) selected @endif >
+                                                                {{ $categorie->category_name }}
+                                                            </option>
+                                                        @endforeach     
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
+                                                    <a href="Javascript:;" class="text-info category-form " >
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="category">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <label for="sub_category_id" class="required">Sous Catégorie</label>
+                                                </td>
+                                                <td>
+                                                    <select  name="sub_category_id" id="sub_category_id" class="form-control select2">
+                                                        @foreach ($subcategories as $subcategorie)
+                                                            <option value="{{ $subcategorie->id }}"   @if($subcategorie->id == $userDetail->sub_category_id) selected @endif   >
+                                                                {{ $subcategorie->category_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="Javascript:;" class="text-info subcategory-form ">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -402,31 +433,23 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="country" class="required">Sous Catégorie</label>
+                                                    <label for="language" class="required">Langue</label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
+                                                    <select name="language" id="language" class="form-control select2">
+                                                        <option @if ($global->locale == 'en') selected @endif value="en">
+                                                            English
+                                                        </option>
+                                                        @foreach ($languageSettings as $language)
+                                                            <option value="{{ $language->language_code }}"
+                                                                @if ($global->locale == $language->language_code) selected @endif @if($userDetail->language == $language->language_code) selected @endif >
+                                                                {{ $language->language_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="country" class="required">Langue</label>
-                                                </td>
-                                                <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Selection</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!">
+                                                    <a href="Javascript:;" class="text-info language-form" style="background:none">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -442,11 +465,12 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="country" class="required">Notification Par Mail</label>
+                                                    <label for="emailNotification" class="required">Notification Par Mail </label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Oui / Non</option>
+                                                    <select name="emailNotification" id="emailNotification" class="form-control select2">
+                                                        <option value="1" @if($userDetail->email_notifications == 1) selected @endif >Oui</option>
+                                                        <option value="0" @if($userDetail->email_notifications == 0) selected @endif >Non</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -458,11 +482,12 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="country" class="required">Notification Par SMS</label>
+                                                    <label for="smsNotification" class="required">Notification Par SMS  </label>
                                                 </td>
                                                 <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        <option value="Selection">Oui / Non</option>
+                                                    <select name="smsNotification" id="smsNotification" class="form-control select2">
+                                                        <option value="1" @if($userDetail->sms_notification == 1) selected @endif >Oui</option>
+                                                        <option value="0" @if($userDetail->sms_notification == 0) selected @endif >Non</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -485,17 +510,17 @@
 
                                                 <tr>
                                                     <td>
-                                                        <label for="" class="mb-0">@lang('app.civility')</label>
+                                                        <label for="" class="mb-0">@lang('app.civility') {{ $userDetail->gender}}    </label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                             <div class="form-group mb-0">
-                                                                <input type="radio" name="civility" value="male">
-                                                                <label for="civility" style="margin-bottom: 0px">M</label>
+                                                                <input type="radio" @if($userDetail->gender == 'male') checked @endif  name="gender" value="male">
+                                                                <label for="gender" style="margin-bottom: 0px">M</label>
                                                             </div>
                                                             <div class="form-group mb-0">
-                                                                <input type="radio" name="civility" value="female">
-                                                                <label for="civility" style="margin-bottom: 0px">Mme</label>
+                                                                <input type="radio"  @if($userDetail->gender == 'female') checked @endif   name="gender" value="female">
+                                                                <label for="gender" style="margin-bottom: 0px">Mme</label>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -508,10 +533,10 @@
 
                                                 <tr>
                                                     <td>
-                                                        <label for="admin_name" class="required">Nom/Prénom</label>
+                                                        <label for="name" class="required">Nom/Prénom</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="admin_name" name="admin_name" value="">
+                                                        <input type="text" class="form-control"  id="name" name="name"  value="{{ $userDetail->name }}">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -525,7 +550,7 @@
                                                         <label for="function" class="required">Fonction</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="function" name="function" value="">
+                                                        <input type="text" class="form-control" id="function" name="function" value="{{ $userDetail->function }}">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -538,7 +563,7 @@
                                                         <label for="email" class="required">Email</label>
                                                     </td>
                                                     <td>
-                                                        <input type="email" class="form-control" id="email" name="email" value="">
+                                                        <input type="email" class="form-control" id="email" name="email" value=" {{ $userDetail->userEmail }}">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -549,12 +574,22 @@
 
                                                 <tr>
                                                     <td>
+                                                        <label for="password"
+                                                            class="">@lang('app.motdepasse')</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="password" name="password" id="password" class="form-control">
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
                                                         <label for="tel" class="required">Tel</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="company_phone" id="company_phone"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                            <input type="text" name="p_phone" id="p_phone"
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="{{ explode(" ",$userDetail->userTel)[1] }}"  >
                                                         </div>
                                                     </td>
                                                     <td>
@@ -563,15 +598,15 @@
                                                         </a>
                                                     </td>
                                                 </tr>
-    
+                                            
                                                 <tr>
                                                     <td>
                                                         <label for="mobile" class="required">Mobile</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="mobile" id="mobile"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                            <input type="text" name="p_mobile" id="p_mobile"
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="{{ explode(" ",$userDetail->userMoblie)[1] }}" >
                                                         </div>
                                                     </td>
                                                     <td>
@@ -587,8 +622,8 @@
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="fax" id="fax"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                            <input type="text" name="p_fax" id="p_fax"
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="{{ explode(" ",$userDetail->userFax)[1] }}" >
                                                         </div>
                                                     </td>
                                                     <td>
@@ -1030,6 +1065,8 @@
         <!-- /.modal-dialog -->
     </div>
     {{--Ajax Modal Ends--}}
+
+
 @endsection
 
 @push('footer-script')
@@ -1052,14 +1089,13 @@
         });
         $('#'+id).val(checkedData);
     }
-
-    $('#sub_category_id').html("");
-      var categories = @json($categories);
-        $('#category_id').change(function (e) {
-        var cat_id = $(this).val();
-        getCategory(cat_id);
-           
+    
+        var categories = @json($categories);
+        $('#category_id').change(function(e){
+            var cat_id = $(this).val();
+            getCategory(cat_id);
         });
+
         function getCategory(cat_id){
             var url = "{{route('admin.clients.getSubcategory')}}";
             var token = "{{ csrf_token() }}";
@@ -1077,7 +1113,7 @@
                     options.push(selectData);
                 });
                 $('#sub_category_id').html(options);
-                $('#sub_category_id').selectpicker('refresh');
+                // $('#sub_category_id').selectpicker('refresh');
 
             }
         })
@@ -1099,11 +1135,44 @@
 
     $('#save-form').click(function () {
         $.easyAjax({
-            url: '{{route('admin.clients.store')}}',
-            container: '#createClient',
+            url: '{{route('admin.clients.update',[$userDetail->id])}}',
+            container: '#updateClient',
             type: "POST",
             redirect: true,
-            data: $('#createClient').serialize()
+            file: (document.getElementById("image").files.length == 0) ? false : true,
+            data: $('#updateClient').serialize(),
+            error: function (response) {
+                    $("input").css("border-color", "#ccc")
+                    $("input").attr("title", ``)
+                    $("textarea").css("border-color", "#ccc")
+                    $("textarea").attr("title", ``)
+                    $("select").css("border-color", "#ccc")
+                    $("select").attr("title", ``)
+                    let obj = response.responseJSON.errors
+
+                    console.log(obj);
+                    for (const property in obj) {
+                        if(property == 'country' ){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'sub_category_id'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'city'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'category_id'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else if(property == 'sub_category_id'){
+                            $("#"+property).prev().css("border-color", "#ef1f1f")
+                            $("#"+property).prev().attr("title", `${obj[property]}`)
+                        }else{
+                            $("#"+property).css("border-color", "#ef1f1f")
+                            $("#"+property).attr("title", `${obj[property]}`)
+                        }
+                    }
+            }
         })
     });
 
@@ -1153,6 +1222,54 @@
     });
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
+
+    $("#mobile").CcPicker("setCountryByPhoneCode", "{{explode(" ",$userDetail->mobile)[0]}}");
+    $("#company_phone").CcPicker("setCountryByPhoneCode", "{{explode(" ",$userDetail->tel)[0]}}");
+    $("#fax").CcPicker("setCountryByPhoneCode", "{{explode(" ",$userDetail->fax)[0]}}");
+    $("#p_mobile").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->userMoblie)[0]}}");
+    $("#p_fax").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->userFax)[0]}}");
+    $("#p_phone").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->userTel)[0]}}");
+    
+
+    $('.category-form').click(function() {
+            let target = $(event.target)[0];
+        
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.clientCategory.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+
+    $('.subcategory-form').click(function() {
+            let target = $(event.target)[0];
+        
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.clientSubCategory.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+
+    $('.language-form').click(function() {
+            let target = $(event.target)[0];
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.language-settings.create') }}';
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+    
+
+    
+
+    $('.plus-form').click(function() {
+            let target = $(event.target)[0];
+        
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+            $('#modelHeading').html('...');
+            $.ajaxModal('#clientCategoryModal', url);
+    })
+
+
 </script>
 @endpush
 
