@@ -139,7 +139,7 @@
 
     fieldset .form-group label,
     fieldset tr td {
-        min-width: max-content;
+        min-width: min-content !important;
         margin-right: 5px;
         vertical-align: middle;
     }

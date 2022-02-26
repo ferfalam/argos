@@ -54,6 +54,14 @@
             font-weight: 300;
         }
 
+        .panel-container{
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+            column-gap: 4px;
+            flex-wrap: wrap;
+            row-gap: 10px;
+
+        }
+
         @media all and (max-width: 767px) {
             .custom-action a {
                 margin-right: 0px;

@@ -59,11 +59,15 @@
         max-height: 100% !important;
         height: auto !important;
     }
+
+    /* .main.main-tertiary{
+        margin-top: 0px;
+    } */
 </style>
 @endpush
 
 @section('chat-content')
-    <div class="main main-tertiary">
+    <div class="main main-tertiary" style="margin-top: 0px">
         <!-- Chat Sidebar Start -->
         <div class="chat-sidebar-container">
             <div class="chat-sidebar-overlay"></div>

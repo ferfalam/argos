@@ -54,7 +54,7 @@
       .d-flex{
           display: flex;
           align-items: stretch;
-          margin-bottom: 24px;
+          /* margin-bottom: 24px; */
       }
 
       .d-flex .panel {
