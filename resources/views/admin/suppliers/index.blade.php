@@ -101,7 +101,7 @@
                 <option value="all">@lang('modules.client.all')</option>
                 {{-- @foreach($subcategories as $subcategory)
                 <option value="{{$subcategory->id}}">{{ $subcategory->category_name }}</option>
-                @endforeach --}}
+                @endforeach --}}    
             </select>
         </x-filter-form-group>
     </form>
@@ -115,53 +115,7 @@
         <a href="{{route('admin.suppliers.create')}}" class="btn btn-cs-blue">ajouter un fournisseur</a>
     </div>
     <div class="panel-body">
-        <div class="table-responsive">
-            <table class="table  dataTable table-bordered table-hover toggle-circle default footable-loaded footable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Raison sociale</th>
-                        <th>Contact principal</th>
-                        <th>Ville</th>
-                        <th>Pays</th>
-                        <th>Date création</th>
-                        <th>Téléphone </th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>123</td>
-                        <td>E33 Lisbonne</td>
-                        <td>
-                           
-                            E33 Dubai
-                        </td>
-                        <td>Lisbonne</td>
-                        <td> <img src="{{asset('img/table-flag.png')}}" alt=""></td>
-                        <td>15/12/2021</td>
-                        <td>+33 6 87 65 88 77</td>
-                        <td>
-                            <div class="btn-group dropdown m-r-10">
-                                <span aria-expanded="false" data-toggle="dropdown" class=" dropdown-toggle "
-                                    type="button">
-                                    <ion-icon name="ellipsis-vertical" role="img" class="md hydrated"
-                                        aria-label="ellipsis vertical"></ion-icon>
-                                </span>
-                                <ul role="menu" class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="{{route('admin.suppliers.edit', 1)}}">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i> Éditer
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
+         <x-table :dataTable="$dataTable"></x-table>
     </div>
 </div>
 @endsection
@@ -179,7 +133,7 @@
 <script src="{{ asset('js/datatables/buttons.server-side.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/moment/moment.js') }}"></script>
 <script type="text/javascript" src="{{ asset('plugins/daterange-picker/daterangepicker.js') }}"></script>
-{{-- {!! $dataTable->scripts() !!} --}}
+{!! $dataTable->scripts() !!}
 
 <script>
     $(function() {
