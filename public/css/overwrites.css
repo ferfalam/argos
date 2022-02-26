@@ -1012,3 +1012,9 @@ textarea.form-control {
 .table > tbody > tr > td:first-of-type{
   display: revert !important;
 }
+
+#calendar table tbody tr td:nth-child(1){
+  display: revert;
+  align-items: center;
+  padding: 0px;
+}

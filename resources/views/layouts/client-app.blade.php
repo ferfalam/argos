@@ -291,6 +291,10 @@
         .main.main-tertiary{
             margin-top: 60px;
         }
+
+        .header .user-menu {
+            margin-left: 0px;
+        }
     </style>
 
 <style>
@@ -444,21 +448,21 @@
     <!-- Left navbar-header end -->
     
     <!-- Page Content -->
-    <div class="main" style="padding: 0" >
-        <div class="header">
-            {{-- <div class="header-left">
-                <a href="/" class="logo">
-                    <img src="/img/logo.png">
-                </a>
+    <div class="main" style="padding: 0; flex-direction:column;" >
+        <div class="header" style="display: flex; align-items: center; justify-content: space-between; padding : 0 20px;">
+
+            <div class="text-center" style="color: white">{{$user->company->company_name}} </div>
+            
+            <div style="display: flex; gap:20px; align-items:center;">
+                <div class="bg-white rounded-pill" style="padding: 0px 10px">
+                    {{\Carbon\Carbon::now()->format('d/m/Y')}}
+                </div>
+    
+                <div class="bg-white rounded-pill" style="padding: 0px 10px">
+                    {{\Carbon\Carbon::now()->format('H:i A')}}
+                </div>
             </div>
-            <a class="toggle_btn open-close hidden-xs waves-effect waves-light" href="javascript:void(0);">
-                <span class="bar-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-            </a> --}}
-            {{-- <div id="google_translate_element" style="display: none;"></div> --}}
+        
             <ul class="nav user-menu">
                 
                 <li class="nav-item dropdown show-user-notifications">

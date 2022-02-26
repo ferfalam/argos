@@ -589,25 +589,27 @@
     @include('sections.member_left_sidebar')
     <!-- Left navbar-header end -->
 
-    <div class="wrapper">
+    <div class="wrapper" style="width: 100%">
         
-        {{-- Just A Section for the Chat Content --}}
-        @yield("chat-content")
+       
         
         <main class="main" style="margin-top:0px; padding:0px;">
             @php 
             $filterSection = false;
             @endphp
-            <div class="header">
-{{--                 
-                <a class="toggle_btn open-close hidden-xs waves-effect waves-light" href="javascript:void(0);">
-                    <span class="bar-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </a> --}}
-                {{-- <div id="google_translate_element" style="display: none;"></div> --}}
+            <div class="header" style="display: flex; align-items: center; justify-content: space-between; padding : 0 20px;"> 
+                <div class="text-center" style="color: white">{{$user->company->company_name}} </div>
+                
+                <div style="display: flex; gap:20px; align-items:center;">
+                    <div class="bg-white rounded-pill" style="padding: 0px 10px">
+                        {{\Carbon\Carbon::now()->format('d/m/Y')}}
+                    </div>
+        
+                    <div class="bg-white rounded-pill" style="padding: 0px 10px">
+                        {{\Carbon\Carbon::now()->format('H:i A')}}
+                    </div>
+                </div>
+
                 <ul class="nav user-menu">
                     <li class="nav-item dropdown show-user-notifications">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -662,6 +664,9 @@
                     </li>
                 </ul>
             </div>
+
+             {{-- Just A Section for the Chat Content --}}
+            @yield("chat-content")
 
             <div class="main" style="margin-top:0px;">
                 <div class="main-header">
