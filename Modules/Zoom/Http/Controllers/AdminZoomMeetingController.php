@@ -72,9 +72,9 @@ class AdminZoomMeetingController extends AdminBaseController
      */
     public function store(StoreMeeting $request)
     {
-        $this->createOrUpdateMeetings($request);
+        $meeting = $this->createOrUpdateMeetings($request);
 
-        return Reply::success(__('messages.createSuccess'));
+        return Reply::successWithData(__('messages.createSuccess'), ["meetingID" => $meeting->id]);
     }
 
     /**
@@ -228,12 +228,13 @@ class AdminZoomMeetingController extends AdminBaseController
             if (is_null($id)) {
                 $meeting = $meeting->create($data);
                 $this->syncAttendees($request, $meeting, 'no');
+                $this->createMeeting($user, $meeting, $id, null, $host);
+                return $meeting;
             } else {
                 $meeting->update($data);
                 $this->syncAttendees($request, $meeting);
+                $this->createMeeting($user, $meeting, $id, null, $host);
             }
-
-            $this->createMeeting($user, $meeting, $id, null, $host);
         }
     }
 
@@ -270,10 +271,11 @@ class AdminZoomMeetingController extends AdminBaseController
 
     public function tableView(MeetingDataTable $dataTable)
     {
-        $this->employees = User::allEmployees();
+        $this->employees = User::allEmployeesByCompany(user()->company_id);
         $this->clients = User::allClients();
         $this->categories = Category::all();
         $this->projects = Project::all();
+        $this->upload = can_upload();
 
         return $dataTable->render('zoom::meeting-calendar.table', $this->data);
     }
