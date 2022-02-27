@@ -555,10 +555,27 @@
                                                     </a>
                                                 </td>
                                             </tr> --}}
+                                            <tr>
+                                                <td><label for="skill_id" class="">@lang('app.compentancy')</label></label>
+                                                </td>
+                                                <td>
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="skill_id"
+                                                            data-placeholder="Sélectionner Compétences" name="skill_id[]" required>
+                                                        @foreach($skills as $skill)
+                                                            <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill_id">
+                                                    </a>
+                                                </td>
+                                            </tr>
 
                                             <tr>
                                                 <td>
-                                                    <label for="service" class="required">@lang('app.services')</label>
+                                                    <label for="service" class="">@lang('app.services')</label>
                                                 </td>
                                                 <td>
                                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
@@ -762,7 +779,7 @@
         $("#tel").CcPicker("setCountryByPhoneCode", "33");
 
         $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd',
+            format: 'dd-mm-yyyy',
         });
 
         $('#save-form').click(function() {

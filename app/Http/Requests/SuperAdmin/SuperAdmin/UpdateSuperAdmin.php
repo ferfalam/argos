@@ -18,7 +18,7 @@ class UpdateSuperAdmin extends SuperAdminBaseRequest
             'username' => 'required',
             'email' => 'required',
             'name'  => 'required',
-            'password'  => 'required',
+            //'password'  => 'required',
             'civility'  => 'required',
             'address'  => 'required',
             'departement_id' => "required",
