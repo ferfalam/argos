@@ -412,7 +412,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="birthday" id="birthday"
-                                                        value="{{$userDetail->birthday}}"
+                                                        value="{{date('d-m-Y', strtotime($userDetail->birthday))}}"
                                                         class="form-control datepicker">
                                                 </td>
                                                 <td>
@@ -500,7 +500,7 @@
                                                         class="">@lang('app.start_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="start_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date}}">
+                                                    <input type="text" name="start_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date ? date('d-m-Y', strtotime(json_decode($userDetail->observation)->start_date )) : ''}}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -514,7 +514,7 @@
                                                         class="">@lang('app.end_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="end_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->end_date}}">
+                                                    <input type="text" name="end_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date ? date('d-m-Y', strtotime(json_decode($userDetail->observation)->start_date )) : ''}}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -569,13 +569,20 @@
                                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="skill_id"
                                                             data-placeholder="Sélectionner Compétences" name="skill_id[]" required>
                                                         @foreach($skills as $skill)
-                                                            @foreach (json_decode($userDetail->observation)->skills as $key => $skill_id)
-                                                                @if ($skill_id == $skill->id)
-                                                                    <option value="{{ $skill->id }}" selected> {{ ucwords($skill->name) }} </option>
-                                                                @else
-                                                                    <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
-                                                                @endif
-                                                            @endforeach
+                                                            @if (json_decode($userDetail->observation)->skills)
+                                                                @foreach (json_decode($userDetail->observation)->skills as $key => $skill_id)
+                                                                    @if ($skill_id == $skill->id)
+                                                                        <option value="{{ $skill->id }}" selected> {{ ucwords($skill->name) }} </option>
+                                                                    @else
+                                                                        @if (count(json_decode($userDetail->observation)->skills)-1 == $key)
+                                                                            <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                                        @endif
+                                                                        
+                                                                    @endif
+                                                                @endforeach
+                                                            @else   
+                                                                <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -593,13 +600,19 @@
                                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
                                                             data-placeholder="Sélectionner Départements" name="departement_id[]" required>
                                                         @foreach($groups as $group)
-                                                            @foreach (json_decode($userDetail->observation)->departement as $key => $departement)
-                                                                @if ($departement == $group->id)
-                                                                    <option value="{{ $group->id }}" selected> {{ ucwords($group->team_name) }} </option>
-                                                                @else
-                                                                    <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
-                                                                @endif
-                                                            @endforeach
+                                                            @if (json_decode($userDetail->observation)->departement)
+                                                                @foreach (json_decode($userDetail->observation)->departement as $key => $departement)
+                                                                    @if ($departement == $group->id)
+                                                                        <option value="{{ $group->id }}" selected> {{ ucwords($group->team_name) }} </option>
+                                                                    @else
+                                                                        @if (count(json_decode($userDetail->observation)->departement)-1 == $key)
+                                                                            <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                                        @endif
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -937,7 +950,7 @@
             dataUrl: "{{ asset('data.json') }}"
         });
 
-        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->mobile)[0], 1) }}");
+        
         $("#tel").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->tel)[0], 1) }}");
 
         $('.datepicker').datepicker({

@@ -575,7 +575,7 @@
 
                                             <tr>
                                                 <td>
-                                                    <label for="service" class="">@lang('app.services')</label>
+                                                    <label for="departement_id" class="">@lang('app.services')</label>
                                                 </td>
                                                 <td>
                                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"

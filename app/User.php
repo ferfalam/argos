@@ -271,6 +271,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
         
         $users->where('users.id', '<>', $exceptId);
+        $users->where('users.company_id', company()->id);
         $users->orderBy('users.name', 'asc');
         $users->groupBy('users.id');
         return $users->get();

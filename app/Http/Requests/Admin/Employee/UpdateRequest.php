@@ -29,7 +29,7 @@ class UpdateRequest extends CoreRequest
     {
         $detailID = EmployeeDetails::where('user_id', $this->route('employee'))->first();
         return [
-        //            'employee_id' => 'required|unique:employee_details,employee_id,'.$detailID->id,
+            //            'employee_id' => 'required|unique:employee_details,employee_id,'.$detailID->id,
             // 'employee_id' => [
             //     'required',
             //     Rule::unique('employee_details')->where(function($query) use($detailID) {
@@ -37,25 +37,24 @@ class UpdateRequest extends CoreRequest
             //         $query->where('id', '<>', $detailID->id);
             //     })
             // ],
-            'user_id' => 'required',
-            'email' => 'required|unique:users,email,'.$this->route('employee'),
-            'slack_username' => 'nullable|unique:employee_details,slack_username,'.$detailID->id,
-            'name' => 'required',
-            'password' => 'nullable|min:6',
-            'hourly_rate' => 'nullable|numeric',
-            'address' => 'required',
-            'country' => 'required',
-            'city' => 'required',
-            'service' => 'required',
-            'status' => 'required',
-            'profil' => 'required',
-            'birthday' => 'required|date',
-            'native_country' => 'required',
-            'nationality' => 'required',
-            'language' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'tags' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'name'  => 'required',
+            //'password'  => 'required',
+            'civility'  => 'required',
+            'address'  => 'required',
+            //'departement_id' => "required",
+            'country'  => 'required',
+            'city'  => 'required',
+            'qualification'  => 'required',
+            'native_country'  => 'required',
+            'nationality'  => 'required',
+            'language'  => 'required',
+            'birthday'  => 'required',
+            //'company_email' => 'required|unique:users,username',
+            //'tel' => 'required',
+            'mobile' => 'required',
+            'image' => 'image'
         ];
     }
 
