@@ -193,7 +193,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 
     <div class="row" id="edit-reminder-fields" style="display: none;">
@@ -228,7 +227,7 @@
                         <div class="row" id="file-dropzone">
                             <div class="col-xs-12">
                                 <div class="dropzone"
-                                        id="file-upload-dropzone">
+                                        id="file-upload-edit-dropzone">
                                     {{ csrf_field() }}
                                     <div class="fallback">
                                         <input name="file" type="file" multiple/>
@@ -302,20 +301,16 @@
 <script src="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/cbpFWTabs.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/bower_components/timepicker/bootstrap-timepicker.min.css') }}">
 <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/multiselect/js/jquery.multi-select.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap-colorselector/bootstrap-colorselector.min.js') }}"></script>
-<script src="{{ asset('plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
-<script src="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.js') }}"></script>
 <script>
  $(function() {
         @if($upload)
             Dropzone.autoDiscover = false;
             //Dropzone class
-            myDropzone = new Dropzone("div#file-upload-dropzone", {
+            editDropzone = new Dropzone("div#file-upload-edit-dropzone", {
                 url: "{{ route('admin.zoom-meeting.storeFile') }}",
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                 paramName: "file",
@@ -328,7 +323,7 @@
                 parallelUploads: 10,
                 dictDefaultMessage: "@lang('modules.projects.dropFile')",
                 init: function () {
-                    myDropzone = this;
+                    editDropzone = this;
                     this.on("success", function (file, response) {
                         if(response.status == 'fail') {
                             $.showToastr(response.message, 'error');
@@ -338,15 +333,15 @@
                 }
             });
 
-            myDropzone.on('sending', function (file, xhr, formData) {
-                console.log(myDropzone.getAddedFiles().length, 'sending');
+            editDropzone.on('sending', function (file, xhr, formData) {
+                console.log(editDropzone.getAddedFiles().length, 'sending');
                 var ids = $('#taskID').val();
                 var task_request_id = $('#task_request_id').val();
                 formData.append('meeting_id', ids);
                 //formData.append('task_request_id', task_request_id);
             });
 
-            myDropzone.on('completemultiple', function () {
+            editDropzone.on('completemultiple', function () {
                 var msgs = "@lang('messages.meetingUpdatedSuccessfully')";
                 $.showToastr(msgs, 'success');
                 window.location.reload();
@@ -386,13 +381,13 @@
                 success: function (response) {
                     var dropzone = 0;
                     @if($upload)
-                        dropzone = myDropzone.getQueuedFiles().length;
+                        dropzone = editDropzone.getQueuedFiles().length;
                     @endif
 
                     if(dropzone > 0){
                         taskID = response.meetingID;
                         $('#taskID').val(response.meetingID);
-                        myDropzone.processQueue();
+                        editDropzone.processQueue();
                     }
                     else{
                         var msgs = "@lang('messages.meetingUpdatedSuccessfully')";

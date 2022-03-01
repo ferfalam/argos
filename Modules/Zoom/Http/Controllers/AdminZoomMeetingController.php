@@ -227,7 +227,7 @@ class AdminZoomMeetingController extends AdminBaseController
 
             if (is_null($id)) {
                 $meeting = $meeting->create($data);
-                $this->syncAttendees($request, $meeting, 'no');
+                $this->syncAttendees($request, $meeting, 'yes');
                 $this->createMeeting($user, $meeting, $id, null, $host);
                 return $meeting;
             } else {

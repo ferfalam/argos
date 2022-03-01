@@ -168,41 +168,43 @@
             display: flex;
             width: 100px;
             align-items: center;
-            border-radius: 3px
-        .datepicker td:nth-child(1),.category-table td:nth-child(1) {
-            display: table-cell;
-        }
 
-        .my-custom-scrollbar {
-            position: relative;
-            max-height: 200px;
-            overflow: auto;
-        }
-        .table-wrapper-scroll-y {
-            display: block;
-        }
-        ::-webkit-scrollbar {
-            width: 0px;
-        }
+            border-radius: 3px .datepicker td:nth-child(1),
+            .category-table td:nth-child(1) {
+                display: table-cell;
+            }
+
+            .my-custom-scrollbar {
+                position: relative;
+                max-height: 200px;
+                overflow: auto;
+            }
+
+            .table-wrapper-scroll-y {
+                display: block;
+            }
+
+            ::-webkit-scrollbar {
+                width: 0px;
+            }
 
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
 
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-        }
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+            }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
 
     </style>
 @endpush
 
 @section('content')
-
     <div class="">
         <div class="col-xs-12">
 
@@ -231,12 +233,12 @@
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
                                                             <input type="radio" name="civility" value="male"
-                                                                @if ($userDetail->gender == 'male')checked @endif>
+                                                                @if ($userDetail->gender == 'male') checked @endif>
                                                             <label for="civility" style="margin-bottom: 0px">M</label>
                                                         </div>
                                                         <div class="form-group mb-0">
                                                             <input type="radio" name="civility" value="female"
-                                                                @if ($userDetail->gender == 'female')checked @endif>
+                                                                @if ($userDetail->gender == 'female') checked @endif>
                                                             <label for="civility" style="margin-bottom: 0px">Mme</label>
                                                         </div>
                                                     </div>
@@ -262,8 +264,8 @@
                                             </tr>
 
                                             <tr>
-                                                <td><label for="name"
-                                                        class="required">@lang('app.lastnamefirstname') </label></td>
+                                                <td><label for="name" class="required">@lang('app.lastnamefirstname')
+                                                    </label></td>
                                                 <td>
                                                     <input type="text" class="form-control" id="name" name="name"
                                                         value="{{ $userDetail->name }}" autocomplete="nope">
@@ -329,24 +331,26 @@
                                                 </td>
                                                 <td>
                                                     <a href="javascript:;" class="text-info plus-form">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="city">
+                                                    </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label for="qualification" class="">@lang('app.qualification')</label>
+                                                    <label for="qualification"
+                                                        class="">@lang('app.qualification')</label>
                                                 </td>
                                                 <td>
-                                                    <select name="qualification" id="qualification" class="form-control select2">
+                                                    <select name="qualification" id="qualification"
+                                                        class="form-control select2">
                                                         @foreach ($designations as $designation)
-                                                            @if ($userDetail->qualification == $designation->name )
+                                                            @if ($userDetail->qualification == $designation->name)
                                                                 <option value=" {{ $designation->name }} " selected>
-                                                                {{$designation->name }}</option>
+                                                                    {{ $designation->name }}</option>
                                                             @else
                                                                 <option value=" {{ $designation->name }} ">
-                                                                {{$designation->name }}</option>
+                                                                    {{ $designation->name }}</option>
                                                             @endif
-                                                            
                                                         @endforeach
                                                         {{-- <option value="Admin" disabled>Admin</option>
                                                         <option value="Collaborateur" disabled>Collaborateur</option>
@@ -412,7 +416,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="birthday" id="birthday"
-                                                        value="{{date('d-m-Y', strtotime($userDetail->birthday))}}"
+                                                        value="{{ date('d-m-Y', strtotime($userDetail->birthday)) }}"
                                                         class="form-control datepicker">
                                                 </td>
                                                 <td>
@@ -477,7 +481,8 @@
                                                 </td>
                                                 <td>
                                                     <select name="language" id="language" class="form-control select2">
-                                                        <option @if ($global->locale == 'en') selected @endif value="en">
+                                                        <option @if ($global->locale == 'en') selected @endif
+                                                            value="en">
                                                             English
                                                         </option>
                                                         @foreach ($languageSettings as $language)
@@ -489,7 +494,8 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href=" {{ route('super-admin.language-settings.create') }} " style="background: none">
+                                                    <a href=" {{ route('super-admin.language-settings.create') }} "
+                                                        style="background: none">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -500,7 +506,8 @@
                                                         class="">@lang('app.start_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="start_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date ? date('d-m-Y', strtotime(json_decode($userDetail->observation)->start_date )) : ''}}">
+                                                    <input type="text" name="start_date" class="form-control datepicker"
+                                                        value="{{ json_decode($userDetail->observation)->start_date? date('d-m-Y', strtotime(json_decode($userDetail->observation)->start_date)): '' }}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -514,7 +521,8 @@
                                                         class="">@lang('app.end_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="end_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date ? date('d-m-Y', strtotime(json_decode($userDetail->observation)->start_date )) : ''}}">
+                                                    <input type="text" name="end_date" class="form-control datepicker"
+                                                        value="{{ json_decode($userDetail->observation)->start_date? date('d-m-Y', strtotime(json_decode($userDetail->observation)->start_date)): '' }}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -534,8 +542,7 @@
                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                                     <div class="fileinput-new thumbnail"
                                                         style="width: 123px; height: 137px;">
-                                                        <img src=" {{$userDetail->getImageUrlAttribute()}} "
-                                                            alt="" />
+                                                        <img src=" {{ $userDetail->getImageUrlAttribute() }} " alt="" />
                                                     </div>
                                                     <div class="fileinput-preview fileinput-exists thumbnail"
                                                         style="max-width: 200px; max-height: 150px;"></div>
@@ -563,55 +570,65 @@
 
                                         <table>
                                             <tr>
-                                                <td><label for="skill_id" class="">@lang('app.compentancy')</label></label>
+                                                <td><label for="skill_id"
+                                                        class="">@lang('app.compentancy')</label></label>
                                                 </td>
                                                 <td>
-                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="skill_id"
-                                                            data-placeholder="Sélectionner Compétences" name="skill_id[]" required>
-                                                        @foreach($skills as $skill)
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple"
+                                                        id="skill_id" data-placeholder="Sélectionner Compétences"
+                                                        name="skill_id[]" required>
+                                                        @foreach ($skills as $skill)
                                                             @if (json_decode($userDetail->observation)->skills)
                                                                 @foreach (json_decode($userDetail->observation)->skills as $key => $skill_id)
                                                                     @if ($skill_id == $skill->id)
-                                                                        <option value="{{ $skill->id }}" selected> {{ ucwords($skill->name) }} </option>
+                                                                        <option value="{{ $skill->id }}" selected>
+                                                                            {{ $skill->name }} </option>
                                                                     @else
-                                                                        @if (count(json_decode($userDetail->observation)->skills)-1 == $key)
-                                                                            <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                                        @if (count(json_decode($userDetail->observation)->skills) - 1 == $key)
+                                                                            <option value="{{ $skill->id }}">
+                                                                                {{ $skill->name }} </option>
                                                                         @endif
-                                                                        
                                                                     @endif
                                                                 @endforeach
-                                                            @else   
-                                                                <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                            @else
+                                                                <option value="{{ $skill->id }}">
+                                                                    {{ $skill->name }} </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="javascript:;" class="invisible">
+                                                    <a href="javascript:;" class="text-info plus-form">
                                                         <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill_id">
                                                     </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label for="service" class="">@lang('app.services')</label>
+                                                    <label for="service"
+                                                        class="">@lang('app.services')</label>
                                                 </td>
                                                 <td>
-                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
-                                                            data-placeholder="Sélectionner Départements" name="departement_id[]" required>
-                                                        @foreach($groups as $group)
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple"
+                                                        id="departement_id" data-placeholder="Sélectionner Départements"
+                                                        name="departement_id[]" required>
+                                                        @foreach ($groups as $group)
                                                             @if (json_decode($userDetail->observation)->departement)
                                                                 @foreach (json_decode($userDetail->observation)->departement as $key => $departement)
                                                                     @if ($departement == $group->id)
-                                                                        <option value="{{ $group->id }}" selected> {{ ucwords($group->team_name) }} </option>
+                                                                        <option value="{{ $group->id }}" selected>
+                                                                            {{ $group->team_name }} </option>
                                                                     @else
-                                                                        @if (count(json_decode($userDetail->observation)->departement)-1 == $key)
-                                                                            <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                                        @if (count(json_decode($userDetail->observation)->departement) - 1 == $key)
+                                                                            <option value="{{ $group->id }}">
+                                                                                {{ $group->team_name }}
+                                                                            </option>
                                                                         @endif
                                                                     @endif
                                                                 @endforeach
                                                             @else
-                                                                <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                                <option value="{{ $group->id }}">
+                                                                    {{ $group->team_name }} </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -623,7 +640,7 @@
                                                 </td>
                                             </tr>
 
-                                           
+
                                             {{-- <tr>
                                                 <td>
                                                     <label for="compentancy"
@@ -673,7 +690,7 @@
                                                     </div><!-- /input-group -->
                                                 </td>
                                             </tr> --}}
-                                            
+
                                             <tr>
                                                 <td>
                                                     <label for="mobile">@lang('app.mobile')</label>
@@ -717,11 +734,13 @@
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
                                                             <input type="radio" name="notification" value="1" checked>
-                                                            <label for="notification" style="margin-bottom: 0px" checked>@lang('app.active')</label>
+                                                            <label for="notification" style="margin-bottom: 0px"
+                                                                checked>@lang('app.active')</label>
                                                         </div>
                                                         <div class="form-group mb-0">
                                                             <input type="radio" name="notification" value="0">
-                                                            <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                            <label for="notification"
+                                                                style="margin-bottom: 0px">@lang('app.deactive')</label>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -745,8 +764,8 @@
                                                     <label for="email" class="required">Login</label>
                                                 </td>
                                                 <td>
-                                                    <input value=" {{ $userDetail->email }} " id="email" type="email" name="email"
-                                                        class="form-control">
+                                                    <input value=" {{ $userDetail->email }} " id="email" type="email"
+                                                        name="email" class="form-control">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -755,24 +774,30 @@
                                                         class="">@lang('app.motdepasse')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="password" id="password" name="password" class="form-control">
+                                                    <input type="password" id="password" name="password"
+                                                        class="form-control">
                                                 </td>
                                             </tr>
 
-                                            
+
                                             <tr>
                                                 <td>
-                                                    <label for="connexion" class="required">@lang('app.connexion')</label>
+                                                    <label for="connexion"
+                                                        class="required">@lang('app.connexion')</label>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="connexion" value="1" @if ($userDetail->login == 'enable')checked @endif>
-                                                            <label for="connexion" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                            <input type="radio" name="connexion" value="1"
+                                                                @if ($userDetail->login == 'enable') checked @endif>
+                                                            <label for="connexion"
+                                                                style="margin-bottom: 0px">@lang('app.active')</label>
                                                         </div>
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="connexion" value="0" @if ($userDetail->login != 'enable')checked @endif>
-                                                            <label for="connexion" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                            <input type="radio" name="connexion" value="0"
+                                                                @if ($userDetail->login != 'enable') checked @endif>
+                                                            <label for="connexion"
+                                                                style="margin-bottom: 0px">@lang('app.deactive')</label>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -790,12 +815,16 @@
                                                 <td>
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="status" value="1"  @if ($userDetail->status == 'active')checked @endif>
-                                                            <label for="status" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                            <input type="radio" name="status" value="1"
+                                                                @if ($userDetail->status == 'active') checked @endif>
+                                                            <label for="status"
+                                                                style="margin-bottom: 0px">@lang('app.active')</label>
                                                         </div>
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="status" value="0" @if ($userDetail->status != 'active')checked @endif>
-                                                            <label for="status" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                            <input type="radio" name="status" value="0"
+                                                                @if ($userDetail->status != 'active') checked @endif>
+                                                            <label for="status"
+                                                                style="margin-bottom: 0px">@lang('app.deactive')</label>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -934,12 +963,9 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-
-
 @endsection
 
 @push('footer-script')
-
     <script src="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
     <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
@@ -950,8 +976,8 @@
             dataUrl: "{{ asset('data.json') }}"
         });
 
-        
-        $("#tel").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->tel)[0], 1) }}");
+
+        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->tel)[0], 1) }}");
 
         $('.datepicker').datepicker({
             format: 'dd-mm-yyyy',
@@ -976,7 +1002,7 @@
                 redirect: true,
                 data: $('#updateAdmin').serialize(),
                 file: true,
-                error: function (response) {
+                error: function(response) {
                     $("input").css("border-color", "#ccc")
                     $("input").attr("title", ``)
                     $("textarea").css("border-color", "#ccc")
@@ -991,40 +1017,41 @@
                             $("#s2id_autogen8").css("border-width", "1px")
                             $("#s2id_autogen8").attr("title", `${obj[property]}`)
                         }
-                        $("#"+property).css("border-color", "#ef1f1f")
-                        $("#"+property).attr("title", `${obj[property]}`)
+                        $("#" + property).css("border-color", "#ef1f1f")
+                        $("#" + property).attr("title", `${obj[property]}`)
                     }
                 },
             })
         });
 
-        // {{--$('.plus-form').click(function(event) {--}}
-        // {{--    var target = $(event.target)[0];--}}
-        // {{--    const field = $('#' + target.dataset.type)--}}
-        // {{--    name: $('#new_' + target.dataset.type).val(),--}}
+        // {{-- $('.plus-form').click(function(event) { --}}
+        // {{-- var target = $(event.target)[0]; --}}
+        // {{-- const field = $('#' + target.dataset.type) --}}
+        // {{-- name: $('#new_' + target.dataset.type).val(), --}}
 
-        // {{--        $.easyAjax({--}}
-        // {{--            url: "{{ route('super-admin.tla.store') }}",--}}
-        // {{--            type: 'POST',--}}
-        // {{--            data: {--}}
-        // {{--                _token: '{{ csrf_token() }}',--}}
-        // {{--                name: $('#new_' + target.dataset.type).val(),--}}
-        // {{--                type: target.dataset.type--}}
-        // {{--            },--}}
-        // {{--            success: function(response) {--}}
-        // {{--                console.log(response)--}}
-        // {{--                if (response.status == 'success') {--}}
-        // {{--                    field.append(--}}
-        // {{--                        `<option value="${response.tla.name}">${response.tla.name}</option>`)--}}
-        // {{--                }--}}
-        // {{--            }--}}
-        // {{--        });--}}
-        // {{--})--}}
+        // {{-- $.easyAjax({ --}}
+        // {{-- url: "{{ route('super-admin.tla.store') }}", --}}
+        // {{-- type: 'POST', --}}
+        // {{-- data: { --}}
+        // {{-- _token: '{{ csrf_token() }}', --}}
+        // {{-- name: $('#new_' + target.dataset.type).val(), --}}
+        // {{-- type: target.dataset.type --}}
+        // {{-- }, --}}
+        // {{-- success: function(response) { --}}
+        // {{-- console.log(response) --}}
+        // {{-- if (response.status == 'success') { --}}
+        // {{-- field.append( --}}
+        // {{-- `<option value="${response.tla.name}">${response.tla.name}</option>`) --}}
+        // {{-- } --}}
+        // {{-- } --}}
+        // {{-- }); --}}
+        // {{-- }) --}}
 
-        $('.plus-form').click(function () {
+        $('.plus-form').click(function() {
             let target = $(event.target)[0];
             const field = $('#' + target.dataset.type)
-            const url = '{{ route('super-admin.tla.create')}}/' + target.dataset.type;
+            const url = target.dataset.type == "skill" ? '{{ route('super-admin.skill.create') }}' :
+                '{{ route('super-admin.tla.create') }}/'+target.dataset.type;
             $('#modelHeading').html('...');
             $.ajaxModal('#addModal', url);
         })
