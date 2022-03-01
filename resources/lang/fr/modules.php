@@ -1147,7 +1147,7 @@ return array(
     'holiday' =>
     array(
         'title' => 'Vacances',
-        'addNewHoliday' => 'Ajouter des vacances',
+        'addNewHoliday' => 'Ajouter jours fériés',
         'viewDetails' => 'Voir les détails',
         'createHoliday' => 'Créer des vacances',
         'followUpNotFound' => 'Pas de vacances trouvée',
