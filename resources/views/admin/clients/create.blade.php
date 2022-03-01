@@ -320,7 +320,7 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <label for="tel" class="required">Tel</label>
+                                                    <label for="company_phone" class="required">Tel</label>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex">
@@ -585,7 +585,7 @@
 
                                                 <tr>
                                                     <td>
-                                                        <label for="tel" class="required">Tel</label>
+                                                        <label for="p_phone" class="required">Tel</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
@@ -602,7 +602,7 @@
     
                                                 <tr>
                                                     <td>
-                                                        <label for="mobile" class="required">Mobile</label>
+                                                        <label for="p_mobile" class="required">Mobile</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">

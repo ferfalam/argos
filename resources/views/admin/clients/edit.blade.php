@@ -1150,7 +1150,7 @@
                     $("select").attr("title", ``)
                     let obj = response.responseJSON.errors
 
-                    console.log(obj);
+                    // console.log(obj);
                     for (const property in obj) {
                         if(property == 'country' ){
                             $("#"+property).prev().css("border-color", "#ef1f1f")
@@ -1222,7 +1222,6 @@
     });
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
-
     $("#mobile").CcPicker("setCountryByPhoneCode", "{{explode(" ",$userDetail->mobile)[0]}}");
     $("#company_phone").CcPicker("setCountryByPhoneCode", "{{explode(" ",$userDetail->tel)[0]}}");
     $("#fax").CcPicker("setCountryByPhoneCode", "{{explode(" ",$userDetail->fax)[0]}}");

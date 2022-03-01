@@ -74,7 +74,7 @@ class ManageClientsController extends AdminBaseController
      */
     public function create($leadID = null)
     {
-        if ($leadID) {
+        if($leadID){
             $this->leadDetail = Lead::findOrFail($leadID);
             $this->leadName = $this->leadDetail->client_name;
             $this->firstName = '';
