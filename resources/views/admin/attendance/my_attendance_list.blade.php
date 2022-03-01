@@ -13,11 +13,11 @@
                     <span class="font-light">{{ ucfirst($row->designation_name) }}</span>
                 </div>
                 <div class="col-md-3 col-xs-4">
-                    @if(!is_null($row->clock_in_time)))
+                    @if(!is_null($row->clock_in_time))
                         <label class="label label-success"><i class="fa fa-check"></i> @lang('modules.attendance.present')</label>
-                        <button type="button" title="Attendance Detail" class="btn btn-info btn-sm btn-rounded" onclick="attendanceDetail('{{ $row->id }}', '{{ \Carbon\Carbon::createFromFormat('Y-m-d', $row->atte_date)->timezone($global->timezone)->format('Y-m-d')   }}')">
+                        {{-- <button type="button" title="Attendance Detail" class="btn btn-info btn-sm btn-rounded" onclick="attendanceDetail('{{ $row->id }}', '{{ \Carbon\Carbon::createFromFormat('Y-m-d', $row->atte_date)->timezone($global->timezone)->format('Y-m-d')   }}')">
                             <i class="fa fa-search"></i> Detail
-                        </button>
+                        </button> --}}
                     @else
                         <label class="label label-danger"><i class="fa fa-exclamation-circle"></i> @lang('modules.attendance.absent')</label>
                     @endif
@@ -47,7 +47,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Adresse IP</label>
                                         <input type="text" name="clock_in_ip" id="clock-in-ip-{{ $row->id }}"
-                                               class="form-control" value="{{ $row->clock_in_ip ?? request()->ip() }}">
+                                               class="form-control" value="{{ $row->clock_in_ip ?? request()->ip() }}" disabled>
                                     </div>
                                 </div>
 
@@ -58,11 +58,10 @@
                                             <div class="switchery-demo d-flex align-items-center">
                                                 <select name="workplace" id="workplace"
                                                     class="form-control select2 mr-2">
-                                                    <option value="" disabled></option>
+                                                    <option value="Lieu de travail" disabled></option>
                                                     @foreach ($tla as $a)
                                                         @if ($a->type == 'workplace')
-                                                            <option value=" {{ $a->name }} ">
-                                                                {{ $a->name }}</option>
+                                                            <option value="{{ $a->name }}">{{ $a->name }}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>
@@ -91,7 +90,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Adresse IP</label>
                                         <input type="text" name="clock_out_ip" id="clock-out-ip-{{ $row->id }}"
-                                               class="form-control" value="{{ $row->clock_out_ip ?? request()->ip() }}">
+                                               class="form-control" value="{{ $row->clock_out_ip ?? request()->ip() }}" disabled>
                                     </div>
                                 </div>
 
@@ -139,19 +138,23 @@
     </div>
 </div>
 
+
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
+<script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
+<script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script>
+    $(".select2").select2({
+        formatNoMatches: function () {
+            return "{{ __('messages.noRecordFound') }}";
+        }
+    });
+    $('.plus-form').click(function () {
+        let target = $(event.target)[0];
+        const field = $('#' + target.dataset.type)
+        const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+        $('#modelHeading').html('...');
+        $.ajaxModal('#attendancesDetailsModal', url);
+    })
+</script>
 @endif
-@push('footer-script')
-    <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
-    <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('plugins/cc-picker/jquery.ccpicker.js') }}"></script>
-    <script>
-        $('.plus-form').click(function() {
-            let target = $(event.target)[0];
-            const field = $('#' + target.dataset.type)
-            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
-            $('#modelHeading').html('...');
-            $.ajaxModal('#addModal', url);
-        })
-    </script>
-    
-@endpush

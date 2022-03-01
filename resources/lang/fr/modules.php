@@ -932,7 +932,7 @@ return array(
         'totalWorkingDays' => 'Total des jours ouvrables',
         'daysPresent' => 'Jours présents',
         'absent' => 'Absente',
-        'present' => 'Cadeau',
+        'present' => 'Présent',
         'currentTime' => 'Heure actuelle',
         'attendanceByDate' => 'Participation par date',
         'attendanceByMember' => 'Participation par membre',

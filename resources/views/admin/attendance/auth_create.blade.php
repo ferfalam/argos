@@ -20,8 +20,6 @@
 @endsection
 
 @push('head-script')
-<link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/timepicker/bootstrap-timepicker.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/switchery/dist/switchery.min.css') }}">
@@ -55,7 +53,6 @@
                     <table  id="attendance-table">
                     </table>
                 </div>
-                
                 <div id="holidayBox" style="display: none">
                     <div class="alert alert-primary"> @lang('modules.attendance.holidayfor') <span id="holidayReason"> </span>. </div>
                 </div>
@@ -94,19 +91,21 @@
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
 
-<script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
-<script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/timepicker/bootstrap-timepicker.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/switchery/dist/switchery.min.js') }}"></script>
 
 <script>
 
-    $(".select2").select2({
-        formatNoMatches: function () {
-            return "{{ __('messages.noRecordFound') }}";
-        }
-    });
+    // $('.plus-form').click(function() {
+    //     let target = $(event.target)[0];
+    //     const field = $('#' + target.dataset.type)
+    //     const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+    //     $('#modelHeading').html('...');
+    //     console.log(url)
+
+    //     $.ajaxModal('#attendancesDetailsModal', url);
+    // })
     checkHoliday();
 
     jQuery('#attendance_date').datepicker({
@@ -210,11 +209,12 @@
 
     $('#attendance-table').on('click', '.save-attendance', function () {
         var userId = $(this).data('user-id');
+        console.log($('#workplace option:selected').val())
         var clockInTime = $('#clock-in-'+userId).val();
         var clockInIp = $('#clock-in-ip-'+userId).val();
         var clockOutTime = $('#clock-out-'+userId).val();
         var clockOutIp = $('#clock-out-ip-'+userId).val();
-        var workingFrom = $('#working-from-'+userId).val();
+        var workingFrom = $('#workplace option:selected').val();
         var date = $('#attendance_date').val();
 
         var late = 'no';
