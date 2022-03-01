@@ -29,7 +29,7 @@
 
             </div>
             <button type="button" id="plusButton" class="btn btn-sm btn-info" style="margin-bottom: 20px">
-                Add More <i class="fa fa-plus"></i>
+                Ajouter <i class="fa fa-plus"></i>
             </button>
         </div>
         <!--/row-->
@@ -37,7 +37,7 @@
     {!! Form::close() !!}
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Fermer</button>
     <button type="button" onclick="storeHolidays()" class="btn btn-info save-event waves-effect waves-light"><i class="fa fa-check"></i> @lang('app.save')
     </button>
 </div>
