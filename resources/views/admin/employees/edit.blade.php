@@ -504,7 +504,7 @@
                                                         class="">@lang('app.start_date')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="start_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->joining_date}}">
+                                                    <input type="text" name="start_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date}}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
