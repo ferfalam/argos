@@ -325,7 +325,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="company_phone" id="company_phone"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count($userDetail->tel) > 0)  {{explode(" ",$userDetail->tel)[1]}} @endif " >
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->tel)) > 0)  {{explode(" ",$userDetail->tel)[1]}} @endif " >
                                                     </div>
                                                 </td>
                                                 <td>
@@ -342,7 +342,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="mobile" id="mobile"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count($userDetail->mobile) > 0) {{explode(" ",$userDetail->mobile)[1]}} @endif ">
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->mobile)) > 0) {{explode(" ",$userDetail->mobile)[1]}} @endif ">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -359,7 +359,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="fax" id="fax"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count($userDetail->fax) > 0) {{explode(" ",$userDetail->fax)[1]}} @endif " >
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->fax)) > 0) {{explode(" ",$userDetail->fax)[1]}} @endif " >
                                                     </div>
                                                 </td>
                                                 <td>
@@ -589,7 +589,7 @@
                                                     <td>
                                                         <div class="d-flex">
                                                             <input type="text" name="p_phone" id="p_phone"
-                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count($userDetail->userTel) >0)  {{ explode(" ",$userDetail->userTel)[1] }} @endif "  >
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->userTel)) >0)  {{ explode(" ",$userDetail->userTel)[1] }} @endif "  >
                                                         </div>
                                                     </td>
                                                     <td>
@@ -606,7 +606,7 @@
                                                     <td>
                                                         <div class="d-flex">
                                                             <input type="text" name="p_mobile" id="p_mobile"
-                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count($userDetail->userMoblie) >0 ) {{ explode(" ",$userDetail->userMoblie)[1] }} @endif " >
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->userMoblie)) >0 ) {{ explode(" ",$userDetail->userMoblie)[1] }} @endif " >
                                                         </div>
                                                     </td>
                                                     <td>
@@ -623,7 +623,7 @@
                                                     <td>
                                                         <div class="d-flex">
                                                             <input type="text" name="p_fax" id="p_fax"
-                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count($userDetail->userFax) >0 ) {{ explode(" ",$userDetail->userFax)[1] }} @endif" >
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->userFax)) >0 ) {{ explode(" ",$userDetail->userFax)[1] }} @endif" >
                                                         </div>
                                                     </td>
                                                     <td>
@@ -1222,12 +1222,12 @@
     });
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
-    $("#mobile").CcPicker("setCountryByPhoneCode", " @if(count($userDetail->mobile) >0 ) {{ explode(" ",$userDetail->mobile)[0] }} @endif ");
-    $("#company_phone").CcPicker("setCountryByPhoneCode", "@if(count($userDetail->tel) >0 ) {{ explode(" ",$userDetail->tel)[0]}} @endif");
-    $("#fax").CcPicker("setCountryByPhoneCode", "@if(count($userDetail->fax) >0 ) {{explode(" ",$userDetail->fax)[0]}} @endif ");
-    $("#p_mobile").CcPicker("setCountryByPhoneCode", "@if(count($userDetail->userMoblie) >0 ) {{ explode(" ",$userDetail->userMoblie)[0]}} @endif ");
-    $("#p_fax").CcPicker("setCountryByPhoneCode", "@if(count($userDetail->userFax) >0 ) {{ explode(" ",$userDetail->userFax)[0]}} @endif ");
-    $("#p_phone").CcPicker("setCountryByPhoneCode", "@if(count($userDetail->userTel) >0 ) {{ explode(" ",$userDetail->userTel)[0]}} @endif ");
+    $("#mobile").CcPicker("setCountryByPhoneCode", " @if(count(explode(" ",$userDetail->mobile)) >0 ) {{ explode(" ",$userDetail->mobile)[0] }} @endif ");
+    $("#company_phone").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->tel)) >0 ) {{ explode(" ",$userDetail->tel)[0]}} @endif");
+    $("#fax").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->fax)) >0 ) {{explode(" ",$userDetail->fax)[0]}} @endif ");
+    $("#p_mobile").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->userMoblie)) >0 ) {{ explode(" ",$userDetail->userMoblie)[0]}} @endif ");
+    $("#p_fax").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->userFax)) >0 ) {{ explode(" ",$userDetail->userFax)[0]}} @endif ");
+    $("#p_phone").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->userTel)) >0 ) {{ explode(" ",$userDetail->userTel)[0]}} @endif ");
     
 
     $('.category-form').click(function() {
