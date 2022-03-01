@@ -18,6 +18,7 @@ return array(
   'timerStartedSuccessfully' => 'La minuterie a commencé avec succès.',
   'timerStoppedSuccessfully' => 'La minuterie s\'est arrêtée avec succès.',
   'taskCreatedSuccessfully' => 'Tâche créée avec succès.',
+  'meetingCreatedSuccessfully' => 'Zoom meeting créé avec succès.',
   'membersAddedSuccessfully' => 'Les membres ont ajouté avec succès.',
   'taskUpdatedSuccessfully' => 'Tâche mise à jour avec succès.',
   'meetingUpdatedSuccessfully' => 'Zoom meeting mise à jour avec succès.',

@@ -103,7 +103,6 @@
                         </p>
                     </div>
                 </div>
-
             </div>
             @if(isset($meetingFiles))
                 <div class="row" id="list">
@@ -140,7 +139,7 @@
                         @empty
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-10" style="border-top: 1px solid; margin-top: 1em">
                                         @lang('messages.noFileUploaded')
                                     </div>
                                 </div>
@@ -208,6 +207,7 @@
 
 <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 <script>
+
      $('body').on('click', '.delete-event', function () {
         var occurrence = "{{ $event->occurrence_order }}"
 

@@ -216,7 +216,7 @@
         </div>
     </div>
 
-            <div class="row m-b-20">
+        <div class="row m-b-20">
             <div class="col-xs-12">
                 @if($upload)
                     <button type="button"

@@ -220,491 +220,608 @@
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
                     {!! Form::open(['id' => 'updateEmployee', 'class' => 'ajax-form', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
-                    <div class="form-body form-input" style="margin-top: 40px">
+                        <div class="form-body form-input" style="margin-top: 40px">
 
-                        <div class="row">
+                            <div class="row">
 
-                            <div class="col-md-4">
-                                <fieldset>
-                                    <legend>@lang('app.genralinfo')</legend>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <label for="" class="mb-0">@lang('app.gender')</label>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex" style="margin-right: 40px; gap:20px">
-                                                    <div class="form-group mb-0">
-                                                        <input type="radio" name="gender" value="male" @if($userDetail->gender == "male") Checked @endif>
-                                                        <label for="gender" style="margin-bottom: 0px">M</label>
+                                <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>@lang('app.genralinfo')</legend>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label for="" class="mb-0">@lang('app.civility')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="civility" value="male"
+                                                                @if ($userDetail->gender == 'male')checked @endif>
+                                                            <label for="civility" style="margin-bottom: 0px">M</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="civility" value="female"
+                                                                @if ($userDetail->gender == 'female')checked @endif>
+                                                            <label for="civility" style="margin-bottom: 0px">Mme</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group mb-0">
-                                                        <input type="radio" name="gender" value="female" @if($userDetail->gender == "female") Checked @endif>
-                                                        <label for="gender" style="margin-bottom: 0px">Mme</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="name" class="required">@lang('app.user_id')
-                                                </label></td>
-                                            <td>
-                                                <input type="text" class="form-control" id="user_id" name="user_id"
-                                                    value="{{$userDetail->user_id}}">
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="name" class="required">@lang('app.lastnamefirstname')
-                                                </label></td>
-                                            <td>
-                                                <input type="text" class="form-control" id="name" name="name"
-                                                 @if($userDetail->name) value="{{$userDetail->name}}" @else value="" @endif >
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="address" class="required">@lang('app.address')</label>
-                                            </td>
-                                            <td><textarea class="form-control" name="address" id="address"
-                                                    style="width:100%" rows="2" >{{$userDetail->address}}</textarea></td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="country" class="required">@lang('app.pays')</label>
-                                            </td>
-                                            <td>
-                                                <select name="country" id="country"   class="form-control select2">
-                                                    @foreach ($countries as $country)
-                                                        <option value=" {{ $country->id }}" @if($userDetail->country_id == $country->id) selected @endif >
-                                                            {{ ucfirst(strtolower($country->name)) }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="city" class="required">@lang('app.cp')</label></label>
-                                            </td>
-                                            <td>
-                                                <select name="city" id="city" class="form-control select2">
-                                                    <option value="" disabled>@lang('app.cp')</option>
-                                                    @foreach ($tla as $t)
-                                                        @if ($t->type == 'city')
-                                                            <option value=" {{ $t->id }}" @if($userDetail->city_id == $t->id) selected @endif  >
-                                                                {{ ucfirst(strtolower($t->name)) }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="javascript:;" class="text-info plus-form">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="" data-type="city">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </fieldset>
-                            </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                            <div class="col-md-4">
-                                <fieldset>
-                                    <legend>@lang('app.otherinfo')</legend>
+                                            <tr>
+                                                <td><label for="username" class="required">@lang('app.user_id')
+                                                    </label></td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="username" name="username"
+                                                        value="{{ $userDetail->username }}">
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <label for="profil" class="required">@lang('app.profil')</label>
-                                            </td>
-                                            <td>
-                                                <select name="profil" id="profil" class="form-control select2">
-
-                                                    @foreach($roles as $role)
-                                                        @if($role->name != 'superadmin')
-                                                        <option value="{{ $role->id}}"  @if($role->name == 'admin') disabled @endif   @if($role->id == $userDetail->role[0]->role_id) selected @endif   >
-                                                            @if($role->name == 'employee')
-                                                            Collaborateur
-                                                            @elseif($role->name == 'client')
-                                                            Profil Externe
+                                            <tr>
+                                                <td><label for="name"
+                                                        class="required">@lang('app.lastnamefirstname') </label></td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="name" name="name"
+                                                        value="{{ $userDetail->name }}" autocomplete="nope">
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="address" class="required">@lang('app.address')</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="address" id="address" value="  "
+                                                        style="width:100%"
+                                                        rows="2">{{ explode('|', $userDetail->address)[0] }}</textarea>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="country" class="required">@lang('app.pays')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="country" id="country" class="form-control select2">
+                                                        @foreach ($countries as $country)
+                                                            @if (explode('|', $userDetail->address)[1] == $country->name)
+                                                                <option value=" {{ $country->name }} " selected>
+                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
                                                             @else
-                                                                admin
+                                                                <option value=" {{ $country->name }} ">
+                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
                                                             @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><label for="city" class="required">@lang('app.cp')</label></label>
+                                                </td>
+                                                <td>
+                                                    <select name="city" id="city" class="form-control select2">
+                                                        <option value="" disabled>@lang('app.cp')</option>
+                                                        @foreach ($tla as $t)
+                                                            @if ($t->type == 'city')
+                                                                @if ($t->name == explode('|', $userDetail->address)[2])
+                                                                    <option value=" {{ $t->name }} " selected>
+                                                                        {{ $t->name }}</option>
+                                                                @else
+                                                                    <option value=" {{ $t->name }} ">
+                                                                        {{ $t->name }}</option>
+                                                                @endif
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="text-info plus-form">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="qualification" class="">@lang('app.qualification')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="qualification" id="qualification" class="form-control select2">
+                                                        @foreach ($designations as $designation)
+                                                            @if ($userDetail->qualification == $designation->name )
+                                                                <option value=" {{ $designation->name }} " selected>
+                                                                {{$designation->name }}</option>
+                                                            @else
+                                                                <option value=" {{ $designation->name }} ">
+                                                                {{$designation->name }}</option>
+                                                            @endif
+                                                            
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>@lang('app.otherinfo')</legend>
+
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label for="profil" class="required">@lang('app.profil')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="profil" id="profil" class="form-control select2">
+                                                        <option value="App Administrator" @if($userRole == "App Administrator") selected @endif >Admin</option>
+                                                        <option value="Collaborateur" @if($userRole == "Collaborateur") selected @endif>Collaborateur</option>
+                                                        <option value="Externe" @if($userRole == "Externe") selected @endif>Externe</option>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {{-- <tr>
+                                                <td>
+                                                    <label for="qualification"
+                                                        class="required">@lang('app.qualification')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="qualification" id="qualification"
+                                                        class="form-control select2">
+                                                        <option value="" disabled>@lang('app.qualification')</option>
+                                                        @foreach ($tla as $t)
+                                                            @if ($t->type == 'qualification')
+                                                                <option value="{{ $t->name }}">
+                                                                    {{ ucfirst($t->name) }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                <td>
+                                                    <a href="javascript:;" class="text-info plus-form">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="qualification"> </a>
+                                                </td>
+                                            </tr> --}}
+                                            <tr>
+                                                <td>
+                                                    <label for="birthday"
+                                                        class="">@lang('app.datenaissance')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="birthday" id="birthday"
+                                                        value="{{date('d-m-Y', strtotime($userDetail->birthday))}}"
+                                                        class="form-control datepicker">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="native_country"
+                                                        class="required">@lang('app.paysnaissance')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="native_country" id="native_country"
+                                                        class="form-control select2">
+                                                        @foreach ($countries as $country)
+                                                            @if (explode('|', $userDetail->address)[1] == $country->name)
+                                                                <option value=" {{ $country->name }} " selected>
+                                                                    {{ ucfirst($country->name) }}</option>
+                                                            @else
+                                                                <option value=" {{ $country->name }} ">
+                                                                    {{ ucfirst($country->name) }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="nationality"
+                                                        class="required">@lang('app.nationalite')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="nationality" id="nationality"
+                                                        class="form-control select2">
+                                                        @foreach ($countries as $country)
+                                                            @if (explode('|', $userDetail->address)[1] == $country->name)
+                                                                <option value=" {{ $country->name }} " selected>
+                                                                    {{ ucfirst($country->name) }}</option>
+                                                            @else
+                                                                <option value=" {{ $country->name }} ">
+                                                                    {{ ucfirst($country->name) }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="language" class="required">@lang('app.langue')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="language" id="language" class="form-control select2">
+                                                        <option @if ($global->locale == 'en') selected @endif value="en">
+                                                            English
                                                         </option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        {{-- <tr>
-                                            <td>
-                                                <label for="qualification"
-                                                    class="required">@lang('app.qualification')</label>
-                                            </td>
-                                            <td>
-                                                <select name="qualification" id="qualification"
-                                                    class="form-control select2">
-                                                    <option value="" disabled>@lang('app.qualification')</option>
-                                                    @foreach ($tla as $t)
-                                                        @if ($t->type == 'qualification')
-                                                            <option value=" {{ $t->name }} ">
-                                                                {{ ucfirst(strtolower($t->name)) }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            <td>
-                                                <a href="javascript:;" class="text-info plus-form">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="" data-type="qualification">
-                                                </a>
-                                            </td>
-                                        </tr> --}}
-                                        <tr>
-                                            <td>
-                                                <label for="birthday"
-                                                    class="required">@lang('app.datenaissance')</label>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="birthday" id="birthday" value="{{ $userDetail->birthday }}" class="form-control datepicker">
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="native_country"
-                                                    class="required">@lang('app.paysnaissance')</label>
-                                            </td>
-                                            <td>
-                                                <select name="native_country" id="native_country"
-                                                    class="form-control select2">
-                                                    @foreach ($countries as $country)
-                                                        <option value="{{ $country->name }}"  @if($userDetail->native_country == $country->name) selected @endif >
-                                                            {{ ucfirst(strtolower($country->name)) }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="nationality"
-                                                    class="required">@lang('app.nationalite')</label>
-                                            </td>
-                                            <td>
-                                                <select name="nationality" id="nationality"
-                                                    class="form-control select2">
-                                                    @foreach ($countries as $country)
-                                                        <option value="{{ $country->name }}"  @if($userDetail->nationality == $country->name) selected @endif >
-                                                            {{ ucfirst(strtolower($country->name)) }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="language" class="required">@lang('app.langue')</label>
-                                            </td>
-                                            <td>
-                                                <select name="language" id="language" class="form-control select2">
-                                                    <option @if ($global->locale == 'en') selected @endif value="en">
-                                                        English
-                                                    </option>
-                                                    @foreach ($languageSettings as $language)
-                                                        <option value="{{ $language->language_code }}"
-                                                            @if ($userDetail->language == $language->language_code) selected @endif>
-                                                            {{ $language->language_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="Javascript:;" class="text-info language-form "> 
-                                                    <img src="{{ asset('img/plus.png') }}" alt="" data-type="language" >
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="start_date"
-                                                    class="required">@lang('app.start_date')</label>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="start_date" id="start_date"   value="{{date('Y-m-d',strtotime($employeeDetail->joining_date))}}"  class="form-control datepicker">
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="end_date"
-                                                    class="required">@lang('app.end_date')</label>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="end_date" id="end_date" value=" {{date('Y-m-d',strtotime($employeeDetail->last_date))}} "  class="form-control datepicker">
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        {{-- <tr>
-                                            <td>
-                                                <label for="observation"
-                                                    class="required">@lang('app.observation')</label>
-                                            </td>
-                                            <td>
-                                                <textarea class="form-control" name="observation" id="observation"
-                                                    style="width:100%" rows="2"></textarea>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr> --}}
-                                    </table>
-                                </fieldset>
-                            </div>
+                                                        @foreach ($languageSettings as $language)
+                                                            <option value="{{ $language->language_name }}"
+                                                                @if ($global->locale == $language->language_code) selected @endif>
+                                                                {{ $language->language_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href=" {{ route('super-admin.language-settings.create') }} " style="background: none">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="start_date"
+                                                        class="">@lang('app.start_date')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="start_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->start_date}}">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="end_date"
+                                                        class="">@lang('app.end_date')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="end_date" class="form-control datepicker" value="{{json_decode($userDetail->observation)->end_date}}">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </div>
 
-                            <div class="col-md-4">
-
-                                <table>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail"
-                                                    style="width: 123px; height: 137px;">
-                                                    <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                        alt="" />
-                                                </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail"
-                                                    style="max-width: 200px; max-height: 150px;"></div>
-                                                <div class="mt-5">
-                                                    <span class="btn btn-info btn-file">
-                                                        <span class="fileinput-new"> @lang('app.selectImage') </span>
-                                                        <span class="fileinput-exists"> @lang('app.change') </span>
-                                                        <input type="file" name="image" id="image"> </span>
-                                                    <a href="javascript:;" class="btn btn-danger fileinput-exists"
-                                                        data-dismiss="fileinput"> @lang('app.remove') </a>
-                                                </div>
-                                                <div class="mt-1">
-                                                    <p class="text-secondary">@lang('app.fomatimage')</p>
-                                                    <p class="text-secondary">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div class="col-md-4">
-                                <fieldset>
-                                    <legend>@lang('app.cordonnees')</legend>
+                                <div class="col-md-4">
 
                                     <table>
-
                                         <tr>
-                                            <td>
-                                                <label for="service" class="required">@lang('app.services')</label>
-                                            </td>
-                                            <td>
-                                                <select name="service" id="service" class="form-control select2">
-                                                    @foreach($teams as $team)
-                                                        <option value="{{ $team->id }} ">{{ $team->team_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label for="compentancy"
-                                                    class="required">@lang('app.compentancy')</label>
-                                            </td>
-                                            <td>
-                                                <input name='tags' placeholder='@lang('app.skills')' value='{{ $EmployeeSkill }}' >
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                       
-
-                                        <tr>
-                                            <td>
-                                                <label for="mobile">@lang('app.mobile')</label>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    {{-- <div class="input-group-btn">
-                                                        <button type="button" class="btn dropdown-toggle"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"><span class="flag-icon flag-icon-fr"
-                                                                id="bind-flag-mobile"></span> <span
-                                                                class="caret"></span></button>
-                                                        <ul class="dropdown-menu phonecode-select">
-                                                            @foreach ($countries as $country)
-                                                                <li>
-                                                                    <a class="phonecode-item"
-                                                                        data-phonecode="{{ $country->phonecode }}"
-                                                                        data-input="mobile"
-                                                                        data-bind-flag="bind-flag-mobile"
-                                                                        data-flag="flag-icon-{{ strtolower($country->iso) }}">
-                                                                        <span
-                                                                            class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
-                                                                        {{ ucfirst(strtolower($country->name)) }}
-                                                                    </a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div><!-- /btn-group --> --}}
-                                                    <input type="text" name="mobile" id="mobile"
-                                                        class="form-control phone-input ccpicker" aria-label="..." value="{{ explode(" ",$userDetail->mobile)[1] }}" >
-                                                </div><!-- /input-group -->
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label for="" class="mb-0">@lang('app.notification')</label>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex" style="margin-right: 40px; gap:20px">
-                                                    <div class="form-group mb-0">
-                                                        <input type="radio" name="notification" @if($userDetail->email_notifications == 1) checked @endif  value="1">
-                                                        <label for="notification" style="margin-bottom: 0px">@lang('app.active')</label>
+                                            <td class="text-center">
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail"
+                                                        style="width: 123px; height: 137px;">
+                                                        <img src=" {{$userDetail->getImageUrlAttribute()}} "
+                                                            alt="" />
                                                     </div>
-                                                    <div class="form-group mb-0">
-                                                        <input type="radio" name="notification"   @if($userDetail->email_notifications == 0) checked @endif value="0">
-                                                        <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail"
+                                                        style="max-width: 200px; max-height: 150px;"></div>
+                                                    <div class="mt-5">
+                                                        <span class="btn btn-info btn-file">
+                                                            <span class="fileinput-new"> @lang('app.selectImage') </span>
+                                                            <span class="fileinput-exists"> @lang('app.change') </span>
+                                                            <input type="file" name="image" id="image"> </span>
+                                                        <a href="javascript:;" class="btn btn-danger fileinput-exists"
+                                                            data-dismiss="fileinput"> @lang('app.remove') </a>
+                                                    </div>
+                                                    <div class="mt-1">
+                                                        <p class="text-secondary">@lang('app.fomatimage')</p>
+                                                        <p class="text-secondary">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
                                         </tr>
-
                                     </table>
-                                </fieldset>
-                            </div>
+                                </div>
 
-                            <div class="col-md-4">
-                                <fieldset>
-                                    <legend>Connexion</legend>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <label for="email" class="required">@lang('app.login_email')</label>
-                                            </td>
-                                            <td>
-                                                <input type="email" name="email" id="email"  class="form-control" value="{{ $userDetail->email }}" >
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="password"
-                                                    class="required">@lang('app.motdepasse')</label>
-                                            </td>
-                                            <td>
-                                                <input type="password" name="password" id="password"  class="form-control">
-                                            </td>
-                                        </tr>
+                                <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>@lang('app.cordonnees')</legend>
 
-                                        {{-- <tr>
-                                            <td>
-                                                <label for="connexion" class="required">@lang('app.connexion')</label>
-                                            </td>
-                                            <td>
-                                                <select name="connexion" id="connexion" class="form-control select2">
-                                                    <option value="Service A">Service A</option>
-                                                    <option value="Service B" disabled>Service B</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr> --}}
+                                        <table>
+                                            <tr>
+                                                <td><label for="skill_id" class="">@lang('app.compentancy')</label></label>
+                                                </td>
+                                                <td>
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="skill_id"
+                                                            data-placeholder="Sélectionner Compétences" name="skill_id[]" required>
+                                                        @foreach($skills as $skill)
+                                                            @if (json_decode($userDetail->observation)->skills)
+                                                                @foreach (json_decode($userDetail->observation)->skills as $key => $skill_id)
+                                                                    @if ($skill_id == $skill->id)
+                                                                        <option value="{{ $skill->id }}" selected> {{ ucwords($skill->name) }} </option>
+                                                                    @else
+                                                                        @if (count(json_decode($userDetail->observation)->skills)-1 == $key)
+                                                                            <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                                        @endif
+                                                                        
+                                                                    @endif
+                                                                @endforeach
+                                                            @else   
+                                                                <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill_id">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="service" class="">@lang('app.services')</label>
+                                                </td>
+                                                <td>
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
+                                                            data-placeholder="Sélectionner Départements" name="departement_id[]" required>
+                                                        @foreach($groups as $group)
+                                                            @if (json_decode($userDetail->observation)->departement)
+                                                                @foreach (json_decode($userDetail->observation)->departement as $key => $departement)
+                                                                    @if ($departement == $group->id)
+                                                                        <option value="{{ $group->id }}" selected> {{ ucwords($group->team_name) }} </option>
+                                                                    @else
+                                                                        @if (count(json_decode($userDetail->observation)->departement)-1 == $key)
+                                                                            <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                                        @endif
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <td>
-                                                <label for="status" class="required">@lang('app.status')</label>
-                                            </td>
-                                            <td>
-                                                <select name="status" id="status" class="form-control select2">
-                                                    <option value="active" @if($userDetail->status == 'active') selected @endif >active</option>
-                                                    <option value="deactive" @if($userDetail->status == 'deactive') selected @endif  >deactive</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a href="#!" class="invisible">
-                                                    <img src="{{ asset('img/plus.png') }}" alt="">
-                                                </a>
-                                            </td>
-                                        </tr>
+                                           
+                                            {{-- <tr>
+                                                <td>
+                                                    <label for="compentancy"
+                                                        class="required">@lang('app.compentancy')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="compentancy" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                    </table>
-                                </fieldset>
+                                           
+                                            {{-- <tr>
+                                                <td>
+                                                    <label for="tel">@lang('app.tel')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn dropdown-toggle"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false"><span class="flag-icon flag-icon-fr"
+                                                                    id="bind-flag-tel"></span> <span
+                                                                    class="caret"></span></button>
+                                                            <ul class="dropdown-menu phonecode-select">
+                                                                @foreach ($countries as $country)
+                                                                    <li>
+                                                                        <a class="phonecode-item"
+                                                                            data-phonecode="{{ $country->phonecode }}"
+                                                                            data-input="tel" data-bind-flag="bind-flag-tel"
+                                                                            data-flag="flag-icon-{{ strtolower($country->iso) }}">
+                                                                            <span
+                                                                                class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
+                                                                            {{ ucfirst($country->name) }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div><!-- /btn-group -->
+                                                        <input type="text" name="tel" id="tel"
+                                                            class="form-control phone-input ccpicker" aria-label="..."
+                                                            value=" {{ explode(' ', $userDetail->tel)[1] }} ">
+                                                    </div><!-- /input-group -->
+                                                </td>
+                                            </tr> --}}
+                                            
+                                            <tr>
+                                                <td>
+                                                    <label for="mobile">@lang('app.mobile')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        {{-- <div class="input-group-btn">
+                                                            <button type="button" class="btn dropdown-toggle"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false"><span class="flag-icon flag-icon-fr"
+                                                                    id="bind-flag-mobile"></span> <span
+                                                                    class="caret"></span></button>
+                                                            <ul class="dropdown-menu phonecode-select">
+                                                                @foreach ($countries as $country)
+                                                                    <li>
+                                                                        <a class="phonecode-item"
+                                                                            data-phonecode="{{ $country->phonecode }}"
+                                                                            data-input="mobile"
+                                                                            data-bind-flag="bind-flag-mobile"
+                                                                            data-flag="flag-icon-{{ strtolower($country->iso) }}">
+                                                                            <span
+                                                                                class="flag-icon flag-icon-{{ strtolower($country->iso) }}"></span>
+                                                                            {{ ucfirst(($country->name) }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div><!-- /btn-group --> --}}
+                                                        <input type="text" name="mobile" id="mobile"
+                                                            class="form-control phone-input ccpicker" aria-label="..."
+                                                            value="{{ explode(' ', $userDetail->mobile)[1] }}">
+                                                    </div><!-- /input-group -->
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label for="" class="mb-0">@lang('app.notification')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="notification" value="1" checked>
+                                                            <label for="notification" style="margin-bottom: 0px" checked>@lang('app.active')</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="notification" value="0">
+                                                            <label for="notification" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>Connexion</legend>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label for="email" class="required">Login</label>
+                                                </td>
+                                                <td>
+                                                    <input value=" {{ $userDetail->email }} " id="email" type="email" name="email"
+                                                        class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="password"
+                                                        class="">@lang('app.motdepasse')</label>
+                                                </td>
+                                                <td>
+                                                    <input type="password" id="password" name="password" class="form-control">
+                                                </td>
+                                            </tr>
+
+                                            
+                                            <tr>
+                                                <td>
+                                                    <label for="connexion" class="required">@lang('app.connexion')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="connexion" value="1" @if ($userDetail->login == 'enable')checked @endif>
+                                                            <label for="connexion" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="connexion" value="0" @if ($userDetail->login != 'enable')checked @endif>
+                                                            <label for="connexion" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label for="status" class="required">@lang('app.status')</label>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="status" value="1"  @if ($userDetail->status == 'active')checked @endif>
+                                                            <label for="status" style="margin-bottom: 0px">@lang('app.active')</label>
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <input type="radio" name="status" value="0" @if ($userDetail->status != 'active')checked @endif>
+                                                            <label for="status" style="margin-bottom: 0px">@lang('app.deactive')</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </fieldset>
+                                </div>
+
                             </div>
 
                         </div>
 
-                    </div>
-                    <div class="form-actions" style="margin-top: 20px">
-                        {{-- <button class="btn btn-reset" type="reset">@lang('app.annuler')</button> --}}
-                        <button type="submit" id="save-form" class="btn btn-success">@lang('app.enregistrer') </button>
-                    </div>
+                        <div class="form-actions" style="margin-top: 20px">
+                            {{-- <button class="btn btn-reset" type="reset">@lang('app.annuler')</button> --}}
+                            <button type="submit" id="save-form" class="btn btn-success">@lang('app.update') </button>
+                        </div>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -1083,11 +1200,11 @@
             dataUrl: "{{ asset('data.json') }}"
         });
 
-        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->mobile)[0] }}");
+        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->mobile)[0], 1) }}");
         $("#tel").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->mobile)[0] }}");
 
         $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd',
+            format: 'dd-mm-yyyy',
         });
         
 
@@ -1121,40 +1238,40 @@
             }
         });
 
-            var input = document.querySelector('input[name=tags]'),
-                // init Tagify script on the above inputs
-                tagify = new Tagify(input, {
-                    whitelist : {!! json_encode($EmployeeSkill) !!},
-                    //  blacklist : [".NET", "PHP"] // <-- passed as an attribute in this demo
-                });
+//             var input = document.querySelector('input[name=tags]'),
+//                 // init Tagify script on the above inputs
+//                 tagify = new Tagify(input, {
+//                     whitelist : {!! json_encode($EmployeeSkill) !!},
+//                     //  blacklist : [".NET", "PHP"] // <-- passed as an attribute in this demo
+//                 });
 
-// Chainable event listeners
-            tagify.on('add', onAddTag)
-                .on('remove', onRemoveTag)
-                .on('input', onInput)
-                .on('invalid', onInvalidTag)
-                .on('click', onTagClick);
+// // Chainable event listeners
+//             tagify.on('add', onAddTag)
+//                 .on('remove', onRemoveTag)
+//                 .on('input', onInput)
+//                 .on('invalid', onInvalidTag)
+//                 .on('click', onTagClick);
 
-// tag added callback
-            function onAddTag(e){
-                tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
-            }
+// // tag added callback
+//             function onAddTag(e){
+//                 tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
+//             }
 
-// tag remvoed callback
-            function onRemoveTag(e){
-            }
+// // tag remvoed callback
+//             function onRemoveTag(e){
+//             }
 
-// on character(s) added/removed (user is typing/deleting)
-            function onInput(e){
-            }
+// // on character(s) added/removed (user is typing/deleting)
+//             function onInput(e){
+//             }
 
-// invalid tag added callback
-            function onInvalidTag(e){
-            }
+// // invalid tag added callback
+//             function onInvalidTag(e){
+//             }
 
-// invalid tag added callback
-            function onTagClick(e){
-            }
+// // invalid tag added callback
+//             function onTagClick(e){
+//             }
 
         })()
 </script>

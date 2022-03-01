@@ -11,6 +11,7 @@ use App\Http\Requests\SuperAdmin\SuperAdmin\CreateSuperAdmin;
 use App\Http\Requests\SuperAdmin\SuperAdmin\UpdateSuperAdmin;
 use App\Mail\SuperAdmin;
 use App\Mail\UpdateSuperAdmin as MailUpdateSuperAdmin;
+use App\Skill;
 use App\Team;
 use App\User;
 use Exception;
@@ -63,6 +64,7 @@ class SuperAdminController extends SuperAdminBaseController
         // $this->countries = Country::all();
 
         $this->groups = Team::with('member', 'member.user')->get();
+        $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
         return view('super-admin.super-admin.create', $this->data);
     }
@@ -89,16 +91,18 @@ class SuperAdminController extends SuperAdminBaseController
 
         $observation = [
             "departement" => $request->departement_id,
+            "skills" => $request->skill_id,
             "start_date" => $request->input("start_date"),
             "end_date" => $request->input("end_date")
         ];
 
         $user->gender = $request->input("civility");
         $user->name = $request->input("name");
+        $user->user_id = user()->id;
         $user->address = $request->input('address') . '|' . $request->input('country') . '|' . $request->input('city');
 
         $user->qualification = $request->input("qualification");
-        $user->birthday = $request->input("birthday");
+        $user->birthday = date('Y-m-d', strtotime($request->birthday));
         $user->native_country = $request->input("native_country");
         $user->nationality = $request->input("nationality");
         $user->language = $request->input("language");
@@ -111,6 +115,7 @@ class SuperAdminController extends SuperAdminBaseController
         $user->password = Hash::make($request->input('password'));
         $user->login = $request->input("connexion") == "1" ? 'enable' : 'disable';
         $user->status = $request->input("status") == "1" ? 'active' : 'deactive';
+        $user->email_notifications = intval($request->input("notification"));
         $user->super_admin = '1';
 
         if ($request->hasFile('image')) {
@@ -149,6 +154,7 @@ class SuperAdminController extends SuperAdminBaseController
             ->findOrFail($id);
         $this->tla = CompanyTLA::all();
         $this->groups = Team::with('member', 'member.user')->get();
+        $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
         return view('super-admin.super-admin.edit', $this->data);
     }
@@ -196,6 +202,7 @@ class SuperAdminController extends SuperAdminBaseController
         $user->language = $request->input("language");
         $observation = [
             "departement" => $request->departement_id,
+            "skills" => $request->skill_id,
             "start_date" => $request->input("start_date"),
             "end_date" => $request->input("end_date")
         ];
