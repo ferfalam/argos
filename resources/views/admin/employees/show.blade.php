@@ -166,7 +166,7 @@
 
                                 <tr>
                                     <td><strong>@lang('app.department')</strong></td>
-                                    <td class="text-muted">{{ (!is_null($employee->employeeDetail)) && !is_null($employee->employeeDetail->department)) ?  $employee->employeeDetail->department->team_name : '-' }}</td>
+                                    {{-- <td class="text-muted">{{ (!is_null($employee->employeeDetail)) && !is_null($employee->employeeDetail->department)) ?  $employee->employeeDetail->department->team_name : '-' }}</td> --}}
                                 </tr>
 
                                 <tr>
@@ -192,7 +192,7 @@
 
                                 <tr>
                                     <td><strong>@lang('app.department')</strong></td>
-                                    <td class="text-muted">{{ (!is_null($employee->employeeDetail) && !is_null($employee->employeeDetail->department)) ? ucwords($employee->employeeDetail->department->team_name) : '-' }}</td>
+                                    {{-- <td class="text-muted">{{ (!is_null($employee->employeeDetail) && !is_null($employee->employeeDetail->department)) ? ucwords($employee->employeeDetail->department->team_name) : '-' }}</td> --}}
                                 </tr>
 
                                 <tr>
