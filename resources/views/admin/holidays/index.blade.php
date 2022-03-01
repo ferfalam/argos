@@ -9,7 +9,7 @@
     <x-slot name="btns">
         <x-link type="link" url="javascript:;" onclick="showAdd()"  classes="btn btn-cs-blue " icon="fa fa-plus" title="modules.holiday.addNewHoliday"/>
         <x-link type="link" url="javascript:;" onclick="calendarData()"  classes="btn btn-cs-green " icon="fa fa-calendar" title="modules.holiday.viewOnCalendar"/>
-        <x-link type="link" url="{{ route('admin.attendances.create') }}" classes="btn btn-cs-blue markHoliday" icon="fa fa-plus" title="modules.holiday.markSunday"/>
+        {{-- <x-link type="link" url="{{ route('admin.attendances.create') }}" classes="btn btn-cs-blue markHoliday" icon="fa fa-plus" title="modules.holiday.markSunday"/> --}}
     </x-slot>
 </x-main-header>
 @endsection
