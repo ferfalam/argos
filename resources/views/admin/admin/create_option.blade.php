@@ -10,7 +10,9 @@
         @elseif($type=="activity_sector")
             Secteur d'activité
         @elseif($type=="tva_intrat")
-            N°TVA intrat
+            N°TVA intrat 
+        @elseif ($type=="workplace")
+            Lieu de travail
         @endif
     </h4>
 </div>
@@ -32,7 +34,9 @@
                             @elseif($type=="activity_sector")
                                 Secteur d'activité
                             @elseif($type=="tva_intrat")
-                                N°TVA intrat
+                                N°TVA intrat 
+                            @elseif ($type=="workplace")
+                                Lieu de travail
                             @endif
                         </th>
                         <th>@lang('app.action')</th>
@@ -71,7 +75,9 @@
                             @elseif($type=="activity_sector")
                                 Secteur d'activité
                             @elseif($type=="tva_intrat")
-                                N°TVA intrat
+                                N°TVA intrat 
+                            @elseif ($type=="workplace")
+                                Lieu de travail
                             @endif
                         </label>
                         <input type="text" name="option_name" id="option_name" class="form-control">
@@ -98,7 +104,9 @@
                             @elseif($type=="activity_sector")
                                 Secteur d'activité
                             @elseif($type=="tva_intrat")
-                                N°TVA intrat
+                                N°TVA intrat 
+                            @elseif ($type=="workplace")
+                                Lieu de travail
                             @endif
                         </label>
                         <input type="text" name="option_name" id="edit_option_name" class="form-control">

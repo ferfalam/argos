@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attendance;
 use App\AttendanceSetting;
+use App\CompanyTLA;
 use App\EmployeeDetails;
 use App\Helper\Reply;
 use App\Holiday;
@@ -275,11 +276,12 @@ class ManageAttendanceController extends AdminBaseController
 
         $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
         $attendances = Attendance::attendanceByDate($date);
+        $this->tla = CompanyTLA::all();
 
         return DataTables::of($attendances)
             ->editColumn('id', function ($row) {
                 if($row->cs_user_id == auth()->user()->id){
-                    return view('admin.attendance.my_attendance_list', ['row' => $row, 'global' => $this->global, 'maxAttandenceInDay' => $this->maxAttandenceInDay])->render();
+                    return view('admin.attendance.my_attendance_list', ['row' => $row, 'global' => $this->global, 'maxAttandenceInDay' => $this->maxAttandenceInDay, 'tla' => $this->tla])->render();
                 }
             })
             ->rawColumns(['id'])

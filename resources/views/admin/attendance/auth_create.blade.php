@@ -155,10 +155,10 @@
             serverSide: true,
             bFilter: false,
             bInfo: false,
+            paging:false,
             ajax: {
                 url: "{!! route('admin.attendances.mydata') !!}",
                 data: function (d) {
-                    console.log(d);
                     d.date = $('#attendance_date').val();
                 }
             },
@@ -258,6 +258,5 @@
         $('#modelHeading').html('@lang('modules.attendance.attendanceDetail')');
         $.ajaxModal('#attendancesDetailsModal',url);
     }
-
 </script>
 @endpush
