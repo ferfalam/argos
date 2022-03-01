@@ -5,7 +5,7 @@
 </style>
 <div class="tabs">
     <div class="tabs-header">
-        <a class="tab-btn {{request()->routeIs('admin.clients.show', $client->id) ? 'active' : ""}} " href="{{ route('admin.clients.show', $client->id) }}">@lang('modules.employees.profile')</a>
+        <a class="tab-btn {{request()->routeIs('admin.suppliers.show', $client->id) ? 'active' : ""}} " href="{{ route('admin.suppliers.show', $client->id) }}">@lang('modules.employees.profile')</a>
         <a class="tab-btn {{request()->routeIs('admin.clients.projects', $client->id) ? 'active' : ""}}" href="{{ route('admin.clients.projects', $client->id) }}"><span>@lang('app.menu.projects')</span></a>
         <a class="tab-btn {{request()->routeIs('admin.clients.invoices', $client->id) ? 'active' : ""}}" href="{{ route('admin.clients.invoices', $client->id) }}"><span>@lang('app.menu.invoices')</span></a>
         <a class="tab-btn {{request()->routeIs('admin.contacts.show', $client->id) ? 'active' : ""}}" href="{{ route('admin.contacts.show', $client->id) }}"><span>@lang('app.menu.contacts')</span></a>

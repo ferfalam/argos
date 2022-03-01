@@ -204,45 +204,45 @@
 
         $(".table").dataTable();
 
-        // var table;
-        // $(function () {
-        //     $('body').on('click', '.sa-params', function () {
-        //         var id = $(this).data('user-id');
-        //         swal({
-        //             title: "@lang('messages.sweetAlertTitle')",
-        //             text: "@lang('messages.confirmation.recoverDeleteUser')",
-        //             type: "warning",
-        //             showCancelButton: true,
-        //             confirmButtonColor: "#DD6B55",
-        //             confirmButtonText: "@lang('messages.deleteConfirmation')",
-        //             cancelButtonText: "@lang('messages.confirmNoArchive')",
-        //             closeOnConfirm: true,
-        //             closeOnCancel: true
-        //         }, function(isConfirm){
-        //             if (isConfirm) {
+        var table;
+        $(function () {
+            $('body').on('click', '.sa-params', function () {
+                var id = $(this).data('user-id');
+                swal({
+                    title: "@lang('messages.sweetAlertTitle')",
+                    text: "@lang('messages.confirmation.recoverDeleteUser')",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "@lang('messages.deleteConfirmation')",
+                    cancelButtonText: "@lang('messages.confirmNoArchive')",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                }, function(isConfirm){
+                    if (isConfirm) {
 
-        //                 var url = "{{ route('admin.clients.destroy',':id') }}";
-        //                 url = url.replace(':id', id);
+                        var url = "{{ route('admin.suppliers.destroy',':id') }}";
+                        url = url.replace(':id', id);
 
-        //                 var token = "{{ csrf_token() }}";
+                        var token = "{{ csrf_token() }}";
 
-        //                 $.easyAjax({
-        //                     type: 'POST',
-        //                     url: url,
-        //                     data: {'_token': token, '_method': 'DELETE'},
-        //                     success: function (response) {
-        //                         if (response.status == "success") {
-        //                             $.easyBlockUI('#clients-table');
-        //                             window.LaravelDataTables["clients-table"].draw();
-        //                             $.easyUnblockUI('#clients-table');
-        //                         }
-        //                     }
-        //                 });
-        //             }
-        //         });
-        //     });
+                        $.easyAjax({
+                            type: 'POST',
+                            url: url,
+                            data: {'_token': token, '_method': 'DELETE'},
+                            success: function (response) {
+                                if (response.status == "success") {
+                                    $.easyBlockUI('#suppliers-table');
+                                    window.LaravelDataTables["suppliers-table"].draw();
+                                    $.easyUnblockUI('#suppliers-table');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
 
-        // });
+        });
 
         $('.toggle-filter').click(function () {
             $('#ticket-filters').toggle('slide');

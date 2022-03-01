@@ -252,6 +252,16 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $clients;
     }
 
+
+    public static function allSuppliers()
+    {
+        $clients = SupplierDetails::join('users', 'supplier_details.user_id', '=', 'users.id')
+            ->select('users.id', 'supplier_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'supplier_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+            ->get();
+
+        return $clients;
+    }
+
     public static function allSuperAdmin()
     {
         return User::withoutGlobalScopes(['active', CompanyScope::class])
