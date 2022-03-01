@@ -576,22 +576,22 @@
                                                             @if (json_decode($userDetail->observation)->skills)
                                                                 @foreach (json_decode($userDetail->observation)->skills as $key => $skill_id)
                                                                     @if ($skill_id == $skill->id)
-                                                                        <option value="{{ $skill->id }}" selected> {{ ucwords($skill->name) }} </option>
+                                                                        <option value="{{ $skill->id }}" selected> {{ $skill->name }} </option>
                                                                     @else
                                                                         @if (count(json_decode($userDetail->observation)->skills)-1 == $key)
-                                                                            <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                                            <option value="{{ $skill->id }}">{{ $skill->name }} </option>
                                                                         @endif
                                                                         
                                                                     @endif
                                                                 @endforeach
                                                             @else   
-                                                                <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                                <option value="{{ $skill->id }}">{{ $skill->name }} </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="javascript:;" class="invisible">
+                                                    <a href="javascript:;" class="text-info plus-form">
                                                         <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill_id">
                                                     </a>
                                                 </td>
@@ -607,15 +607,15 @@
                                                             @if (json_decode($userDetail->observation)->departement)
                                                                 @foreach (json_decode($userDetail->observation)->departement as $key => $departement)
                                                                     @if ($departement == $group->id)
-                                                                        <option value="{{ $group->id }}" selected> {{ ucwords($group->team_name) }} </option>
+                                                                        <option value="{{ $group->id }}" selected> {{ $group->team_name }} </option>
                                                                     @else
                                                                         @if (count(json_decode($userDetail->observation)->departement)-1 == $key)
-                                                                            <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                                            <option value="{{ $group->id }}">{{ $group->team_name }} </option>
                                                                         @endif
                                                                     @endif
                                                                 @endforeach
                                                             @else
-                                                                <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                                <option value="{{ $group->id }}">{{ $group->team_name }} </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -1329,11 +1329,20 @@
 
         $('.plus-form').click(function() {
             let target = $(event.target)[0];
-            console.log(target.dataset.type)
-            const field = $('#' + target.dataset.type)
-            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
-            $('#modelHeading').html('...');
-            $.ajaxModal('#departmentModel', url);
+            if(target.dataset.type == 'skill_id'){
+                let target = $(event.target)[0];
+                const field = $('#' + target.dataset.type)
+                const url = '{{ route('admin.skill.create') }}'
+                $('#modelHeading').html('...');
+                $.ajaxModal('#departmentModel', url);
+            }
+            if(target.dataset.type ==  'city'){
+                console.log(target.dataset.type)
+                const field = $('#' + target.dataset.type)
+                const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+                $('#modelHeading').html('...');
+                $.ajaxModal('#departmentModel', url);
+            }
         })
 
 

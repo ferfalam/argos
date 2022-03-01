@@ -293,6 +293,8 @@ Route::group(['middleware' => 'auth'], function () {
                     Route::get('tla/create/{type}', 'SuperAdminCompanyTLAController@create2');
                     Route::post('tla/destroy/{type}', 'SuperAdminCompanyTLAController@destroy');
 
+                    Route::resource('skill', 'ManageSkillsController');
+
                     Route::post('update-settings/deleteFile', ['uses' => 'UpdateDatabaseController@deleteFile'])->name('update-settings.deleteFile');
                     Route::get('update-settings/install', ['uses' => 'UpdateDatabaseController@install'])->name('update-settings.install');
                     Route::get('update-settings/manual-update', ['uses' => 'UpdateDatabaseController@manual'])->name('update-settings.manual');
@@ -536,6 +538,8 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::resource('tla', 'AdminCompanyTLAController');
                         Route::get('tla/create/{type}', 'AdminCompanyTLAController@create2');
                         Route::post('tla/destroy/{type}', 'AdminCompanyTLAController@destroy');
+
+                        Route::resource('skill', 'ManageSkillsController');
 
                         Route::post('language-settings/update-data/{id?}', ['uses' => 'AdminLanguageSettingsController@updateData'])->name('language-settings.update-data');
                         Route::resource('language-settings', 'AdminLanguageSettingsController');

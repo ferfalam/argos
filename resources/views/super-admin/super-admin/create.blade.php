@@ -562,13 +562,13 @@
                                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="skill_id"
                                                             data-placeholder="Sélectionner Compétences" name="skill_id[]" required>
                                                         @foreach($skills as $skill)
-                                                            <option value="{{ $skill->id }}">{{ ucwords($skill->name) }} </option>
+                                                            <option value="{{ $skill->id }}">{{ $skill->name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="javascript:;" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill_id">
+                                                    <a href="javascript:;" class="text-info plus-form">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill">
                                                     </a>
                                                 </td>
                                             </tr>
@@ -581,13 +581,13 @@
                                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
                                                             data-placeholder="Sélectionner Départements" name="departement_id[]" required>
                                                         @foreach($groups as $group)
-                                                            <option value="{{ $group->id }}">{{ ucwords($group->team_name) }} </option>
+                                                            <option value="{{ $group->id }}">{{ $group->team_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    <a href="javascript:;" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="skill_id">
                                                     </a>
                                                 </td>
                                             </tr>
@@ -776,7 +776,6 @@
         });
 
         $("#mobile").CcPicker("setCountryByPhoneCode", "33");
-        $("#tel").CcPicker("setCountryByPhoneCode", "33");
 
         $('.datepicker').datepicker({
             format: 'dd-mm-yyyy',
@@ -851,7 +850,8 @@
         $('.plus-form').click(function () {
             let target = $(event.target)[0];
             const field = $('#' + target.dataset.type)
-            const url = '{{ route('super-admin.tla.create')}}/' + target.dataset.type;
+            const url = target.dataset.type == "skill" ? '{{ route('super-admin.skill.create') }}' :
+                '{{ route('super-admin.tla.create') }}/'+target.dataset.type;
             $('#modelHeading').html('...');
             $.ajaxModal('#addModal', url);
         })
