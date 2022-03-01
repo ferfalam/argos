@@ -7,7 +7,7 @@
     </x-slot>
 
     <x-slot name="btns">
-        <x-link type="link" url="{{ route('admin.clients.edit',$clientDetail->id) }}"  classes="btn btn-cs-blue" icon="fa fa-edit" title="modules.lead.edit"/>
+        <x-link type="link" url="{{ route('admin.suppliers.edit',$clientDetail->id) }}"  classes="btn btn-cs-blue" icon="fa fa-edit" title="modules.lead.edit"/>
     </x-slot>
 </x-main-header>
 @endsection

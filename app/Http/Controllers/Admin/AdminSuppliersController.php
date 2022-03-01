@@ -259,7 +259,7 @@ class AdminSuppliersController extends AdminBaseController
         //     $this->clientDetail = $this->clientDetail->withCustomFields();
         //     $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
         // }
-        return view('admin.clients.show', $this->data);
+        return view('admin.suppliers.show', $this->data);
     }
 
     public function clientStats($id)
