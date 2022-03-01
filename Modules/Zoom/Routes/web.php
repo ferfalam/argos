@@ -26,13 +26,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::resource('zoom-meeting', 'AdminZoomMeetingController');
             Route::resource('category', 'CategoryController');
             Route::resource('room', 'RoomController');
-            Route::resource('zoom-setting', 'ZoomMeetingSettingController');
             Route::get('zoom-meeting/invite/{meeting}', 'AdminZoomMeetingController@OnlineInvite')->name('zoom-meeting.invite');
             Route::get('off-meeting/invite/{meeting}', 'MeetingController@OfflineInvite')->name('off-meeting.invite');
             // ...
         });
-
+        
         Route::group(['middleware' => ['role:admin|employee']], function () {
+            Route::resource('zoom-setting', 'ZoomMeetingSettingController');
             Route::get('offmeeting/calendar', 'MeetingController@calendar')->name('offmeeting.calendar');
             Route::get('offmeeting/roomajax', 'MeetingController@roomajax')->name('roomajax.create');
             Route::resource('offmeeting', 'MeetingController');

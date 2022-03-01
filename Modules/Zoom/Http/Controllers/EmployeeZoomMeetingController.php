@@ -83,7 +83,10 @@ class EmployeeZoomMeetingController extends MemberBaseController
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
         $this->zoomSetting = ZoomSetting::first();
+        $date = Carbon::parse($this->event->start_date_time);
+        $now = Carbon::now();
 
+        $this->diff = $date->diffInMinutes($now);
         return view('zoom::meeting-calendar.show', $this->data);
     }
 

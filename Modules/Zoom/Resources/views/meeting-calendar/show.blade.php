@@ -188,16 +188,19 @@
 
             @endif
         @else
-            @if ($event->status == 'waiting' || $event->status == 'live')
+            @if ($event->status == 'live')
+                @if (is_null($event->occurrence_id))
+                    <a href="{{ $url }}" target="_blank" class="btn btn-info waves-effect" ><i class="fa fa-play"></i> @lang('zoom::modules.zoommeeting.joinUrl')</a>
+                @endif
+            @endif
+            @if ($event->status == 'waiting' )
                 @php
                     $nowDate = now(company_setting()->timezone)->toDateString();
                     $meetingDate = $event->start_date_time->toDateString();                    
                 @endphp
-
-                @if (is_null($event->occurrence_id) || $nowDate == $meetingDate)
-                    <a href="{{ $url }}" target="_blank" class="btn btn-info waves-effect" ><i class="fa fa-play"></i> @lang('zoom::modules.zoommeeting.joinUrl')</a>
+                @if (is_null($event->occurrence_id))
+                    <a href="#" target="_blank" class="btn btn-info waves-effect" ><i class="fa fa-play"></i> Dans {{intval($diff/60).' : '.$diff%60}}</a>
                 @endif
-
             @endif
 
         @endif

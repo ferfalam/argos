@@ -68,10 +68,10 @@
             <div class="form-group">
                 <h5>@lang('app.status')</h5>
                 <select class="form-control select2" name="status" id="filter-status" data-style="form-control">
+                    <option value="all">@lang('app.all')</option>
                     <option 
                         value="not finished">@lang('zoom::modules.zoommeeting.hideFinishedMeetings')
                     </option>
-                    <option value="all">@lang('app.all')</option>
                     <option value="waiting">@lang('zoom::modules.zoommeeting.waiting')</option>
                     <option value="live">@lang('zoom::modules.zoommeeting.live')</option>
                     <option value="canceled">@lang('app.canceled')</option>
