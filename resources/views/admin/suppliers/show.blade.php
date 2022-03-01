@@ -15,9 +15,9 @@
 
 @section('content')
 
-    @include('admin.clients.client_header')
+    @include('admin.suppliers.supplier_header')
     
-    @include('admin.clients.tabs')
+    @include('admin.suppliers.tabs')
 
     <x-tab-container title="modules.employees.profile">
         <table>
