@@ -140,7 +140,7 @@ class MeetingDataTable extends BaseDataTable
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
                     }
                     if ($row->attendees) {
-                        return  '<label class="label label-success">Confirmé</label>';
+                        return  '<label class="label label-info">Confirmé</label>';
                     }
                     $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {

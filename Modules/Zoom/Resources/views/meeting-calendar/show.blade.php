@@ -92,7 +92,13 @@
                         <label>@lang('app.status')</label>
                         <p>
                             @if ($event->status == 'waiting')
-                                <label class="label label-warning">{{ __('zoom::modules.zoommeeting.waiting') }}</label>
+                                @if ($event->end_date_time->lt(\Carbon\Carbon::now())) 
+                                    <label class="label label-success">{{__('app.finished')}}</label>
+                                @elseif ($event->attendees)
+                                    <label class="label label-info">Confirmé</label>
+                                @else
+                                    <label class="label label-warning">{{ __('zoom::modules.zoommeeting.waiting') }}</label>
+                                @endif
                             @elseif ($event->status == 'live')
                                 <i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">{{ __('zoom::modules.zoommeeting.live') }}</span>
                             @elseif ($event->status == 'canceled')
@@ -170,7 +176,7 @@
         @endphp
 
         @if (user()->id == $event->created_by)
-            @if ($event->status == 'waiting')
+            @if ($event->status == 'waiting' && !$event->end_date_time->lt(\Carbon\Carbon::now()))
                 @php
                     $nowDate = now(company_setting()->timezone)->toDateString();
                     $meetingDate = $event->start_date_time->toDateString();                    
@@ -181,8 +187,6 @@
                 @endif
 
             @endif
-
-     
         @else
             @if ($event->status == 'waiting' || $event->status == 'live')
                 @php
