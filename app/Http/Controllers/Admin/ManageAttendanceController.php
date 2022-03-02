@@ -660,9 +660,9 @@ class ManageAttendanceController extends AdminBaseController
             $final[$employee->id . '#' . $employee->name][] = '<a class="userData" id="userID' . $employee->id . '" data-employee-id="' . $employee->id . '"  href="' . route('admin.employees.show', $employee->id) . '">' . $image . ' ' . ucwords($employee->name) . '</a>';
 
             foreach ($this->holidays as $holiday) {
-                if ($final[$employee->id . '#' . $employee->name][$holiday->date->day] == 'Absent') {
+                //if ($final[$employee->id . '#' . $employee->name][$holiday->date->day] == 'Absent') {
                     $final[$employee->id . '#' . $employee->name][$holiday->date->day] = 'Holiday';
-                }
+                //}
             }
         }
 
