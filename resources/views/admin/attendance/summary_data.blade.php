@@ -19,10 +19,12 @@
                 @foreach($attendance as $key2=>$day)
                     @if ($key2+1 <= count($attendance))
                         <td class="text-center">
-                            @if($day == 'Absent')
+                            @if($day == 'Absent' && !in_array($key2, $closeDays) )
                                 <a href="javascript:;" class="edit-attendance" data-attendance-date="{{ $key2 }}"><i class="fa fa-times text-danger"></i></a>
                             @elseif($day == 'Holiday')
-                                <a href="javascript:;" title="@lang("app.menu.holiday")" class="edit-attendance" data-attendance-date="{{ $key2 }}"><i class="fa fa-star text-warning"></i></a>
+                                <a href="javascript:;" title="@lang("app.menu.holiday")" class="" data-attendance-date="{{ $key2 }}"><i class="fa fa-star text-warning"></i></a>
+                            @elseif(in_array($key2, $closeDays))
+                                <a href="javascript:;" title="Jour non ouvrable" class="" data-attendance-date="{{ $key2 }}"><i class="fa fa-square text-info"></i></a>
                             @else
                                 @if($day != '-')
                                     @php

@@ -957,7 +957,7 @@ return array(
         'clockedOut' => 'Chronométré',
         'workFrom' => 'Bureau, maison, etc.',
         'viewFullAttendance' => 'Voir la présence complète',
-        'bulkAttendance' => 'Modul de présencee'
+        'bulkAttendance' => 'Module de présencee'
     ),
     'customFields' =>
     array(

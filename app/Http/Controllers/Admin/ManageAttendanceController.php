@@ -180,6 +180,7 @@ class ManageAttendanceController extends AdminBaseController
             ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $this->date)
             ->whereNull('attendances.clock_out_time')->count();
         $this->type = 'edit';
+        $this->tla = CompanyTLA::all();
         return view('admin.attendance.attendance_mark', $this->data);
     }
 
@@ -592,7 +593,9 @@ class ManageAttendanceController extends AdminBaseController
         )->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'users.created_at', 'users.image')
-            ->where('roles.name', '<>', 'client')->groupBy('users.id');
+            ->where('roles.name', '<>', 'client')
+            ->where('users.company_id', company()->id)
+            ->groupBy('users.id');
 
         if ($request->userId == '0') {
             $employees = $employees->get();
@@ -601,7 +604,25 @@ class ManageAttendanceController extends AdminBaseController
         }
 
         $this->holidays = Holiday::whereRaw('MONTH(holidays.date) = ?', [$request->month])->whereRaw('YEAR(holidays.date) = ?', [$request->year])->get();
-
+        $this->openDays = json_decode(AttendanceSetting::where("company_id", company()->id)->orderBy('created_at', 'desc')->first()->office_open_days);
+        $openDays = array_map(function ($d)
+        {
+            if ($d == 1) {
+                return "Monday";
+            } else if ($d == 2) {
+                return "Tuesday";
+            } else if ($d == 3) {
+                return "Wednesday";
+            } else if ($d == 4) {
+                return "Thursday";
+            } else if ($d == 5) {
+                return "Friday";
+            } else if ($d == 6) {
+                return "Saturday";
+            } else if ($d == 7) {
+                return "Sunday";
+            } 
+        }, $this->openDays);
         $final = [];
 
         $this->daysInMonth = Carbon::parse('01-' . $request->month . '-' . $request->year)->daysInMonth;
@@ -645,8 +666,17 @@ class ManageAttendanceController extends AdminBaseController
             }
         }
 
-
+        $closeDays = [];
+        foreach ($final[$employee->id . '#' . $employee->name] as $d => $t) {
+            if (intval($d)<32) {
+                $nameOfDay = Carbon::parse($d . '-' . $request->month . '-' . $request->year)->format('l');
+                if (!in_array($nameOfDay, $openDays)) {
+                    array_push($closeDays, $d);
+                }
+            }
+        }
         $this->employeeAttendence = $final;
+        $this->closeDays = $closeDays;
 
         $view = view('admin.attendance.summary_data', $this->data)->render();
         return Reply::dataOnly(['status' => 'success', 'data' => $view]);
@@ -690,6 +720,7 @@ class ManageAttendanceController extends AdminBaseController
 
         $this->userid = $userid;
         $this->type = 'add';
+        $this->tla = CompanyTLA::all();
         return view('admin.attendance.attendance_mark', $this->data);
     }
 

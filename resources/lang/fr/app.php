@@ -381,7 +381,7 @@ return array(
   'february' => 'février',
   'march' => 'Mars',
   'april' => 'avril',
-  'may' => 'Peut',
+  'may' => 'Mai',
   'june' => 'juin',
   'july' => 'juillet',
   'august' => 'août',
