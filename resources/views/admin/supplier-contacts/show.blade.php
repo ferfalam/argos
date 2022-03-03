@@ -16,16 +16,16 @@
 
 @section('content')
 
-    @include('admin.clients.client_header')
-
-    @include('admin.clients.tabs')
+    @include('admin.suppliers.supplier_header')
+    
+    @include('admin.suppliers.tabs')
 
     <x-tab-container title="app.menu.contacts">
         <div style="display: grid;">
             
             <x-slot name="btns">
                 {{-- <a href="" id="show-add-form" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a>  --}}
-                <a href="{{route('admin.contact.create',['client'])}}"  class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
+                <a href="{{route('admin.contact.create',['supplier'])}}"  class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
             </x-slot>
 
             {{-- <div class="col-xs-12">
