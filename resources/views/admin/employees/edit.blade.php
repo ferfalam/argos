@@ -377,9 +377,9 @@
                                                 </td>
                                                 <td>
                                                     <select name="profil" id="profil" class="form-control select2">
-                                                        <option value="App Administrator" @if($userRole == "App Administrator") selected @endif >Admin</option>
-                                                        <option value="Collaborateur" @if($userRole == "Collaborateur") selected @endif>Collaborateur</option>
-                                                        <option value="Externe" @if($userRole == "Externe") selected @endif>Externe</option>
+                                                        <option value="App Administrator" @if($userRole->display_name == "App Administrator") selected @endif >Admin</option>
+                                                        <option value="Collaborateur" @if($userRole->display_name == "Collaborateur") selected @endif>Collaborateur</option>
+                                                        <option value="Externe" @if($userRole->display_name == "Externe") selected @endif>Externe</option>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">

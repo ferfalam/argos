@@ -28,7 +28,7 @@ class StoreAttendance extends CoreRequest
         return [
             'clock_in_time' => 'required',
             'clock_in_ip' => 'required|ip',
-            'clock_out_ip' => 'ip'
+            'clock_out_ip' => 'required|ip'
         ];
     }
 

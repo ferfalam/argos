@@ -29,7 +29,7 @@
         </li>
 
         @php
-            $is_employee_active = request()->routeIs('admin.employees.index') || request()->routeIs('admin.teams.index') || request()->routeIs('admin.designations.index') || request()->routeIs('admin.attendances.summary') || request()->routeIs('admin.holidays.index') || request()->routeIs('admin.leaves.pending');
+            $is_employee_active = request()->routeIs('admin.employees.index') || request()->routeIs('admin.teams.index') || request()->routeIs('admin.designations.index') || request()->routeIs('admin.attendances.summary') || request()->routeIs('admin.holidays.index') || request()->routeIs('admin.leaves.pending') || request()->routeIs('admin.attendances.myAttendance');
         @endphp
         @if (in_array('employees', $modules) || in_array('attendance', $modules) || in_array('holidays', $modules) || in_array('leaves', $modules))
             <li>
@@ -50,7 +50,7 @@
                         </li>
                     @endif
  				
-           <li><a href="{{ route('admin.attendances.myAttendance') }}" class="{{ request()->routeIs('admin.attendances.myAttendance') ? '' : '' }}">@lang('app.timer') </a></li>
+           <li><a href="{{ route('admin.attendances.myAttendance') }}" class="{{ request()->routeIs('admin.attendances.myAttendance') ? 'active' : '' }}">@lang('app.timer') </a></li>
                    
                     @if (in_array('attendance', $modules))
                         <li><a href="{{ route('admin.attendances.summary') }}"

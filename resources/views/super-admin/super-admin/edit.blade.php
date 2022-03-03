@@ -977,7 +977,7 @@
         });
 
 
-        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->tel)[0], 1) }}");
+        $("#mobile").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->mobile)[0], 1) }}");
 
         $('.datepicker').datepicker({
             format: 'dd-mm-yyyy',

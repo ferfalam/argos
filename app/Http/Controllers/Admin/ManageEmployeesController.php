@@ -169,7 +169,7 @@ class ManageEmployeesController extends AdminBaseController
             $user->login = $request->input("connexion") == "1" ? 'enable' : 'disable';
             $user->status = $request->input("status") == "1" ? 'active' : 'deactive';
             $user->email_notifications = intval($request->input("notification"));
-            $user->super_admin = '1';
+            $user->super_admin = '0';
 
             if ($request->hasFile('image')) {
                 Files::deleteFile($user->image, 'avatar');
@@ -388,12 +388,9 @@ class ManageEmployeesController extends AdminBaseController
                 $user->image = Files::upload($request->image, 'avatar', 300);
             }
             $user->update();
-            
             $role = Role::where('company_id', company()->id)->where('display_name', $request->profil)->get()[0];
-            $newRole = new RoleUser();
-            $newRole->role_id = $role->id;
-            $newRole->user_id = $id;
-            $newRole->save();
+
+            $userRole = \DB::update('UPDATE role_user set role_id = ? WHERE user_id = ?', [$role->id, $user->id]);
 
             // $empDetail = [
             //     'employee_id' => $user->id,

@@ -932,7 +932,7 @@ return array(
         'totalWorkingDays' => 'Total des jours ouvrables',
         'daysPresent' => 'Jours présents',
         'absent' => 'Absente',
-        'present' => 'Cadeau',
+        'present' => 'Présent',
         'currentTime' => 'Heure actuelle',
         'attendanceByDate' => 'Participation par date',
         'attendanceByMember' => 'Participation par membre',
@@ -957,7 +957,7 @@ return array(
         'clockedOut' => 'Chronométré',
         'workFrom' => 'Bureau, maison, etc.',
         'viewFullAttendance' => 'Voir la présence complète',
-        'bulkAttendance' => 'Modul de présencee'
+        'bulkAttendance' => 'Module de présencee'
     ),
     'customFields' =>
     array(
