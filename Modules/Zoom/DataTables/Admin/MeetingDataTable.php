@@ -52,7 +52,7 @@ class MeetingDataTable extends BaseDataTable
                 if ($row->status == 'waiting' && !$row->end_date_time->lt(Carbon::now())) {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
-                    if ($row->created_by == user()->id) {
+                    if ($row->created_by == user()->id ) {
                         $action .= '<li>
                             <a href="' . route('admin.zoom-meeting.invite', $row->id) . '" >
                                 <i class="fa fa-eye"></i> Invite

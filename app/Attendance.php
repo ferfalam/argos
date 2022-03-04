@@ -49,6 +49,7 @@ class Attendance extends BaseModel
             ->leftJoin('employee_details', 'employee_details.user_id', '=', 'users.id')
             ->leftJoin('designations', 'designations.id', '=', 'employee_details.designation_id')
             ->where('roles.name', '<>', 'client')
+            ->where('users.company_id', company()->id)
             ->select(
                 DB::raw("( select count('atd.id') from attendances as atd where atd.user_id = users.id and DATE(atd.clock_in_time)  =  '".$date."' and DATE(atd.clock_out_time)  =  '".$date."' ) as total_clock_in"),
                 DB::raw("( select count('atdn.id') from attendances as atdn where atdn.user_id = users.id and DATE(atdn.clock_in_time)  =  '".$date."' ) as clock_in"),

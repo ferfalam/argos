@@ -123,14 +123,28 @@
                                 <div class="col-xs-8 m-t-20 truncate">
                                     <label for="">@lang('modules.attendance.working_from')</label>
                                     @if(is_null($currenntClockIn))
-                                        <input type="text" class="form-control" id="working_from" name="working_from">
+                                        <div class="d-flex align-items-center">
+                                            <select name="workplace" id="workplace"
+                                                class="form-control select2 mr-2">
+                                                <option value="Lieu de travail" disabled></option>
+                                                @foreach ($tla as $a)
+                                                    @if ($a->type == 'workplace')
+                                                        <option value="{{ $a->name }}">{{ $a->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            <a href="javascript:;" class="text-info plus-form">
+                                                <img src="{{ asset('img/plus.png') }}" alt="" data-type="workplace">
+                                            </a>
+
+                                        </div>
                                     @else
                                         <br> {{ $currenntClockIn->working_from }}
                                     @endif
                                 </div>
 
                                 <div class="col-xs-4 m-t-20">
-                                    <label class="m-t-30">&nbsp;</label>
+                                    <label class="" style="margin-top: 35px !important">&nbsp;</label>
                                     @if(is_null($currenntClockIn))
                                         <button class="btn btn-success btn-sm" id="clock-in">@lang('modules.attendance.clock_in')</button>
                                     @endif
@@ -374,9 +388,27 @@
 @endsection
 
 @push('footer-script')
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
+<script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
+<script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script>
+    $(".select2").select2({
+        formatNoMatches: function () {
+            return "{{ __('messages.noRecordFound') }}";
+        }
+    });
+    $('.plus-form').click(function () {
+        let target = $(event.target)[0];
+        const field = $('#' + target.dataset.type)
+        const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+        $('#modelHeading').html('...');
+        $.ajaxModal('#attendancesDetailsModal', url);
+    })
+</script>
 <script>
     $('#clock-in').click(function () {
-        var workingFrom = $('#working_from').val();
+        var workingFrom = $('#workplace').val();
 
         var currentLatitude = document.getElementById("current-latitude").value;
         var currentLongitude = document.getElementById("current-longitude").value;

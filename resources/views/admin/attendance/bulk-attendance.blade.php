@@ -96,9 +96,24 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label">@lang('modules.attendance.working_from')</label>
-                            <input type="text" name="working_from" id="working-from"
-                                   class="form-control" value="">
+                            <div class="form-group">
+                                <label class="control-label" >@lang('modules.attendance.workFrom')</label>
+                                <div class="switchery-demo d-flex align-items-center">
+                                    <select name="working_from" id="workplace"
+                                        class="workplace form-control select2 mr-2">
+                                        <option value="Lieu de travail" disabled></option>
+                                        @foreach ($tla as $t)
+                                            @if ($t->type == 'workplace')
+                                                <option value="{{ $t->name }}">
+                                                    {{ $t->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <a href="javascript:;" class="text-info plus-form">
+                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="workplace">
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -112,10 +127,45 @@
 
             </div>
             {!! Form::close() !!}
+
+            {{--Timer Modal--}}
+            <div class="modal fade bs-modal-lg in" id="workplaceModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" id="modal-data-application">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                        </div>
+                        <div class="modal-body">
+                            Loading...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn blue">Save changes</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            {{--Timer Modal Ends--}}
     </div>
 </div>
 <script>
 
+    $('.plus-form').click(function () {
+        let target = $(event.target)[0];
+        const field = $('#' + target.dataset.type)
+        const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+        $('#modelHeading').html('...');
+        $.ajaxModal('#workplaceModal', url);
+    })
+
+    $("#workplace").select2({
+        formatNoMatches: function () {
+            return "{{ __('messages.noRecordFound') }}";
+        }
+    });
     $("#userID").select2({
         formatNoMatches: function () {
             return "{{ __('messages.noRecordFound') }}";

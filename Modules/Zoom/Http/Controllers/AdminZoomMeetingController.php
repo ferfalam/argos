@@ -123,7 +123,7 @@ class AdminZoomMeetingController extends AdminBaseController
     {
         $this->createOrUpdateMeetings($request, $id);
 
-        return Reply::dataOnly(['meetingID' =>$id]);
+        return Reply::dataOnly(['meetingID' => $id]);
     }
 
     /**
@@ -221,9 +221,9 @@ class AdminZoomMeetingController extends AdminBaseController
 
             $diff = $start->diffInMinutes($end);
 
-            $hours = ($diff/60) <=9 ? '0'. intval($diff / 60) : intval($diff / 60);
-            $minutes = $diff%60 <=9 ? '0'. $diff % 60 : $diff % 60;
-            $data['duree'] = $hours.' : '.$minutes;
+            $hours = ($diff / 60) <= 9 ? '0' . intval($diff / 60) : intval($diff / 60);
+            $minutes = $diff % 60 <= 9 ? '0' . $diff % 60 : $diff % 60;
+            $data['duree'] = $hours . ' : ' . $minutes;
 
             if (is_null($id)) {
                 $meeting = $meeting->create($data);
@@ -276,6 +276,8 @@ class AdminZoomMeetingController extends AdminBaseController
         $this->categories = Category::all();
         $this->projects = Project::all();
         $this->upload = can_upload();
+
+        //dd($this->user);
 
         return $dataTable->render('zoom::meeting-calendar.table', $this->data);
     }
