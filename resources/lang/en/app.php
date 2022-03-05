@@ -159,6 +159,11 @@ return array(
   "observation" => "Observation",
   'created_at' => "Created At",
 
+  // SPV
+  'spvList' => 'list of SPVs',
+  'addAnSpv' => 'Add an SPV',
+  'spvSheet' => 'SPV Sheet',
+
   'otherinfo' => 'Other information',
   'profil' => 'Profile',
   'qualification' => 'Qualification',
