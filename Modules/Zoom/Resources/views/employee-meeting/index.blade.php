@@ -19,9 +19,11 @@
         <!-- /.page title -->
         <!-- .breadcrumb -->
         <div class="main-header-btns">
+            @if (user()->zoomSetting()->get()[0]->api_key)
             <a href="#" data-toggle="modal" data-target="#my-meeting" class="btn btn-cs-green">
                 <i class="ti-plus"></i> @lang('zoom::modules.zoommeeting.addMeeting')
             </a>
+            @endif
             {{-- <a href="{{ route('admin.zoom-meeting.table-view') }}" class="btn btn-cs-green">
                 <i class="ti-list"></i> @lang('zoom::modules.zoommeeting.tableView')
             </a> --}}

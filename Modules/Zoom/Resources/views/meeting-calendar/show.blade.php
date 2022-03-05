@@ -94,7 +94,7 @@
                             @if ($event->status == 'waiting')
                                 @if ($event->end_date_time->lt(\Carbon\Carbon::now())) 
                                     <label class="label label-success">{{__('app.finished')}}</label>
-                                @elseif ($event->attendees)
+                                @elseif ($event->invite)
                                     <label class="label label-info">Confirmé</label>
                                 @else
                                     <label class="label label-warning">{{ __('zoom::modules.zoommeeting.waiting') }}</label>

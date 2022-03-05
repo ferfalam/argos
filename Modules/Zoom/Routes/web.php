@@ -47,13 +47,13 @@ Route::group(['middleware' => ['auth']], function () {
     // Employee routes
     Route::group(['prefix' => 'member', 'as' => 'member.', 'middleware' => ['role:employee']], function () {
         Route::get('zoom-meeting/table', 'EmployeeZoomMeetingController@tableView')->name('zoom-meeting.table-view');
-        Route::resource('zoom-setting', 'ZoomMeetingSettingController');
         Route::get('zoom-meeting/start-meeting/{id}', 'EmployeeZoomMeetingController@startMeeting')->name('zoom-meeting.startMeeting');
         Route::post('zoom-meeting/cancel-meeting', 'EmployeeZoomMeetingController@cancelMeeting')->name('zoom-meeting.cancelMeeting');
         Route::post('zoom-meeting/end-meeting', 'EmployeeZoomMeetingController@endMeeting')->name('zoom-meeting.endMeeting');
         Route::post('zoom-meeting/updateOccurrence/{id}', 'EmployeeZoomMeetingController@updateOccurrence')->name('zoom-meeting.updateOccurrence');
-        Route::get('zoom-meeting/invite/{meeting}', 'MemberZoomMeetingController@OnlineInvite')->name('zoom-meeting.invite');
+        Route::get('zoom-meeting/invite/{meeting}', 'EmployeeZoomMeetingController@OnlineInvite')->name('zoom-meeting.invite');
         Route::resource('zoom-meeting', 'EmployeeZoomMeetingController');
+        Route::resource('zoom-setting', 'ZoomMeetingSettingController');
     });
 
     // Client routes

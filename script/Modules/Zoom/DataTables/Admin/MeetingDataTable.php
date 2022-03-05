@@ -14,7 +14,7 @@ class MeetingDataTable extends BaseDataTable
     public function __construct()
     {
         parent::__construct();
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
     }
 
     /**
@@ -36,19 +36,19 @@ class MeetingDataTable extends BaseDataTable
                 } else {
                     $url = $this->user->id == $row->created_by ? $row->start_link : $row->end_link;
                 }
-                
+
                 $action = '<div class="btn-group dropdown m-r-10">
                 <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button">
                     <i class="fa fa-gears "></i>
                 </button>
                 <ul role="menu" class="dropdown-menu">';
 
-                $action.= '<li>
-                    <a href="javascript:;" onclick="getEventDetail('.$row->id.')" >
-                        <i class="fa fa-eye"></i> '.__('app.view').'
+                $action .= '<li>
+                    <a href="javascript:;" onclick="getEventDetail(' . $row->id . ')" >
+                        <i class="fa fa-eye"></i> ' . __('app.view') . '
                     </a>
                 </li>';
-        
+
                 if ($row->status == 'waiting') {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
@@ -57,65 +57,61 @@ class MeetingDataTable extends BaseDataTable
                         (is_null($row->occurrence_id) || $nowDate == $meetingDate)
                         && $row->created_by == $this->user->id
                     ) {
-                        $action.= '<li>
+                        $action .= '<li>
                             <a target="_blank" href="' . $url . '" >
-                                <i class="fa fa-play"></i> '.__('zoom::modules.zoommeeting.startUrl').'
+                                <i class="fa fa-play"></i> ' . __('zoom::modules.zoommeeting.startUrl') . '
                             </a>
                         </li>';
                     }
-                    
-                    $action.= '<li>
-                        <a href="javascript:;" class="cancel-meeting" data-meeting-id="'.$row->id.'" >
-                            <i class="fa fa-times"></i> '.__('zoom::modules.zoommeeting.cancelMeeting').'
+
+                    $action .= '<li>
+                        <a href="javascript:;" class="cancel-meeting" data-meeting-id="' . $row->id . '" >
+                            <i class="fa fa-times"></i> ' . __('zoom::modules.zoommeeting.cancelMeeting') . '
                         </a>
                     </li>';
-                    $action.= '<li>
+                    $action .= '<li>
                         <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
                             <i class="fa fa-pencil"></i> ' . __('app.edit') . '
                         </a>
                     </li>';
                 }
-        
+
                 if ($row->status == 'live') {
-                    $action.= '<li>
-                        <a href="javascript:;" class="end-meeting" data-meeting-id="'.$row->id.'" >
-                            <i class="fa fa-stop"></i> '.__('zoom::modules.zoommeeting.endMeeting').'
+                    $action .= '<li>
+                        <a href="javascript:;" class="end-meeting" data-meeting-id="' . $row->id . '" >
+                            <i class="fa fa-stop"></i> ' . __('zoom::modules.zoommeeting.endMeeting') . '
                         </a>
                     </li>';
                 }
 
                 if ($row->status != 'live') {
-                    $action.= '<li>
-                        <a href="javascript:;" class="sa-params" data-occurrence="'.$row->occurrence_order.'" data-meeting-id="' . $row->id . '">
+                    $action .= '<li>
+                        <a href="javascript:;" class="sa-params" data-occurrence="' . $row->occurrence_order . '" data-meeting-id="' . $row->id . '">
                             <i class="fa fa-trash"></i> ' . __('app.delete') . '
                         </a>
                     </li>';
                 }
 
-                $action.= '</ul></div>';
+                $action .= '</ul></div>';
 
                 return $action;
             })
-            ->editColumn('meeting_id', function ($row)
-            {   
+            ->editColumn('meeting_id', function ($row) {
                 $meetingId = $row->meeting_id;
 
                 if (!is_null($row->occurrence_id)) {
-                    $meetingId.= '<br><span class="text-muted">' . __('zoom::modules.zoommeeting.occurrence') . ' - ' . $row->occurrence_order . '</span>';
+                    $meetingId .= '<br><span class="text-muted">' . __('zoom::modules.zoommeeting.occurrence') . ' - ' . $row->occurrence_order . '</span>';
                 }
                 return $meetingId;
             })
-            ->editColumn('meeting_name', function ($row)
-            {
+            ->editColumn('meeting_name', function ($row) {
                 return '<span style="width: 15px; height: 15px;"
-                class="btn ' . $row->label_color . ' btn-small btn-circle">&nbsp;</span> <a href="javascript:;" onclick="getEventDetail('.$row->id.')">' . ucfirst($row->meeting_name).'</a>';
+                class="btn ' . $row->label_color . ' btn-small btn-circle">&nbsp;</span> <a href="javascript:;" onclick="getEventDetail(' . $row->id . ')">' . ucfirst($row->meeting_name) . '</a>';
             })
-            ->editColumn('start_date_time', function ($row)
-            {
+            ->editColumn('start_date_time', function ($row) {
                 return $row->start_date_time->format(company_setting()->date_format . ' ' . company_setting()->time_format);
             })
-            ->editColumn('end_date_time', function ($row)
-            {
+            ->editColumn('end_date_time', function ($row) {
                 return $row->end_date_time->format(company_setting()->date_format . ' ' . company_setting()->time_format);
             })
             ->editColumn('status', function ($row) {
@@ -123,7 +119,7 @@ class MeetingDataTable extends BaseDataTable
                 if ($row->status == 'waiting') {
                     $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {
-                    $status = '<i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">' . __('zoom::modules.zoommeeting.live') .'</span>';
+                    $status = '<i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">' . __('zoom::modules.zoommeeting.live') . '</span>';
                 } else if ($row->status == 'canceled') {
                     $status = '<label class="label label-danger">' . __('app.canceled') . '</label>';
                 } else if ($row->status == 'finished') {
@@ -143,19 +139,32 @@ class MeetingDataTable extends BaseDataTable
     public function query(ZoomMeeting $model)
     {
         $request = $this->request();
-        $model = $model->select('id', 'meeting_id', 'created_by', 'meeting_name', 'start_date_time', 'end_date_time', 'start_link', 'join_link', 'status', 'label_color', 'occurrence_id', 'source_meeting_id',
-         'occurrence_order');
-         
+        $model = $model->select(
+            'id',
+            'meeting_id',
+            'created_by',
+            'meeting_name',
+            'start_date_time',
+            'end_date_time',
+            'start_link',
+            'join_link',
+            'status',
+            'label_color',
+            'occurrence_id',
+            'source_meeting_id',
+            'occurrence_order'
+        );
+
         if (request()->has('startDate') && $request->startDate != 0) {
             $startDate = Carbon::createFromFormat(company_setting()->date_format, $request->startDate)->toDateString();
             $model->whereDate('start_date_time', '>=', $startDate);
         }
-        
+
         if (request()->has('endDate') && $request->endDate != 0) {
             $endDate = Carbon::createFromFormat(company_setting()->date_format, $request->endDate)->toDateString();
             $model->whereDate('end_date_time', '<=', $endDate);
         }
-        
+
         if (request()->has('status') && $request->status != 'all') {
             if ($request->status == 'not finished') {
                 $model->where('status', '<>', 'finished');
@@ -163,31 +172,27 @@ class MeetingDataTable extends BaseDataTable
                 $model->where('status', $request->status);
             }
         }
-        if (request()->has('employee') && $request->employee != 0) {   
-            $model->whereHas('attendees', function ($query)use($request) {
+        if (request()->has('employee') && $request->employee != 0) {
+            $model->whereHas('attendees', function ($query) use ($request) {
                 return $query->where('user_id',  $request->employee);
-               
             });
         }
-        if (request()->has('client') && $request->client != 0) {   
-            $model->whereHas('attendees', function ($query)use($request) {
+        if (request()->has('client') && $request->client != 0) {
+            $model->whereHas('attendees', function ($query) use ($request) {
                 return $query->where('user_id',  $request->client);
-               
             });
         }
-        if (request()->has('category') && $request->category != 0) {   
-            $model->whereHas('category', function ($query)use($request) {
+        if (request()->has('category') && $request->category != 0) {
+            $model->whereHas('category', function ($query) use ($request) {
                 return $query->where('id',  $request->category);
-               
             });
         }
-        if (request()->has('project') && $request->project != 0) {   
-            $model->whereHas('project', function ($query)use($request) {
+        if (request()->has('project') && $request->project != 0) {
+            $model->whereHas('project', function ($query) use ($request) {
                 return $query->where('id',  $request->project);
-               
             });
         }
-        
+
         return $model;
     }
 
@@ -235,8 +240,8 @@ class MeetingDataTable extends BaseDataTable
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
-            __('zoom::modules.meetings.meetingId') => ['data' => 'meeting_id', 'name' => 'meeting_id' ],
-            __('zoom::modules.meetings.meetingName') => ['data' => 'meeting_name', 'name' => 'meeting_name' ],
+            __('zoom::modules.meetings.meetingId') => ['data' => 'meeting_id', 'name' => 'meeting_id'],
+            __('zoom::modules.meetings.meetingName') => ['data' => 'meeting_name', 'name' => 'meeting_name'],
             __('zoom::modules.meetings.startOn')  => ['data' => 'start_date_time', 'name' => 'start_date_time'],
             __('zoom::modules.meetings.endOn')  => ['data' => 'end_date_time', 'name' => 'end_date_time'],
             __('app.status') => ['data' => 'status', 'name' => 'status'],

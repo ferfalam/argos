@@ -1129,6 +1129,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('notes/check-password/{id}', ['uses' => 'MemberNotesController@checkPassword'])->name('notes.check-password');
             Route::resource('notes', 'MemberNotesController');
 
+            Route::resource('tla', 'MemberCompanyTLAController');
+            Route::get('tla/create/{type}', 'MemberCompanyTLAController@create2');
+            Route::post('tla/destroy/{type}', 'MemberCompanyTLAController@destroy');
+            
             Route::post('projects/gantt-task-update/{id}', ['uses' => 'MemberProjectsController@updateTaskDuration'])->name('projects.gantt-task-update');
             Route::get('projects/ajaxCreate/{columnId?}', ['uses' => 'MemberProjectsController@ajaxCreate'])->name('projects.ajaxCreate');
             Route::get('projects/ganttData/{projectId?}', ['uses' => 'MemberProjectsController@ganttData'])->name('projects.ganttData');

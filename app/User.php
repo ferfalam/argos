@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Modules\Zoom\Entities\ZoomSetting;
 use Trebol\Entrust\Traits\EntrustUserTrait;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
@@ -191,6 +192,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function googleAccount()
     {
         return $this->hasOne(GoogleAccount::class);
+    }
+
+    public function zoomSetting()
+    {
+        return $this->hasOne(ZoomSetting::class);
     }
 
     public function projects()

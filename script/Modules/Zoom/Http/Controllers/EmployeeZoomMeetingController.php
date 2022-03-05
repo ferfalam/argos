@@ -20,6 +20,7 @@ use Modules\Zoom\Http\Requests\ZoomMeeting\UpdateOccurrence;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\Zoom\Entities\Category;
 use App\Project;
+
 class EmployeeZoomMeetingController extends MemberBaseController
 {
     public function __construct()
@@ -44,7 +45,6 @@ class EmployeeZoomMeetingController extends MemberBaseController
     {
         if ($this->user->cans('add_zoom_meetings')) {
             $this->employees = User::allEmployees();
-           
         }
         $this->categories = Category::all();
         $this->projects = Project::all();
@@ -82,7 +82,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
     public function show($id)
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
 
         return view('zoom::meeting-calendar.show', $this->data);
     }
@@ -220,7 +220,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
         if ($request->all_employees) {
             $attendees = User::allEmployees();
         } else {
-            if($request->employee_id){
+            if ($request->employee_id) {
                 $attendees = User::whereIn('id', $request->employee_id)->get();
             }
         }
@@ -229,8 +229,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
         } elseif ($request->has('client_id')) {
             $attendees = User::whereIn('id', $request->client_id)->get()->merge($attendees);
         }
-        if($attendees)
-        {
+        if ($attendees) {
             $meeting->attendees()->sync($attendees);
         }
 
@@ -412,7 +411,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function startMeeting($id)
     {
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meeting = ZoomMeeting::findOrFail($id);
         $this->zoomMeeting = Zoom::meeting()->find($this->meeting->meeting_id);
         return view('zoom::meeting-calendar.start_meeting', $this->data);

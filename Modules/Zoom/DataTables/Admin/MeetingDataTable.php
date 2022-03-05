@@ -14,7 +14,7 @@ class MeetingDataTable extends BaseDataTable
     public function __construct()
     {
         parent::__construct();
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
     }
 
     /**
@@ -52,7 +52,7 @@ class MeetingDataTable extends BaseDataTable
                 if ($row->status == 'waiting' && !$row->end_date_time->lt(Carbon::now())) {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
-                    if ($row->created_by == user()->id ) {
+                    if ($row->created_by == user()->id) {
                         $action .= '<li>
                             <a href="' . route('admin.zoom-meeting.invite', $row->id) . '" >
                                 <i class="fa fa-eye"></i> Invite
@@ -99,7 +99,7 @@ class MeetingDataTable extends BaseDataTable
                                 <i class="fa fa-stop"></i> ' . __('zoom::modules.zoommeeting.endMeeting') . '
                             </a>
                         </li>';
-                    }else{
+                    } else {
                         $action .= '<li>
                             <a target="_blank" href="' . $url . '" >
                                 <i class="fa fa-play"></i> Rejoindre
@@ -152,8 +152,10 @@ class MeetingDataTable extends BaseDataTable
                     if ($row->end_date_time->lt(Carbon::now())) {
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
                     }
-                    if ($row->attendees) {
-                        return  '<label class="label label-info">Confirmé</label>';
+                    if ($row->invite) {
+                        return  '<label class="label label-success">Confirmé</label>';
+                    } else {
+                        return  '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                     }
                     $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {

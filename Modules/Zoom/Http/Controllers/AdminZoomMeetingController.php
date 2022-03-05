@@ -85,8 +85,11 @@ class AdminZoomMeetingController extends AdminBaseController
     public function show($id)
     {
         $this->event = ZoomMeeting::with('attendees', 'host')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meetingFiles = MeetingFile::where('meeting_id', $id)->get();
+        $date = Carbon::parse($this->event->start_date_time);
+        $now = Carbon::now();
+        $this->diff = $date->diffInMinutes($now);
         return view('zoom::meeting-calendar.show', $this->data);
     }
 
@@ -289,7 +292,7 @@ class AdminZoomMeetingController extends AdminBaseController
      */
     public function startMeeting($id)
     {
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meeting = ZoomMeeting::findOrFail($id);
         $start = Carbon::now();
         $end = $this->meeting->end_date_time;

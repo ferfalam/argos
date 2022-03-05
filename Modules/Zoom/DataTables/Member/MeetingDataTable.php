@@ -15,7 +15,7 @@ class MeetingDataTable extends BaseDataTable
     public function __construct()
     {
         parent::__construct();
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
     }
 
     /**
@@ -25,12 +25,11 @@ class MeetingDataTable extends BaseDataTable
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
-    {
+    {   
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                //dd($row);
                 if ($this->zoomSetting->meeting_app == 'in_app') {
                     $url = route('member.zoom-meeting.startMeeting', $row->id);
                 } else {
@@ -153,9 +152,15 @@ class MeetingDataTable extends BaseDataTable
                     if ($row->end_date_time->lt(Carbon::now())) {
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
                     }
-                    if ($row->attendees) {
-                        return  '<label class="label label-info">Confirmé</label>';
+
+                    if ($row->invite) {
+                        return  '<label class="label label-success">Confirmé</label>';
+                    }else{
+                        return  '<label class="label label-warning">'.__('zoom::modules.zoommeeting.waiting').'</label>';
                     }
+                    // if ($row->attendees) {
+                    //     return  '<label class="label label-info">Confirmé</label>';
+                    // }
                     $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {
                     $status = '<i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">' . __('zoom::modules.zoommeeting.live') . '</span>';
@@ -178,7 +183,7 @@ class MeetingDataTable extends BaseDataTable
     public function query(ZoomMeeting $model)
     {
         $request = $this->request();
-        $model = $model->select('id', 'meeting_id', 'created_by', 'meeting_name', 'start_date_time', 'end_date_time', 'start_link', 'join_link', 'status', 'label_color', 'occurrence_id', 'source_meeting_id', 'occurrence_order', 'duree')
+        $model = $model->select('id', 'meeting_id', 'created_by', 'meeting_name', 'start_date_time', 'end_date_time', 'start_link', 'join_link', 'status', 'label_color', 'occurrence_id', 'source_meeting_id', 'occurrence_order', 'duree', 'invite')
         ->whereHas('attendees', function ($query) {
             //if (!user()->cans('view_zoom_meetings')) {
                 return $query->where('user_zoom_meeting.user_id', user()->id);

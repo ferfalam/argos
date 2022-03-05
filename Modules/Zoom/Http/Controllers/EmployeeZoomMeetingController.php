@@ -44,9 +44,9 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function index(MeetingDataTable $dataTable)
     {
-        // if ($this->user->cans('add_zoom_meetings')) {
-        $this->employees = User::allEmployees();
-        // }
+        if ($this->user->zoomSetting()->get()[0]->api_key) {
+            $this->employees = User::allEmployees();
+        }
         $this->categories = Category::all();
         $this->projects = Project::all();
         $this->upload = can_upload();
@@ -70,9 +70,9 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function store(StoreMeeting $request)
     {
-        // if (!$this->user->cans('add_zoom_meetings')) {
-        //     abort(403);
-        // }
+        if (!$this->user->zoomSetting()->get()[0]->api_key) {
+            abort(403);
+        }
         $meeting = $this->createOrUpdateMeetings($request);
         return Reply::successWithData(__('messages.createSuccess'), ["meetingID" => $meeting->id]);
     }
@@ -85,7 +85,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
     public function show($id)
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $date = Carbon::parse($this->event->start_date_time);
         $now = Carbon::now();
         $this->meetingFiles = MeetingFile::where('meeting_id', $id)->get();
@@ -124,9 +124,9 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function update(UpdateMeeting $request, $id)
     {
-        // if (!$this->user->cans('edit_zoom_meetings')) {
-        //     abort(403);
-        // }
+        if (!$this->user->zoomSetting()->get()[0]->api_key) {
+            abort(403);
+        }
         $this->createOrUpdateMeetings($request, $id);
 
         return Reply::dataOnly(['meetingID' => $id]);
@@ -212,6 +212,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
             $data['meeting_name'] = $request->meeting_title;
             $data['start_date_time'] = $request->start_date . 'T' . $request->start_time;
             $data['end_date_time'] = $request->end_date . 'T' . $request->end_time;
+            $data['invite'] = false;
 
             $start = Carbon::parse($request->start_date . ' ' . $request->start_time);
             $end = Carbon::parse($request->end_date . ' ' . $request->end_time);
@@ -224,7 +225,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
 
             if (is_null($id)) {
                 $meeting = $meeting->create($data);
-                $this->syncAttendees($request, $meeting, 'yes');
+                $this->syncAttendees($request, $meeting, 'no');
                 $this->createMeeting($user, $meeting, $id, null, $host);
                 return $meeting;
             } else {
@@ -283,6 +284,8 @@ class EmployeeZoomMeetingController extends MemberBaseController
     {
         $attendees = $meeting->attendees;
         event(new MeetingInviteEvent($meeting, $attendees));
+        $meeting->invite = true;
+        $meeting->save();
         return redirect()->back();
     }
 
@@ -440,7 +443,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function startMeeting($id)
     {
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meeting = ZoomMeeting::findOrFail($id);
         $this->zoomMeeting = Zoom::meeting()->find($this->meeting->meeting_id);
         return view('zoom::meeting-calendar.start_meeting', $this->data);

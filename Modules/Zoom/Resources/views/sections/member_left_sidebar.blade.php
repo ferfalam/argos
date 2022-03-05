@@ -24,7 +24,7 @@
     <ul class="collapse list-unstyled" id="meeting">
         {{-- <li><a href="{{ route('admin.zoom-setting.store') }}" class="{{ request()->routeIs('admin.zoom-setting.store') ? 'active' : '' }}">@lang('zoom::app.menu.meeting') </a></li> --}}
         <li><a href="{{ route('member.zoom-meeting.index') }}" class="{{ request()->routeIs('member.zoom-meeting.index') ? 'active' : '' }}">@lang('zoom::app.menu.zoomMeeting') </a></li>
-            <li><a href="{{ route('admin.zoom-setting.store') }}"  class="{{request()->is("admin/zoom-setting") ? 'active' : ''}}">@lang('zoom::app.menu.zoomSetting')</a></li>
+            <li><a href="{{ route('member.zoom-setting.index') }}"  class="{{request()->routeIs("member.zoom-setting.index") ? 'active' : ''}}">@lang('zoom::app.menu.zoomSetting')</a></li>
             {{-- <li><a href="{{ route('member.task-calendar.index') }}" class="{{ request()->routeIs('member.task-label.index') ? 'active' : '' }}">@lang('app.menu.taskCalendar') </a></li> --}}
     </ul>
 </li>
