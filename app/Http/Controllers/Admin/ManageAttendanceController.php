@@ -251,7 +251,6 @@ class ManageAttendanceController extends AdminBaseController
         $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
         $attendances = Attendance::attendanceByDate($date);
         $this->tla = CompanyTLA::all();
-        
         return DataTables::of($attendances)
         ->editColumn('id', function ($row) {
                 return view('admin.attendance.attendance_list', ['row' => $row, 'tla' => $this->tla, 'global' => $this->global, 'maxAttandenceInDay' => $this->maxAttandenceInDay])->render();
@@ -550,7 +549,7 @@ class ManageAttendanceController extends AdminBaseController
     }
 
     // Attendance Detail Show
-    public function bulkAttendance(Request $request, $day)
+    public function bulkAttendance(Request $request)
     {
         // Getting Attendance Data By User And Date
         $this->employees = User::join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -563,8 +562,6 @@ class ManageAttendanceController extends AdminBaseController
         $now = Carbon::now();
         $this->year = $now->format('Y');
         $this->month = $now->format('m');
-        $this->day = $day;
-        dd($day);
         $this->groups = Team::all();
         $this->tla = CompanyTLA::all();
 

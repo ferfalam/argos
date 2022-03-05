@@ -17,12 +17,12 @@
                     @foreach($dateData['attendance'] as $attendance)
                             <td width="25%" class="al-center bt-border" >
                                 {{ $attendance->clock_in_time->timezone($global->timezone)->format($global->time_format) }}<br>
-                                <strong>@lang('modules.attendance.clock_in') IP: </strong> {{ $attendance->clock_in_ip }}
+                                <strong>@lang('modules.attendance.ipAddress'): </strong> {{ $attendance->clock_in_ip }}
                             </td>
                             <td width="25%" class="al-center bt-border" >
                                 @if(!is_null($attendance->clock_out_time))
                                     {{ $attendance->clock_out_time->timezone($global->timezone)->format($global->time_format) }} <br>
-                                    <strong>@lang('modules.attendance.clock_out') IP: </strong> {{ $attendance->clock_out_ip }}
+                                    <strong>@lang('modules.attendance.ipAddress'): </strong> {{ $attendance->clock_out_ip }}
                                 @else - @endif
                             </td>
                             <td class="bt-border" style="padding-bottom: 5px;">

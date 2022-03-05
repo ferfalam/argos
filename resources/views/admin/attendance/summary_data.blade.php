@@ -4,7 +4,7 @@
             <tr>
                 <th>@lang('app.employee')</th>
                 @for($i =1; $i <= $daysInMonth; $i++)
-                    <th> <a href="javascript:;" class="bulk-attendance" title="modules.attendance.bulkAttendance" style="color: white;" data-day="{{ $i }}">{{ $i }}</a> </th>
+                    <th>{{ $i }}</th>
                 @endfor
                 <th>@lang('app.total')</th>
             </tr>

@@ -44,7 +44,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">Adresse IP</label>
+                                        <label class="control-label">@lang('modules.attendance.ipAddress')</label>
                                         <input type="text" name="clock_in_ip" id="clock-in-ip-{{ $row->id }}"
                                                class="form-control" value="{{ $row->clock_in_ip ?? request()->ip() }}">
                                     </div>
@@ -76,7 +76,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">Adresse IP</label>
+                                        <label class="control-label">@lang('modules.attendance.ipAddress')</label>
                                         <input type="text" name="clock_out_ip" id="clock-out-ip-{{ $row->id }}"
                                                class="form-control" value="{{ $row->clock_out_ip ?? request()->ip() }}">
                                     </div>

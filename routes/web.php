@@ -908,7 +908,7 @@ Route::group(['middleware' => 'auth'], function () {
                 // attendance
                 Route::get('attendances/export/{startDate?}/{endDate?}/{employee?}', ['uses' => 'ManageAttendanceController@export'])->name('attendances.export');
 
-                Route::get('attendances/bulk/{day}', ['uses' => 'ManageAttendanceController@bulkAttendance'])->name('attendances.bulk');
+                Route::get('attendances/bulk/', ['uses' => 'ManageAttendanceController@bulkAttendance'])->name('attendances.bulk');
                 Route::post('attendances/bulk-store', ['uses' => 'ManageAttendanceController@bulkAttendanceStore'])->name('attendances.bulk-store');
                 Route::get('attendances/detail', ['uses' => 'ManageAttendanceController@attendanceDetail'])->name('attendances.detail');
                 Route::get('attendances/data', ['uses' => 'ManageAttendanceController@data'])->name('attendances.data');
