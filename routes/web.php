@@ -1092,7 +1092,19 @@ Route::group(['middleware' => 'auth'], function () {
             // Route::get("suppliers", 'AdminSuppliersController@index')->name('suppliers.index');
             Route::get("suppliers/create", 'AdminSuppliersController@create')->name('suppliers.create');
             Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
+
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
+            Route::resource('spv', 'AdminSPVController', ['except' => ['index']]);
+            Route::get('/spv/{id}/projects', 'AdminSPVController@showProjects')->name('spv.projects');
+            Route::get('/spv/{id}/invoices', 'AdminSPVController@showInvoices')->name('spv.invoices');
+            Route::get('/spv/{id}/payments', 'AdminSPVController@showPayments')->name('spv.payments');
+            Route::get('/spv/{id}/contacts', 'AdminSPVController@showContacts')->name('spv-contacts');
+            Route::get('/spv/{id}/notes', 'AdminSPVController@showNotes')->name('spv-notes');
+            Route::get('/spv/{id}/docs', 'AdminSPVController@showDocs')->name('spv-client-docs');
+            Route::get('/spv/{id}/edit-contact', 'AdminSPVController@editContact')->name('spv.edit-contact');
+
+
+
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
             Route::get("mailing/compose", 'AdminMailingController@compose')->name('mailing.compose');
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');

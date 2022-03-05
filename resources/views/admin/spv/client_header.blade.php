@@ -18,7 +18,7 @@
       </div>
       <div class="panel-right">
         <table>
-          <tr>
+          <tr >
             <td style="display: revert"><p>@lang('modules.dashboard.totalProjects') :</p></td>
             <td><span class="color-primary">{{ $clientStats->totalProjects}}</span></td>
           </tr>

@@ -162,6 +162,7 @@ return array(
   'connexion' => 'Connexion',
   'function' => 'Fonction',
 
+
   'addContact' => 'Add a Contact',
   'contactList' => "Contact List",
   'contactName' => "Contact Name",
@@ -784,4 +785,7 @@ return array(
   'sent' => 'Expédié',
   'createInvoice' => 'Créer une facture',
 
+  'spvList' => 'liste des SPV',
+  'addAnSpv' => 'Ajouter un SPV',
+  'spvSheet' => 'FICHE SPV',
 );

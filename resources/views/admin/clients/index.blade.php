@@ -125,9 +125,6 @@
 
 @section('content')
 
-    @php
-        // dd($dataTable)
-    @endphp
     <div class="panel-4">
         <div class="panel-heading">
             <h2>@lang('app.clientsList')</h2>
