@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\ClientCategory;
 use App\ClientContact;
 use App\ClientDetails;
+use App\ClientDocs;
 use App\ClientSubCategory;
 use App\CompanyTLA;
 use App\ContractType;
@@ -15,6 +16,7 @@ use App\Http\Requests\Admin\Client\UpdateClientRequest;
 use App\Http\Requests\Gdpr\SaveConsentUserDataRequest;
 use App\Invoice;
 use App\LanguageSetting;
+use App\Notes;
 use App\Payment;
 use App\Project;
 use App\PurposeConsent;
@@ -352,9 +354,17 @@ class AdminSPVController extends AdminBaseController
   // }
 
   public function showNotes($id){
+    // $this->client = User::findClient($id);
+    // $this->clientStats = $this->clientStats($id);
+
+    $this->clients = User::allClients();
+    $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
+    $this->notes = Notes::where('client_id', $id)->get();
     $this->client = User::findClient($id);
+    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
     $this->clientStats = $this->clientStats($id);
-    return view('admin.spv.show-notes', $this->data);
+
+    return view('admin.spv.notes.show', $this->data);
   }
 
   public function showContacts($id){
@@ -375,9 +385,12 @@ class AdminSPVController extends AdminBaseController
   }
 
   public function showDocs($id){    
-    $this->client = User::findClient($id);
-    $this->clientStats = $this->clientStats($id);
-    return view('admin.spv.show-docs', $this->data);
+    $this->client       = User::findClient($id);
+    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
+    $this->clientDocs   = ClientDocs::where('user_id', '=', $this->client->id)->get();
+    $clientController   = new ManageClientsController();
+    $this->clientStats  = $clientController->clientStats($id);
+    return view('admin.spv.docs.index', $this->data);
   }
 
   public function gdpr($id)

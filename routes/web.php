@@ -1099,7 +1099,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/spv/{id}/invoices', 'AdminSPVController@showInvoices')->name('spv.invoices');
             Route::get('/spv/{id}/payments', 'AdminSPVController@showPayments')->name('spv.payments');
             Route::get('/spv/{id}/contacts', 'AdminSPVController@showContacts')->name('spv-contacts');
-            Route::get('/spv/{id}/notes', 'AdminSPVController@showNotes')->name('spv-notes');
+            Route::get('/spv/{id}/notes', 'AdminSPVController@showNotes')->name('spv.notes');
             Route::get('/spv/{id}/docs', 'AdminSPVController@showDocs')->name('spv-client-docs');
             Route::get('/spv/{id}/edit-contact', 'AdminSPVController@editContact')->name('spv.edit-contact');
 
