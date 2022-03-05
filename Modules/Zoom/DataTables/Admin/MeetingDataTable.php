@@ -157,7 +157,7 @@ class MeetingDataTable extends BaseDataTable
                     } else {
                         return  '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                     }
-                    $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
+                    //$status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {
                     $status = '<i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">' . __('zoom::modules.zoommeeting.live') . '</span>';
                 } else if ($row->status == 'canceled') {
@@ -194,7 +194,8 @@ class MeetingDataTable extends BaseDataTable
             'occurrence_id',
             'source_meeting_id',
             'occurrence_order',
-            'duree'
+            'duree',
+            'invite'
         );
 
         if (request()->has('startDate') && $request->startDate != 0) {

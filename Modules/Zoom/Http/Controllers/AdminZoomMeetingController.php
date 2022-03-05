@@ -230,7 +230,7 @@ class AdminZoomMeetingController extends AdminBaseController
 
             if (is_null($id)) {
                 $meeting = $meeting->create($data);
-                $this->syncAttendees($request, $meeting, 'yes');
+                $this->syncAttendees($request, $meeting, 'no');
                 $this->createMeeting($user, $meeting, $id, null, $host);
                 return $meeting;
             } else {
@@ -267,8 +267,11 @@ class AdminZoomMeetingController extends AdminBaseController
 
     public function OnlineInvite(ZoomMeeting $meeting)
     {
+        //dd($meeting);
         $attendees = $meeting->attendees;
         event(new MeetingInviteEvent($meeting, $attendees));
+        $meeting->invite = true;
+        $meeting->save();
         return redirect()->back();
     }
 
