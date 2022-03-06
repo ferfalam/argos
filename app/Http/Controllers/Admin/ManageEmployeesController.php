@@ -374,11 +374,14 @@ class ManageEmployeesController extends AdminBaseController
             $user->observation = json_encode($observation);
 
             $user->username = $request->input("username");
+            if ($request->password != '') {
+                $user->password = Hash::make($request->input('password'));
+            }
             //$user->local = company()->locale;
             $user->tel = "";
             $user->mobile = "+" . $request->input('mobile_phoneCode') . " " . $request->input('mobile');
             $user->email = $request->input("email");
-            $user->password = Hash::make($request->input('password'));
+            //$user->password = Hash::make($request->input('password'));
             $user->login = $request->input("connexion") == "1" ? 'enable' : 'disable';
             $user->status = $request->input("status") == "1" ? 'active' : 'deactive';
             $user->email_notifications = intval($request->input("notification"));
