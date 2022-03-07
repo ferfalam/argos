@@ -31,7 +31,7 @@ class ZoomMeetingSettingController extends AdminBaseController
      */
     public function index()
     {
-        $this->zoom = ZoomSetting::first();
+        $this->zoom = ZoomSetting::where('user_id', user()->id)->first();
 
         return view('zoom::index', $this->data);
     }

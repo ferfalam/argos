@@ -101,12 +101,6 @@
 <script src="{{ asset('plugins/bower_components/switchery/dist/switchery.min.js') }}"></script>
 
 <script>
-
-    $(".select2").select2({
-        formatNoMatches: function () {
-            return "{{ __('messages.noRecordFound') }}";
-        }
-    });
     checkHoliday();
 
     jQuery('#attendance_date').datepicker({
@@ -203,6 +197,19 @@
 
                 });
 
+                
+                $(".select2").select2({
+                    formatNoMatches: function () {
+                        return "{{ __('messages.noRecordFound') }}";
+                    }
+                });
+                $('.plus-form').click(function () {
+                    let target = $(event.target)[0];
+                    const field = $('#' + target.dataset.type)
+                    const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+                    $('#modelHeading').html('...');
+                    $.ajaxModal('#attendancesDetailsModal', url);
+                })
             },
 
             "destroy" : true
@@ -211,11 +218,16 @@
 
     $('#attendance-table').on('click', '.save-attendance', function () {
         var userId = $(this).data('user-id');
+        $('select.workplace').each(function () {
+            if ($(this)[0].dataset.id == userId) {
+                var workplace = $(this)[0]
+            }
+        })
         var clockInTime = $('#clock-in-'+userId).val();
         var clockInIp = $('#clock-in-ip-'+userId).val();
         var clockOutTime = $('#clock-out-'+userId).val();
         var clockOutIp = $('#clock-out-ip-'+userId).val();
-        var workingFrom = $('#working-from-'+userId).val();
+        var workingFrom = $(workplace).val();
         var date = $('#attendance_date').val();
 
         var late = 'no';

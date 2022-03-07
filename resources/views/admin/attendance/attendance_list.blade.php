@@ -14,9 +14,9 @@
                 <div class="col-md-3 col-xs-4">
                     @if($row->clock_in > 0)
                         <label class="label label-success"><i class="fa fa-check"></i> @lang('modules.attendance.present')</label>
-                        <button type="button" title="Attendance Detail" class="btn btn-info btn-sm btn-rounded" onclick="attendanceDetail('{{ $row->id }}', '{{ \Carbon\Carbon::createFromFormat('Y-m-d', $row->atte_date)->timezone($global->timezone)->format('Y-m-d')   }}')">
+                        {{-- <button type="button" title="Attendance Detail" class="btn btn-info btn-sm btn-rounded" onclick="attendanceDetail('{{ $row->id }}', '{{ \Carbon\Carbon::createFromFormat('Y-m-d', $row->atte_date)->timezone($global->timezone)->format('Y-m-d')   }}')">
                             <i class="fa fa-search"></i> Detail
-                        </button>
+                        </button> --}}
                     @else
                         <label class="label label-danger"><i class="fa fa-exclamation-circle"></i> @lang('modules.attendance.absent')</label>
                     @endif
@@ -44,7 +44,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">@lang('modules.attendance.clock_in') IP</label>
+                                        <label class="control-label">@lang('modules.attendance.ipAddress')</label>
                                         <input type="text" name="clock_in_ip" id="clock-in-ip-{{ $row->id }}"
                                                class="form-control" value="{{ $row->clock_in_ip ?? request()->ip() }}">
                                     </div>
@@ -76,7 +76,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">@lang('modules.attendance.clock_out') IP</label>
+                                        <label class="control-label">@lang('modules.attendance.ipAddress')</label>
                                         <input type="text" name="clock_out_ip" id="clock-out-ip-{{ $row->id }}"
                                                class="form-control" value="{{ $row->clock_out_ip ?? request()->ip() }}">
                                     </div>
@@ -95,9 +95,22 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">@lang('modules.attendance.working_from')</label>
-                                        <input type="text" name="working_from" id="working-from-{{ $row->id }}"
-                                               class="form-control" value="{{ $row->working_from ?? 'office' }}">
+                                        <label class="control-label" >@lang('modules.attendance.workFrom')</label>
+                                        <div class="switchery-demo d-flex align-items-center">
+                                            <select name="workplace" id="workplace" data-id="{{$row->id}}"
+                                                class="workplace form-control select2 mr-2">
+                                                <option value="Lieu de travail" disabled></option>
+                                                @foreach ($tla as $t)
+                                                    @if ($t->type == 'workplace')
+                                                        <option value=" {{ $t->name }} " @if ($t->name == $row->working_from) selected @endif>
+                                                            {{ $t->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            <a href="javascript:;" class="text-info plus-form">
+                                                <img src="{{ asset('img/plus.png') }}" alt="" data-type="workplace">
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>

@@ -330,6 +330,10 @@
                                 <div class="form-group">
                                     <label class="control-label">@lang('zoom::modules.zoommeeting.meetingHost')</label>
                                     <select class="select2 form-control" id="created_by" name="created_by">
+                                        @if (\App\User::isAdmin($user->id))
+                                            <option selected value="{{ $user->id }}">{{ ucwords($user->name) }}
+                                            </option>
+                                        @endif
                                         @foreach ($employees as $emp)
                                             <option @if ($emp->id == $user->id) selected @endif
                                                 value="{{ $emp->id }}">{{ ucwords($emp->name) }}</option>
@@ -553,10 +557,10 @@
             });
         
             myDropzone.on('completemultiple', function () {
-                var msgs = "@lang('messages.meetingCreatedSuccessfully')";
-                $.showToastr(msgs, 'success');
-                $('#my-meeting').modal('hide');
-                loadTable();
+            var msgs = "@lang('messages.meetingCreatedSuccessfully')";
+            $.showToastr(msgs, 'success');
+            $('#my-meeting').modal('hide');
+            loadTable();
             });
         @endif
 
@@ -761,16 +765,15 @@
                     success: function(response) {
                         if (response.status == 'success') {
                             var dropzone = 0;
-                            @if($upload)
+                            @if ($upload)
                                 dropzone = myDropzone.getQueuedFiles().length;
                             @endif
 
-                            if(dropzone > 0){
+                            if (dropzone > 0) {
                                 taskID = response.meetingID;
                                 $('#taskID').val(response.meetingID);
                                 myDropzone.processQueue();
-                            }
-                            else{
+                            } else {
                                 var msgs = "@lang('messages.meetingCreatedSuccessfully')";
                                 $('#my-meeting').modal('hide');
                                 $.showToastr(msgs, 'success');

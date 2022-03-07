@@ -1,3 +1,8 @@
+<style>
+  .panel-right table tr td{
+    padding: 0px !important;
+  }
+</style>
 <div class="client-profile-panel panel">
     <div class="panel-body">
       <div class="panel-left">
@@ -16,7 +21,7 @@
       <div class="panel-right">
         <table>
           <tr>
-            <td><p>@lang('modules.dashboard.totalProjects') :</p></td>
+            <td style="display: revert"><p>@lang('modules.dashboard.totalProjects') :</p></td>
             <td><span class="color-primary">
               {{-- {{ $clientStats->totalProjects}} --}}
             </span></td>

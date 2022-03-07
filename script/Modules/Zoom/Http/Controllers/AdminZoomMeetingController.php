@@ -82,7 +82,7 @@ class AdminZoomMeetingController extends AdminBaseController
     public function show($id)
     {
         $event = ZoomMeeting::with('attendees', 'host')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         return view('zoom::meeting-calendar.show', ['event' => $event, 'global' => $this->global, 'zoomSetting' => $this->zoomSetting]);
     }
 
@@ -152,7 +152,7 @@ class AdminZoomMeetingController extends AdminBaseController
         return Reply::success(__('messages.deleteSuccess'));
     }
 
-    public function createMeeting($user, ZoomMeeting $meeting, $id, $meetingId = null, $host=null)
+    public function createMeeting($user, ZoomMeeting $meeting, $id, $meetingId = null, $host = null)
     {
         // create meeting using zoom API
         $commonSettings = [
@@ -169,7 +169,7 @@ class AdminZoomMeetingController extends AdminBaseController
             ]
         ];
 
-        if($host){
+        if ($host) {
             $commonSettings['alternative_host'] = [$host->email];
         }
 
@@ -222,7 +222,7 @@ class AdminZoomMeetingController extends AdminBaseController
         if ($request->all_employees) {
             $attendees = User::allEmployees();
         } else {
-            if($request->employee_id){
+            if ($request->employee_id) {
                 $attendees = User::whereIn('id', $request->employee_id)->get();
             }
         }
@@ -231,8 +231,7 @@ class AdminZoomMeetingController extends AdminBaseController
         } elseif ($request->has('client_id')) {
             $attendees = User::whereIn('id', $request->client_id)->get()->merge($attendees);
         }
-        if($attendees)
-        {
+        if ($attendees) {
             $meeting->attendees()->sync($attendees);
         }
 
@@ -242,7 +241,7 @@ class AdminZoomMeetingController extends AdminBaseController
     }
 
     public function tableView(MeetingDataTable $dataTable)
-    {    
+    {
         $this->employees = User::allEmployees();
         $this->clients = User::allClients();
         $this->categories = Category::all();
@@ -258,7 +257,7 @@ class AdminZoomMeetingController extends AdminBaseController
      */
     public function startMeeting($id)
     {
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meeting = ZoomMeeting::findOrFail($id);
         $this->zoomMeeting = Zoom::meeting()->find($this->meeting->meeting_id);
         return view('zoom::meeting-calendar.start_meeting', $this->data);

@@ -201,6 +201,19 @@
                     new Switchery($(this)[0], $(this).data());
                 });
 
+                $(".select2").select2({
+                formatNoMatches: function () {
+                    return "{{ __('messages.noRecordFound') }}";
+                }
+            });
+            $('.plus-form').click(function () {
+                let target = $(event.target)[0];
+                const field = $('#' + target.dataset.type)
+                const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+                $('#modelHeading').html('...');
+                $.ajaxModal('#attendancesDetailsModal', url);
+            })
+
             },
 
             "destroy" : true

@@ -908,7 +908,7 @@ Route::group(['middleware' => 'auth'], function () {
                 // attendance
                 Route::get('attendances/export/{startDate?}/{endDate?}/{employee?}', ['uses' => 'ManageAttendanceController@export'])->name('attendances.export');
 
-                Route::get('attendances/bulk', ['uses' => 'ManageAttendanceController@bulkAttendance'])->name('attendances.bulk');
+                Route::get('attendances/bulk/', ['uses' => 'ManageAttendanceController@bulkAttendance'])->name('attendances.bulk');
                 Route::post('attendances/bulk-store', ['uses' => 'ManageAttendanceController@bulkAttendanceStore'])->name('attendances.bulk-store');
                 Route::get('attendances/detail', ['uses' => 'ManageAttendanceController@attendanceDetail'])->name('attendances.detail');
                 Route::get('attendances/data', ['uses' => 'ManageAttendanceController@data'])->name('attendances.data');
@@ -1093,7 +1093,19 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("suppliers/create", 'AdminSuppliersController@create')->name('suppliers.create');
             Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
             Route::get('suppliers/contacts/{id}','AdminSuppliersController@showContacts')->name('supplier.contacts');
+
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
+            Route::resource('spv', 'AdminSPVController', ['except' => ['index']]);
+            Route::get('/spv/{id}/projects', 'AdminSPVController@showProjects')->name('spv.projects');
+            Route::get('/spv/{id}/invoices', 'AdminSPVController@showInvoices')->name('spv.invoices');
+            Route::get('/spv/{id}/payments', 'AdminSPVController@showPayments')->name('spv.payments');
+            Route::get('/spv/{id}/contacts', 'AdminSPVController@showContacts')->name('spv-contacts');
+            Route::get('/spv/{id}/notes', 'AdminSPVController@showNotes')->name('spv.notes');
+            Route::get('/spv/{id}/docs', 'AdminSPVController@showDocs')->name('spv-client-docs');
+            Route::get('/spv/{id}/edit-contact', 'AdminSPVController@editContact')->name('spv.edit-contact');
+
+
+
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
             Route::get("mailing/compose", 'AdminMailingController@compose')->name('mailing.compose');
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
@@ -1139,6 +1151,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('notes/check-password/{id}', ['uses' => 'MemberNotesController@checkPassword'])->name('notes.check-password');
             Route::resource('notes', 'MemberNotesController');
 
+            Route::resource('tla', 'MemberCompanyTLAController');
+            Route::get('tla/create/{type}', 'MemberCompanyTLAController@create2');
+            Route::post('tla/destroy/{type}', 'MemberCompanyTLAController@destroy');
+            
             Route::post('projects/gantt-task-update/{id}', ['uses' => 'MemberProjectsController@updateTaskDuration'])->name('projects.gantt-task-update');
             Route::get('projects/ajaxCreate/{columnId?}', ['uses' => 'MemberProjectsController@ajaxCreate'])->name('projects.ajaxCreate');
             Route::get('projects/ganttData/{projectId?}', ['uses' => 'MemberProjectsController@ganttData'])->name('projects.ganttData');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Attendance;
 use App\AttendanceSetting;
+use App\CompanyTLA;
 use App\Holiday;
 use App\LanguageSetting;
 use App\Notice;
@@ -82,7 +83,7 @@ class MemberDashboardController extends MemberBaseController
 
         $this->pendingTasks = Task::join('task_users', 'task_users.task_id', '=', 'tasks.id')
             ->where('tasks.board_column_id', $incompletedTaskColumn->id)
-            ->where(DB::raw('DATE(due_date)'), '<=', Carbon::today()->format('Y-m-d'))
+            ->where(DB::raw('DATE(due_date)'), '<=', Carbon::today()->setTimezone($this->global->timezone)->format('Y-m-d'))
             ->where('task_users.user_id', $this->user->id)
             ->select('tasks.*')
             ->groupBy('tasks.id')
@@ -90,13 +91,14 @@ class MemberDashboardController extends MemberBaseController
 
 
         // Getting Current Clock-in if exist
-        $this->currenntClockIn = Attendance::where(DB::raw('DATE(clock_in_time)'), Carbon::today()->format('Y-m-d'))
+        $this->currenntClockIn = Attendance::where(DB::raw('DATE(clock_in_time)'), Carbon::today()->setTimezone($this->global->timezone)->format('Y-m-d'))
             ->where('user_id', $this->user->id)->whereNull('clock_out_time')->first();
+        //dd($this->currenntClockIn);
         // Getting Today's Total Check-ins
-        $this->todayTotalClockin = Attendance::where(DB::raw('DATE(clock_in_time)'), Carbon::today()->format('Y-m-d'))
-            ->where('user_id', $this->user->id)->where(DB::raw('DATE(clock_out_time)'), Carbon::today()->format('Y-m-d'))->count();
+        $this->todayTotalClockin = Attendance::where(DB::raw('DATE(clock_in_time)'), Carbon::today()->setTimezone($this->global->timezone)->format('Y-m-d'))
+            ->where('user_id', $this->user->id)->where(DB::raw('DATE(clock_out_time)'), Carbon::today()->setTimezone($this->global->timezone)->format('Y-m-d'))->count();
 
-        $currentDate = Carbon::now()->format('Y-m-d');
+        $currentDate = Carbon::now()->setTimezone($this->global->timezone)->format('Y-m-d');
 
         // Check Holiday by date
         $this->checkTodayHoliday = Holiday::where('date', $currentDate)->first();
@@ -124,6 +126,7 @@ class MemberDashboardController extends MemberBaseController
             $this->notices = Notice::limit(8)->latest()->get();
         }
 
+        $this->tla = CompanyTLA::all();
         return view('member.dashboard.index', $this->data);
     }
 

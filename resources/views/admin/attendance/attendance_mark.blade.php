@@ -64,7 +64,7 @@
                                                     <label class="control-label" >Lieu de travail</label>
                                                     <div class="switchery-demo d-flex align-items-center">
                                                         <select name="working_from" id="workplace"
-                                                            class="form-control select2 mr-2">
+                                                            class="workplace form-control select2 mr-2">
                                                             <option value="Lieu de travail" disabled></option>
                                                             @foreach ($tla as $a)
                                                                 @if ($a->type == 'workplace')
@@ -128,9 +128,43 @@
         </div>
     </div>
 
+    {{--Timer Modal--}}
+    <div class="modal fade bs-modal-lg in" id="workplaceModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Timer Modal Ends--}}
 </div>
 
 <script>
+    $('.plus-form').click(function () {
+        let target = $(event.target)[0];
+        const field = $('#' + target.dataset.type)
+        const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+        $('#modelHeading').html('...');
+        $.ajaxModal('#workplaceModal', url);
+    })
+
+    $("#workplace").select2({
+        formatNoMatches: function () {
+            return "{{ __('messages.noRecordFound') }}";
+        }
+    });
     $('.a-timepicker').timepicker({
         @if($global->time_format == 'H:i')
         showMeridian: false,

@@ -187,6 +187,80 @@
             </div>
         </div>
     </div>
+            <div class="row m-b-20">
+            <div class="col-xs-12">
+                @if($upload)
+                    <button type="button"
+                            class="btn btn-block btn-outline-info btn-sm col-md-2 select-image-button"
+                            style="margin-bottom: 10px;display: none "><i class="fa fa-upload"></i>
+                        File Select Or Upload
+                    </button>
+                    <div id="file-upload-box">
+                        <div class="row" id="file-dropzone">
+                            <div class="col-xs-12">
+                                <div class="dropzone"
+                                        id="file-upload-edit-dropzone">
+                                    {{ csrf_field() }}
+                                    <div class="fallback">
+                                        <input name="file" type="file" multiple/>
+                                    </div>
+                                    <input name="image_url" id="image_url" type="hidden"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="taskID" id="taskID" value="{{$event->id}}">
+                @else
+                    <div class="alert alert-danger">@lang('messages.storageLimitExceed', ['here' => '<a href='.route('admin.billing.packages'). '>Here</a>'])</div>
+                @endif
+            </div>
+        </div>
+        @if(isset($meetingFiles))
+        <div class="row" id="list">
+            <ul class="list-group" id="files-list">
+                @forelse($meetingFiles as $file)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-9">
+                                {{ $file->filename }}
+                            </div>
+                            <div class="col-md-3">
+                                    <a target="_blank" href="{{ $file->file_url }}"
+                                        data-toggle="tooltip" data-original-title="View"
+                                        class="btn btn-info btn-circle"><i
+                                                class="fa fa-search"></i></a>
+                                @if(is_null($file->external_link))
+                                    &nbsp;&nbsp;
+                                    <a href="{{ route('admin.zoom-meeting-files.download', $file->id) }}"
+                                        data-toggle="tooltip" data-original-title="Download"
+                                        class="btn btn-inverse btn-circle"><i
+                                                class="fa fa-download"></i></a>
+                                @endif
+                                &nbsp;&nbsp;
+                                <a href="javascript:;" data-toggle="tooltip"
+                                    data-original-title="Delete"
+                                    data-file-id="{{ $file->id }}"
+                                    class="btn btn-danger btn-circle sa-params .file-delete" data-pk="list"><i
+                                            class="fa fa-times"></i></a>
+
+                                <span class="m-l-10">{{ $file->created_at->diffForHumans() }}</span>
+                            </div>
+                        </div>
+                    </li>
+                @empty
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                @lang('messages.noFileUploaded')
+                            </div>
+                        </div>
+                    </li>
+                @endforelse
+
+            </ul>
+        </div>
+        @endif
+
     {!! Form::close() !!}
 </div>
 <div class="modal-footer">
@@ -204,6 +278,47 @@
 <script src="{{ asset('plugins/bootstrap-colorselector/bootstrap-colorselector.min.js') }}"></script>
 <script>
     $(function() {
+                @if($upload)
+            Dropzone.autoDiscover = false;
+            //Dropzone class
+            editDropzone = new Dropzone("div#file-upload-edit-dropzone", {
+                url: "{{ route('admin.zoom-meeting.storeFile') }}",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                paramName: "file",
+                maxFilesize: 10,
+                maxFiles: 10,
+                acceptedFiles: "image/*,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                addRemoveLinks: true,
+                parallelUploads: 10,
+                dictDefaultMessage: "@lang('modules.projects.dropFile')",
+                init: function () {
+                    editDropzone = this;
+                    this.on("success", function (file, response) {
+                        if(response.status == 'fail') {
+                            $.showToastr(response.message, 'error');
+                            return;
+                        }
+                    })
+                }
+            });
+
+            editDropzone.on('sending', function (file, xhr, formData) {
+                console.log(editDropzone.getAddedFiles().length, 'sending');
+                var ids = $('#taskID').val();
+                var task_request_id = $('#task_request_id').val();
+                formData.append('meeting_id', ids);
+                //formData.append('task_request_id', task_request_id);
+            });
+
+            editDropzone.on('completemultiple', function () {
+                var msgs = "@lang('messages.meetingUpdatedSuccessfully')";
+                $.showToastr(msgs, 'success');
+                window.location.reload();
+            });
+        @endif
+
         jQuery('#start_date, #end_date').datepicker({
             autoclose: true,
             todayHighlight: true,
@@ -233,7 +348,19 @@
                 type: "POST",
                 data: $('#editMeeting').serialize(),
                 success: function (response) {
-                    if(response.status == 'success'){
+                    var dropzone = 0;
+                    @if($upload)
+                        dropzone = editDropzone.getQueuedFiles().length;
+                    @endif
+
+                    if(dropzone > 0){
+                        taskID = response.meetingID;
+                        $('#taskID').val(response.meetingID);
+                        editDropzone.processQueue();
+                    }
+                    else{
+                        var msgs = "@lang('messages.meetingUpdatedSuccessfully')";
+                        $.showToastr(msgs, 'success');
                         window.location.reload();
                     }
                 }

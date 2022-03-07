@@ -135,7 +135,7 @@
         @endforeach
 
 
-        <li class="{{ request()->routeIs('admin.spv.index') ? 'active' : '' }}">
+        <li class="{{ request()->routeIs('admin.spv*') ? 'active' : '' }}">
             <a href="{{ route('admin.spv.index') }}">
                 <ion-icon name="document"></ion-icon>
                 SPV

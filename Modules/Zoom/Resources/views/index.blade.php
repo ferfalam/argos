@@ -64,13 +64,13 @@
                             <div class="radio-list">
                                 <label class="radio-inline p-0">
                                     <div class="radio radio-info">
-                                        <input type="radio" name="meeting_app" @if($zoom->meeting_app == 'zoom_app') checked @endif id="zoom_app" value="zoom_app">
+                                        <input type="radio" name="meeting_app" checked id="zoom_app" value="zoom_app">
                                         <label for="zoom_app">@lang('app.yes')</label>
                                     </div>
                                 </label>
                                 <label class="radio-inline">
                                     <div class="radio radio-info">
-                                        <input type="radio" name="meeting_app" @if($zoom->meeting_app == 'in_app') checked @endif id="in_app" value="in_app">
+                                        <input type="radio" name="meeting_app" @if($zoom->meeting_app == 'in_app' || $zoom->meeting_app == null ) checked @endif id="in_app" value="in_app">
                                         <label for="in_app">@lang('app.no')</label>
                                     </div>
                                 </label>
@@ -111,7 +111,11 @@
 @push('footer-script')
 <script>
     $('#update-form').click(function() {
-        var url = "{{route('admin.zoom-setting.update', $zoom->id)}}";
+        @if (\App\User::isAdmin(user()->id))
+            var url = "{{route('admin.zoom-setting.update', $zoom->id)}}";
+        @else
+            var url = "{{route('member.zoom-setting.update', $zoom->id)}}";
+        @endif
 
         $.easyAjax({
             url: url,

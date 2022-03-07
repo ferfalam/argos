@@ -542,7 +542,14 @@
 <div class="wrapper">
 
     <!-- Left navbar-header -->
+    @if (\App\User::isAdmin(user()->id))
     @include('sections.left_sidebar')
+    @elseif(\App\User::isClient(user()->id))
+    @include('sections.client_left_sidebar')
+    @elseif(\App\User::isEmployee(user()->id))
+    @include('sections.member_left_sidebar')
+    @endif
+        
     <!-- Left navbar-header end -->
 
     {{-- Just A Section for the Chat Content --}}

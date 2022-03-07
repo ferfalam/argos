@@ -15,6 +15,7 @@ use Modules\Zoom\Entities\ZoomSetting;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\Zoom\Entities\Category;
 use App\Project;
+
 class ClientZoomMeetingController extends ClientBaseController
 {
     public function __construct()
@@ -70,7 +71,7 @@ class ClientZoomMeetingController extends ClientBaseController
     public function show($id)
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
 
         return view('zoom::meeting-calendar.show', $this->data);
     }
@@ -113,10 +114,9 @@ class ClientZoomMeetingController extends ClientBaseController
      */
     public function startMeeting($id)
     {
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meeting = ZoomMeeting::findOrFail($id);
         $this->zoomMeeting = Zoom::meeting()->find($this->meeting->meeting_id);
         return view('zoom::meeting-calendar.start_meeting', $this->data);
     }
-  
 }

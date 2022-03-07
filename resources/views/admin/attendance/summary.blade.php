@@ -109,6 +109,7 @@
         <!-- /.modal-dialog -->
     </div>
     {{--Timer Modal Ends--}}
+    
 
 @endsection
 
@@ -189,7 +190,8 @@
     });
 
     $('body').on('click', '.bulk-attendance',function (event) {
-        var url = '{!! route('admin.attendances.bulk') !!}';
+        var day = event.target.dataset.day ?? '';
+        var url = '/admin/attendances/bulk/'+day;
         $('#modelHeading').html('{{__("app.menu.attendance") }}');
         $.ajaxModal('#projectTimerModal', url);
     });

@@ -856,7 +856,7 @@
 
 @section('content2389')
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-xs-12">
         <div class="panel panel-inverse">
             <div class="panel-heading"> @lang('modules.employees.updateTitle')
@@ -1013,7 +1013,7 @@
                                             value="{{ $item->id }}">+{{ $item->phonecode.' ('.$item->iso.')' }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="tel" name="mobile" id="mobile" class="mobile" autocomplete="nope" value="{{ $userDetail->mobile }}">
+                                    <input type="tel" name="mobile" id="" class="mobile" autocomplete="nope" value="{{ $userDetail->mobile }}">
                                 </div>
                             </div>
 
@@ -1181,7 +1181,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- .row -->
 
 
@@ -1201,7 +1201,6 @@
         });
 
         $("#mobile").CcPicker("setCountryByPhoneCode", "{{ substr(explode(' ', $userDetail->mobile)[0], 1) }}");
-        $("#tel").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$userDetail->mobile)[0] }}");
 
         $('.datepicker').datepicker({
             format: 'dd-mm-yyyy',

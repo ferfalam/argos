@@ -92,7 +92,7 @@ class MemberAttendanceController extends MemberBaseController
      */
     public function store(Request $request)
     {
-        $now = Carbon::now();
+        $now = Carbon::now(); 
         $clockInCount = Attendance::getTotalUserClockIn($now->format('Y-m-d'), $this->user->id);
         $attendanceSetting = AttendanceSetting::first();
         // Check user by ip
@@ -117,21 +117,21 @@ class MemberAttendanceController extends MemberBaseController
         if ($clockInCount < $attendanceSetting->clockin_in_day) {
 
             // Set TimeZone And Convert into timestamp
-            $currentTimestamp = $now->setTimezone('UTC');
+            $currentTimestamp = $now->setTimezone($this->global->timezone);
             $currentTimestamp = $currentTimestamp->timestamp;
 
             // Set TimeZone And Convert into timestamp in halfday time
             if ($attendanceSetting->halfday_mark_time) {
                 $halfDayTimestamp = $now->format('Y-m-d') . ' ' . $attendanceSetting->halfday_mark_time;
                 $halfDayTimestamp = Carbon::createFromFormat('Y-m-d H:i:s', $halfDayTimestamp, $this->global->timezone);
-                $halfDayTimestamp = $halfDayTimestamp->setTimezone('UTC');
+                $halfDayTimestamp = $halfDayTimestamp->setTimezone($this->global->timezone);
                 $halfDayTimestamp = $halfDayTimestamp->timestamp;
             }
 
 
             $timestamp = $now->format('Y-m-d') . ' ' . $attendanceSetting->office_start_time;
             $officeStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, $this->global->timezone);
-            $officeStartTime = $officeStartTime->setTimezone('UTC');
+            $officeStartTime = $officeStartTime->setTimezone($this->global->timezone);
 
 
             $lateTime = $officeStartTime->addMinutes($attendanceSetting->late_mark_duration);
@@ -215,10 +215,10 @@ class MemberAttendanceController extends MemberBaseController
         $attendance = Attendance::findOrFail($id);
         $date = Carbon::createFromFormat($this->global->date_format, $request->attendance_date)->format('Y-m-d');
         $clockIn = Carbon::createFromFormat('Y-m-d ' . $this->global->time_format, $date . ' ' . $request->clock_in_time, $this->global->timezone);
-        $clockIn->setTimezone('UTC');
+        $clockIn->setTimezone($this->global->timezone);
         if ($request->clock_out_time != '') {
             $clockOut = Carbon::createFromFormat('Y-m-d ' . $this->global->time_format, $date . ' ' . $request->clock_out_time, $this->global->timezone);
-            $clockOut->setTimezone('UTC');
+            $clockOut->setTimezone($this->global->timezone);
 
             if ($clockIn->gt($clockOut) && !is_null($clockOut)) {
                 return Reply::error(__('messages.clockOutTimeError'));
@@ -408,10 +408,10 @@ class MemberAttendanceController extends MemberBaseController
     {
         $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
         $clockIn = Carbon::createFromFormat('Y-m-d ' . $this->global->time_format, $date . ' ' . $request->clock_in_time, $this->global->timezone);
-        $clockIn->setTimezone('UTC');
+        $clockIn->setTimezone($this->global->timezone);
         if ($request->clock_out_time != '') {
             $clockOut = Carbon::createFromFormat('Y-m-d ' . $this->global->time_format, $date . ' ' . $request->clock_out_time, $this->global->timezone);
-            $clockOut->setTimezone('UTC');
+            $clockOut->setTimezone($this->global->timezone);
 
             if ($clockIn->gt($clockOut) && !is_null($clockOut)) {
                 return Reply::error(__('messages.clockOutTimeError'));
@@ -671,10 +671,10 @@ class MemberAttendanceController extends MemberBaseController
         $date = Carbon::createFromFormat($this->global->date_format, $request->attendance_date)->format('Y-m-d');
 
         $clockIn = Carbon::createFromFormat('Y-m-d ' . $this->global->time_format, $date . ' ' . $request->clock_in_time, $this->global->timezone);
-        $clockIn->setTimezone('UTC');
+        $clockIn->setTimezone($this->global->timezone);
         if ($request->clock_out_time != '') {
             $clockOut = Carbon::createFromFormat('Y-m-d ' . $this->global->time_format, $date . ' ' . $request->clock_out_time, $this->global->timezone);
-            $clockOut->setTimezone('UTC');
+            $clockOut->setTimezone($this->global->timezone);
 
             if ($clockIn->gt($clockOut) && !is_null($clockOut)) {
                 return Reply::error(__('messages.clockOutTimeError'));

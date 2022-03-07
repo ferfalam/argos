@@ -85,8 +85,11 @@ class AdminZoomMeetingController extends AdminBaseController
     public function show($id)
     {
         $this->event = ZoomMeeting::with('attendees', 'host')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meetingFiles = MeetingFile::where('meeting_id', $id)->get();
+        $date = Carbon::parse($this->event->start_date_time);
+        $now = Carbon::now();
+        $this->diff = $date->diffInMinutes($now);
         return view('zoom::meeting-calendar.show', $this->data);
     }
 
@@ -123,7 +126,7 @@ class AdminZoomMeetingController extends AdminBaseController
     {
         $this->createOrUpdateMeetings($request, $id);
 
-        return Reply::dataOnly(['meetingID' =>$id]);
+        return Reply::dataOnly(['meetingID' => $id]);
     }
 
     /**
@@ -221,13 +224,13 @@ class AdminZoomMeetingController extends AdminBaseController
 
             $diff = $start->diffInMinutes($end);
 
-            $hours = ($diff/60) <=9 ? '0'. intval($diff / 60) : intval($diff / 60);
-            $minutes = $diff%60 <=9 ? '0'. $diff % 60 : $diff % 60;
-            $data['duree'] = $hours.' : '.$minutes;
+            $hours = ($diff / 60) <= 9 ? '0' . intval($diff / 60) : intval($diff / 60);
+            $minutes = $diff % 60 <= 9 ? '0' . $diff % 60 : $diff % 60;
+            $data['duree'] = $hours . ' : ' . $minutes;
 
             if (is_null($id)) {
                 $meeting = $meeting->create($data);
-                $this->syncAttendees($request, $meeting, 'yes');
+                $this->syncAttendees($request, $meeting, 'no');
                 $this->createMeeting($user, $meeting, $id, null, $host);
                 return $meeting;
             } else {
@@ -264,8 +267,11 @@ class AdminZoomMeetingController extends AdminBaseController
 
     public function OnlineInvite(ZoomMeeting $meeting)
     {
+        //dd($meeting);
         $attendees = $meeting->attendees;
         event(new MeetingInviteEvent($meeting, $attendees));
+        $meeting->invite = true;
+        $meeting->save();
         return redirect()->back();
     }
 
@@ -277,6 +283,8 @@ class AdminZoomMeetingController extends AdminBaseController
         $this->projects = Project::all();
         $this->upload = can_upload();
 
+        //dd($this->user);
+
         return $dataTable->render('zoom::meeting-calendar.table', $this->data);
     }
 
@@ -287,7 +295,7 @@ class AdminZoomMeetingController extends AdminBaseController
      */
     public function startMeeting($id)
     {
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
         $this->meeting = ZoomMeeting::findOrFail($id);
         $start = Carbon::now();
         $end = $this->meeting->end_date_time;

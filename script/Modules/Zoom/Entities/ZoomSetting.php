@@ -21,10 +21,10 @@ class ZoomSetting extends Model
 
         static::addGlobalScope(new CompanyScope);
     }
-    
+
     protected static function setZoom()
     {
-        $zoomSetting = ZoomSetting::first();
+        $zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
 
         if ($zoomSetting) {
             Config::set('zoom.api_key', $zoomSetting->api_key);

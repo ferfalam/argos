@@ -12,7 +12,7 @@
         @elseif($type=="tva_intrat")
             N°TVA intrat 
         @elseif ($type=="workplace")
-            Lieu de travail
+            @lang('modules.attendance.workFrom')
         @endif
     </h4>
 </div>
@@ -36,7 +36,7 @@
                             @elseif($type=="tva_intrat")
                                 N°TVA intrat 
                             @elseif ($type=="workplace")
-                                Lieu de travail
+                                @lang('modules.attendance.workFrom')
                             @endif
                         </th>
                         <th>@lang('app.action')</th>
@@ -77,7 +77,7 @@
                             @elseif($type=="tva_intrat")
                                 N°TVA intrat 
                             @elseif ($type=="workplace")
-                                Lieu de travail
+                                @lang('modules.attendance.workFrom')
                             @endif
                         </label>
                         <input type="text" name="option_name" id="option_name" class="form-control">
@@ -106,7 +106,7 @@
                             @elseif($type=="tva_intrat")
                                 N°TVA intrat 
                             @elseif ($type=="workplace")
-                                Lieu de travail
+                                @lang('modules.attendance.workFrom')
                             @endif
                         </label>
                         <input type="text" name="option_name" id="edit_option_name" class="form-control">
@@ -135,7 +135,15 @@
                 if (response.status == "success") {
                     // $.unblockUI();
                     $('#cat-'+id).fadeOut();
-                    $("#{{$type}} option[value=\"" + response.tla.name + "\"]").remove();
+                    //$("#{{$type}} option[value=\"" + response.tla.name + "\"]").remove();
+                    $("#{{$type}} option").each(function()
+                    {
+                        // Add $(this).val() to your list
+                        if ($(this).val().trim()==response.tla.name){
+                            $(this).remove()
+                        }
+                    });
+                    $('#{{$type}}').trigger('change.select2');
                 }
             }
         });
@@ -203,8 +211,17 @@
                         '<td><a href="javascript:;" data-cat-id="' + response.tla.id + '" class="btn btn-sm btn-danger btn-rounded delete-category" onclick="deleteOption(' + response.tla.id + ')">@lang("app.remove")</a></td>'+
                         '</tr>'
                     );
-                    $('#{{$type}}').append('<option value="' + response.tla.name + '">' + response.tla.name + '</option>');
+                    if (response.tla.type == "workplace") {
+                        $('select.{{$type}}').each(function()
+                        {
+                            $(this).append('<option value="' + response.tla.name + '">' + response.tla.name + '</option>');
+                        });
+                    }else{
+                        $('#{{$type}}').append('<option value="' + response.tla.name + '">' + response.tla.name + '</option>');
+                    }
+                    // }
                     $('#option_name').val("") ;
+                    $('#{{$type}}').trigger('change.select2');
                 }
             }
         });

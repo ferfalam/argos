@@ -38,10 +38,10 @@ class Attendance extends BaseModel
         DB::statement("SET @attendance_date = '$date'");
         return User::withoutGlobalScope('active')
             ->leftJoin(
-                'attendances', function ($join) use ($date) {
+                'attendances',
+                function ($join) use ($date) {
                     $join->on('users.id', '=', 'attendances.user_id')
-                        ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $date)
-                        ->whereNull('attendances.clock_out_time');
+                        ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $date);
                 }
             )
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -49,9 +49,10 @@ class Attendance extends BaseModel
             ->leftJoin('employee_details', 'employee_details.user_id', '=', 'users.id')
             ->leftJoin('designations', 'designations.id', '=', 'employee_details.designation_id')
             ->where('roles.name', '<>', 'client')
+            ->where('users.company_id', company()->id)
             ->select(
-                DB::raw("( select count('atd.id') from attendances as atd where atd.user_id = users.id and DATE(atd.clock_in_time)  =  '".$date."' and DATE(atd.clock_out_time)  =  '".$date."' ) as total_clock_in"),
-                DB::raw("( select count('atdn.id') from attendances as atdn where atdn.user_id = users.id and DATE(atdn.clock_in_time)  =  '".$date."' ) as clock_in"),
+                DB::raw("( select count('atd.id') from attendances as atd where atd.user_id = users.id and DATE(atd.clock_in_time)  =  '" . $date . "' and DATE(atd.clock_out_time)  =  '" . $date . "' ) as total_clock_in"),
+                DB::raw("( select count('atdn.id') from attendances as atdn where atdn.user_id = users.id and DATE(atdn.clock_in_time)  =  '" . $date . "' ) as clock_in"),
                 'users.id',
                 'users.name',
                 'attendances.clock_in_ip',
@@ -112,31 +113,32 @@ class Attendance extends BaseModel
         return User::with(['attendance' => function ($q) use ($date) {
             $q->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $date);
         }])
-        ->withoutGlobalScope('active')
-        ->join('role_user', 'role_user.user_id', '=', 'users.id')
-        ->join('roles', 'roles.id', '=', 'role_user.role_id')
-        ->leftJoin('employee_details', 'employee_details.user_id', '=', 'users.id')
-        ->leftJoin('designations', 'designations.id', '=', 'employee_details.designation_id')
-        ->where('roles.name', '<>', 'client')
-        ->select(
-            'users.id',
-            'users.name',
-            'users.image',
-            'designations.name as designation_name'
-        )
-        ->groupBy('users.id')
-        ->orderBy('users.name', 'asc');
+            ->withoutGlobalScope('active')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->leftJoin('employee_details', 'employee_details.user_id', '=', 'users.id')
+            ->leftJoin('designations', 'designations.id', '=', 'employee_details.designation_id')
+            ->where('roles.name', '<>', 'client')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.image',
+                'designations.name as designation_name'
+            )
+            ->groupBy('users.id')
+            ->orderBy('users.name', 'asc');
     }
 
     public static function attendanceHolidayByDate($date)
     {
         $holidays = Holiday::all();
         $user = User::leftJoin(
-                'attendances', function ($join) use ($date) {
-                    $join->on('users.id', '=', 'attendances.user_id')
-                        ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $date);
-                }
-            )
+            'attendances',
+            function ($join) use ($date) {
+                $join->on('users.id', '=', 'attendances.user_id')
+                    ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $date);
+            }
+        )
             ->withoutGlobalScope('active')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
@@ -158,8 +160,8 @@ class Attendance extends BaseModel
             )
             ->groupBy('users.id')
             ->orderBy('users.name', 'asc')
-        ->union($holidays)
-        ->get();
+            ->union($holidays)
+            ->get();
         return $user;
     }
 
@@ -188,7 +190,8 @@ class Attendance extends BaseModel
 
     public static function countDays($startDate, $endDate, $userId)
     {
-        return Attendance::selectRaw('(SELECT count(DISTINCT DATE(attends.clock_in_time) ) as lateCount from attendances as attends where DATE(attends.clock_in_time) >= "' . $startDate . '" and DATE(attends.clock_in_time) <= "' . $endDate . '" and user_id="' . $userId . '" and attends.late = "yes" ) as lateCount,
+        return Attendance::selectRaw(
+            '(SELECT count(DISTINCT DATE(attends.clock_in_time) ) as lateCount from attendances as attends where DATE(attends.clock_in_time) >= "' . $startDate . '" and DATE(attends.clock_in_time) <= "' . $endDate . '" and user_id="' . $userId . '" and attends.late = "yes" ) as lateCount,
          (SELECT count(DISTINCT DATE(attendlate.clock_in_time) ) as presentCount from attendances as attendlate where DATE(attendlate.clock_in_time) >= "' . $startDate . '" and DATE(attendlate.clock_in_time) <= "' . $endDate . '" and user_id="' . $userId . '") as presentCount,
          (SELECT count(DISTINCT DATE(attendhalf.clock_in_time) ) as presentCount from attendances as attendhalf where DATE(attendhalf.clock_in_time) >= "' . $startDate . '" and DATE(attendhalf.clock_in_time) <= "' . $endDate . '" and user_id="' . $userId . '" and attendhalf.half_day = "yes" ) as halfDay'
         )->first();
@@ -218,5 +221,4 @@ class Attendance extends BaseModel
         return Attendance::where('user_id', $userId)
             ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', "$date")->get();
     }
-
 }
