@@ -917,6 +917,7 @@ return array(
     ),
     'attendance' =>
     array(
+        'closeDays' => 'Jours non ouvrables',
         'officeStartTime' => 'Heure de début de bureau',
         'officeEndTime' => 'Temps de fin de bureau',
         'halfDayMarkTime' => 'Demi-journée de mars',
@@ -957,7 +958,8 @@ return array(
         'clockedOut' => 'Chronométré',
         'workFrom' => 'Lieu de travail',
         'viewFullAttendance' => 'Voir la présence complète',
-        'bulkAttendance' => 'Module de présencee'
+        'bulkAttendance' => 'Module de présence',
+        'attendanceDate' => 'Date de Présence'
     ),
     'customFields' =>
     array(

@@ -190,8 +190,7 @@
     });
 
     $('body').on('click', '.bulk-attendance',function (event) {
-        var day = event.target.dataset.day ?? '';
-        var url = '/admin/attendances/bulk/'+day;
+        var url = '/admin/attendances/bulk/';
         $('#modelHeading').html('{{__("app.menu.attendance") }}');
         $.ajaxModal('#projectTimerModal', url);
     });

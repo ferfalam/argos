@@ -515,7 +515,7 @@ return array(
   'subdomain' => 'Choisissez votre sous-domaine souhaité',
   'timelogs' => 'Journaux de temps',
   'clients' => 'Clients',
-  'employees' => 'Des employés',
+  'employees' => 'Employés',
   'lastActivity' => 'Dernière Activité',
   'inProgress' => 'En cours',
   'onHold' => 'En attente',
