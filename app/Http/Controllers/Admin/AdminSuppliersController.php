@@ -399,5 +399,17 @@ class AdminSuppliersController extends AdminBaseController
     }
 
 
+    public function showContacts($id){
+        $this->client = User::findClient($id);
+        $this->clientDetail = SupplierDetails::where('user_id', '=', $id)->first();
+        $this->clientStats = $this->clientStats($id);
+
+        if (!is_null($this->clientDetail)) {
+            $this->clientDetail = $this->clientDetail->withCustomFields();
+        }
+
+        return view('admin.supplier-contacts.show', $this->data);
+    }
+
 
 }

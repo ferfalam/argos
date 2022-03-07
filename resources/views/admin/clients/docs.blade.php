@@ -58,7 +58,7 @@
             </table>
         </div>
     </x-tab-container>
-    
+        
     <!-- .row -->
     {{--Ajax Modal--}}
     <div class="modal fade bs-modal-md in" id="edit-column-form" role="dialog" aria-labelledby="myModalLabel"
@@ -87,7 +87,7 @@
 @push('footer-script')
     <script>
         function showAdd() {
-            var url = "{{ route('admin.client-docs.quick-create', [$client->id]) }}";
+            var url = "{{ route('admin.client-docs.quick-create', [$clientDetail->id]) }}";
             $.ajaxModal('#edit-column-form', url);
         }
 

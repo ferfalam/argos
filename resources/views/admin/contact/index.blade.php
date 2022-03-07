@@ -77,81 +77,54 @@
         <div class="panel-4">
             <div class="panel-heading">
                 <h2>@lang('app.contactList')</h2>
-                <a href="{{route('admin.contact.create')}}" class="btn btn-cs-blue">@lang('app.addContact')</a>
+                <a href="{{route('admin.contact.create',['contact'])}}" class="btn btn-cs-blue">@lang('app.addContact')</a>
             </div>
             <div class="panel-body">
 
                 <div class="d-flex table-alphabets">
-                    <a href="#!">A</a>
-                    <a href="#!">B</a>
-                    <a href="#!">C</a>
-                    <a href="#!">D</a>
-                    <a href="#!">E</a>
-                    <a href="#!">F</a>
-                    <a href="#!">G</a>
-                    <a href="#!">H</a>
-                    <a href="#!">I</a>
-                    <a href="#!">J</a>
-                    <a href="#!">K</a>
-                    <a href="#!">L</a>
-                    <a href="#!">M</a>
-                    <a href="#!">N</a>
-                    <a href="#!">O</a>
-                    <a href="#!">P</a>
-                    <a href="#!">Q</a>
-                    <a href="#!">R</a>
-                    <a href="#!">S</a>
-                    <a href="#!">T</a>
-                    <a href="#!">U</a>
-                    <a href="#!">V</a>
-                    <a href="#!">W</a>
-                    <a href="#!">X</a>
-                    <a href="#!">Y</a>
-                    <a href="#!">Z</a>
+                    <a href="Javascript:;" class="search-record">A</a>
+                    <a href="Javascript:;" class="search-record" >B</a>
+                    <a href="Javascript:;" class="search-record" >C</a>
+                    <a href="Javascript:;" class="search-record" >D</a>
+                    <a href="Javascript:;" class="search-record" >E</a>
+                    <a href="Javascript:;" class="search-record" >F</a>
+                    <a href="Javascript:;" class="search-record" >G</a>
+                    <a href="Javascript:;" class="search-record" >H</a>
+                    <a href="Javascript:;" class="search-record" >I</a>
+                    <a href="Javascript:;" class="search-record" >J</a>
+                    <a href="Javascript:;" class="search-record" >K</a>
+                    <a href="Javascript:;" class="search-record" >L</a>
+                    <a href="Javascript:;" class="search-record" >M</a>
+                    <a href="Javascript:;" class="search-record" >N</a>
+                    <a href="Javascript:;" class="search-record" >O</a>
+                    <a href="Javascript:;" class="search-record" >P</a>
+                    <a href="Javascript:;" class="search-record" >Q</a>
+                    <a href="Javascript:;" class="search-record" >R</a>
+                    <a href="Javascript:;" class="search-record" >S</a>
+                    <a href="Javascript:;" class="search-record" >T</a>
+                    <a href="Javascript:;" class="search-record" >U</a>
+                    <a href="Javascript:;" class="search-record" >V</a>
+                    <a href="Javascript:;" class="search-record" >W</a>
+                    <a href="Javascript:;" class="search-record" >X</a>
+                    <a href="Javascript:;" class="search-record" >Y</a>
+                    <a href="Javascript:;" class="search-record" >Z</a>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover toggle-circle default footable-loaded footable" id="users-table">
+                    <table class="table table-bordered table-hover toggle-circle default footable-loaded footable" id="table-contact">
                         <thead>
                         <tr>
-                            <th>@lang('app.contactName')</th>
-                            <th>@lang('app.function')</th>
-                            <th>@lang('app.type')</th>
+                            <th>@lang('app.id')</th>
+                            <th>@lang('app.name')</th>
+                            <th>@lang('app.phone')</th>
                             <th>@lang('app.email')</th>
-                            <th>@lang('app.mobileNumber')</th>
+                            <th>@lang('app.civility')</th>
+                            <th>@lang('app.function')</th>
+                            <th>@lang('app.visibility')</th>
+                            <th>@lang('app.contect_type')</th>
                             <th>@lang('app.action')</th>
                         </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td >
-                                    <img data-toggle="tooltip" data-original-title="John Travolta" src="http://127.0.0.1:8000/img/default-profile-3.png" alt="user" class="img-circle" width="25" height="25"> 
-                                    Serge dupont
-                                </td>
-                                <td>
-                                    Directeur commercial
-                                </td>
-                                <td>
-                                    Client
-                                </td>
-                                <td>
-                                    
-                                </td>
-                                <td>
-                                    +33 6 87 65 88 77                                    
-                                </td>
-                                <td>
-                                    <div class="btn-group dropdown m-r-10">
-                                        <span aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" type="button"><ion-icon name="ellipsis-vertical" role="img" class="md hydrated" aria-label="ellipsis vertical"></ion-icon></span>
-                                        <ul role="menu" class="dropdown-menu pull-right">
-                                            <li><a href="http://127.0.0.1:8000/admin/employees/teams/23/edit"><i class="icon-settings"></i> Faire en sorte</a></li>
-                                            <li><a href="javascript:;" data-group-id="23" class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> Supprimer </a></li>
-                
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -166,6 +139,106 @@
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
 <script>
-    $("#users-table").dataTable()
+    var table = $("#table-contact").dataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: '{!! route('admin.contact.table') !!}',
+        deferRender: true,
+        language: {
+            "url": "<?php echo __("app.datatable") ?>"
+        },
+        "fnDrawCallback": function( oSettings ) {
+            $("body").tooltip({
+                selector: '[data-toggle="tooltip"]'
+            });
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'name' },
+            { data: 'mobile', name: 'phone' },
+            { data: 'email', name: 'email' },
+            { data: 'gender', name: 'gender' },
+            { data: 'function', name: 'function' },
+            { data: 'visibility', name: 'visibility' },
+            { data: 'contect_type', name: 'contect type' },
+            { data: 'action', name: 'action' }
+        ]
+    });
+
+    $('body').on('click','.search-record',function(e){
+        var str_val = $(this).text();
+        $('#table-contact').DataTable().clear().destroy();
+         $('#table-contact').dataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax:{
+                'type':'get',
+                'url': '{{ route("admin.contact.getResult") }}',
+                'data':{ query : str_val },
+            },
+            deferRender: true,
+            language: {
+                "url": "<?php echo __("app.datatable") ?>"
+            },
+            "fnDrawCallback": function( oSettings ) {
+                $("body").tooltip({
+                    selector: '[data-toggle="tooltip"]'
+                });
+            },
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'mobile', name: 'phone' },
+                { data: 'email', name: 'email' },
+                { data: 'gender', name: 'gender' },
+                { data: 'function', name: 'function' },
+                { data: 'visibility', name: 'visibility' },
+                { data: 'contect_type', name: 'contect type' },
+                { data: 'action', name: 'action' }
+            ]
+        });
+    });
+
+
+    $('body').on('click', '.sa-params', function(){
+        var id = $(this).attr('data-contact-id');
+
+        swal({
+            title: "@lang('messages.sweetAlertTitle')",
+            text: "@lang('messages.confirmation.recoverContact')",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "@lang('messages.confirmUnsubscribe')",
+            cancelButtonText: "@lang('messages.confirmNoArchive')",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm){
+            if (isConfirm) {
+
+                var url = "{{ route('admin.contact.delete',':id') }}";
+                url = url.replace(':id', id);
+
+                var token = "{{ csrf_token() }}";
+
+                $.easyAjax({
+                    type: 'POST',
+                            url: url,
+                            data: {'_token': token},
+                    success: function (response) {
+                            console.log(response)
+                        if (response.status == "success") {
+                            $.unblockUI();
+                                   swal("Deleted!", response.message, "success");
+                            table._fnDraw();
+                        }
+                    }
+                });
+            }
+        });
+    });
+
 </script>
 @endpush

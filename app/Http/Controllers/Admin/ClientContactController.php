@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\ClientContact;
 use App\ClientDetails;
+use App\Contect;
 use App\Helper\Reply;
 use App\Http\Requests\ClientContacts\StoreContact;
 use App\User;
@@ -26,8 +27,9 @@ class ClientContactController extends AdminBaseController
 
     public function show($id)
     {
-        $this->client = User::findClient($id);
-        $this->clientDetail = ClientDetails::where('user_id', '=', $id)->first();
+
+        // $this->client = User::findClient($id);
+        $this->clientDetail = ClientDetails::where('id', '=', $id)->first();
         $this->clientStats = $this->clientStats($id);
 
         if (!is_null($this->clientDetail)) {
@@ -40,18 +42,18 @@ class ClientContactController extends AdminBaseController
 
     public function data($id)
     {
-        $timeLogs = ClientContact::where('user_id', $id)->get();
+        $timeLogs = Contect::where('client_detail_id', $id)->get();
 
         return DataTables::of($timeLogs)
             ->addColumn('action', function ($row) {
-                return '<a href="javascript:;" class="btn btn-info btn-circle edit-contact"
-                      data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                return '<a href="'.route("admin.contact.edit",$row->id).'" class="btn btn-info btn-circle edit-contact"
+                data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                     <a href="javascript:;" class="btn btn-danger btn-circle sa-params"
                       data-toggle="tooltip" data-contact-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></a>';
             })
-            ->editColumn('contact_name', function ($row) {
-                return ucwords($row->contact_name);
+            ->editColumn('name', function ($row) {
+                return ucwords($row->name);
             })
             ->removeColumn('user_id')
             ->make(true);
@@ -72,7 +74,8 @@ class ClientContactController extends AdminBaseController
     public function edit($id)
     {
         $this->contact = ClientContact::findOrFail($id);
-        return view('admin.client-contacts.edit', $this->data);
+        exit;
+        // return view('admin.client-contacts.edit', $this->data);
     }
 
     public function update(StoreContact $request, $id)

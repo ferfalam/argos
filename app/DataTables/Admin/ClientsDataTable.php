@@ -27,8 +27,8 @@ class ClientsDataTable extends BaseDataTable
                  <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button"><i class="fa fa-gears" style="color: #000;"></i></button>
                     <ul role="menu" class="dropdown-menu pull-right">
                   <li><a href="' . route('admin.clients.edit', [$row->id]) . '"><i class="fa fa-pencil" aria-hidden="true"></i> ' . trans('app.edit') . '</a></li>
-                  <li><a href="' . route('admin.clients.show', [$row->user_id]) . '"><i class="fa fa-search" aria-hidden="true"></i> ' . __('app.view') . '</a></li>
-                  <li><a href="javascript:;"  data-user-id="' . $row->user_id . '"  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> ' . trans('app.delete') . '</a></li>';
+                  <li><a href="' . route('admin.clients.show', [$row->id]) . '"><i class="fa fa-search" aria-hidden="true"></i> ' . __('app.view') . '</a></li>
+                  <li><a href="javascript:;"  data-user-id="' . $row->id . '"  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> ' . trans('app.delete') . '</a></li>';
                 $action .= '</ul> </div>';
                 return $action;
             })
@@ -39,9 +39,18 @@ class ClientsDataTable extends BaseDataTable
                 return $row->city;
             })
             ->editColumn(
+                'company_name',
+                function ($row) {
+                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.clients.show', $row->id) . '"> <img src="'. $row->image_url .'" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->company_name) . ' <br> ' . $row->country . '</a>';
+                }
+            )
+            ->editColumn(
                 'name',
                 function ($row) {
-                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.clients.show', $row->user_id) . '"> <img src="'. $row->image_url .'" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->name) . ' <br> ' . $row->country . '</a>';
+                    if (!is_null($row->name) && $row->name != ' ') {
+                        return  $row->name;
+                    }
+                    return '--';
                 }
             )
             ->editColumn(
@@ -60,7 +69,7 @@ class ClientsDataTable extends BaseDataTable
                 }
             )
             ->addIndexColumn()
-            ->rawColumns(['name', 'mobile', 'action', 'country', 'status']);
+            ->rawColumns(['company_name', 'mobile', 'action', 'country', 'status']);
     }
 
     /**
@@ -73,12 +82,12 @@ class ClientsDataTable extends BaseDataTable
     {
         $request = $this->request();
 
-        $model = $model->join('users', 'client_details.user_id', '=', 'users.id')
-            ->leftJoin('countries', 'client_details.country_id', '=', 'countries.id')
+        $model = $model->leftjoin('contects','client_details.contacts_id','=','contects.id')
+        ->leftJoin('countries', 'client_details.country_id', '=', 'countries.id')
             ->select(
                 'client_details.id',
                 'client_details.user_id',
-                'client_details.name',
+                'contects.name',
                 'client_details.company_name',
                 'client_details.email',
                 'client_details.city',
@@ -98,9 +107,9 @@ class ClientsDataTable extends BaseDataTable
             $endDate = Carbon::createFromFormat($this->global->date_format, $request->endDate)->toDateString();
             $model = $model->where(DB::raw('DATE(client_details.`created_at`)'), '<=', $endDate);
         }
-        if ($request->client != 'all' && $request->client != '') {
-            $model = $model->where('users.id', $request->client);
-        }
+        // if ($request->client != 'all' && $request->client != '') {
+        //     $model = $model->where('users.id', $request->client);
+        // }
         if (!is_null($request->category_id) && $request->category_id != 'all') {
             $users = $model->where('client_details.category_id', $request->category_id);
         }
@@ -170,7 +179,7 @@ class ClientsDataTable extends BaseDataTable
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
             __('modules.client.companyName') => ['data' => 'company_name', 'name' => 'client_details.company_name'],
-            __('Contact principal') => ['data' => 'name', 'name' => 'name'],
+            __('Contact principal') => ['data' => 'name', 'name' => 'contects.name'],
             __('app.city') => ['data' => 'city', 'name' => 'city'],
             __('app.country') => ['data' => 'country', 'name' => 'country'],
             __('app.created_at') => ['data' => 'created_at', 'name' => 'created_at'],

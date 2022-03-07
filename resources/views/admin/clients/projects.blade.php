@@ -27,8 +27,7 @@
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
-                <tbody id="timer-list">
-                @forelse($client->projects as $key=>$project)
+                @forelse($clientDetail->ClientProjects as $key=>$project)
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ ucwords($project->project_name) }}</td>
@@ -42,6 +41,7 @@
                     </tr>
                 @endforelse
                 </tbody>
+                <tbody id="timer-list">
             </table>
         </div>
     </x-tab-container>

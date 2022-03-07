@@ -27,12 +27,12 @@ class UpdateClientRequest extends CoreRequest
     public function rules()
     {
         $rules = [
-            'email' => [
-                'required',
-                Rule::unique('client_details')->where(function($query) {
-                    $query->where('company_id', company()->id);
-                })->ignore($this->route('client'), 'id')
-            ],
+            // 'email' => [
+            //     'required',
+            //     Rule::unique('client_details')->where(function($query) {
+            //         $query->where('company_id', company()->id);
+            //     })->ignore($this->route('client'), 'id')
+            // ],
             'company_name' => 'required|max:200',
             'address' => 'required',
             'city' => 'required',
@@ -46,12 +46,13 @@ class UpdateClientRequest extends CoreRequest
             'language' => 'required',
             'emailNotification' => 'required',
             'smsNotification' => 'required',
-            'name' => 'required',
-            'function' => 'required',
-            'password' => 'nullable|min:6',
-            'p_phone' => 'required|digits:10',
-            'p_mobile' => 'required|digits:10',
-            'p_fax' => 'required|digits:10',
+            // 'name' => 'required_if:contact_principal,create',
+            // 'function' => 'required_if:contact_principal,create',
+            // 'email' => 'required_if:contact_principal,create|email',
+            // 'p_mobile' => 'required_if:contact_principal,create|digits:10',
+            // 'visibility' => 'required_if:contact_principal,create',
+            // 'contect_type' => 'required_if:contact_principal,create',
+            'contact' => 'required_if:contact_principal,select',
 
         ];
         if (!is_null(request()->get('website'))) {

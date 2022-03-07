@@ -39,7 +39,7 @@ class ClientNotesController extends AdminBaseController
     {
         $note = new Notes();
         $note->notes_title = $request->notes_title;
-        $note->client_id = $request->client_id;
+        $note->client_detail_id = $request->client_detail_id;
         $note->notes_type = $request->notes_type;
         $note->is_client_show = $request->is_client_show ? $request->is_client_show : '';
         $note->ask_password = $request->ask_password ? $request->ask_password : '';
@@ -62,7 +62,7 @@ class ClientNotesController extends AdminBaseController
     
     public function data($id)
     {
-        $timeLogs = Notes::where('client_id', $id)->get();
+        $timeLogs = Notes::where('client_detail_id', $id)->get();
         return DataTables::of($timeLogs)
             ->addColumn('action', function ($row) {
                 return '<a href="javascript:;" class="btn btn-info btn-circle edit-contact"
@@ -100,12 +100,14 @@ class ClientNotesController extends AdminBaseController
      */
     public function show($id)
     {
+        
         $this->clients = User::allClients();
         $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
-        $this->notes = Notes::where('client_id', $id)->get();
-         $this->client = User::findClient($id);
-        $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
-        $this->clientStats = $this->clientStats($id);
+        $this->notes = Notes::where('client_detail_id', $id)->get();
+
+        //  $this->client = User::findClient($id);
+        $this->clientDetail = ClientDetails::where('id',$id)->first();
+        // $this->clientStats = $this->clientStats($id);
 
         return view('admin.notes.show', $this->data);
     }

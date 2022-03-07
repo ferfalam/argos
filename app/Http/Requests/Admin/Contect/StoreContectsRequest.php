@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin\Client;
+namespace App\Http\Requests\Admin\Contect;
 
 use App\Http\Requests\CoreRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClientRequest extends CoreRequest
+class StoreContectsRequest extends CoreRequest
 {
 
     /**
@@ -26,26 +26,12 @@ class StoreClientRequest extends CoreRequest
     public function rules()
     {
         $rules = [
-            'company_name' => 'required|max:200',
-            'address' => 'required',
-            'city' => 'required',
-            'country' => 'required',
-            'company_phone' => 'required|digits:10',
-            'mobile' => 'required|digits:10',
-            'fax' => 'required|digits:10',
-            'company_email' => 'required|email',
-            'category_id' => 'required',
-            'sub_category_id' => 'required',
-            'language' => 'required',
-            'emailNotification' => 'required',
-            'smsNotification' => 'required',
-            'name' => 'required_if:contact_principal,create',
-            'function' => 'required_if:contact_principal,create',
-            'email' => 'required_if:contact_principal,create|email',
-            'p_mobile' => 'required_if:contact_principal,create|digits:10',
-            'visibility' => 'required_if:contact_principal,create',
-            'contect_type' => 'required_if:contact_principal,create',
-            // 'contact' => 'required_if:contact_principal,select',
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'function' => 'required',
+            'visibility' => 'required',
+            'contect_type' => 'required',
+            'user_id' => 'required',
             // 'slack_username' => 'nullable|unique:employee_details,slack_username',
            // 'website' => 'nullable',
         //            'facebook' => 'nullable|regex:/http(s)?:\/\/(www\.)?(facebook|fb)\.com\/(A-z 0-9)?/',

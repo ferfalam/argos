@@ -178,6 +178,7 @@ class ClientDocsController extends AdminBaseController
      */
     public function show($id)
     {
+        
         $this->client       = User::findClient($id);
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
         $this->clientDocs   = clientDocs::where('user_id', '=', $this->client->id)->get();

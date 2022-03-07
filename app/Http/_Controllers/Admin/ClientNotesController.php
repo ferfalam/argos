@@ -100,6 +100,7 @@ class ClientNotesController extends AdminBaseController
      */
     public function show($id)
     {
+        
         $this->clients = User::allClients();
         $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
         $this->notes = Notes::where('client_id', $id)->get();

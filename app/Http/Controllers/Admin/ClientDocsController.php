@@ -118,6 +118,7 @@ class ClientDocsController extends AdminBaseController
 
     public function quickCreate($id)
     {
+
         $this->clientID = $id;
         $this->upload = can_upload();
         return view('admin.clients.docs-create', $this->data);
@@ -145,8 +146,8 @@ class ClientDocsController extends AdminBaseController
                     $upload = can_upload($value->getSize() / (1000 * 1024));
                     if ($upload) {
                         $file = new ClientDocs();
-                        $file->user_id = $request->user_id;
-                        $file->hashname = Files::uploadLocalOrS3($value, 'client-docs/' . $request->user_id);
+                        $file->client_detail_id = $request->client_detail_id;
+                        $file->hashname = Files::uploadLocalOrS3($value, 'client-docs/' . $request->client_detail_id);
 
                         $file->name = $name;
                         $file->filename = $value->getClientOriginalName();
@@ -163,7 +164,7 @@ class ClientDocsController extends AdminBaseController
             return Reply::error(__('messages.storageLimitExceed', ['here' => '<a href=' . route('admin.billing.packages') . '>Here</a>']));
         }
 
-        $this->ClientDocs = ClientDocs::where('user_id', $request->user_id)->get();
+        $this->ClientDocs = ClientDocs::where('client_detail_id', $request->client_detail_id)->get();
 
         $view = view('admin.clients.docs-list', $this->data)->render();
 
@@ -177,10 +178,10 @@ class ClientDocsController extends AdminBaseController
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        $this->client       = User::findClient($id);
-        $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
-        $this->clientDocs   = clientDocs::where('user_id', '=', $this->client->id)->get();
+    {   
+        // $this->client       = User::findClient(141);
+        $this->clientDetail = ClientDetails::where('id', '=', $id)->first();
+        $this->clientDocs   = clientDocs::where('client_detail_id', '=', $id)->get();
         $clientController   = new ManageClientsController();
         $this->clientStats  = $clientController->clientStats($id);
 
@@ -218,6 +219,7 @@ class ClientDocsController extends AdminBaseController
      */
     public function destroy(Request $request, $id)
     {
+
         $file = ClientDocs::findOrFail($id);
         $storage = config('filesystems.default');
 
@@ -247,8 +249,10 @@ class ClientDocsController extends AdminBaseController
      */
     public function download($id)
     {
+        // echo $id;
+        // exit;
         $file = ClientDocs::findOrFail($id);
-        return download_local_s3($file, 'client-docs/' . $file->user_id . '/' . $file->hashname);
+        return download_local_s3($file, 'client-docs/' . $file->client_detail_id . '/' . $file->hashname);
     }
 
 }

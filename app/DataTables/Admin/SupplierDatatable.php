@@ -39,9 +39,9 @@ class SupplierDataTable extends BaseDataTable
                 return $row->city;
             })
             ->editColumn(
-                'name',
+                'company_name',
                 function ($row) {
-                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.suppliers.show', $row->user_id) . '"> <img src="'. $row->image_url .'" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->name) . ' <br> ' . $row->country . '</a>';
+                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.suppliers.show', $row->user_id) . '"> <img src="'. $row->image_url .'" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->company_name) . ' <br> ' . $row->country . '</a>';
                 }
             )
             ->editColumn(
@@ -60,7 +60,7 @@ class SupplierDataTable extends BaseDataTable
                 }
             )
             ->addIndexColumn()
-            ->rawColumns(['name', 'mobile', 'action', 'country', 'status']);
+            ->rawColumns(['company_name', 'mobile', 'action', 'country', 'status']);
     }
 
     /**
@@ -73,7 +73,8 @@ class SupplierDataTable extends BaseDataTable
     {
         $request = $this->request();
 
-        $model = $model->join('users', 'supplier_details.user_id', '=', 'users.id')
+        $model = $model
+        // ->join('users', 'supplier_details.user_id', '=', 'users.id')
             ->leftJoin('countries', 'supplier_details.country_id', '=', 'countries.id')
             ->select(
                 'supplier_details.id',
@@ -171,7 +172,7 @@ class SupplierDataTable extends BaseDataTable
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
             __('modules.client.companyName') => ['data' => 'company_name', 'name' => 'supplier_details.company_name'],
-            __('Contact principal') => ['data' => 'name', 'name' => 'name'],
+            // __('Contact principal') => ['data' => 'name', 'name' => 'name'],
             __('app.city') => ['data' => 'city', 'name' => 'city'],
             __('app.country') => ['data' => 'country', 'name' => 'country'],
             __('app.created_at') => ['data' => 'created_at', 'name' => 'created_at'],

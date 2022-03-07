@@ -1,9 +1,16 @@
+
+<?php
+// echo "<pre>";
+// print_r($contact);
+// exit;
+
+?>
 @extends('layouts.app')
 
 @section('page-title')
 <x-main-header>
     <x-slot name="title">
-        @lang($pageTitle) 
+       
     </x-slot>
 
     {{-- <x-slot name="btns">
@@ -209,13 +216,15 @@
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
-                    {!! Form::open(['id' => 'createContect', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::open(['id' => 'editContect', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <div class="form-body form-input" style="margin-top: 40px">
-                        <input type="hidden" name="page_type" value="{{ $type }}"  >
+                        
                         <div class="row-1">
-
+                            
                             <div class="col-md-12">
                                 <fieldset>
+                                    <input type="hidden" name="page_type" value="{{ $contact->contect_type }}" >
+                                    <input type="hidden" name="id" id="id" value="{{$contact->id}}">
                                     <legend>@lang('app.genralinfo')</legend>
                                     <div class="col-md-6">
                                         <table>
@@ -226,12 +235,12 @@
                                                 <td>
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="gender" value="male">
-                                                            <label for="civility" style="margin-bottom: 0px">M</label>
+                                                            <input type="radio" name="gender" value="male" @if($contact->gender == "male") checked @endif >
+                                                            <label for="civility" style="margin-bottom: 0px" >M</label>
                                                         </div>
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="gender" value="female">
-                                                            <label for="civility" style="margin-bottom: 0px">Mme</label>
+                                                            <input type="radio" name="gender" value="female" @if($contact->gender == "female") checked @endif>
+                                                            <label for="civility" style="margin-bottom: 0px" >Mme</label>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -246,7 +255,7 @@
                                                     </label></td>
                                                 <td>
                                                     <input type="text" class="form-control" id="name" name="name"
-                                                        value="">
+                                                        value="{{$contact->name}}">
                                                 <td>
                                                     <a href="#!" class="invisible">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
@@ -259,13 +268,9 @@
                                                     <label for="function" class="required">@lang('app.function')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="function"  id="function" class="form-control">
+                                                    <input type="text" name="function"  id="function" class="form-control" value="{{$contact->function}}">
                                                 </td>
-                                                <td>
-                                                    <a href="#!" class="invisible" >
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
+                                                
                                             </tr>
 
                                             <tr>
@@ -273,7 +278,7 @@
                                                     <label for="email" class="required">@lang('app.login_email')</label>
                                                 </td>
                                                 <td>
-                                                    <input type="email" name="email"  id="email" class="form-control">
+                                                    <input type="email" name="email"  id="email" class="form-control" value="{{$contact->email}}">
                                                 </td>
                                             </tr>
 
@@ -284,7 +289,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="mobile" id="mobile"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(explode(" ",$contact->mobile) >0) {{ explode(" ",$contact->mobile)[1]}} @endif "> 
                                                     </div><!-- /input-group -->
                                                 </td>
                                             </tr>
@@ -303,7 +308,7 @@
                                                     </label></td>
                                                 <td>
                                                     <input type="text" class="form-control" id="visibility" name="visibility"
-                                                        value="">
+                                                        value="{{$contact->visibility}}">
                                                 <td>
                                                     <a href="#!" class="invisible">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
@@ -315,9 +320,9 @@
                                                 </td>
                                                 <td>
                                                     <select name="contect_type" id="contect_type" class="form-control select2" >
-                                                        <option value="client" @if($type != 'client' && $type != 'contact' ) disabled @endif  >Client</option>
-                                                        <option value="supplier" @if($type != 'supplier' && $type != 'contact' ) disabled @endif >Supplier</option>
-                                                        <option value="spv" @if($type != 'spv' && $type != 'contact' ) disabled @endif >Spv</option>
+                                                        <option value="client" @if($contact->contect_type	 == 'client'  ) selected @endif  >Client</option>
+                                                        <option value="supplier" @if($contact->contect_type	 == 'supplier' ) selected @endif >Supplier</option>
+                                                        <option value="spv" @if($contact->contect_type	 == 'spv'  ) selected @endif >Spv</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -333,12 +338,12 @@
                                                 <td>
                                                     <select name="user_id" id="user_id" class="form-control select2">
                                                             @foreach($clients as $client)
-                                                            <option value="{{$client->id}}" >{{$client->company_name}}</option>
+                                                            <option value="{{$client->id}}" @if($contact->client_detail_id == $client->id )  selected @endif >{{$client->company_name}}</option>
                                                             @endforeach
                                                     </select>
                                                    
                                                 <td>
-                                                    <a href="#!" >
+                                                    <a href="#!" class="invisible" >
                                                         <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -401,43 +406,14 @@
     });
 
 
-    // getCompany();
-    $('#contect_type').change(function (e) {
-        var content_type = $(this).val();
-        $('#user_id').html("");
-        getCompany(content_type);
-    });
-
-        function getCompany(content_type){
-            var url = "{{route('admin.contact.getCompany')}}";
-            var token = "{{ csrf_token() }}";
-            $.easyAjax({
-                url: url,
-                type: "POST",
-                data: {'_token': token, content_type: content_type},
-                success: function (data) {
-                    var options = [];
-                    var rData = [];
-                    rData = data.company;
-                    $.each(rData, function( index, value ) {
-                        var selectData = '';
-                        selectData = '<option value="'+value.id+'">'+value.company_name+'</option>';
-                        options.push(selectData);
-                    });
-                    $('#user_id').html(options);
-                }
-            })
-        }
-
-
     $('#save-form').click(function () {
         $.easyAjax({
-            url: '{{route('admin.contact.store')}}',
-            container: '#createContect',
+            url: '{{route('admin.contact.editStore')}}',
+            container: '#editContect',
             type: "POST",
             redirect: true,
             file: (document.getElementById("image").files.length == 0) ? false : true,
-            data: $('#createContect').serialize(),
+            data: $('#editContect').serialize(),
             error: function (response) {
                     $("input").css("border-color", "#ccc")
                     $("input").attr("title", ``)
@@ -461,7 +437,6 @@
         })
     });
 
-    $("#mobile").CcPicker("setCountryByPhoneCode", "33");
-    $("#tel").CcPicker("setCountryByPhoneCode", "33");
+    $("#mobile").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$contact->mobile)[0] }}");
 </script>
 @endpush
