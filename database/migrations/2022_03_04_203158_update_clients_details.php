@@ -14,8 +14,8 @@ class UpdateClientsDetails extends Migration
     public function up()
     {
         Schema::table('client_details', function (Blueprint $table) {
-            $table->bigInteger('contact_id')->unsigned()->nullable();
-            $table->foreign('contact_id')->references('id')->on('contects')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('contacts_id')->unsigned()->nullable();
+            $table->foreign('contacts_id')->references('id')->on('contects')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
