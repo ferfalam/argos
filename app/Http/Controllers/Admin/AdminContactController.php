@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Contect\StoreContectsRequest;
 use App\User;
 use App\Contect;
+use App\ClientDetails;
+use App\SupplierDetails;
 use App\Helper\Reply;
 use App\Helper\Files;
 use Illuminate\Http\Request;
@@ -33,21 +35,19 @@ class AdminContactController extends AdminBaseController
     return view('admin.contact.index', $this->data);
   }
 
-  public function create($type = null)
-  { 
+  public function create($type = null,$client_id = null)
+  {     
     $this->type  =  $type;
     $this->pageTitle = 'app.addContact';
 
     if($type == 'client')
     {
-        $this->clients = User::allClients();
+        $this->clients = ClientDetails::where('id',$client_id)->get();
     }
     elseif($type == 'supplier'){
         $this->clients = User::allSuppliers();
     }else{
-      $allClients = User::allClients();
-      $allsuppliers =  User::allSuppliers();
-      $this->clients = $allClients->merge($allsuppliers);
+      $this->clients = ClientDetails::all();
     }
     return view('admin.contact.create', $this->data);
   }
@@ -62,7 +62,7 @@ class AdminContactController extends AdminBaseController
     $contect->mobile = $request->mobile_phoneCode.' '.$request->mobile;
     $contect->visibility = $request->visibility;
     $contect->contect_type = $request->contect_type;
-    $contect->user_id = $request->user_id;
+    $contect->client_detail_id = $request->user_id;
 
     if ($request->hasFile('image')) {
       $contect->image = Files::upload($request->image, 'avatar', 300);
@@ -71,7 +71,7 @@ class AdminContactController extends AdminBaseController
 
     if($request->page_type == 'client')
     {
-        return Reply::redirect(route('admin.clients.index'));
+        return Reply::redirect(route('admin.contacts.show',$contect->client_detail_id));
     }
     elseif($request->page_type == 'contact' ){
         return Reply::redirect(route('admin.contact.index'));
@@ -80,8 +80,24 @@ class AdminContactController extends AdminBaseController
     }
 
     return Reply::redirect(route('admin.contact.index'));
-
   }
+
+  public function getCompany(Request $request){
+      if($request->content_type == 'client')
+      {
+        $company = ClientDetails::all();
+      }
+      elseif($request->content_type == 'supplier'){
+          $company = SupplierDetails::all();
+      }
+      elseif($request->content_type == 'spv'){
+          $company = [];
+      }
+
+      return response()->json(['company' => $company ]);
+  }
+
+
   public function delete($id){
 
     $contact = Contect::where('id',$id)->delete();
@@ -92,7 +108,15 @@ class AdminContactController extends AdminBaseController
   {
     $this->pageTitle = 'app.addContact';
     $this->contact = Contect::findOrFail($id);
-    $this->clients = User::allClients(); 
+    
+    if($this->contact->contect_type == 'client'){
+        $this->clients = ClientDetails::all(); 
+    }
+    if($this->contact->contect_type == 'supplier'){
+      $this->clients = SupplierDetails::all();
+    }
+    
+   
 
     return view('admin.contact.editPage',$this->data);
   }
@@ -108,13 +132,17 @@ class AdminContactController extends AdminBaseController
     $contact->mobile = $request->mobile_phoneCode.' '.$request->mobile;
     $contact->visibility = $request->visibility;
     $contact->contect_type = $request->contect_type;
-    $contact->user_id = $request->user_id;
+    $contact->client_detail_id = $request->user_id;
 
     if ($request->hasFile('image')) {
       $contact->image = Files::upload($request->image, 'avatar', 300);
     }
 
     $contact->save();
+
+    if($request->page_type == 'client'){
+        return Reply::redirect(route('admin.contacts.show',$contact->client_detail_id));      
+    }
 
     return Reply::redirect(route('admin.contact.index'));    
 

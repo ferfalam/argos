@@ -6,6 +6,7 @@ use App\Observers\ClientDetailObserver;
 use App\Scopes\CompanyScope;
 use App\Traits\CustomFieldsTrait;
 use Illuminate\Notifications\Notifiable;
+use App\Contect;
 
 class ClientDetails extends BaseModel
 {
@@ -18,8 +19,10 @@ class ClientDetails extends BaseModel
         'name',
         'email',
         'user_id',
+        'contects_id',
         'address',
         'website',
+        'test',
         'note',
         'skype',
         'facebook',
@@ -100,9 +103,17 @@ class ClientDetails extends BaseModel
         return $this->belongsTo(Project::class, 'user_id', 'client_id');
     }
 
+    public function ClientProjects(){
+        return $this->hasMany(Project::class, 'client_detail_id');
+    }
+
     public function contracts()
     {
         return $this->hasMany(Contract::class, 'client_id', 'user_id');
+    }
+
+    public function contects(){
+        return $this->belongsTo(Contect::class, 'contects_id', 'id');
     }
 
 }

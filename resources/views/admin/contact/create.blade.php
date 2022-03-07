@@ -314,7 +314,11 @@
                                                 <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
                                                 </td>
                                                 <td>
-                                                     <input type="text" name="contect_type" id="contect_type" class="form-control">
+                                                    <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                        <option value="client" @if($type != 'client' && $type != 'contact' ) disabled @endif  >Client</option>
+                                                        <option value="supplier" @if($type != 'supplier' && $type != 'contact' ) disabled @endif >Supplier</option>
+                                                        <option value="spv" @if($type != 'spv' && $type != 'contact' ) disabled @endif >Spv</option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -329,7 +333,7 @@
                                                 <td>
                                                     <select name="user_id" id="user_id" class="form-control select2">
                                                             @foreach($clients as $client)
-                                                            <option value="{{$client->id}}" >{{$client->name}}</option>
+                                                            <option value="{{$client->id}}" >{{$client->company_name}}</option>
                                                             @endforeach
                                                     </select>
                                                    
@@ -395,6 +399,35 @@
     $(".ccpicker").CcPicker({
         dataUrl: "{{ asset('data.json') }}"
     });
+
+
+    // getCompany();
+    $('#contect_type').change(function (e) {
+        var content_type = $(this).val();
+        $('#user_id').html("");
+        getCompany(content_type);
+    });
+
+        function getCompany(content_type){
+            var url = "{{route('admin.contact.getCompany')}}";
+            var token = "{{ csrf_token() }}";
+            $.easyAjax({
+                url: url,
+                type: "POST",
+                data: {'_token': token, content_type: content_type},
+                success: function (data) {
+                    var options = [];
+                    var rData = [];
+                    rData = data.company;
+                    $.each(rData, function( index, value ) {
+                        var selectData = '';
+                        selectData = '<option value="'+value.id+'">'+value.company_name+'</option>';
+                        options.push(selectData);
+                    });
+                    $('#user_id').html(options);
+                }
+            })
+        }
 
 
     $('#save-form').click(function () {

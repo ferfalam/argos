@@ -218,11 +218,12 @@
                 <div class="panel-body">
                     {!! Form::open(['id' => 'editContect', 'class' => 'ajax-form', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <div class="form-body form-input" style="margin-top: 40px">
-
+                        
                         <div class="row-1">
-
+                            
                             <div class="col-md-12">
                                 <fieldset>
+                                    <input type="hidden" name="page_type" value="{{ $contact->contect_type }}" >
                                     <input type="hidden" name="id" id="id" value="{{$contact->id}}">
                                     <legend>@lang('app.genralinfo')</legend>
                                     <div class="col-md-6">
@@ -318,7 +319,11 @@
                                                 <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
                                                 </td>
                                                 <td>
-                                                     <input type="text" name="contect_type" id="contect_type" class="form-control" value="{{$contact->contect_type}}">
+                                                    <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                        <option value="client" @if($contact->contect_type	 == 'client'  ) selected @endif  >Client</option>
+                                                        <option value="supplier" @if($contact->contect_type	 == 'supplier' ) selected @endif >Supplier</option>
+                                                        <option value="spv" @if($contact->contect_type	 == 'spv'  ) selected @endif >Spv</option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -333,12 +338,12 @@
                                                 <td>
                                                     <select name="user_id" id="user_id" class="form-control select2">
                                                             @foreach($clients as $client)
-                                                            <option value="{{$client->id}}" @if($contact->user_id == $client->id) Selected @endif>{{$client->name}}</option>
+                                                            <option value="{{$client->id}}" @if($contact->client_detail_id == $client->id )  selected @endif >{{$client->company_name}}</option>
                                                             @endforeach
                                                     </select>
                                                    
                                                 <td>
-                                                    <a href="#!" >
+                                                    <a href="#!" class="invisible" >
                                                         <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                     </a>
                                                 </td>

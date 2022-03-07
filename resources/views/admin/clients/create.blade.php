@@ -46,18 +46,22 @@
 <style>
 
 
-#s2id_category_id{
-    width: 210px !important;
-   }
- .salutation .form-control {
-     padding: 2px 2px;
-   }
-  .select-category button{
-    background-color: white !important;
-    font-size: 13px;
-    color: #565656;
-    border: 1px solid #e4e7ea !important;
-   }
+    #s2id_category_id{
+        width: 210px !important;
+    }
+
+    #s2id_contact_principal{
+        width: 210px !important;
+    }
+    .salutation .form-control {
+        padding: 2px 2px;
+    }
+    .select-category button{
+        background-color: white !important;
+        font-size: 13px;
+        color: #565656;
+        border: 1px solid #e4e7ea !important;
+    }
    .select-category button:hover{
     color: #565656;
     opacity: 1;
@@ -510,6 +514,47 @@
 
                                                 <tr>
                                                     <td>
+                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
+                                                            <option value="without_user">create without contact Principal</option>
+                                                            {{-- <option value="select">select from the list </option> --}}
+                                                            <option value="create">create a new one</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                {{-- <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact" id="contact" class="form-control select2">
+                                                           <option value="">Selection</option>
+                                                        @foreach($contects as $contect)
+                                                            <option value="{{$contect->id }}">{{ $contect->name }}</option>
+                                                        @endforeach --}}
+                                                            {{-- <option value="select">select from the list </option> --}}
+                                                            {{-- <option value="create">create a new one</option> --}}
+                                                        {{-- </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> --}}
+
+                                                
+
+                                                <tr>
+                                                    <td>
                                                         <label for="" class="mb-0">@lang('app.civility')</label>
                                                     </td>
                                                     <td>
@@ -525,7 +570,7 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <a href="#!" >
+                                                        <a href="#!" class="invisible" >
                                                             <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                         </a>
                                                     </td>
@@ -572,7 +617,7 @@
                                                     </td>
                                                 </tr>
 
-                                                <tr>
+                                                {{-- <tr>
                                                     <td>
                                                         <label for="password"
                                                             class="required">@lang('app.motdepasse')</label>
@@ -580,10 +625,10 @@
                                                     <td>
                                                         <input type="password" name="password" id="password" class="form-control">
                                                     </td>
-                                                </tr>
+                                                </tr> --}}
 
 
-                                                <tr>
+                                                {{-- <tr>
                                                     <td>
                                                         <label for="p_phone" class="required">Tel</label>
                                                     </td>
@@ -598,7 +643,7 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr>
+                                                </tr> --}}
     
                                                 <tr>
                                                     <td>
@@ -617,7 +662,7 @@
                                                     </td>
                                                 </tr>
     
-                                                <tr>
+                                                {{-- <tr>
                                                     <td>
                                                         <label for="fax" class="required">Fax</label>
                                                     </td>
@@ -626,6 +671,36 @@
                                                             <input type="text" name="p_fax" id="p_fax"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> --}}
+
+
+                                                <tr>
+                                                    <td><label for="visibility" class="required">@lang('app.visibility')
+                                                        </label></td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="visibility" name="visibility"
+                                                            value="">
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                            <option value="client">Client</option>
+                                                            <option value="supplier" disabled>Supplier</option>
+                                                            <option value="spv" disabled>Spv</option>
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -1146,7 +1221,7 @@
                     $("input").attr("title", ``)
                     $("textarea").css("border-color", "#ccc")
                     $("textarea").attr("title", ``)
-                    $("select").css("border-color", "#ccc")
+                    $("select").prev().css("border-color", "#ccc")
                     $("select").attr("title", ``)
                     let obj = response.responseJSON.errors
 
@@ -1164,7 +1239,7 @@
                         }else if(property == 'category_id'){
                             $("#"+property).prev().css("border-color", "#ef1f1f")
                             $("#"+property).prev().attr("title", `${obj[property]}`)
-                        }else if(property == 'sub_category_id'){
+                        }else if(property == 'contact'){
                             $("#"+property).prev().css("border-color", "#ef1f1f")
                             $("#"+property).prev().attr("title", `${obj[property]}`)
                         }else{
@@ -1239,7 +1314,7 @@
             $.ajaxModal('#clientCategoryModal', url);
     })
     
-    $('.language-form').click(function() {
+    $('.language-form').click(function(){
             let target = $(event.target)[0];
             const field = $('#' + target.dataset.type)
             const url = '{{ route('admin.language-settings.create') }}';
@@ -1258,6 +1333,53 @@
     })
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
+
+    var contact_principal =  $('#contact_principal').val();
+
+    if( contact_principal == 'without_user'){
+
+        $('#name').prop('disabled',true);
+        $('#function').prop('disabled',true);
+        $('#email').prop('disabled',true);
+        $('#p_mobile').prop('disabled',true);
+        $('#visibility').prop('disabled',true);
+        $('#contect_type').prop('disabled',true);      
+        $('input[name=gender]').prop('disabled',true);
+        // $('#contact').prop('disabled',true);
+        $('#image').prop('disabled',true);
+
+    }
+
+    $('#contact_principal').change(function(){
+        if($(this).val() == 'create'){
+            $('#name').prop('disabled',false);
+            $('#function').prop('disabled',false);
+            $('#email').prop('disabled',false);
+            $('#p_mobile').prop('disabled',false);
+            $('#visibility').prop('disabled',false);
+            $('#contect_type').prop('disabled',false);      
+            $('input[name=gender]').prop('disabled',false);
+            $('#image').prop('disabled',false);
+
+        }
+        else{           
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+            
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('');
+        }
+    });
 </script>
 @endpush
 

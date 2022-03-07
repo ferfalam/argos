@@ -44,7 +44,7 @@ class MemberClientsController extends MemberBaseController
     {
         abort_if(!$this->user->cans('view_clients'), 403);
         $this->clients = User::allClients();
-
+        
         return view('member.clients.index', $this->data);
     }
 
@@ -296,8 +296,6 @@ class MemberClientsController extends MemberBaseController
 
     public function showProjects($id)
     {
-
-
         $this->client = User::findClient($id);
         return view('member.clients.projects', $this->data);
     }

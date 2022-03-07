@@ -63,6 +63,7 @@ class ClientNotesController extends ClientBaseController
 
     public function show($id)
     {
+        
         $this->clients = User::allClients();
         $this->employees = User::allEmployees();
         $this->notes = Notes::findOrFail($id);

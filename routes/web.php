@@ -1099,8 +1099,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
-            Route::get("contacts/create/{type?}", 'AdminContactController@create')->name('contact.create');
+            Route::get("contacts/create/{type?}/{client_id?}", 'AdminContactController@create')->name('contact.create');
 
+            Route::post('contacts/getCompany','AdminContactController@getCompany')->name('contact.getCompany');
             Route::Post("contacts/store", 'AdminContactController@store')->name('contact.store');
             Route::Post("contacts/delete/{id}", 'AdminContactController@delete')->name('contact.delete');
             Route::get("contacts/edit/{id}", 'AdminContactController@edit')->name('contact.edit');

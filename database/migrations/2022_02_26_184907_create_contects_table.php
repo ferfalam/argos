@@ -38,4 +38,5 @@ class CreateContectsTable extends Migration
     {
         Schema::dropIfExists('contects');
     }
+    
 }

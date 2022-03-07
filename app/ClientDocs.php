@@ -31,7 +31,7 @@ class ClientDocs extends BaseModel
 
     public function getFileUrlAttribute()
     {
-        return asset_url_local_s3('client-docs/' . $this->user_id . '/' . $this->hashname);
+        return asset_url_local_s3('client-docs/' . $this->client_detail_id . '/' . $this->hashname);
     }
 
 }

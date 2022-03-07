@@ -6,7 +6,7 @@
 <div class="modal-body">
     @if($upload)
         {!! Form::open(array('id' => 'add_docs_form', 'class'=>'form-horizontal ','method'=>'POST')) !!}
-        <input type="hidden" name="user_id" value="{{ $clientID }}">
+        <input type="hidden" name="client_detail_id" value="{{ $clientID }}">
         <div class="form-body">
             <div class="row">
                 <div id="addMoreBox1" class="clearfix">

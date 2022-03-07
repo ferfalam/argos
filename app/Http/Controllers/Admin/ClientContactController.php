@@ -27,8 +27,9 @@ class ClientContactController extends AdminBaseController
 
     public function show($id)
     {
-        $this->client = User::findClient($id);
-        $this->clientDetail = ClientDetails::where('user_id', '=', $id)->first();
+
+        // $this->client = User::findClient($id);
+        $this->clientDetail = ClientDetails::where('id', '=', $id)->first();
         $this->clientStats = $this->clientStats($id);
 
         if (!is_null($this->clientDetail)) {
@@ -41,7 +42,7 @@ class ClientContactController extends AdminBaseController
 
     public function data($id)
     {
-        $timeLogs = Contect::where('user_id', $id)->get();
+        $timeLogs = Contect::where('client_detail_id', $id)->get();
 
         return DataTables::of($timeLogs)
             ->addColumn('action', function ($row) {
@@ -73,7 +74,8 @@ class ClientContactController extends AdminBaseController
     public function edit($id)
     {
         $this->contact = ClientContact::findOrFail($id);
-        return view('admin.client-contacts.edit', $this->data);
+        exit;
+        // return view('admin.client-contacts.edit', $this->data);
     }
 
     public function update(StoreContact $request, $id)

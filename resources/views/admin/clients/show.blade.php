@@ -27,7 +27,9 @@
             </tr>
             <tr>
                 <td><strong>@lang('app.email')</strong></td>
-                <td>{{ $clientDetail->email }}, {{$email}} </td>
+                <td>{{ $clientDetail->email }}
+                    {{-- , {{$email}} --}}
+                 </td>
             </tr>
             <tr>
                 <td><strong>@lang('app.mobile')</strong></td>
@@ -94,7 +96,7 @@
 
             <tr>
                 <td><strong>@lang('app.observation')</strong></td>
-                <td>{{ $client->observation }}</td>
+                <td>{{ $clientDetail->description }}</td>
             </tr>
 
             {{-- <tr>
@@ -102,24 +104,30 @@
                 <td>{{ $clientDetail->email}}</td>
             </tr> --}}
 
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('app.civility')</strong></td>
                 <td>{{ $client->gender }}</td>
-            </tr>
+            </tr> --}}
 
             <tr>
                 <td><strong>@lang('app.tel')</strong></td>
-                <td>{{ $clientDetail->tel }} , {{ $client->tel }}</td>
+                <td>{{ $clientDetail->tel }} , 
+                    {{-- {{ $client->tel }} --}}
+                </td>
             </tr>
            
             <tr>
                 <td><strong>@lang('app.mobile')</strong></td>
-                <td>{{ $clientDetail->mobile }} , {{ $client->mobile }}</td>
+                <td>{{ $clientDetail->mobile }} ,
+                     {{-- {{ $client->mobile }} --}}
+                    </td>
             </tr>
 
             <tr>
                 <td><strong>Fax</strong></td>
-                <td>{{ $clientDetail->fax }} , {{ $client->fax }}</td>
+                <td>{{ $clientDetail->fax }} ,
+                     {{-- {{ $client->fax }} --}}
+                    </td>
             </tr>
 
             <!-- <tr>
@@ -137,14 +145,14 @@
                 <td>{{ $language->language_name}}</td>
             </tr>
 
-            <tr>
+            {{-- <tr>
                 <td><strong>Function</strong></td>
                 <td>{{ $client->function}}</td>
-            </tr>
+            </tr> --}}
 
             <tr>
                 <td><strong>Notification Par Mail</strong></td>
-                @if($client->email_notifications == 1)
+                @if($clientDetail->email_notifications == 1)
                     <td>Yes</td>
                 @else
                     <td>No</td>
@@ -153,7 +161,7 @@
 
             <tr>
                 <td><strong>Notification Par SMS</strong></td>
-                @if($client->sms_notification == 1)
+                @if($clientDetail->sms_notification == 1)
                     <td>Yes</td>
                 @else
                     <td>No</td>
