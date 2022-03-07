@@ -34,7 +34,7 @@ class ManageTeamsController extends AdminBaseController
     public function index()
     {
         $this->groups = Team::with('member', 'member.user')->get();
-
+        //dd($this->groups);
         return view('admin.teams.index', $this->data);
     }
 

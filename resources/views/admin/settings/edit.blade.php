@@ -73,7 +73,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-4" style="display: none">
+                                        <div class="col-md-4" style="">
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">@lang('modules.accountSettings.companyLogo')</label>
 
@@ -99,14 +99,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">@lang('modules.accountSettings.companyWebsite')</label>
                                                 <input type="text" class="form-control" id="website" name="website"
                                                        value="{{ $global->website }}">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="address">@lang('modules.accountSettings.companyAddress')</label>
                                                 <textarea class="form-control" id="address" rows="5"
