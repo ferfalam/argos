@@ -56,7 +56,7 @@ class AdminSPVController extends AdminBaseController
   public function index()
   {
     $this->spv = User::allClients();
-    //$this->spv = $this->spv;
+    $this->spv = $this->spv->first();
     return view('admin.spv.index', $this->data);
   }
 
