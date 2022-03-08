@@ -39,7 +39,7 @@ class AdminDocumentController extends AdminBaseController
   {
     $this->pageTitle = 'app.menu.documents';
     $this->spv = User::allClients();
-    $this->spv = $this->spv->first();
+    //$this->spv = $this->spv->first();
     return view('admin.document.index', $this->data);
   }
 }
