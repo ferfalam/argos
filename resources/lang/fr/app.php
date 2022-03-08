@@ -788,4 +788,13 @@ return array(
   'spvList' => 'liste des SPV',
   'addAnSpv' => 'Ajouter un SPV',
   'spvSheet' => 'FICHE SPV',
+
+  'publication' => "Publication",
+  'documentName' => 'Nom du document',
+  'projectName' => 'Nom du projet',
+  'taskName' => 'Nom de la tâche',
+  'visibility' => 'Visiblité',
+  'authorizedPublications' => 'Publications Autorisées',
+  'unauthorizedPublications' => 'Publications Non Autorisées',
+  'totalDocuments' => 'Total des documents',
 );
