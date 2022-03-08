@@ -74,8 +74,7 @@ class ClientContactController extends AdminBaseController
     public function edit($id)
     {
         $this->contact = ClientContact::findOrFail($id);
-        exit;
-        // return view('admin.client-contacts.edit', $this->data);
+        return view('admin.client-contacts.edit', $this->data);
     }
 
     public function update(StoreContact $request, $id)
