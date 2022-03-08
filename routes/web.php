@@ -1092,6 +1092,7 @@ Route::group(['middleware' => 'auth'], function () {
             // Route::get("suppliers", 'AdminSuppliersController@index')->name('suppliers.index');
             Route::get("suppliers/create", 'AdminSuppliersController@create')->name('suppliers.create');
             Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
+            Route::get('suppliers/contacts/{id}','AdminSuppliersController@showContacts')->name('supplier.contacts');
 
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
             Route::resource('spv', 'AdminSPVController', ['except' => ['index']]);
@@ -1110,8 +1111,17 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
-            Route::get("contacts/create", 'AdminContactController@create')->name('contact.create');
-			Route::get("documents", 'AdminDocumentController@index')->name('document.index');
+            Route::get("contacts/create/{type?}/{client_id?}", 'AdminContactController@create')->name('contact.create');
+            Route::post('contacts/getCompany','AdminContactController@getCompany')->name('contact.getCompany');
+            Route::Post("contacts/store", 'AdminContactController@store')->name('contact.store');
+            Route::Post("contacts/delete/{id}", 'AdminContactController@delete')->name('contact.delete');
+            Route::get("contacts/edit/{id}", 'AdminContactController@edit')->name('contact.edit');
+            Route::post("contacts/edit", 'AdminContactController@editStore')->name('contact.editStore');
+            Route::get("contacts/view/table", 'AdminContactController@contactData')->name('contact.table');
+            Route::get('contact/get-result','AdminContactController@contactgetResult')->name('contact.getResult');
+
+
+            Route::get("documents", 'AdminDocumentController@index')->name('document.index');
 
             Route::get('language/change-language', 'AdminProfileSettingsController@changeLanguage')->name('language.change-language');
 
