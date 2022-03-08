@@ -791,4 +791,12 @@ return array(
   'superAdminAllowCalendarMessage' => 'Please Contact to Super Admin for Google Calendar Option',
   'sent' => 'Sent',
   'createInvoice' => 'Create Invoice',
+  'publication' => "Publication",
+  'documentName' => 'Document Name',
+  'projectName' => 'Name of Project',
+  'taskName' => 'Task Name',
+  'visibility' => 'Visibility',
+  'authorizedPublications' => 'Authorized Publications',
+  'unauthorizedPublications' => 'Unauthorized Publications',
+  'totalDocuments' => 'Total Records',
 );
