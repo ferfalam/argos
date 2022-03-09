@@ -12,19 +12,19 @@
     <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.currency.index' || \Illuminate\Support\Facades\Route::currentRouteName() == 'admin.currency.currency-format') active @endif">
         <a href="{{ route('admin.currency.index') }}">@lang('app.menu.currencySettings')</a></li>
 
-    @if($company->status != 'license_expired')
+    {{-- @if($company->status != 'license_expired')
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.theme-settings.index') active @endif">
             <a href="{{ route('admin.theme-settings.index') }}">@lang('app.menu.themeSettings')</a></li>
-    @endif
+    @endif --}}
 
-    <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.payment-gateway-credential.index') active @endif">
+    {{-- <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.payment-gateway-credential.index') active @endif">
         <a href="{{ route('admin.payment-gateway-credential.index') }}">@lang('app.menu.paymentGatewayCredential')</a>
-    </li>
+    </li> --}}
 
-    @if(in_array("invoices", $modules))
+    {{-- @if(in_array("invoices", $modules))
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.invoice-settings.index') active @endif">
             <a href="{{ route('admin.invoice-settings.index') }}">@lang('app.menu.financeSettings')</a></li>
-    @endif
+    @endif --}}
 
 {{--    @if(in_array("tickets", $modules))--}}
 {{--        <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.ticket-agents.index') active @endif">--}}
@@ -47,8 +47,8 @@
     @endif
 
     @if($company->status != 'license_expired')
-        <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.custom-fields.index') active @endif">
-            <a href="{{ route('admin.custom-fields.index') }}">@lang('app.menu.customFields')</a></li>
+        {{-- <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.custom-fields.index') active @endif">
+            <a href="{{ route('admin.custom-fields.index') }}">@lang('app.menu.customFields')</a></li> --}}
 
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.module-settings.index') active @endif">
             <a href="{{ route('admin.module-settings.index') }}">@lang('app.menu.moduleSettings')</a></li>
@@ -64,10 +64,10 @@
 
 
 
-    @if(in_array('leads',$user->modules))
+    {{-- @if(in_array('leads',$user->modules))
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.lead-source-settings.index') active @endif">
             <a href="{{ route('admin.lead-source-settings.index') }}">@lang('app.lead') @lang('app.menu.settings')</a></li>
-    @endif
+    @endif --}}
 
     @if(in_array('timelogs',$user->modules))
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.log-time-settings.index') active @endif">
