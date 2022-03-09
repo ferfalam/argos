@@ -30,9 +30,8 @@ class MeetingDataTable extends BaseDataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                //dd($row);
                 if ($this->zoomSetting->meeting_app == 'in_app') {
-                    $url = route('admin.zoom-meeting.startMeeting', $row->id);
+                    $url = route('member.zoom-meeting.startMeeting', $row->id);
                 } else {
                     $url = $this->user->id == $row->created_by ? $row->start_link : $row->end_link;
                 }
@@ -55,42 +54,38 @@ class MeetingDataTable extends BaseDataTable
                     $meetingDate = $row->start_date_time->toDateString();
                     if ($row->created_by == user()->id) {
                         $action .= '<li>
-                            <a href="' . route('admin.zoom-meeting.invite', $row->id) . '" >
+                            <a href="' . route('member.zoom-meeting.invite', $row->id) . '" >
                                 <i class="fa fa-eye"></i> Invite
                             </a>
-                        </li>';
-                    }
-                    if (
-                        (is_null($row->occurrence_id) || $nowDate == $meetingDate)
-                        && $row->created_by == $this->user->id
-                    ) {
-                        $action .= '<li>
-                            <a target="_blank" href="' . $url . '" >
-                                <i class="fa fa-play"></i> ' . __('zoom::modules.zoommeeting.startUrl') . '
-                            </a>
-                        </li>';
-                    }
-
-                    if ($row->created_by == $this->user->id) {
-                        $action .= '<li>
-                            <a href="javascript:;" class="cancel-meeting" data-meeting-id="' . $row->id . '" >
-                                <i class="fa fa-times"></i> ' . __('zoom::modules.zoommeeting.cancelMeeting') . '
-                            </a>
-                        </li>';
+                            </li>';
+                        if (is_null($row->occurrence_id) || $nowDate == $meetingDate) {
+                            $action .= '<li>
+                                <a target="_blank" href="' . $url . '" >
+                                    <i class="fa fa-play"></i> ' . __('zoom::modules.zoommeeting.startUrl') . '
+                                </a>
+                            </li>';
+                        }
                         $action .= '<li>
                             <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
                                 <i class="fa fa-pencil"></i> ' . __('app.edit') . '
+                            </a>
+                        </li>';
+                        $action .= '<li>
+                            <a href="javascript:;" class="cancel-meeting" data-meeting-id="' . $row->id . '" >
+                                <i class="fa fa-times"></i> ' . __('zoom::modules.zoommeeting.cancelMeeting') . '
                             </a>
                         </li>';
                     }
                 }
 
                 if ($row->status == "finished") {
-                    $action .= '<li>
-                        <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
-                            <i class="fa fa-pencil"></i> ' . __('app.edit') . '
-                        </a>
-                    </li>';
+                    if ($row->created_by == $this->user->id) {
+                        $action .= '<li>
+                            <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
+                                <i class="fa fa-pencil"></i> ' . __('app.edit') . '
+                            </a>
+                        </li>';
+                    }
                 }
 
                 if ($row->status == 'live') {
