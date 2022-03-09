@@ -3,6 +3,7 @@
 namespace Modules\Zoom\DataTables\Member;
 
 use App\DataTables\BaseDataTable;
+use App\User;
 use Carbon\Carbon;
 use Modules\Zoom\Entities\ZoomMeeting;
 use Modules\Zoom\Entities\ZoomSetting;
@@ -122,6 +123,11 @@ class MeetingDataTable extends BaseDataTable
 
                 return $action;
             })
+            ->editColumn('created_by', function ($row) {
+                $host = User::find($row->created_by);
+                return '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $host->name . '" src="' . $host->image_url . '"
+                                alt="user" class="img-circle" width="25" height="25"> ';
+            })
             ->editColumn('meeting_id', function ($row) {
                 $meetingId = $row->meeting_id;
 
@@ -171,7 +177,7 @@ class MeetingDataTable extends BaseDataTable
                 }
                 return $status;
             })
-            ->rawColumns(['action', 'status', 'meeting_name', 'meeting_id']);
+            ->rawColumns(['action', 'status', 'meeting_name', 'meeting_id', 'created_by']);
     }
 
     /**
@@ -264,7 +270,8 @@ class MeetingDataTable extends BaseDataTable
     {
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false],
-            '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
+            //'#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
+            __('zoom::modules.zoommeeting.meetingHost') => ['data' => 'created_by', 'name' => 'created_by'],
             __('zoom::modules.meetings.meetingId') => ['data' => 'meeting_id', 'name' => 'meeting_id'],
             __('zoom::modules.meetings.meetingName') => ['data' => 'meeting_name', 'name' => 'meeting_name'],
             __('zoom::modules.meetings.startOn')  => ['data' => 'start_date_time', 'name' => 'start_date_time'],
