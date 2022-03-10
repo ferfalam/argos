@@ -32,6 +32,7 @@ use Illuminate\Http\Request;
 use App\Project;
 use App\ProjectMilestone;
 use App\ProjectPlace;
+use App\SPV;
 use App\TaskUser;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -110,6 +111,7 @@ class ManageProjectsController extends AdminBaseController
         $this->templates = ProjectTemplate::all();
         $this->currencies = Currency::all();
         $this->employees = User::allEmployees()->where('status', 'active');
+        $this->spvs = SPV::all();
 
         $project = new Project();
         $this->upload = can_upload();
@@ -432,6 +434,7 @@ class ManageProjectsController extends AdminBaseController
         $this->project = Project::findOrFail($id)->withCustomFields();
         $this->fields = $this->project->getCustomFieldGroupsWithFields()->fields;
         $this->currencies = Currency::all();
+        $this->spvs = SPV::all();
         return view('admin.projects.edit', $this->data);
     }
 

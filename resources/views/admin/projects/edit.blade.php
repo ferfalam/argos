@@ -245,12 +245,12 @@
                                         <select class="select2 form-control" name="spv_id" id="spv_id"
                                                 data-style="form-control">
                                                 <option value="null">--</option>
-                                                @forelse($clients as $client)
-                                                    <option value="{{ $client->id }}"
-                                                            @if($project->client_id == $client->id)
+                                                @forelse($spvs as $spv)
+                                                    <option value="{{ $spv->id }}"
+                                                            @if($project->spv_id == $spv->id)
                                                             selected
                                                             @endif
-                                                    >{{ ucwords($client->name) }}</option>
+                                                    >{{ ucwords($spv->name) }}</option>
                                                 @empty
                                                     <option value="">@lang('modules.spv')</option>
                                                 @endforelse

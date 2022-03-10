@@ -287,14 +287,14 @@
                                 <div class="col-xs-12 col-md-4">
                                     <div class="" style="display: flex, width: 100%;">
                                         <label>@lang('modules.spv')</label>
-                                        <a href="javascript:;" id="add-client" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a>
+                                        {{-- <a href="javascript:;" id="add-client" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a> --}}
                                     </div>
                                     <div class="form-group">
                                         <select class="select2 form-control" name="spv_id" id="spv_id"
                                                 data-style="form-control">
                                                 <option value="">@lang('modules.spv')</option>
-                                            @foreach($clients as $client)
-                                                <option value="{{ $client->id }}">{{ ucwords($client->name) }}</option>
+                                            @foreach($spvs as $spv)
+                                                <option value="{{ $spv->id }}">{{ ucwords($spv->name) }}</option>
                                             @endforeach
                                         </select>
                                     </div>

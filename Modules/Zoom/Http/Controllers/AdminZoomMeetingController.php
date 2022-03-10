@@ -48,8 +48,9 @@ class AdminZoomMeetingController extends AdminBaseController
      */
     public function index()
     {
-        $this->employees = User::allEmployees();
-        $this->clients = User::allClients();
+        $this->employees = User::allEmployeesByCompany(user()->company_id);
+        $this->clients = User::allClientsByCompany(user()->company_id);
+        $this->admins = User::allAdminsByCompany(user()->company_id);
         $this->events = ZoomMeeting::all();
         $this->categories = Category::all();
         $this->projects = Project::all();
@@ -102,7 +103,8 @@ class AdminZoomMeetingController extends AdminBaseController
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
         $this->employees = User::allEmployeesByCompany(user()->company_id);
-        $this->clients = User::allClients();
+        $this->clients = User::allClientsByCompany(user()->company_id);
+        $this->admins = User::allAdminsByCompany(user()->company_id);
         $this->categories = Category::all();
         $this->projects = Project::all();
 
@@ -278,7 +280,8 @@ class AdminZoomMeetingController extends AdminBaseController
     public function tableView(MeetingDataTable $dataTable)
     {
         $this->employees = User::allEmployeesByCompany(user()->company_id);
-        $this->clients = User::allClients();
+        $this->clients = User::allClientsByCompany(user()->company_id);
+        $this->admins = User::allAdminsByCompany(user()->company_id);
         $this->categories = Category::all();
         $this->projects = Project::all();
         $this->upload = can_upload();
