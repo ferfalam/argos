@@ -24,4 +24,10 @@ class TaskFile extends BaseModel
         static::addGlobalScope(new CompanyScope);
     }
 
+
+    public function inDataRoom()
+    {
+        $dr = DataRoom::where('file_id', $this->id)->first();
+        return $dr;
+    }
 }

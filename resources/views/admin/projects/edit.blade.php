@@ -53,7 +53,7 @@
                         <div class="form-body ">
                             <h3 class="box-title m-b-10">@lang('modules.projects.projectInfo')</h3>
                             <div class="row">
-                                <div class="col-md-6 ">
+                                <div class="col-md-4 ">
                                     <div class="form-group">
                                         <label>@lang('modules.projects.projectName')</label>
                                         <input type="text" name="project_name" id="project_name" class="form-control"
@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                       
-                                <div class="col-md-6 ">
+                                <div class="col-md-4 ">
                                     <div class="form-group">
                                         <label class="control-label">@lang('modules.projects.projectCategory') <a
                                             href="javascript:;" id="addProjectCategory"><i class="ti-settings text-info"></i></a>
@@ -76,6 +76,35 @@
                                                 >{{ ucwords($category->category_name) }}</option>
                                             @empty
                                                 <option value="">@lang('messages.noProjectCategoryAdded')</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-md-4 ">
+                                    <div class="form-group">
+                                        <label class="control-label">@lang('modules.projects.place')
+
+                                            <a class="mytooltip" href="javascript:void(0)">
+                                                <i class="fa fa-info-circle"></i>
+                                                <span class="tooltip-content5">
+                                                    <span class="tooltip-text3">
+                                                        <span class="tooltip-inner2">@lang('help_text.projectPlaceSettings')</span>
+                                                    </span>
+                                                </span>
+                                            </a>
+
+                                            <a href="javascript:;" id="addProjectTechnology" class="text-info"><i class="ti-settings text-info"></i> </a>
+                                        </label>
+                                        <select class="selectpicker form-control" name="technology_id" id="technology_id"
+                                                data-style="form-control">
+                                            @forelse($places as $place)
+                                                <option value="{{ $place->id }}"
+                                                    @if($project->place_id == $place->id)
+                                                        selected
+                                                        @endif>{{ ucwords($place->place_name) }}</option>
+                                            @empty
+                                                <option value="">@lang('messages.noProjectPlaceAdded')</option>
                                             @endforelse
                                         </select>
                                     </div>
@@ -210,13 +239,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-md-4" id="clientNotification">
+
+                                <div class="col-xs-12 col-md-4">
                                     <div class="form-group">
-                                        <div class="checkbox checkbox-info  col-md-10">
-                                            <input id="client_task_notification" name="client_task_notification" value="true"  @if($project->allow_client_notification == "enable") checked @endif
-                                                   type="checkbox">
-                                            <label for="client_task_notification">@lang('modules.projects.clientTaskNotification')</label>
-                                        </div>
+                                        <select class="select2 form-control" name="spv_id" id="spv_id"
+                                                data-style="form-control">
+                                                <option value="null">--</option>
+                                                @forelse($clients as $client)
+                                                    <option value="{{ $client->id }}"
+                                                            @if($project->client_id == $client->id)
+                                                            selected
+                                                            @endif
+                                                    >{{ ucwords($client->name) }}</option>
+                                                @empty
+                                                    <option value="">@lang('modules.spv')</option>
+                                                @endforelse
+                                        </select>
                                     </div>
                                 </div>
 
@@ -229,6 +267,16 @@
                                                    @if($project->read_only == "enable") checked @endif
                                                    type="checkbox">
                                             <label for="read_only_task">@lang('modules.projects.readOnly')</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-md-4" id="clientNotification">
+                                    <div class="form-group">
+                                        <div class="checkbox checkbox-info  col-md-10">
+                                            <input id="client_task_notification" name="client_task_notification" value="true"  @if($project->allow_client_notification == "enable") checked @endif
+                                                   type="checkbox">
+                                            <label for="client_task_notification">@lang('modules.projects.clientTaskNotification')</label>
                                         </div>
                                     </div>
                                 </div>
@@ -556,6 +604,12 @@
 <script>
     $('#updateProject').on('click', '#addProjectCategory', function () {
         var url = '{{ route('admin.projectCategory.create-cat')}}';
+        $('#modelHeading').html('Manage Project Category');
+        $.ajaxModal('#projectCategoryModal', url);
+    })
+
+    $('#updateProject').on('click', '#addProjectTechnology', function () {
+        var url = '{{ route('admin.projectTechnology.create-cat')}}';
         $('#modelHeading').html('Manage Project Category');
         $.ajaxModal('#projectCategoryModal', url);
     })

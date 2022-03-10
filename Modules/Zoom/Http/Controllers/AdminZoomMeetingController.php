@@ -138,7 +138,7 @@ class AdminZoomMeetingController extends AdminBaseController
     {
         $meeting = ZoomMeeting::findOrFail($id);
 
-        if ($meeting->status == 'finished' || $meeting->status == 'canceled' || $meeting->end_date_time->gte(Carbon::now())) {
+        if ($meeting->status == 'waiting' && $meeting->end_date_time->gte(Carbon::now())) {
             return Reply::error('Veuillez terminer ou annuler avant de supprimer cette réunion');
         }
 

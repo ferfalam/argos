@@ -492,6 +492,17 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('projectCategory/create-cat', ['uses' => 'ManageProjectCategoryController@createCat'])->name('projectCategory.create-cat');
                 Route::resource('projectCategory', 'ManageProjectCategoryController');
 
+                Route::post('projectTechnology/store-cat', ['uses' => 'ManageProjectTechnologyController@storeCat'])->name('projectTechnology.store-cat');
+                Route::get('projectTechnology/create-cat', ['uses' => 'ManageProjectTechnologyController@createCat'])->name('projectTechnology.create-cat');
+                Route::resource('projectTechnology', 'ManageProjectTechnologyController');
+
+                Route::resource('espace', 'ManageEspaceController');
+
+
+                Route::post('dataRoom/store-cat/', ['uses' => 'ManageDataRoomController@storeCat'])->name('dataRoom.store-cat');
+                Route::get('dataRoom/create-cat/{task_id}/{file_id}', ['uses' => 'ManageDataRoomController@createCat'])->name('dataRoom.create-cat');
+                Route::resource('dataRoom', 'ManageDataRoomController');
+
                 Route::post('expenseCategory/store-cat', ['uses' => 'ManageExpenseCategoryController@storeCat'])->name('expenseCategory.store-cat');
                 Route::get('expenseCategory/create-cat', ['uses' => 'ManageExpenseCategoryController@createCat'])->name('expenseCategory.create-cat');
                 Route::resource('expenseCategory', 'ManageExpenseCategoryController');

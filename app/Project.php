@@ -30,6 +30,11 @@ class Project extends BaseModel
         return $this->belongsTo(ProjectCategory::class, 'category_id');
     }
 
+    public function place()
+    {
+        return $this->belongsTo(ProjectPlace::class, 'place_id');
+    }
+
     public function rating()
     {
         return $this->hasOne(ProjectRating::class);

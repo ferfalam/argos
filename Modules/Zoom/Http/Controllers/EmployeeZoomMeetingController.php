@@ -140,6 +140,9 @@ class EmployeeZoomMeetingController extends MemberBaseController
     public function destroy($id)
     {
         $meeting = ZoomMeeting::findOrFail($id);
+        if ($meeting->status == 'waiting' && $meeting->end_date_time->gte(Carbon::now())) {
+            return Reply::error('Veuillez terminer ou annuler avant de supprimer cette réunion');
+        }
 
         // destroy meeting via zoom api
         if (!is_null($meeting->occurrence_id)) {
@@ -267,7 +270,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function cancelMeeting()
     {
-        if (!$this->user->cans('edit_zoom_meetings')) {
+        if (!$this->user->zoomSetting()->get()[0]->api_key) {
             abort(403);
         }
 
@@ -296,7 +299,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function endMeeting()
     {
-        if (!$this->user->cans('edit_zoom_meetings')) {
+        if (!$this->user->zoomSetting()->get()[0]->api_key) {
             abort(403);
         }
 

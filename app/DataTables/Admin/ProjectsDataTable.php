@@ -5,6 +5,7 @@ namespace App\DataTables\Admin;
 use App\DataTables\BaseDataTable;
 use App\Payment;
 use App\Project;
+use App\ProjectCategory;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
@@ -70,6 +71,12 @@ class ProjectsDataTable extends BaseDataTable
                 $name = ' <a href="' . route('admin.projects.show', $row->id) . '">' . ucfirst($row->project_name) . '</a> ' . $pin;
 
                 return $name;
+            })
+            ->editColumn('place_id', function ($row) {
+                return $row->place->place_name;
+            })
+            ->editColumn('category_id', function ($row) {
+                return $row->category->category_name;
             })
             ->editColumn('start_date', function ($row) {
                 return $row->start_date->format($this->global->date_format);
@@ -146,10 +153,9 @@ class ProjectsDataTable extends BaseDataTable
             ->addColumn('completion_export', function ($row) {
                 return $row->completion_percent . '% '. __('app.complete');
             })
-            ->rawColumns(['project_name', 'action', 'completion_percent', 'members', 'status', 'client_id'])
+            ->rawColumns(['project_name', 'action', 'completion_percent', 'members', 'status', 'client_id', 'category_id'])
             ->removeColumn('project_summary')
             ->removeColumn('notes')
-            ->removeColumn('category_id')
             ->removeColumn('feedback')
             ->removeColumn('start_date');
     }
@@ -168,7 +174,7 @@ class ProjectsDataTable extends BaseDataTable
             ->with('members', 'members.user', 'client', 'clientdetails', 'currency')
             ->leftJoin('project_members', 'project_members.project_id', 'projects.id')
             ->selectRaw('projects.id, projects.project_name, projects.project_admin, projects.project_summary, projects.start_date, projects.deadline,
-         projects.notes, projects.category_id, projects.client_id, projects.feedback, projects.completion_percent, projects.created_at, projects.updated_at,
+         projects.notes, projects.place_id, projects.client_id, projects.feedback, projects.category_id, projects.completion_percent, projects.created_at, projects.updated_at,
           projects.status,
            ( select count("id") from pinned where pinned.project_id = projects.id and pinned.user_id = '.user()->id.') as pinned_project');
 
@@ -180,8 +186,8 @@ class ProjectsDataTable extends BaseDataTable
             }
         }
 
-        if (!is_null($request->client_id) && $request->client_id != 'all') {
-            $model->where('client_id', $request->client_id);
+        if (!is_null($request->place_id) && $request->place_id != 'all') {
+            $model->where('place_id', $request->place_id);
         }
         if (!is_null($request->team_id) && $request->team_id != 'all') {
             $model->where('team_id', $request->team_id);
@@ -246,8 +252,10 @@ class ProjectsDataTable extends BaseDataTable
     {
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
-            '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
+            //'#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
             __('modules.projects.projectName') => ['data' => 'project_name', 'name' => 'project_name'],
+            __('app.place') => ['data' => 'place_id', 'name' => 'place_id'],
+            __('modules.projects.technology') => ['data' => 'category_id', 'name' => 'category_id'],
             __('modules.projects.members')  => ['data' => 'members', 'name' => 'members', 'exportable' => false],
             __('modules.projects.projectMembers')  => ['data' => 'name', 'name' => 'name', 'visible' => false],
             __('app.deadline') => ['data' => 'deadline', 'name' => 'deadline'],
