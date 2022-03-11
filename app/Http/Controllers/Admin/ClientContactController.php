@@ -40,9 +40,16 @@ class ClientContactController extends AdminBaseController
         return view('admin.client-contacts.show', $this->data);
     }
 
-    public function data($id)
+    public function data($id,$type = null)
     {
-        $timeLogs = Contect::where('client_detail_id', $id)->get();
+        if($type == 'supplier'){
+            $timeLogs = Contect::where('supplier_detail_id', $id)->get();
+         
+        }
+        if($type == 'client')
+        {
+            $timeLogs = Contect::where('client_detail_id', $id)->get();
+        }
 
         return DataTables::of($timeLogs)
             ->addColumn('action', function ($row) {

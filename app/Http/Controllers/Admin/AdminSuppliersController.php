@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\SupplierDetails;
 use App\ClientDetails;
 use App\Country;
+use App\Contect;
+use App\Designation;
 use App\DataTables\Admin\SupplierDataTable;
 use App\DataTables\Admin\ClientsDataTable;
 use App\Helper\Reply;
@@ -96,6 +98,8 @@ class AdminSuppliersController extends AdminBaseController
       $this->subcategories = ClientSubCategory::all();
       $this->fields = $client->getCustomFieldGroupsWithFields()->fields;
       $this->countries = Country::all();
+      $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
+      $this->designations = Designation::with('members', 'members.user')->get();
 
       if (request()->ajax()) {
           return view('admin.suppliers.ajax-create', $this->data);
@@ -113,53 +117,68 @@ class AdminSuppliersController extends AdminBaseController
         $existing_user = User::withoutGlobalScopes(['active', CompanyScope::class])->select('id', 'email')->where('email', $request->input('email'))->first();
         $new_code = Country::select('phonecode')->where('id', $request->p_mobile_phoneCode)->first();
         // if no user found create new user with random password
-        if (!$existing_user) {
-            // $password = str_random(8);
-            // create new user
-            $user = new User();
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
-            $user->gender =   isset($request->gender) ? $request->input('gender'):'' ;
-            $user->tel =  $request->input('p_phone_phoneCode').' '.$request->input('p_phone');
-            $user->email_notifications =  $request->input('emailNotification');
-            $user->sms_notification	 =  $request->input('smsNotification');
-            $user->language =  $request->input('language');
-            $user->observation =  isset($request->observation)?$request->input('observation'):'';
-            $user->city_id =  $request->input('city');
-            $user->country_id =  $request->input('country');
-            $user->address =  $request->input('address');
-            $user->fax =  $request->input('p_fax_phoneCode').' '.$request->input('p_fax');
-            $user->function =  $request->input('function');
+        // if (!$existing_user) {
+        //     // $password = str_random(8);
+        //     // create new user
+        //     $user = new User();
+        //     $user->name = $request->input('name');
+        //     $user->email = $request->input('email');
+        //     $user->password = Hash::make($request->input('password'));
+        //     $user->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+        //     $user->gender =   isset($request->gender) ? $request->input('gender'):'' ;
+        //     $user->tel =  $request->input('p_phone_phoneCode').' '.$request->input('p_phone');
+        //     $user->email_notifications =  $request->input('emailNotification');
+        //     $user->sms_notification	 =  $request->input('smsNotification');
+        //     $user->language =  $request->input('language');
+        //     $user->observation =  isset($request->observation)?$request->input('observation'):'';
+        //     $user->city_id =  $request->input('city');
+        //     $user->country_id =  $request->input('country');
+        //     $user->address =  $request->input('address');
+        //     $user->fax =  $request->input('p_fax_phoneCode').' '.$request->input('p_fax');
+        //     $user->function =  $request->input('function');
     
             
-            if($request->input('locale') != ''){
-                $user->locale = $request->input('locale');
-            }else{
-                $user->locale = company()->locale;
-            }
+        //     if($request->input('locale') != ''){
+        //         $user->locale = $request->input('locale');
+        //     }else{
+        //         $user->locale = company()->locale;
+        //     }
             
-            if ($request->hasFile('image')) {
-                $user->image = Files::upload($request->image, 'avatar', 300);
-            }
+        //     if ($request->hasFile('image')) {
+        //         $user->image = Files::upload($request->image, 'avatar', 300);
+        //     }
 
             
-            $user->save();
+        //     $user->save();
             
-            // attach role
-            $role = Role::where('name', 'supplier')->first();
-            $user->attachRole($role->id);
+        //     // attach role
+        //     $role = Role::where('name', 'supplier')->first();
+        //     $user->attachRole($role->id);
             
             
             
-            if ($request->has('lead')) {
-                $lead = Lead::findOrFail($request->lead);
-                $lead->client_id = $user->id;
-                $lead->save();
-            }
-        }
+        //     if ($request->has('lead')) {
+        //         $lead = Lead::findOrFail($request->lead);
+        //         $lead->client_id = $user->id;
+        //         $lead->save();
+        //     }
+        // }
        
+        if($request->contact_principal == 'create'){
+            $contact = new Contect();
+            $contact->gender =  isset($request->gender) ? $request->input('gender'):'' ;
+            $contact->name = $request->name;
+            $contact->function = $request->function;
+            $contact->email = $request->email;
+            $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+            $contact->visibility = $request->visibility;
+            $contact->contect_type = $request->contect_type;
+            if($request->hasFile('image')) {
+              $contact->image = Files::upload($request->image, 'avatar', 300);
+            }
+            $contact->save();
+        }
+
         
         $existing_client_count = SupplierDetails::select('id', 'email', 'company_id')
             ->where(
@@ -173,11 +192,13 @@ class AdminSuppliersController extends AdminBaseController
             
         if($existing_client_count === 0) {
             $supplier = new SupplierDetails();
-            $supplier->user_id = $existing_user ? $existing_user->id : $user->id;
-            $supplier->name = $request->salutation.' '.$request->input('name');
+            // $supplier->name = $request->salutation.' '.$request->input('name');
             $supplier->email = $request->input('company_email');
             $supplier->mobile = $request->mobile_phoneCode .' '.$request->input('mobile');
             $supplier->city =    $city->name;
+            $supplier->city_id =    $city->id;
+            $supplier->description =    $request->observation;
+            $supplier->language =  $request->language;
             $supplier->country_id = $request->country;
             $supplier->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
             $supplier->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
@@ -185,22 +206,42 @@ class AdminSuppliersController extends AdminBaseController
             $supplier->address = $request->address;
             $supplier->tel =  $request->input('company_phone_phoneCode').' '.$request->input('company_phone');
             $supplier->fax =  $request->input('fax_phoneCode').' '.$request->input('fax');
+            
+            if ($request->has('emailNotification')) {
+                $supplier->email_notifications = $request->emailNotification;
+            }
+            if ($request->has('smsNotification')) {
+                $supplier->sms_notifications	 = $request->smsNotification;
+            }
+           
+            if($request->contact_principal != 'create' && $request->contact_principal != 'without_user'){
+                $contact = Contect::find($request->contact_principal);
+            }
+            
+            if(isset($contact)){
+                $supplier->contacts_id = $contact->id; 
+            }
             $supplier->save();
+
+            if(isset($contact)){
+                $contact->supplier_detail_id = $supplier->id;
+                $contact->save();
+            }
             
             // attach role
-            if ($existing_user) {
-                $role = Role::where('name', 'client')->where('company_id', $supplier->company_id)->first();
-                $existing_user->attachRole($role->id);
-            }
+            // if ($existing_user) {
+            //     $role = Role::where('name', 'client')->where('company_id', $supplier->company_id)->first();
+            //     $existing_user->attachRole($role->id);
+            // }
 
               // log search
-              if (!is_null($supplier->company_name)) {
-                $user_id = $existing_user ? $existing_user->id : $user->id;
-                $this->logSearchEntry($user_id, $supplier->company_name, 'admin.suppliers.edit', 'client');
-            }
+            //   if (!is_null($supplier->company_name)) {
+            //     $user_id = $existing_user ? $existing_user->id : $user->id;
+            //     $this->logSearchEntry($user_id, $supplier->company_name, 'admin.suppliers.edit', 'client');
+            // }
             //log search
-            $this->logSearchEntry($supplier->id, $request->name, 'admin.suppliers.edit', 'client');
-            $this->logSearchEntry($supplier->id, $request->email, 'admin.suppliers.edit', 'client');
+            // $this->logSearchEntry($supplier->id, $request->name, 'admin.suppliers.edit', 'client');
+            // $this->logSearchEntry($supplier->id, $request->email, 'admin.suppliers.edit', 'client');
 
         } else {
             return Reply::error('Provided email is already registered. Try with different email.');
@@ -228,32 +269,45 @@ class AdminSuppliersController extends AdminBaseController
 
   public function edit($id){
 
-    $this->userDetail = SupplierDetails::join('users', 'supplier_details.user_id', '=', 'users.id')
-            ->where('supplier_details.id', $id)
-            ->select('supplier_details.id','supplier_details.address', 'supplier_details.name', 'supplier_details.email', 'supplier_details.user_id', 'supplier_details.mobile', 'supplier_details.category_id', 'supplier_details.sub_category_id', 'supplier_details.tel','supplier_details.fax', 'users.locale','users.function', 'users.status', 'users.login','users.country_id','users.observation','users.email_notifications' ,'users.sms_notification', 'users.city_id','users.gender','users.language', 'users.email as userEmail','users.mobile as userMoblie','users.id as userId','users.tel as userTel','users.fax as userFax' )
-            ->first();
+     // $this->userDetail = SupplierDetails::join('users', 'supplier_details.user_id', '=', 'users.id')
+    //         ->where('supplier_details.id', $id)
+    //         ->select('supplier_details.id','supplier_details.address', 'supplier_details.name', 'supplier_details.email', 'supplier_details.user_id', 'supplier_details.mobile', 'supplier_details.category_id', 'supplier_details.sub_category_id', 'supplier_details.tel','supplier_details.fax', 'users.locale','users.function', 'users.status', 'users.login','users.country_id','users.observation','users.email_notifications' ,'users.sms_notification', 'users.city_id','users.gender','users.language', 'users.email as userEmail','users.mobile as userMoblie','users.id as userId','users.tel as userTel','users.fax as userFax' )
+    //         ->first();
 
-    $this->supplierDetail = SupplierDetails::where('user_id', '=', $this->userDetail->user_id)->first();
+    $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
     $this->countries = Country::all();
     $this->categories = ClientCategory::all();
     $this->subcategories = ClientSubCategory::all();
-    return view('admin.suppliers.edit', $this->data);
+    $this->contects  = Contect::where('supplier_detail_id',$id)->get();
+
+    $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
+
+    $this->designations = Designation::with('members', 'members.user')->get();
+    
+    return view('admin.suppliers.edit', $this->data);    
   }
 
     public function show($id)
     {
-        $user = DB::table('users')->where('id',$id)->get(); 
+        // $user = DB::table('users')->where('id',$id)->get(); 
 
-        $this->client = User::findClient($id);
+        // $this->client = User::findClient($id);
         $this->categories = ClientCategory::all();
         $this->subcategories = ClientSubCategory::all();
-        $this->clientDetail = SupplierDetails::where('user_id', '=', $this->client->id)->first();
-        $this->clientStats = $this->clientStats($id);
-        $this->country = Country::where('id',$this->client->country_id)->first();
-        $this->category = ClientCategory::where('id',$this->clientDetail->category_id)->first();
-        $this->sub_category = ClientSubCategory::where('id',$this->clientDetail->sub_category_id)->first();
-        $this->language = LanguageSetting::where('language_code',$this->client->language)->first();
-        $this->email = $user[0]->email; 
+        $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
+
+        if($this->supplierDetail->contacts_id != null){
+            $this->contect = Contect::find($this->supplierDetail->contacts_id);
+        }
+
+        
+        // $this->clientStats = $this->clientStats($id);
+        $this->country = Country::where('id',$this->supplierDetail->country_id)->first();
+        $this->category = ClientCategory::where('id',$this->supplierDetail->category_id)->first();
+        $this->sub_category = ClientSubCategory::where('id',$this->supplierDetail->sub_category_id)->first();
+        $this->language = LanguageSetting::where('language_code',$this->supplierDetail->language)->first();
+        $this->email = $this->supplierDetail->email; 
+        // exit;
         
         // if (!is_null($this->clientDetail)) {
         //     $this->clientDetail = $this->clientDetail->withCustomFields();
@@ -283,63 +337,64 @@ class AdminSuppliersController extends AdminBaseController
     public function update(UpdateSupplierRequest $request, $id)
     {
         $new_code = Country::select('phonecode')->where('id', $request->mobile_phoneCode)->first();
-        $client = SupplierDetails::find($id);
+        $supplier = SupplierDetails::find($id);
 
         $city = CompanyTLA::where('id',$request->input('city'))->first();
 
-        $client->company_name = $request->company_name;
-        $client->name = $request->input('name');
-        $client->email = $request->input('company_email');
-        $client->mobile =   $request->mobile_phoneCode .' '.$request->input('mobile');
-        $client->tel =  $request->input('company_phone_phoneCode').' '.$request->input('company_phone');
-        $client->fax =  $request->input('fax_phoneCode').' '.$request->input('fax');
-        $client->country_id = $request->input('country');
-        $client->address = $request->address;
-        $client->city = $city->name;
-        $client->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
-        $client->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
-        $client->save();
+        $supplier->company_name = $request->company_name;
+        $supplier->email = $request->input('company_email');
+        $supplier->mobile =   $request->mobile_phoneCode .' '.$request->input('mobile');
+        $supplier->tel =  $request->input('company_phone_phoneCode').' '.$request->input('company_phone');
+        $supplier->fax =  $request->input('fax_phoneCode').' '.$request->input('fax');
+        $supplier->country_id = $request->input('country');
+        $supplier->address = $request->address;
+        $supplier->city = $city->name;
+        $supplier->city_id = $city->id;
+        $supplier->description =    $request->observation;
+        $supplier->language =  $request->language;
+        $supplier->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
+        $supplier->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
+       
+        // if($request->contact_principal == 'select'){
+        //     $supplier->contacts_id = $request->contact;
+        // }
 
-        $user = User::withoutGlobalScope('active')->findOrFail($client->user_id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->observation =  isset($request->observation)?$request->input('observation'):'';
-        $user->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
-        $user->gender =   isset($request->gender) ? $request->input('gender'):'' ;
-        $user->tel =  $request->input('p_phone_phoneCode').' '.$request->input('p_phone');
-        $user->email_notifications =  $request->input('emailNotification');
-        $user->sms_notification	 =  $request->input('smsNotification');
-        $user->language =  $request->input('language');
-        $user->city_id =  $request->input('city');
-        $user->country_id =  $request->input('country');
-        $user->address =  $request->input('address');
-        $user->fax =  $request->input('p_fax_phoneCode').' '.$request->input('p_fax');
-        $user->function =  $request->input('function');
-    
-
-
-        if ($request->password != '') {
-            $user->password = Hash::make($request->input('password'));
-        }
-        if ($request->hasFile('image')) {
-          
-            $user->image = Files::upload($request->image, 'avatar', 300);
+        if($request->contact_principal == 'without_user'){
+            $supplier->contacts_id = null;
+        }else{
+            $contact = Contect::find($request->contact_principal);
+            $contact->supplier_detail_id = $supplier->id;
+            $contact->save();
         }
 
-        $user->save();
+        
+        if(isset($contact)){
+            $supplier->contacts_id = $contact->id; 
+        } 
+
+        if ($request->has('emailNotification')) {
+            $supplier->email_notifications = $request->emailNotification;
+        }
+        if ($request->has('smsNotification')) {
+            $supplier->sms_notifications   = $request->smsNotification;
+        }
+        $supplier->save();
+
+       
         
         // To add custom fields data
-        if ($request->get('custom_fields_data')) {
-            $client->updateCustomFieldData($request->get('custom_fields_data'));
-        }
+       
+        // if ($request->get('custom_fields_data')) {
+        //     $client->updateCustomFieldData($request->get('custom_fields_data'));
+        // }
 
-        $user = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($client->user_id);
+        // $user = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($client->user_id);
 
-        if ($request->password != '') {
-            $user->password = Hash::make($request->input('password'));
-        }
-        $user->locale = $request->locale;
-        $user->save();
+        // if ($request->password != '') {
+        //     $user->password = Hash::make($request->input('password'));
+        // }
+        // $user->locale = $request->locale;
+        // $user->save();
 
         return Reply::redirect(route('admin.suppliers.index'));
     }
@@ -382,13 +437,13 @@ class AdminSuppliersController extends AdminBaseController
                 foreach ($universalSearches as $universalSearch) {
                     UniversalSearch::destroy($universalSearch->id);
                 }
-            }
-            $userRoles = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first()->role->count();
-            if($userRoles > 1){
-                $role = Role::where('name', 'supplier')->first();
-                $client_role = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first();
-                $client_role->detachRoles([$role->id]);
-                SupplierDetails::withoutGlobalScope(CompanyScope::class)->where('user_id', $id)->delete();
+            // }
+            //  $userRoles = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first()->role->count();
+            // if($userRoles > 1){
+            //     $role = Role::where('name', 'supplier')->first();
+            //     $client_role = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first();
+            //     $client_role->detachRoles([$role->id]);
+                SupplierDetails::withoutGlobalScope(CompanyScope::class)->where('id', $id)->delete();
             }
             else{
                 User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->delete($id);
@@ -400,16 +455,92 @@ class AdminSuppliersController extends AdminBaseController
 
 
     public function showContacts($id){
-        $this->client = User::findClient($id);
-        $this->clientDetail = SupplierDetails::where('user_id', '=', $id)->first();
+        // $this->client = User::findClient($id);
+        $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
         $this->clientStats = $this->clientStats($id);
 
-        if (!is_null($this->clientDetail)) {
-            $this->clientDetail = $this->clientDetail->withCustomFields();
+        if (!is_null($this->supplierDetail)) {
+            $this->supplierDetail = $this->supplierDetail->withCustomFields();
         }
 
         return view('admin.supplier-contacts.show', $this->data);
     }
 
 
-}
+    public function showProjects($id)
+    {
+        // $this->client = User::findClient($id);
+
+        // if (!$this->client) {
+        //     abort(404);
+        // }
+
+        $this->supplierDetail = SupplierDetails::where('id', '=', $id)->with('SupplierProjects')->first();
+
+       
+        $this->clientStats = $this->clientStats($id);
+
+        if (!is_null($this->supplierDetail)) {
+            $this->supplierDetail = $this->supplierDetail->withCustomFields();
+            // $this->fields = $this->supplierDetail->getCustomFieldGroupsWithFields()->fields;
+        }
+
+        return view('admin.suppliers.projects', $this->data);
+    }
+
+
+    public function showInvoices($id)
+    {
+        // $this->client = User::findClient($id);
+
+        // if (!$this->client){
+        //     abort(404);
+        // }
+
+        $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
+        $this->clientStats = $this->clientStats($id);
+
+        if (!is_null($this->supplierDetail)) {
+            $this->supplierDetail = $this->supplierDetail->withCustomFields();
+            // $this->fields = $this->supplierDetails->getCustomFieldGroupsWithFields()->fields;
+        }
+
+        $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.total, currencies.currency_symbol, invoices.issue_date, invoices.id,
+            ( select payments.amount from payments where invoice_id = invoices.id) as paid_payment')
+            ->leftJoin('projects', 'projects.id', '=', 'invoices.project_id')
+            ->join('currencies', 'currencies.id', '=', 'invoices.currency_id')
+            ->where(function ($query) use ($id) {
+                $query->where('projects.client_id', $id)
+                    ->orWhere('invoices.client_id', $id);
+            })
+            ->get();
+
+
+        return view('admin.suppliers.invoices', $this->data);
+    }
+
+    public function showPayments($id){
+        
+        $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
+        $this->supplierStats = $this->clientStats($id);
+
+        if (!is_null($this->supplierDetail)) {
+            $this->supplierDetail = $this->supplierDetail->withCustomFields();
+            // $this->fields = $this->SupplierDetail->getCustomFieldGroupsWithFields()->fields;
+        }
+
+        $this->payments = Payment::with(['project:id,project_name', 'currency:id,currency_symbol,currency_code', 'invoice'])
+            ->leftJoin('invoices', 'invoices.id', '=', 'payments.invoice_id')
+            ->leftJoin('projects', 'projects.id', '=', 'payments.project_id')
+            ->select('payments.id', 'payments.project_id', 'payments.currency_id', 'payments.invoice_id', 'payments.amount', 'payments.status', 'payments.paid_on', 'payments.remarks')
+            ->where('payments.status', '=', 'complete')
+            ->where(function ($query) use ($id) {
+                $query->where('projects.client_id', $id)
+                    ->orWhere('invoices.client_id', $id);
+            })
+            ->orderBy('payments.id', 'desc')
+            ->get();
+        return view('admin.suppliers.payments', $this->data);
+    }
+
+}   

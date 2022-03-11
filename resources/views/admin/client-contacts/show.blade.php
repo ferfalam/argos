@@ -124,7 +124,7 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('admin.contacts.data', $clientDetail->id) !!}',
+        ajax: '{!! route('admin.contacts.data',["id" => $clientDetail->id, "type" =>"client" ] ) !!}',
         deferRender: true,
         language: {
             "url": "<?php echo __("app.datatable") ?>"

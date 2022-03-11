@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\ClientDetails;
 use App\Country;
 use App\Contect;
+use App\Designation;
 use App\DataTables\Admin\ClientsDataTable;
 use App\Helper\Reply;
 use App\Http\Requests\Admin\Client\StoreClientRequest;
@@ -83,6 +84,7 @@ class ManageClientsController extends AdminBaseController
             $firstName = explode(' ', $this->leadDetail->client_name);
             if(isset($firstName[0]) && (array_search($firstName[0], $firstNameArray) !== false))
             {
+
                 $this->firstName = $firstName[0];
                 $this->leadName = str_replace($this->firstName, '', $this->leadDetail->client_name);
             }
@@ -98,7 +100,9 @@ class ManageClientsController extends AdminBaseController
         $this->subcategories = ClientSubCategory::all();
         $this->fields = $client->getCustomFieldGroupsWithFields()->fields;
         $this->countries = Country::all();
-        $this->contects  = Contect::all();
+        $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
+        $this->designations = Designation::with('members', 'members.user')->get();
+
 
         if (request()->ajax()) {
             return view('admin.clients.ajax-create', $this->data);
@@ -219,12 +223,23 @@ class ManageClientsController extends AdminBaseController
             if ($request->has('smsNotification')) {
                 $client->sms_notifications	 = $request->smsNotification;
             }
+
+            if($request->contact_principal != 'create' && $request->contact_principal != 'without_user'){
+                $contact = Contect::find($request->contact_principal);
+            }
             
             if(isset($contact)){
                 $client->contacts_id = $contact->id; 
             }
-            
             $client->save();
+            
+            if(isset($contact)){
+                $contact->client_detail_id = $client->id;
+                $contact->save();
+            }
+
+            
+
             // exit;
             
                 // // attach role
@@ -329,6 +344,11 @@ class ManageClientsController extends AdminBaseController
         $this->subcategories = ClientSubCategory::all();
         $this->contects  = Contect::where('client_detail_id',$id)->get();
 
+        $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
+
+        $this->designations = Designation::with('members', 'members.user')->get();
+
+
         return view('admin.clients.edit', $this->data);
     }
 
@@ -402,16 +422,22 @@ class ManageClientsController extends AdminBaseController
         $client->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
         $client->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
         $client->shipping_address = $request->address;
-        if($request->contact_principal == 'select'){
-            $client->contacts_id = $request->contact;
-        }
-         if(isset($contact)){
+        // if($request->contact_principal == 'select'){
+        //     $client->contacts_id = $request->contact;
+        // }
+
+            if($request->contact_principal == 'without_user'){
+                $client->contacts_id = null;
+            }else{
+                 $contact = Contect::find($request->contact_principal);
+                 $contact->client_detail_id = $client->id;
+                 $contact->save();
+            }
+
+        if(isset($contact)){
             $client->contacts_id = $contact->id; 
         }        
 
-        if($request->contact_principal == 'without_user'){
-            $client->contacts_id = null;
-        }
 
         
 
@@ -476,9 +502,9 @@ class ManageClientsController extends AdminBaseController
     public function destroy($id)
     {
         DB::beginTransaction();
-        $clients_count = ClientDetails::withoutGlobalScope(CompanyScope::class)->where('user_id', $id)->count();
+        $clients_count = ClientDetails::withoutGlobalScope(CompanyScope::class)->where('id', $id)->count();
         if ($clients_count > 1) {
-            $client_builder = ClientDetails::where('user_id', $id);
+            $client_builder = ClientDetails::where('id', $id);
             $client = $client_builder->first();
 
             $user_builder = User::where('id', $id);
@@ -505,24 +531,24 @@ class ManageClientsController extends AdminBaseController
             }
             $client->delete();
         } else {
-            // $client = ClientDetails::where('user_id', $id)->first();
-            // $client->delete();
+            $client = ClientDetails::where('id', $id)->first();
+            $client->delete();
             $universalSearches = UniversalSearch::where('searchable_id', $id)->where('module_type', 'client')->get();
             if ($universalSearches) {
                 foreach ($universalSearches as $universalSearch) {
                     UniversalSearch::destroy($universalSearch->id);
                 }
             }
-            $userRoles = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first()->role->count();
-            if($userRoles > 1){
-                $role = Role::where('name', 'client')->first();
-                $client_role = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first();
-                $client_role->detachRoles([$role->id]);
-                ClientDetails::withoutGlobalScope(CompanyScope::class)->where('user_id', $id)->delete();
-            }
-            else{
-                User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->delete($id);
-            }
+            // $userRoles = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first()->role->count();
+            // if($userRoles > 1){
+            //     $role = Role::where('name', 'client')->first();
+            //     $client_role = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first();
+            //     $client_role->detachRoles([$role->id]);
+            //     ClientDetails::withoutGlobalScope(CompanyScope::class)->where('id', $id)->delete();
+            // }
+            // else{
+            //     User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->delete($id);
+            // }
         }
         DB::commit();
         return Reply::success(__('messages.clientDeleted'));

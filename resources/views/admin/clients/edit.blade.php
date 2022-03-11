@@ -48,6 +48,9 @@
     #s2id_category_id{
         width: 210px !important;
     }
+    #s2id_function{
+        width: 210px !important;
+    }
     #s2id_contact_principal{
         width: 210px !important;
     }
@@ -518,7 +521,14 @@
                                                     <td>
                                                         <select name="contact_principal" id="contact_principal" class="form-control select2">
                                                             <option value="without_user" >create without contact Principal</option>
-                                                            <option value="select" @if($clientDetail->contacts_id) selected @endif>select from the list </option>
+                                                            {{-- <option value="select" @if($clientDetail->contacts_id) selected @endif>select from the list </option> --}}
+                                                            @foreach($contects as $contect)
+                                                                <option data='{!! $contect !!}'  value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
+                                                            @endforeach
+
+                                                            @foreach($freeContacts as $freeContact)
+                                                                <option data='{!! $freeContact !!}' value="{{$freeContact->id }}" @if($freeContact->id == $clientDetail->contacts_id) selected @endif>{{ $freeContact->name }}</option>
+                                                            @endforeach
                                                             {{-- <option value="create">create a new one</option> --}}
                                                         </select>
                                                     </td>
@@ -529,18 +539,18 @@
                                                     </td>
                                                 </tr>
 
-                                                <tr>
+                                                {{-- <tr>
                                                     <td>
                                                         <label for="" class="mb-0">Contact</label>
                                                     </td>
                                                     <td>
                                                         <select name="contact" id="contact" class="form-control select2">
                                                            <option value="">Selection</option>
-                                                        @foreach($contects as $contect)
-                                                            <option value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
-                                                        @endforeach
-                                                            {{-- <option value="select">select from the list </option> --}}
-                                                            {{-- <option value="create">create a new one</option> --}}
+                                                            @foreach($contects as $contect)
+                                                                <option value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
+                                                            @endforeach
+                                                            <option value="select">select from the list </option>
+                                                            <option value="create">create a new one</option>
                                                         </select>
                                                     </td>
                                                     <td>
@@ -548,11 +558,11 @@
                                                             <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr>
+                                                </tr> --}}
 
                                                 
 
-                                                {{-- <tr>
+                                                <tr>
                                                     <td>
                                                         <label for="" class="mb-0">@lang('app.civility')</label>
                                                     </td>
@@ -573,9 +583,9 @@
                                                             <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> --}}
+                                                </tr>
 
-                                                {{-- <tr>
+                                                <tr>
                                                     <td>
                                                         <label for="name" class="required">Nom/Prénom</label>
                                                     </td>
@@ -587,14 +597,21 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> --}}
+                                                </tr>
 
-                                                {{-- <tr>
+                                                <tr>
                                                     <td>
                                                         <label for="function" class="required">Fonction</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="function" name="function" value="">
+                                                        <select name="function" id="function" class="form-control select2">
+                                                            @foreach($designations as $designation)
+                                                                <option value="{{ $designation->name }}">
+                                                                    {{$designation->name }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        {{-- <input type="text" class="form-control" id="function" name="function" value=""> --}}
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -614,7 +631,7 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> --}}
+                                                </tr>
 
                                                 {{-- <tr>
                                                     <td>
@@ -644,7 +661,7 @@
                                                     </td>
                                                 </tr> --}}
     
-                                                {{-- <tr>
+                                                <tr>
                                                     <td>
                                                         <label for="p_mobile" class="required">Mobile</label>
                                                     </td>
@@ -659,7 +676,7 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> --}}
+                                                </tr>
     
                                                 {{-- <tr>
                                                     <td>
@@ -679,7 +696,7 @@
                                                 </tr> --}}
 
 
-                                                 {{-- <tr>
+                                                 <tr>
                                                     <td><label for="visibility" class="required">@lang('app.visibility')
                                                         </label></td>
                                                     <td>
@@ -696,30 +713,31 @@
                                                     </td>
                                                     <td>
                                                         <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                            <option value="free">Free</option>
                                                             <option value="client"  >Client</option>
                                                             <option value="supplier" disabled>Supplier</option>
                                                             <option value="spv" disabled>Spv</option>
-                                                        </select> --}}
+                                                        </select>
 
                                                          {{-- <input type="text" name="contect_type" id="contect_type" class="form-control"> --}}
-                                                    {{-- </td>
+                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr>  --}}
+                                                </tr> 
 
-                                                {{-- <tr>
+                                                <tr>
                                                     <td>&nbsp;</td>
                                                     <td class="text-center" colspan="2">
                                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                                             <div class="fileinput-new thumbnail"
                                                                 style="width: 123px; height: 137px;">
                                                                 <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                    alt="" />
+                                                                    alt="" id="contact_profile_img"  />
                                                             </div>
-                                                            <div class="fileinput-preview fileinput-exists thumbnail"
+                                                            {{-- <div class="fileinput-preview fileinput-exists thumbnail"
                                                                 style="max-width: 200px; max-height: 150px;"></div>
                                                             <div class="mt-5">
                                                                 <span class="btn btn-info btn-file">
@@ -732,10 +750,10 @@
                                                             <div class="mt-1">
                                                                 <p class="text-secondary" style="font-size: 12px;">@lang('app.fomatimage')</p>
                                                                 <p class="text-secondary" style="font-size: 12px;">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                     </td>
-                                                </tr> --}}
+                                                </tr>
 
                                             </table>
                                         </div>
@@ -1349,9 +1367,7 @@
         $('#contact').prop('disabled',true);
         $('#image').prop('disabled',true);
 
-    }
-
-    if( contact_principal == 'select'){
+    }else{
 
         $('#name').prop('disabled',true);
         $('#function').prop('disabled',true);
@@ -1362,26 +1378,25 @@
         $('input[name=gender]').prop('disabled',true);
         $('#image').prop('disabled',true);
 
+        var contact_data = $('#contact_principal').find(':selected').attr('data');
+        var allData  = JSON.parse(contact_data);
+
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+
+            $('#contact_profile_img').attr('src', allData.image_url)
+
     }
 
     $('#contact_principal').change(function(){
 
-        if($(this).val() == 'create'){
-            $('#name').prop('disabled',false);
-            $('#function').prop('disabled',false);
-            $('#email').prop('disabled',false);
-            $('#p_mobile').prop('disabled',false);
-            $('#visibility').prop('disabled',false);
-            $('#contect_type').prop('disabled',false);      
-            $('input[name=gender]').prop('disabled',false);
-            $('#image').prop('disabled',false);
-
-            $('#contact').val('');
-            $('#contact').prop('disabled',true);
-
-
-        }
-        else if($(this).val() == 'select' ){
+        if($(this).val() == 'without_user'){
             $('#name').prop('disabled',true);
             $('#function').prop('disabled',true);
             $('#email').prop('disabled',true);
@@ -1390,7 +1405,9 @@
             $('#contect_type').prop('disabled',true);      
             $('input[name=gender]').prop('disabled',true);
             $('#image').prop('disabled',true);
-            $('#contact').prop('disabled',false);
+
+            $('#contact').val('');
+            $('#contact').prop('disabled',true);
 
             $('#name').val('');
             $('#function').val('');
@@ -1398,6 +1415,8 @@
             $('#p_mobile').val('');
             $('#visibility').val('');
             $('#contect_type').val('');
+            $('#contact_profile_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
         }   
         else{           
             $('#name').prop('disabled',true);
@@ -1410,13 +1429,20 @@
             $('#contact').prop('disabled',true);
             $('#image').prop('disabled',true);
 
+            var contact_data = $(this).find(':selected').attr('data');
+            var allData  = JSON.parse(contact_data);
             
-            $('#name').val('');
-            $('#function').val('');
-            $('#email').val('');
-            $('#p_mobile').val('');
-            $('#visibility').val('');
-            $('#contect_type').val('');
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+
+            $('#contact_profile_img').attr('src', allData.image_url)
+            
         }
     });
 

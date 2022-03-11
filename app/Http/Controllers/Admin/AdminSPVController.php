@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\ClientCategory;
 use App\ClientContact;
-use App\ClientDetails;
+use App\SpvDetails;
+use App\Contect;
 use App\ClientDocs;
 use App\ClientSubCategory;
 use App\CompanyTLA;
@@ -12,8 +13,8 @@ use App\ContractType;
 use App\Country;
 use App\Helper\Files;
 use App\Helper\Reply;
-use App\Http\Requests\Admin\Client\UpdateClientRequest;
 use App\Http\Requests\Gdpr\SaveConsentUserDataRequest;
+use App\DataTables\Admin\SpvDataTable;
 use App\Invoice;
 use App\LanguageSetting;
 use App\Notes;
@@ -22,6 +23,8 @@ use App\Project;
 use App\PurposeConsent;
 use App\PurposeConsentUser;
 use App\Role;
+use App\Designation;
+use App\Scopes\CompanyScope;
 use App\UniversalSearch;
 use App\User;
 use Craftsys\Msg91\Client;
@@ -29,6 +32,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\Admin\Spv\StoreSpvRequest;
+use App\Http\Requests\Admin\Spv\UpdateSpvRequest;
+
 
 class AdminSPVController extends AdminBaseController
 {
@@ -53,37 +59,170 @@ class AdminSPVController extends AdminBaseController
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(SpvDataTable $dataTable)
   {
     $this->spv = User::allClients();
     $this->spv = $this->spv[0];
-    return view('admin.spv.index', $this->data);
+    return $dataTable->render('admin.spv.index', $this->data);
+    
   }
 
-  public function create()
+  public function create($leadID = null)
   {
+    if($leadID){
+      $this->leadDetail = Lead::findOrFail($leadID);
+      $this->leadName = $this->leadDetail->client_name;
+      $this->firstName = '';
+      $firstNameArray = ['mr','mrs','miss','dr','sir','madam'];
+      $firstName = explode(' ', $this->leadDetail->client_name);
+      if(isset($firstName[0]) && (array_search($firstName[0], $firstNameArray) !== false))
+      {
+
+          $this->firstName = $firstName[0];
+          $this->leadName = str_replace($this->firstName, '', $this->leadDetail->client_name);
+      }
+      if($this->leadDetail->mobile){
+          $this->code = explode(' ', $this->leadDetail->mobile);
+          $this->mobileNo = str_replace($this->code[0], '', $this->leadDetail->mobile);
+      }
+    }
+
+
+    $Spv = new SpvDetails();
+    $this->categories = ClientCategory::all();
+    $this->subcategories = ClientSubCategory::all();
+    // $this->fields = $Spv->getCustomFieldGroupsWithFields()->fields;
+    $this->countries = Country::all();
+    $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
+    $this->designations = Designation::with('members', 'members.user')->get();
+
+
+    if (request()->ajax()) {
+        // return view('admin.spv.ajax-create', $this->data);
+    }
+
     return view('admin.spv.create', $this->data);
+    
   }
+
+
+  public function store(StoreSpvRequest $request){
+
+    $isSuperadmin = User::withoutGlobalScopes(['active', CompanyScope::class])->where('super_admin', '1')->where('email', $request->input('email'))->get()->count();
+    if ($isSuperadmin > 0) {
+        return Reply::error(__('messages.superAdminExistWithMail'));
+    }
+
+    $existing_user = User::withoutGlobalScopes(['active', CompanyScope::class])->select('id', 'email')->where('email', $request->input('email'))->first();
+    $new_code = Country::select('phonecode')->where('id', $request->p_mobile_phoneCode)->first();
+
+    if($request->contact_principal == 'create'){
+        $contact = new Contect();
+        $contact->gender =  isset($request->gender) ? $request->input('gender'):'' ;
+        $contact->name = $request->name;
+        $contact->function = $request->function;
+        $contact->email = $request->email;
+        $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+        $contact->visibility = $request->visibility;
+        $contact->contect_type = $request->contect_type;
+        if ($request->hasFile('image')) {
+          $contact->image = Files::upload($request->image, 'avatar', 300);
+        }
+        $contact->save();
+    }
+
+    $existing_client_count = SpvDetails::select('id', 'email', 'company_id')
+        ->where(
+            [
+                'email' => $request->input('email')
+            ]
+        )->count();
+
+        $city = CompanyTLA::where('id',$request->input('city'))->first();
+
+              
+    if ($existing_client_count === 0) {
+        $Spv = new SpvDetails();
+        $Spv->email = $request->input('company_email');
+        $Spv->mobile = $request->mobile_phoneCode .' '.$request->input('mobile');
+        $Spv->city =    $city->name;
+        $Spv->city_id =    $city->id;
+        $Spv->description =    $request->observation;
+        $Spv->language =  $request->language;
+        $Spv->country_id = $request->country;
+        $Spv->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
+        $Spv->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
+        $Spv->company_name = $request->company_name;
+        $Spv->address = $request->address;
+        // $Spv->shipping_address = $request->address;
+        $Spv->tel =  $request->input('company_phone_phoneCode').' '.$request->input('company_phone');
+        $Spv->fax =  $request->input('fax_phoneCode').' '.$request->input('fax');
+
+        if ($request->has('emailNotification')) {
+            $Spv->email_notifications = $request->emailNotification;
+        }
+        if ($request->has('smsNotification')) {
+            $Spv->sms_notifications   = $request->smsNotification;
+        }
+          
+        if($request->contact_principal != 'create' && $request->contact_principal != 'without_user'){
+            $contact = Contect::find($request->contact_principal);
+        }
+
+        if(isset($contact)){
+            $Spv->contacts_id = $contact->id; 
+        }
+        $Spv->save();
+        
+        if(isset($contact)){
+          $contact->spv_detail_id = $Spv->id;
+          $contact->save();
+        }
+
+        
+    } else {
+        return Reply::error('Provided email is already registered. Try with different email.');
+    }
+
+    if (!$existing_user && $request->sendMail == 'yes') {
+        //send welcome email notification
+        $user->notify(new NewUser($user->password));
+    }
+
+    if ($request->has('ajax_create')) {
+        $teams = User::allClients();
+        $teamData = '';
+
+        foreach ($teams as $team) {
+            $teamData .= '<option value="' . $team->id . '"> ' . ucwords($team->name) . ' </option>';
+        }
+
+        return Reply::successWithData(__('messages.clientAdded'), ['teamData' => $teamData]);
+    }
+
+    return Reply::redirect(route('admin.spv.index'));
+  }
+
+
+  
 
   public function show($id)
   {
-    $user = DB::table('users')->where('id', $id)->get();
-
-    $this->client = User::findClient($id);
     $this->categories = ClientCategory::all();
     $this->subcategories = ClientSubCategory::all();
-    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
     $this->clientStats = $this->clientStats($id);
-    $this->country = Country::where('id', $this->client->country_id)->first();
-    $this->category = ClientCategory::where('id', $this->clientDetail->category_id)->first();
-    $this->sub_category = ClientSubCategory::where('id', $this->clientDetail->sub_category_id)->first();
-    $this->language = LanguageSetting::where('language_code', $this->client->language)->first();
-    $this->email = $user[0]->email;
+    $this->country = Country::where('id', $this->spvDetails->country_id)->first();
+    $this->category = ClientCategory::where('id', $this->spvDetails->category_id)->first();
+    $this->sub_category = ClientSubCategory::where('id', $this->spvDetails->sub_category_id)->first();
+    $this->language = LanguageSetting::where('language_code', $this->spvDetails->language)->first();
+    $this->email = $this->spvDetails->email;
 
-    if (!is_null($this->clientDetail)) {
-      $this->clientDetail = $this->clientDetail->withCustomFields();
-      $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
+    if (!is_null($this->spvDetails)) {
+      $this->spvDetails = $this->spvDetails->withCustomFields();
+      // $this->fields = $this->spvDetails->getCustomFieldGroupsWithFields()->fields;
     }
+    
     return view('admin.spv.show', $this->data);
   }
 
@@ -95,22 +234,23 @@ class AdminSPVController extends AdminBaseController
    */
   public function edit($id)
   {
-    $this->userDetail = ClientDetails::join('users', 'client_details.user_id', '=', 'users.id')
-      ->where('client_details.id', $id)
-      ->select('client_details.id', 'client_details.address', 'client_details.name', 'client_details.email', 'client_details.user_id', 'client_details.mobile', 'client_details.category_id', 'client_details.sub_category_id', 'client_details.tel', 'client_details.fax', 'users.locale', 'users.function', 'users.status', 'users.login', 'users.country_id', 'users.observation', 'users.email_notifications', 'users.sms_notification', 'users.city_id', 'users.gender', 'users.language', 'users.email as userEmail', 'users.mobile as userMoblie', 'users.id as userId', 'users.tel as userTel', 'users.fax as userFax')
-      ->first();
 
-    $this->clientDetail = ClientDetails::where('user_id', '=', $this->userDetail->user_id)->first();
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
 
-    if (!is_null($this->clientDetail)) {
-      $this->clientDetail = $this->clientDetail->withCustomFields();
-      $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
+    if (!is_null($this->spvDetails)) {
+      $this->spvDetails = $this->spvDetails->withCustomFields();
+      // $this->fields = $this->spvDetails->getCustomFieldGroupsWithFields()->fields;
     }
-    $this->clientWebsite = $this->websiteCheck($this->clientDetail->website);
+    $this->clientWebsite = $this->websiteCheck($this->spvDetails->website);
 
     $this->countries = Country::all();
     $this->categories = ClientCategory::all();
     $this->subcategories = ClientSubCategory::all();
+    $this->contects  = Contect::where('spv_detail_id',$id)->get();
+
+    $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
+
+    $this->designations = Designation::with('members', 'members.user')->get();
 
     return view('admin.spv.edit', $this->data);
   }
@@ -142,69 +282,67 @@ class AdminSPVController extends AdminBaseController
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(UpdateClientRequest $request, $id)
+  public function update(UpdateSpvRequest $request, $id)
   {
+    if($request->contact_principal == 'create'){
+      $contact = new Contect();
+      $contact->gender =  isset($request->gender) ? $request->input('gender'):'' ;
+      $contact->name = $request->name;
+      $contact->function = $request->function;
+      $contact->email = $request->email;
+      $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+      $contact->visibility = $request->visibility;
+      $contact->contect_type = $request->contect_type;
+      if ($request->hasFile('image')) {
+        $contact->image = Files::upload($request->image, 'avatar', 300);
+      }
+      $contact->save();
+    }
+
     $new_code = Country::select('phonecode')->where('id', $request->phone_code)->first();
-    $client = ClientDetails::find($id);
+    $Spv = SpvDetails::find($id);
 
-    $city = CompanyTLA::where('id', $request->input('city'))->first();
+    $city = CompanyTLA::where('id',$request->input('city'))->first();
 
-    $client->company_name = $request->company_name;
-    $client->name = $request->input('name');
-    $client->email = $request->input('company_email');
-    $client->mobile =   $request->mobile_phoneCode . ' ' . $request->input('mobile');
-    $client->tel =  $request->input('company_phone_phoneCode') . ' ' . $request->input('company_phone');
-    $client->fax =  $request->input('fax_phoneCode') . ' ' . $request->input('fax');
-    $client->country_id = $request->input('country');
-    $client->address = $request->address;
-    $client->city = $city->name;
-    $client->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
-    $client->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
-    $client->shipping_address = $request->address;
-    $client->email_notifications = $request->emailNotification;
-    $client->save();
+    $Spv->company_name = $request->company_name;
+    // $Spv->name = $request->name;
+    $Spv->email = $request->company_email;
+    $Spv->mobile =   $request->mobile_phoneCode .' '.$request->mobile;
+    $Spv->tel =  $request->company_phone_phoneCode.' '.$request->company_phone;
+    $Spv->fax =  $request->fax_phoneCode.' '.$request->fax;
+    $Spv->country_id = $request->country;
+    $Spv->address = $request->address;
+    $Spv->city = $city->name;
+    $Spv->city_id =    $city->id;
+    $Spv->description =    $request->observation;
+    $Spv->language =  $request->language;
+    $Spv->category_id = ($request->input('category_id') != 0 && $request->input('category_id') != '') ? $request->input('category_id') : null;
+    $Spv->sub_category_id = ($request->input('sub_category_id') != 0 && $request->input('sub_category_id') != '') ? $request->input('sub_category_id') : null;
+    // $Spv->shipping_address = $request->address;
+    // if($request->contact_principal == 'select'){
+    //     $Spv->contacts_id = $request->contact;
+    // }
 
-    $user = User::withoutGlobalScope('active')->findOrFail($client->user_id);
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->observation =  isset($request->observation) ? $request->input('observation') : '';
-    $user->mobile =  $request->p_mobile_phoneCode . ' ' . $request->input('p_mobile');
-    $user->gender =   isset($request->gender) ? $request->input('gender') : '';
-    $user->tel =  $request->input('p_phone_phoneCode') . ' ' . $request->input('p_phone');
-    $user->email_notifications =  $request->input('emailNotification');
-    $user->sms_notification   =  $request->input('smsNotification');
-    $user->language =  $request->input('language');
-    $user->city_id =  $request->input('city');
-    $user->country_id =  $request->input('country');
-    $user->address =  $request->input('address');
-    $user->fax =  $request->input('p_fax_phoneCode') . ' ' . $request->input('p_fax');
-    $user->function =  $request->input('function');
-
-
-
-    if ($request->password != '') {
-      $user->password = Hash::make($request->input('password'));
-    }
-    if ($request->hasFile('image')) {
-
-      $user->image = Files::upload($request->image, 'avatar', 300);
+    if($request->contact_principal == 'without_user'){
+        $Spv->contacts_id = null;
+    }else{
+       $contact = Contect::find($request->contact_principal);
+       $contact->spv_detail_id = $Spv->id;
+       $contact->save();
     }
 
-    $user->save();
+    
+     if(isset($contact)){
+        $Spv->contacts_id = $contact->id; 
+    }        
 
-    // To add custom fields data
-    if ($request->get('custom_fields_data')) {
-      $client->updateCustomFieldData($request->get('custom_fields_data'));
+    if ($request->has('emailNotification')) {
+        $Spv->email_notifications = $request->emailNotification;
     }
-
-    $user = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($client->user_id);
-
-    if ($request->password != '') {
-      $user->password = Hash::make($request->input('password'));
+    if ($request->has('smsNotification')) {
+        $Spv->sms_notifications   = $request->smsNotification;
     }
-    $user->locale = $request->locale;
-    $user->save();
-
+    $Spv->save();
     return Reply::redirect(route('admin.spv.index'));
   }
 
@@ -217,50 +355,35 @@ class AdminSPVController extends AdminBaseController
   public function destroy($id)
   {
     DB::beginTransaction();
-    $clients_count = ClientDetails::withoutGlobalScope(CompanyScope::class)->where('user_id', $id)->count();
-    if ($clients_count > 1) {
-      $client_builder = ClientDetails::where('user_id', $id);
-      $client = $client_builder->first();
+    $spv_count = SpvDetails::withoutGlobalScope(CompanyScope::class)->where('id', $id)->count();
+    if ($spv_count > 1) {
+      echo $spv_count;
+      exit;
+      $spv_builder = SpvDetails::where('id', $id);
+      $spv = $spv_builder->first();
 
       $user_builder = User::where('id', $id);
       $user = $user_builder->first();
-      if ($user && !is_null($client)) {
-        $other_client = $client_builder->withoutGlobalScope(CompanyScope::class)
-          ->where('company_id', '!=', $client->company_id)
+      if ($user && !is_null($spv)) {
+        $other_spv = $spv_builder->withoutGlobalScope(CompanyScope::class)
+          ->where('company_id', '!=', $spv->company_id)
           ->first();
-        if (!is_null($other_client)) {
-          request()->request->add(['company_id' => $other_client->company_id]);
+        if (!is_null($other_spv)) {
+          request()->request->add(['company_id' => $other_spv->company_id]);
 
           $user->save();
         }
       }
-      $role = Role::where('name', 'client')->first();
-      $user_role = $user_builder->withoutGlobalScope(CompanyScope::class)->first();
-      $user_role->detachRoles([$role->id]);
-      $universalSearches = UniversalSearch::where('searchable_id', $id)->where('module_type', 'client')->get();
-      if ($universalSearches) {
-        foreach ($universalSearches as $universalSearch) {
-          UniversalSearch::destroy($universalSearch->id);
-        }
-      }
-      $client->delete();
+     
+      $spv->delete();
     } else {
-      // $client = ClientDetails::where('user_id', $id)->first();
-      // $client->delete();
-      $universalSearches = UniversalSearch::where('searchable_id', $id)->where('module_type', 'client')->get();
+      $spv = SpvDetails::where('id', $id)->first();
+      $spv->delete();
+      $universalSearches = UniversalSearch::where('searchable_id', $id)->where('module_type', 'spv')->get();
       if ($universalSearches) {
         foreach ($universalSearches as $universalSearch) {
           UniversalSearch::destroy($universalSearch->id);
         }
-      }
-      $userRoles = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first()->role->count();
-      if ($userRoles > 1) {
-        $role = Role::where('name', 'client')->first();
-        $client_role = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->first();
-        $client_role->detachRoles([$role->id]);
-        ClientDetails::withoutGlobalScope(CompanyScope::class)->where('user_id', $id)->delete();
-      } else {
-        User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('id', $id)->delete($id);
       }
     }
     DB::commit();

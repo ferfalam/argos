@@ -52,7 +52,7 @@ class UpdateClientRequest extends CoreRequest
             // 'p_mobile' => 'required_if:contact_principal,create|digits:10',
             // 'visibility' => 'required_if:contact_principal,create',
             // 'contect_type' => 'required_if:contact_principal,create',
-            'contact' => 'required_if:contact_principal,select',
+            // 'contact' => 'required_if:contact_principal,select',
 
         ];
         if (!is_null(request()->get('website'))) {

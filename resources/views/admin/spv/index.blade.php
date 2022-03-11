@@ -128,7 +128,7 @@
             <a href="{{route('admin.spv.create')}}" class="btn btn-cs-blue">@lang('app.addAnSpv')</a>
         </div>
         <div class="panel-body">
-            <div class="table-responsive">
+            <!-- <div class="table-responsive">
                 <table class="table  dataTable table-bordered table-hover toggle-circle default footable-loaded footable">
                     <thead>
                         <tr>
@@ -193,7 +193,8 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
+            <x-table :dataTable="$dataTable"></x-table>
         </div>
     </div>
 @endsection
@@ -211,7 +212,7 @@
     <script src="{{ asset('js/datatables/buttons.server-side.js') }}"></script>
     <script src="{{ asset('plugins/bower_components/moment/moment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/daterange-picker/daterangepicker.js') }}"></script>
-    {{-- {!! $dataTable->scripts() !!} --}}
+    {!! $dataTable->scripts() !!}
 
     <script>
         $('.dataTable').dataTable();
@@ -299,7 +300,7 @@
                 }, function(isConfirm){
                     if (isConfirm) {
 
-                        var url = "{{ route('admin.clients.destroy',':id') }}";
+                        var url = "{{ route('admin.spv.destroy',':id') }}";
                         url = url.replace(':id', id);
 
                         var token = "{{ csrf_token() }}";
@@ -310,9 +311,9 @@
                             data: {'_token': token, '_method': 'DELETE'},
                             success: function (response) {
                                 if (response.status == "success") {
-                                    $.easyBlockUI('#clients-table');
-                                    window.LaravelDataTables["clients-table"].draw();
-                                    $.easyUnblockUI('#clients-table');
+                                    $.easyBlockUI('#Spv-table');
+                                    window.LaravelDataTables["Spv-table"].draw();
+                                    $.easyUnblockUI('#Spv-table');
                                 }
                             }
                         });
@@ -328,7 +329,7 @@
 
         $('#apply-filters').click(function () {
 
-            $('#clients-table').on('preXhr.dt', function (e, settings, data) {
+            $('#Spv-table').on('preXhr.dt', function (e, settings, data) {
 
                 var startDate = $('#start-date').val();
 
@@ -359,11 +360,11 @@
                 data['country_id'] = country_id;
             });
 
-            $.easyBlockUI('#clients-table');
+            $.easyBlockUI('#Spv-table');
 
-            window.LaravelDataTables["clients-table"].draw();
+            window.LaravelDataTables["Spv-table"].draw();
             
-            $.easyUnblockUI('#clients-table');
+            $.easyUnblockUI('#Spv-table');
 
         });
 
@@ -372,13 +373,13 @@
             $('.select2').val('all');
             $('#filter-form').find('select').select2();
 
-            $.easyBlockUI('#clients-table');
+            $.easyBlockUI('#Spv-table');
             $('#start-date').val('');
             $('#end-date').val('');
             $('#reportrange span').html('');
 
-            window.LaravelDataTables["clients-table"].draw();
-            $.easyUnblockUI('#clients-table');
+            window.LaravelDataTables["Spv-table"].draw();
+            $.easyUnblockUI('#Spv-table');
         })
 
         function exportData(){

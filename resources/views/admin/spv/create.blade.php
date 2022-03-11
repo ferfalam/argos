@@ -49,10 +49,16 @@
     #s2id_category_id{
     width: 210px !important;
    }
- .salutation .form-control {
+   #s2id_contact_principal{
+        width: 210px !important;
+    }
+    .salutation .form-control {
      padding: 2px 2px;
    }
-  .select-category button{
+   #s2id_function{
+        width: 210px !important;
+    }
+    .select-category button{
     background-color: white !important;
     font-size: 13px;
     color: #565656;
@@ -502,11 +508,29 @@
 
                                 </div>
 
-                                <div class="col-md-4">
+                               <!--  <div class="col-md-4">
                                     <fieldset>
                                         <legend>Administrateur</legend>
                                         <div class="d-flex align-items-center">
-                                            <table>
+                                            <table> -->
+
+                                                <!-- <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
+                                                            <option value="without_user">create without contact Principal</option>
+                                                            {{-- <option value="select">select from the list </option> --}}
+                                                            <option value="create">create a new one</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
 
                                                 <tr>
                                                     <td>
@@ -524,11 +548,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <a href="#!" >
-                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
-                                                        </a>
-                                                    </td>
+                                                   
                                                 </tr>
 
                                                 <tr>
@@ -570,8 +590,8 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr>
-
+                                                </tr> -->
+<!-- 
                                                 <tr>
                                                     <td>
                                                         <label for="password"
@@ -580,10 +600,10 @@
                                                     <td>
                                                         <input type="password" name="password" id="password" class="form-control">
                                                     </td>
-                                                </tr>
+                                                </tr> -->
 
 
-                                                <tr>
+                                             <!--    <tr>
                                                     <td>
                                                         <label for="p_phone" class="required">Tel</label>
                                                     </td>
@@ -592,6 +612,183 @@
                                                             <input type="text" name="p_phone" id="p_phone"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> -->
+    
+                                              <!--   <tr>
+                                                    <td>
+                                                        <label for="p_mobile" class="required">Mobile</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="p_mobile" id="p_mobile"
+                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> -->
+    
+                                               <!--  <tr>
+                                                    <td>
+                                                        <label for="fax" class="required">Fax</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="p_fax" id="p_fax"
+                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> -->
+
+                                             <!--    <tr>
+                                                    <td><label for="visibility" class="required">@lang('app.visibility')
+                                                        </label></td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="visibility" name="visibility"
+                                                            value="">
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                               
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td class="text-center" colspan="2">
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="fileinput-new thumbnail"
+                                                                style="width: 123px; height: 137px;">
+                                                                <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
+                                                                    alt="" />
+                                                            </div>
+                                                            <div class="fileinput-preview fileinput-exists thumbnail"
+                                                                style="max-width: 200px; max-height: 150px;"></div>
+                                                            <div class="mt-5">
+                                                                <span class="btn btn-info btn-file">
+                                                                    <span class="fileinput-new"> @lang('app.selectImage') </span>
+                                                                    <span class="fileinput-exists"> @lang('app.change') </span>
+                                                                    <input type="file" name="image" id="image"> </span>
+                                                                <a href="javascript:;" class="btn btn-danger fileinput-exists"
+                                                                    data-dismiss="fileinput"> @lang('app.remove') </a>
+                                                            </div>
+                                                            <div class="mt-1">
+                                                                <p class="text-secondary" style="font-size: 12px;">@lang('app.fomatimage')</p>
+                                                                <p class="text-secondary" style="font-size: 12px;">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+
+                                    </fieldset>
+                                </div> -->
+                                 <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>Administrateur</legend>
+                                        <div class="d-flex align-items-center">
+                                            <table>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
+                                                            <option value="without_user">create without contact Principal</option>
+                                                            {{-- <option value="select">select from the list </option> --}}
+                                                            <option value="create">create a new one</option>
+                                                            @foreach($contects as $contect)
+                                                                <option data='{!!$contect!!}'  value="{{ $contect->id}}"> {{ $contect->name }}  </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">@lang('app.civility')</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                            <div class="form-group mb-0">
+                                                                <input type="radio" name="gender" value="male">
+                                                                <label for="gender" style="margin-bottom: 0px">M</label>
+                                                            </div>
+                                                            <div class="form-group mb-0">
+                                                                <input type="radio" name="gender" value="female">
+                                                                <label for="gender" style="margin-bottom: 0px">Mme</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible" >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="name" class="required">Nom/Prénom</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="name" name="name" value="">
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="function" class="required">Fonction</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="function" id="function" class="form-control select2">
+                                                            @foreach ($designations as $designation)
+                                                                <option value="{{ $designation->name }}">
+                                                                    {{$designation->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label for="email" class="required">Email</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="email" class="form-control" id="email" name="email" value="">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -618,14 +815,27 @@
                                                 </tr>
     
                                                 <tr>
+                                                    <td><label for="visibility" class="required">@lang('app.visibility')
+                                                        </label></td>
                                                     <td>
-                                                        <label for="fax" class="required">Fax</label>
+                                                        <input type="text" class="form-control" id="visibility" name="visibility"
+                                                            value="">
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="contect_type" class="required">@lang('app.contact_type')</label>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex">
-                                                            <input type="text" name="p_fax" id="p_fax"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
-                                                        </div>
+                                                        <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                            <option value="free" disabled>Free</option>
+                                                            <option value="client" disabled>Client</option>
+                                                            <option value="supplier" disabled>Supplier</option>
+                                                            <option value="spv" >Spv</option>
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -641,7 +851,7 @@
                                                             <div class="fileinput-new thumbnail"
                                                                 style="width: 123px; height: 137px;">
                                                                 <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                    alt="" />
+                                                                    alt="" id="contact_img" />
                                                             </div>
                                                             <div class="fileinput-preview fileinput-exists thumbnail"
                                                                 style="max-width: 200px; max-height: 150px;"></div>
@@ -1097,7 +1307,7 @@
            
         });
         function getCategory(cat_id){
-            var url = "{{route('admin.clients.getSubcategory')}}";
+            var url = "{{route('admin.spv.getSubcategory')}}";
             var token = "{{ csrf_token() }}";
             $.easyAjax({
             url: url,
@@ -1135,7 +1345,7 @@
 
     $('#save-form').click(function () {
         $.easyAjax({
-            url: '{{route('admin.clients.store')}}',
+            url: '{{route('admin.spv.store')}}',
             container: '#createClient',
             type: "POST",
             redirect: true,
@@ -1258,6 +1468,91 @@
     })
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
+
+
+    var contact_principal =  $('#contact_principal').val();
+
+    if( contact_principal == 'without_user'){
+
+        $('#name').prop('disabled',true);
+        $('#function').prop('disabled',true);
+        $('#email').prop('disabled',true);
+        $('#p_mobile').prop('disabled',true);
+        $('#visibility').prop('disabled',true);
+        $('#contect_type').prop('disabled',true);      
+        $('input[name=gender]').prop('disabled',true);
+        // $('#contact').prop('disabled',true);
+        $('#image').prop('disabled',true);
+
+    }
+
+   $('#contact_principal').change(function(){
+        if($(this).val() == 'create'){
+            $('#name').prop('disabled',false);
+            $('#function').prop('disabled',false);
+            $('#email').prop('disabled',false);
+            $('#p_mobile').prop('disabled',false);
+            $('#visibility').prop('disabled',false);
+            $('#contect_type').prop('disabled',false);      
+            $('input[name=gender]').prop('disabled',false);
+            $('#image').prop('disabled',false);
+            
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('');
+            $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
+        }
+        else if($(this).val() == 'without_user' ){           
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+            
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('');
+            $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
+        }
+        else{
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+
+            var contact_data = $(this).find(':selected').attr('data');
+
+            var allData  = JSON.parse(contact_data);
+
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+
+            $('#contact_img').attr('src', allData.image_url)
+
+            
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+        }
+    });
 </script>
 @endpush
 

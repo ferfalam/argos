@@ -688,7 +688,7 @@ Route::group(['middleware' => 'auth'], function () {
 
                         //  Route::get('notes/{id}', ['uses' => 'ManageClientsController@showNotes'])->name('clients.notes');
 
-                        Route::get('contacts/data/{id}', ['uses' => 'ClientContactController@data'])->name('contacts.data');
+                        Route::get('contacts/data/{id}/{type?}', ['uses' => 'ClientContactController@data'])->name('contacts.data');
                         Route::resource('contacts', 'ClientContactController');
 
                         Route::get('notes/data/{id}', ['uses' => 'ClientNotesController@data'])->name('notes.data');
@@ -1093,6 +1093,20 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("suppliers/create", 'AdminSuppliersController@create')->name('suppliers.create');
             Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
             Route::get('suppliers/contacts/{id}','AdminSuppliersController@showContacts')->name('supplier.contacts');
+            Route::get('suppliers/projects/{id}','AdminSuppliersController@showProjects')->name('supplier.projects');
+            Route::get('suppliers/invoices/{id}','AdminSuppliersController@showInvoices')->name('supplier.invoices');
+
+            Route::get('suppliers-docs/quick-create/{id}', ['uses' => 'SupplierDocsController@quickCreate'])->name('suppliers-docs.quick-create');
+            Route::get('suppliers-docs/download/{id}', ['uses' => 'SupplierDocsController@download'])->name('suppliers-docs.download');
+            Route::resource('suppliers-docs', 'SupplierDocsController');
+            Route::get('suppliers/payments/{id}', ['uses' => 'AdminSuppliersController@showPayments'])->name('suppliers.payments');
+            
+            Route::get('suppliersNotes/data/{id}', ['uses' => 'SupplierNotesController@data'])->name('suppliersNotes.data');
+            Route::get('suppliersNotes/view/{id}', ['uses' => 'SupplierNotesController@view'])->name('suppliersNotes.view');
+            Route::resource('suppliersNotes', 'SupplierNotesController');
+
+
+
 
             Route::get("spv", 'AdminSPVController@index')->name('spv.index');
             Route::resource('spv', 'AdminSPVController', ['except' => ['index']]);
@@ -1103,6 +1117,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/spv/{id}/notes', 'AdminSPVController@showNotes')->name('spv.notes');
             Route::get('/spv/{id}/docs', 'AdminSPVController@showDocs')->name('spv-client-docs');
             Route::get('/spv/{id}/edit-contact', 'AdminSPVController@editContact')->name('spv.edit-contact');
+            Route::post('/spv/getSubcategory', ['uses' => 'AdminSPVController@getSubcategory'])->name('spv.getSubcategory');
 
 
 
@@ -1116,7 +1131,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('contacts/getCompany','AdminContactController@getCompany')->name('contact.getCompany');
             Route::Post("contacts/store", 'AdminContactController@store')->name('contact.store');
             Route::Post("contacts/delete/{id}", 'AdminContactController@delete')->name('contact.delete');
-            Route::get("contacts/edit/{id}", 'AdminContactController@edit')->name('contact.edit');
+            Route::get("contacts/edit/{id}/{type?}", 'AdminContactController@edit')->name('contact.edit');
             Route::post("contacts/edit", 'AdminContactController@editStore')->name('contact.editStore');
             Route::get("contacts/view/table", 'AdminContactController@contactData')->name('contact.table');
             Route::get('contact/get-result','AdminContactController@contactgetResult')->name('contact.getResult');

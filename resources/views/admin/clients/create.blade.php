@@ -50,6 +50,10 @@
         width: 210px !important;
     }
 
+    #s2id_function{
+        width: 210px !important;
+    }
+
     #s2id_contact_principal{
         width: 210px !important;
     }
@@ -521,6 +525,9 @@
                                                             <option value="without_user">create without contact Principal</option>
                                                             {{-- <option value="select">select from the list </option> --}}
                                                             <option value="create">create a new one</option>
+                                                            @foreach($contects as $contect)
+                                                                <option data='{!!$contect!!}'  value="{{ $contect->id}}"> {{ $contect->name }}  </option>
+                                                            @endforeach
                                                         </select>
                                                     </td>
                                                     <td>
@@ -595,7 +602,12 @@
                                                         <label for="function" class="required">Fonction</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="function" name="function" value="">
+                                                        <select name="function" id="function" class="form-control select2">
+                                                            @foreach ($designations as $designation)
+                                                                <option value="{{ $designation->name }}">
+                                                                    {{$designation->name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -697,6 +709,7 @@
                                                     </td>
                                                     <td>
                                                         <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                            <option value="free" disabled>Free</option>
                                                             <option value="client">Client</option>
                                                             <option value="supplier" disabled>Supplier</option>
                                                             <option value="spv" disabled>Spv</option>
@@ -716,7 +729,7 @@
                                                             <div class="fileinput-new thumbnail"
                                                                 style="width: 123px; height: 137px;">
                                                                 <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                    alt="" />
+                                                                    alt="" id="contact_img" />
                                                             </div>
                                                             <div class="fileinput-preview fileinput-exists thumbnail"
                                                                 style="max-width: 200px; max-height: 150px;"></div>
@@ -1360,9 +1373,17 @@
             $('#contect_type').prop('disabled',false);      
             $('input[name=gender]').prop('disabled',false);
             $('#image').prop('disabled',false);
-
+            
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('');
+            $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
         }
-        else{           
+        else if($(this).val() == 'without_user' ){           
             $('#name').prop('disabled',true);
             $('#function').prop('disabled',true);
             $('#email').prop('disabled',true);
@@ -1378,6 +1399,35 @@
             $('#p_mobile').val('');
             $('#visibility').val('');
             $('#contect_type').val('');
+            $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
+        }
+        else{
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+
+            var contact_data = $(this).find(':selected').attr('data');
+
+            var allData  = JSON.parse(contact_data);
+
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+
+            $('#contact_img').attr('src', allData.image_url)
+
+            
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
         }
     });
 </script>
