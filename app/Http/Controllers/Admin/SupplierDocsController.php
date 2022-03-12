@@ -179,6 +179,7 @@ class SupplierDocsController extends AdminBaseController
      */
     public function show($id)
     {   
+        
 
         // $this->client       = User::findClient(141);
         $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();

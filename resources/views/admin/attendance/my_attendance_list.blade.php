@@ -51,10 +51,10 @@
                                     </div>
                                 </div>
 
-                                @if($row->total_clock_in == 0)
+                                {{-- @if($row->total_clock_in == 0) --}}
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label" >@lang('modules.attendance.work_from')</label>
+                                            <label class="control-label" >@lang('modules.attendance.workFrom')</label>
                                             <div class="switchery-demo d-flex align-items-center">
                                                 <select name="workplace" id="workplace"
                                                     class="form-control select2 mr-2">
@@ -71,7 +71,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                {{-- @endif --}}
 
                             </div>
 

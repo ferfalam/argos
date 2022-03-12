@@ -18,6 +18,8 @@ use App\DataTables\Admin\SpvDataTable;
 use App\Invoice;
 use App\LanguageSetting;
 use App\Notes;
+use App\SpvUserNotes;
+use App\SpvDocs;
 use App\Payment;
 use App\Project;
 use App\PurposeConsent;
@@ -34,6 +36,9 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Admin\Spv\StoreSpvRequest;
 use App\Http\Requests\Admin\Spv\UpdateSpvRequest;
+use App\Http\Requests\ProjectNotes\StoreNotes;
+use App\Http\Requests\ProjectNotes\UpdateNotes;
+
 
 
 class AdminSPVController extends AdminBaseController
@@ -62,9 +67,9 @@ class AdminSPVController extends AdminBaseController
   public function index(SpvDataTable $dataTable)
   {
     $this->spv = User::allClients();
-    $this->spv = $this->spv[0];
+
+    $this->spv = $this->spv->first();
     return $dataTable->render('admin.spv.index', $this->data);
-    
   }
 
   public function create($leadID = null)
@@ -392,18 +397,18 @@ class AdminSPVController extends AdminBaseController
 
   public function showProjects($id)
   {
-    $this->client = User::findClient($id);
+    // $this->client = User::findClient($id);
 
-    if (!$this->client) {
-      abort(404);
-    }
+    // if (!$this->client) {
+    //   abort(404);
+    // }
 
-    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->with('SpvProjects')->first();
     $this->clientStats = $this->clientStats($id);
 
-    if (!is_null($this->clientDetail)) {
-      $this->clientDetail = $this->clientDetail->withCustomFields();
-      $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
+    if (!is_null($this->spvDetails)) {
+      $this->spvDetails = $this->spvDetails->withCustomFields();
+      // $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
     }
 
     return view('admin.spv.projects', $this->data);
@@ -411,18 +416,18 @@ class AdminSPVController extends AdminBaseController
 
   public function showInvoices($id)
   {
-    $this->client = User::findClient($id);
+    // $this->client = User::findClient($id);
 
-    if (!$this->client) {
-      abort(404);
-    }
+    // if (!$this->client) {
+    //   abort(404);
+    // }
 
-    $this->clientDetail = $this->client ? $this->client->client_details : abort(404);
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->firstOrFail();
     $this->clientStats = $this->clientStats($id);
 
-    if (!is_null($this->clientDetail)) {
-      $this->clientDetail = $this->clientDetail->withCustomFields();
-      $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
+    if (!is_null($this->spvDetails)) {
+      $this->spvDetails = $this->spvDetails->withCustomFields();
+      // $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
     }
 
     $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.total, currencies.currency_symbol, invoices.issue_date, invoices.id,
@@ -430,7 +435,7 @@ class AdminSPVController extends AdminBaseController
       ->leftJoin('projects', 'projects.id', '=', 'invoices.project_id')
       ->join('currencies', 'currencies.id', '=', 'invoices.currency_id')
       ->where(function ($query) use ($id) {
-        $query->where('projects.client_id', $id)
+        $query->where('projects.spv_detail_id', $id)
           ->orWhere('invoices.client_id', $id);
       })
       ->get();
@@ -441,13 +446,12 @@ class AdminSPVController extends AdminBaseController
 
   public function showPayments($id)
   {
-    $this->client = User::findClient($id);
-    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
     $this->clientStats = $this->clientStats($id);
 
-    if (!is_null($this->clientDetail)) {
-      $this->clientDetail = $this->clientDetail->withCustomFields();
-      $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
+    if (!is_null($this->spvDetails)) {
+      $this->spvDetails = $this->spvDetails->withCustomFields();
+      // $this->fields = $this->spvDetails->getCustomFieldGroupsWithFields()->fields;
     }
 
     $this->payments = Payment::with(['project:id,project_name', 'currency:id,currency_symbol,currency_code', 'invoice'])
@@ -477,22 +481,30 @@ class AdminSPVController extends AdminBaseController
   // }
 
   public function showNotes($id){
-    // $this->client = User::findClient($id);
+    //  $this->client = User::findClient($id);
     // $this->clientStats = $this->clientStats($id);
 
     $this->clients = User::allClients();
     $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
-    $this->notes = Notes::where('client_id', $id)->get();
-    $this->client = User::findClient($id);
-    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
+    $this->notes = Notes::where('spv_detail_id', $id)->get();
+    // $this->client = User::findClient($id);
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
     $this->clientStats = $this->clientStats($id);
 
     return view('admin.spv.notes.show', $this->data);
   }
 
   public function showContacts($id){
-    $this->client = User::findClient($id);
+    // $this->client = User::findClient($id);
+    // $this->clientStats = $this->clientStats($id);
+
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
     $this->clientStats = $this->clientStats($id);
+
+    if (!is_null($this->spvDetails)) {
+        $this->spvDetails = $this->spvDetails->withCustomFields();
+    }
+
     return view('admin.spv.show-contacts', $this->data);
   }
 
@@ -507,12 +519,13 @@ class AdminSPVController extends AdminBaseController
     return view('admin.spv.edit-contact', $this->data);
   }
 
+  
   public function showDocs($id){    
-    $this->client       = User::findClient($id);
-    $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
-    $this->clientDocs   = ClientDocs::where('user_id', '=', $this->client->id)->get();
-    $clientController   = new ManageClientsController();
-    $this->clientStats  = $clientController->clientStats($id);
+    // $this->client       = User::findClient($id);
+    $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
+    $this->spvDocs   = SpvDocs::where('spv_detail_id', '=', $id)->get();
+    $spvController   = new AdminSpvController();
+    $this->clientStats  = $spvController->clientStats($id);
     return view('admin.spv.docs.index', $this->data);
   }
 
@@ -606,5 +619,119 @@ class AdminSPVController extends AdminBaseController
 
     return Reply::dataOnly(['subcategory' => $this->subcategories]);
   }
+
+
+  public function data($id)
+  {
+
+    $timeLogs = Notes::where('spv_detail_id', $id)->get();
+    return DataTables::of($timeLogs)
+        ->addColumn('action', function ($row) {
+            return '<a href="javascript:;" class="btn btn-info btn-circle edit-contact"
+                  data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                 
+                  <a href="javascript:;" class="btn btn-success btn-circle view-contact"
+                  data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="View"><i class="fa fa-search" aria-hidden="true"></i></a>
+
+                <a href="javascript:;" class="btn btn-danger btn-circle sa-params"
+                  data-toggle="tooltip" data-contact-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></a>';
+        })
+        ->editColumn('notes_title', function ($row) {
+            
+            return ucwords($row->notes_title);
+        })
+        ->editColumn('notes_type', function ($row) {
+            if ( $row->notes_type == '0') {
+                return 'Public';
+            } else{
+                return 'Private';
+            }
+                
+            
+        })
+        
+       // ->removeColumn('user_id')
+        ->make(true);
+  }
+
+
+  public function addNotes(StoreNotes $request){
+    $note = new Notes();
+    $note->notes_title = $request->notes_title;
+    $note->spv_detail_id = $request->spv_detail_id;
+    $note->notes_type = $request->notes_type;
+    $note->is_client_show = $request->is_client_show ? $request->is_client_show : '';
+    $note->ask_password = $request->ask_password ? $request->ask_password : '';
+    $note->note_details = $request->note_details;
+    $note->save();
+    if($request->notes_type == 1){
+        $users = $request->user_id;
+        if(!is_null($users)){
+            foreach ($users as $user) {
+                $member = SpvUserNotes::firstOrCreate([
+                   'user_id' => $user,
+                   'note_id' => $note->id
+                ]);
+            }
+        }
+       
+    }
+    return Reply::success(__('messages.notesAdded'));
+  }
+
+
+
+  public function editNotes($id)
+  {
+    $this->clients = User::allClients();
+    $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
+    $this->notes = Notes::findOrFail($id);
+    $this->spv_user_notes = SpvUserNotes::where('note_id', '=', $this->notes->id)->get();
+    $this->spvMembers = $this->notes->spvMember->pluck('user_id')->toArray();
+
+    return view('admin.spv.notes.edit', $this->data);
+  }
+
+  public function updateNotes(UpdateNotes $request, $id)
+  {
+      $note = Notes::findOrFail($id);
+      $note->notes_title = $request->notes_title;
+      $note->notes_type = $request->notes_type;
+      $note->is_client_show = $request->is_client_show == 'on' ? 1 : 0;
+      $note->ask_password = $request->ask_password == 'on' ? 1 : 0;
+      $note->note_details = $request->note_details;
+      $note->save();
+      SpvUserNotes::where('note_id', $note->id)->delete();
+      if($request->notes_type == 1){
+          $users = $request->user_id;
+          if(!is_null($users)){
+              foreach ($users as $user) {
+                  $member = SpvUserNotes::firstOrCreate([
+                  'user_id' => $user,
+                  'note_id' => $note->id
+                  ]);
+              }
+          }
+      }
+      return Reply::success(__('messages.notesUpdated'));
+  }
+  public function viewNotes($id)
+  {
+      $this->clients = User::allClients();
+      $this->employees = User::allEmployees();
+      $this->notes = Notes::findOrFail($id);
+      $this->spvMembers = $this->notes->spvMember->pluck('user_id')->toArray();
+      $this->spv_user_notes = SpvUserNotes::where('note_id', '=', $this->notes->id)->get();
+      return view('admin.spv.notes.view', $this->data);
+  }
+
+  public function deleteNotes($id)
+  {
+      Notes::destroy($id);
+
+      return Reply::success(__('messages.notesDeleted'));
+  }
+
+
 
 }

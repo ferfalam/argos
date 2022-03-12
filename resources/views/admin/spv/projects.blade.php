@@ -11,7 +11,7 @@
 
 @section('content')
 
-    @include('admin.spv.client_header')
+    @include('admin.spv.spv_header')
         
     @include('admin.spv.tabs')
 
@@ -28,7 +28,7 @@
                 </tr>
                 </thead>
                 <tbody id="timer-list">
-                @forelse($client->projects as $key=>$project)
+                @forelse($spvDetails->SpvProjects as $key=>$project)
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ ucwords($project->project_name) }}</td>

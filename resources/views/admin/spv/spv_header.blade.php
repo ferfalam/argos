@@ -12,9 +12,9 @@
           <h3>{{ ucwords($contect->name) }}</h3>
           @endif
           <p>
-            @if (!empty($spvDetails->client_details) && $client->client_details->company_name != '')
-                {{ $client->client_details->company_name }}
-            @endif
+            {{-- @if (!empty($spvDetails->client_details) && $client->client_details->company_name != '') --}}
+                {{ $spvDetails->company_name }}
+            {{-- @endif --}}
           </p>
         </div>
       </div>

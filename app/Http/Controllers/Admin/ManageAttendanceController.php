@@ -629,9 +629,11 @@ class ManageAttendanceController extends AdminBaseController
         $month = Carbon::parse('01-' . $request->month . '-' . $request->year)->lastOfMonth();
         $now = Carbon::now()->timezone($this->global->timezone);
         $requestedDate = Carbon::parse(Carbon::parse('01-' . $request->month . '-' . $request->year))->endOfMonth();
-
+        
         foreach ($employees as $employee) {
-
+            
+            $this->leaves = Leave::whereRaw('MONTH(leaves.leave_date) = ?', [$request->month])->whereRaw('YEAR(leaves.leave_date) = ?', [$request->year])->where('user_id', $employee->id)->where('status','approved')->get();
+            //dd(count($this->leaves));
             if($requestedDate->isPast()){
                 $dataTillToday = array_fill(1, $this->daysInMonth, 'Absent');
             }
@@ -664,6 +666,14 @@ class ManageAttendanceController extends AdminBaseController
                     $final[$employee->id . '#' . $employee->name][$holiday->date->day] = 'Holiday';
                 //}
             }
+            if (count($this->leaves) > 0) {
+                foreach ($this->leaves as $leave) {
+                    //dd($leave->leave_date->day);
+                    //if ($final[$employee->id . '#' . $employee->name][$holiday->date->day] == 'Absent') {
+                    $final[$employee->id . '#' . $employee->name][$leave->leave_date->day] = ["type" => 'Congé', "reason" => $leave->reason];
+                    //}
+                }
+            }
         }
 
         $closeDays = [];
@@ -675,6 +685,7 @@ class ManageAttendanceController extends AdminBaseController
                 }
             }
         }
+        //dd($final);
         $this->employeeAttendence = $final;
         $this->closeDays = $closeDays;
 

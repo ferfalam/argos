@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.css') }}">
+
 <style>
     /* .dropzone .dz-preview .dz-remove {
         display: none;
@@ -297,7 +298,7 @@
                         <ul class="list-group" id="files-list">
                             @forelse($task->files as $file)
                             <li class="list-group-item" id="task-file-{{  $file->id }}">
-                                <div class="row">
+                                <div class="row" style="width: 75%;">
                                     <div class="col-md-6">
                                         {{ $file->filename }}
                                     </div>
@@ -318,6 +319,14 @@
 
                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
                                            data-pk="list" class="btn btn-danger btn-circle file-delete"><i class="fa fa-times"></i></a>
+
+                                        @if ($file->inDataRoom())
+                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
+                                           data-pk="list" class="btn btn-circle" style="background-color: #262626;"><i class="fa fa-database"></i></a>
+                                        @else
+                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
+                                            data-pk="list" class="btn btn-warning btn-circle file-in-dataRoom"><i class="fa fa-database"></i></a>
+                                        @endif
 
                                     </div>
                                 </div>
@@ -518,9 +527,6 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
 
         <div class="col-xs-6 col-md-3 hidden-xs hidden-sm">
@@ -631,11 +637,7 @@
 
 
         </div>
-
-
-
     </div>
-
 </div>
 
 <script src="{{ asset('plugins/bower_components/moment/moment.js') }}"></script>
@@ -1130,6 +1132,13 @@
 </script>
 
 <script>
+    $('body').on('click', '.file-in-dataRoom',function(){
+        var id = $(this).data('file-id');
+        var url = "{{ route('admin.dataRoom.create-cat', [$task->id, ':id'])}}";
+        url = url.replace(':id', id);
+        $('#modelHeading').html("@lang('modules.dataRoom.title')");
+        $.ajaxModal('#dataRoomModal',url);
+    });
     $('body').on('click', '.file-delete', function () {
         var id = $(this).data('file-id');
         swal({

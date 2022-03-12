@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label">@lang('app.menu.attendance') @lang('app.date')</label>
+                            <label class="control-label">@lang('modules.attendance.attendanceDate')</label>
                             <input type="text" class="form-control" name="attendance_date" id="attendance_date" value="{{ Carbon\Carbon::today()->format($global->date_format) }}">
                         </div>
                     </div>

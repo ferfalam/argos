@@ -254,6 +254,12 @@
                                 <div class="form-group">
                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple"
                                         data-placeholder="@lang('zoom::modules.message.chooseMember')" name="employee_id[]">
+                                        @foreach ($admins as $admin)
+                                            <option value="{{ $admin->id }}">{{ ucwords($admin->name) }} @if ($admin->id == $user->id)
+                                                    (YOU)
+                                                @endif
+                                            </option>
+                                        @endforeach
                                         @foreach ($employees as $emp)
                                             <option value="{{ $emp->id }}">{{ ucwords($emp->name) }} @if ($emp->id == $user->id)
                                                     (YOU)

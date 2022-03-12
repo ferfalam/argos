@@ -87,7 +87,7 @@
                         <div class="form-body">
                             <h3 class="box-title m-b-10">@lang('modules.projects.projectInfo')</h3>
                             <div class="row">
-                                <div class="col-xs-12 col-md-6 ">
+                                <div class="col-xs-12 col-md-4 ">
                                     <div class="form-group">
                                         <label class="required">@lang('modules.projects.projectName')
                                             <a class="mytooltip" href="javascript:void(0)">
@@ -103,7 +103,7 @@
                                         <input type="hidden" name="template_id" id="template_id">
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-md-6 ">
+                                <div class="col-xs-12 col-md-4 ">
                                     <div class="form-group">
                                         <label class="control-label">@lang('modules.projects.projectCategory')
 
@@ -124,6 +124,32 @@
                                                 <option value="{{ $category->id }}">{{ ucwords($category->category_name) }}</option>
                                             @empty
                                                 <option value="">@lang('messages.noProjectCategoryAdded')</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-md-4 ">
+                                    <div class="form-group">
+                                        <label class="control-label">@lang('modules.projects.place')
+
+                                            <a class="mytooltip" href="javascript:void(0)">
+                                                <i class="fa fa-info-circle"></i>
+                                                <span class="tooltip-content5">
+                                                    <span class="tooltip-text3">
+                                                        <span class="tooltip-inner2">@lang('help_text.projectPlaceSettings')</span>
+                                                    </span>
+                                                </span>
+                                            </a>
+
+                                            <a href="javascript:;" id="addProjectTechnology" class="text-info"><i class="ti-settings text-info"></i> </a>
+                                        </label>
+                                        <select class="selectpicker form-control" name="place_id" id="technology_id"
+                                                data-style="form-control">
+                                            @forelse($technologies as $technology)
+                                                <option value="{{ $technology->id }}">{{ ucwords($technology->place_name) }}</option>
+                                            @empty
+                                                <option value="">@lang('messages.noProjectPlaceAdded')</option>
                                             @endforelse
                                         </select>
                                     </div>
@@ -227,11 +253,11 @@
 
                             <h3 class="box-title m-b-10">@lang('modules.projects.clientInfo')</h3>
                             <div class="row">
-                                <div class="col-xs-12">
-                                    <label>@lang('modules.projects.selectClient')</label>
-                                    <a href="javascript:;" id="add-client" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a>
-                                </div>
                                 <div class="col-md-4 ">
+                                    <div class="" style="display: flex, width: 100%;">
+                                        <label>@lang('modules.projects.selectClient')</label>
+                                        <a href="javascript:;" id="add-client" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a>
+                                    </div>
                                     <div class="form-group">
                                         <select class="select2 form-control" name="client_id" id="client_id"
                                                 data-style="form-control">
@@ -242,9 +268,12 @@
                                         </select>
                                     </div>
                                 </div>
-                
-
+                                
                                 <div class="col-xs-12 col-md-4">
+                                    <div class="" style="display: flex, width: 100%;">
+                                        <label></label>
+                                        <a href="javascript:;" id="add-client" class="btn btn-xs btn-success btn-outline"></a>
+                                    </div>
                                     <div class="form-group">
                                         <div class="checkbox checkbox-info  col-md-10">
                                             <input id="client_view_task" onchange="checkTask()" name="client_view_task" value="true"
@@ -253,18 +282,23 @@
                                         </div>
                                     </div>
                                 </div>
-                               
-                                <div class="col-xs-12 col-md-4" id="clientNotification">
+
+
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="" style="display: flex, width: 100%;">
+                                        <label>@lang('modules.spv')</label>
+                                        {{-- <a href="javascript:;" id="add-client" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a> --}}
+                                    </div>
                                     <div class="form-group">
-                                        <div class="checkbox checkbox-info  col-md-10">
-                                            <input id="client_task_notification" name="client_task_notification" value="true"
-                                                   type="checkbox">
-                                            <label for="client_task_notification">@lang('modules.projects.clientTaskNotification')</label>
-                                        </div>
+                                        <select class="select2 form-control" name="spv_id" id="spv_id"
+                                                data-style="form-control">
+                                                <option value="">@lang('modules.spv')</option>
+                                            @foreach($spvs as $spv)
+                                                <option value="{{ $spv->id }}">{{ ucwords($spv->name) }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                                 
-
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-4" id="readOnly">
@@ -273,6 +307,15 @@
                                             <input id="read_only_task" name="read_only" value="true"
                                                 type="checkbox">
                                             <label for="read_only_task">@lang('modules.projects.readOnly')</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-4" id="clientNotification">
+                                    <div class="form-group" >
+                                        <div class="checkbox checkbox-info  col-md-10">
+                                            <input id="client_task_notification" name="client_task_notification" value="true"
+                                                   type="checkbox">
+                                            <label for="client_task_notification">@lang('modules.projects.clientTaskNotification')</label>
                                         </div>
                                     </div>
                                 </div>
@@ -672,6 +715,12 @@
 <script>
     $('#createProject').on('click', '#addProjectCategory', function () {
         var url = '{{ route('admin.projectCategory.create-cat')}}';
+        $('#modelHeading').html('Manage Project Category');
+        $.ajaxModal('#projectCategoryModal', url);
+    })
+
+    $('#createProject').on('click', '#addProjectTechnology', function () {
+        var url = '{{ route('admin.projectTechnology.create-cat')}}';
         $('#modelHeading').html('Manage Project Category');
         $.ajaxModal('#projectCategoryModal', url);
     })

@@ -80,6 +80,10 @@
             
             <select id="employee_ids" class="select2 m-b-10 select2-multiple " multiple="multiple"
                         data-placeholder="@lang('zoom::modules.message.chooseMember')" name="employee_id[]"> 
+                    @foreach($admins as $admin)
+                        <option value="{{ $admin->id }}" {{in_array($admin->id, $event->attendees->pluck('id')->toArray())  ? 'selected' : ''}}>{{ ucwords($admin->name) }}
+                        </option>
+                    @endforeach
                     @foreach($employees as $emp)
                         <option value="{{ $emp->id }}" {{in_array($emp->id, $event->attendees->pluck('id')->toArray())  ? 'selected' : ''}}>{{ ucwords($emp->name) }}
                         </option>

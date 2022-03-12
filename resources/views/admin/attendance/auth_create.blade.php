@@ -20,6 +20,8 @@
 @endsection
 
 @push('head-script')
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/timepicker/bootstrap-timepicker.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/switchery/dist/switchery.min.css') }}">
@@ -43,7 +45,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label">@lang('app.menu.attendance') @lang('app.date')</label>
+                            <label class="control-label">@lang('modules.attendance.attendanceDate')</label>
                             <input type="text" class="form-control" name="attendance_date" id="attendance_date" value="{{ Carbon\Carbon::today()->format($global->date_format) }}">
                         </div>
                     </div>
@@ -73,8 +75,8 @@
                     Loading...
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn blue">Save changes</button>
+                    <button type="button" class="btn default" data-dismiss="modal">@lang('app.close')</button>
+                    <button type="button" class="btn blue">@lang('app.save')</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -86,6 +88,8 @@
 @endsection
 
 @push('footer-script')
+<script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
+<script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
@@ -202,17 +206,17 @@
                 });
 
                 $(".select2").select2({
-                formatNoMatches: function () {
-                    return "{{ __('messages.noRecordFound') }}";
-                }
-            });
-            $('.plus-form').click(function () {
-                let target = $(event.target)[0];
-                const field = $('#' + target.dataset.type)
-                const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
-                $('#modelHeading').html('...');
-                $.ajaxModal('#attendancesDetailsModal', url);
-            })
+                    formatNoMatches: function () {
+                        return "{{ __('messages.noRecordFound') }}";
+                    }
+                });
+                $('.plus-form').click(function () {
+                    let target = $(event.target)[0];
+                    const field = $('#' + target.dataset.type)
+                    const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+                    $('#modelHeading').html('...');
+                    $.ajaxModal('#attendancesDetailsModal', url);
+                })
 
             },
 

@@ -11,7 +11,7 @@
 
 @section('content')
 
-    @include('admin.spv.client_header')
+    @include('admin.spv.spv_header')
     @include('admin.spv.tabs')
 
     <x-tab-container title="app.menu.invoices">

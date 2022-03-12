@@ -361,7 +361,7 @@
                                                     </select>
                                                    
                                                 <td>
-                                                    <a href="#!" >
+                                                    <a href="#!" class="invisible" >
                                                         <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                     </a>
                                                 </td>

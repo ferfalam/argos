@@ -30,11 +30,21 @@
         @forelse($groups as $group)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $group->team_name }} <label class="label label-success">{{ sizeof($group->member) }} @lang('modules.projects.members')</label></td>
+                <?php
+                    $size = 0;
+                    foreach ($group->member as  $item) {
+                        if ($item->user->company_id == company()->id){
+                            $size++;
+                        }
+                    }
+                ?>
+                <td>{{ $group->team_name }} <label class="label label-success">{{ $size }} @lang('modules.projects.members')</label></td>
                 <td>
                     @forelse($group->member as $item)
-                        <img data-toggle="tooltip" data-original-title="{{ ucwords($item->user->name) }}" src="{{ $item->user->image_url }}"
-                        alt="user" class="img-circle" width="25" height="25"> 
+                        @if ($item->user->company_id == company()->id)
+                            <img data-toggle="tooltip" data-original-title="{{ ucwords($item->user->name) }}" src="{{ $item->user->image_url }}"
+                            alt="user" class="img-circle" width="25" height="25">
+                        @endif
                     @empty
                         @lang('messages.noRecordFound')
                     @endforelse

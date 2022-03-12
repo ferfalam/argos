@@ -133,11 +133,11 @@
                 <td><strong>@lang('app.langue')</strong></td>
                 <td>{{ $language->language_name}}</td>
             </tr>
-
+{{-- 
             <tr>
                 <td><strong>Function</strong></td>
                 <td>{{ $spvDetails->function}}</td>
-            </tr>
+            </tr> --}}
 
             <tr>
                 <td><strong>Notification Par Mail</strong></td>

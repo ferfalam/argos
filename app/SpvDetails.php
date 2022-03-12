@@ -8,7 +8,7 @@ use App\Scopes\CompanyScope;
 use App\Traits\CustomFieldsTrait;
 use Illuminate\Notifications\Notifiable;
 
-class SpvDetails extends Model
+class SpvDetails extends BaseModel
 {
     use Notifiable;
     use CustomFieldsTrait;
@@ -83,4 +83,10 @@ class SpvDetails extends Model
     public function SvpProjects(){
         return $this->hasMany(Project::class, 'Svp_detail_id');
     }
+
+    public function SpvProjects(){
+        return $this->hasMany(Project::class, 'spv_detail_id');
+    }
+    
+
 }

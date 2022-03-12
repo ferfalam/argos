@@ -21,10 +21,10 @@
 
     <x-tab-container title="modules.employees.profile">
         <table>
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('modules.employees.fullName')</strong></td>
                 <td>{{ ucwords($clientDetail->name) }}</td>
-            </tr>
+            </tr> --}}
             <tr>
                 <td><strong>@lang('app.email')</strong></td>
                 <td>{{ $clientDetail->email }}

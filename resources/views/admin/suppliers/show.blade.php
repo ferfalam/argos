@@ -21,10 +21,10 @@
 
     <x-tab-container title="modules.employees.profile">
         <table>
-            <tr>
+            {{-- <tr>
                 <td><strong>@lang('modules.employees.fullName')</strong></td>
                 <td>{{ ucwords($supplierDetail->name) }}</td>
-            </tr>
+            </tr> --}}
             <tr>
                 <td><strong>@lang('app.email')</strong></td>
                 <td>{{ $supplierDetail->email }}, {{$email}} </td>
@@ -140,28 +140,21 @@
             </tr>
 
             <tr>
-                <td><strong>Function</strong></td>
-                <td>
-                    {{-- {{ $client->function}} --}}
-                </td>
-            </tr>
-
-            <tr>
                 <td><strong>Notification Par Mail</strong></td>
-                {{-- @if($client->email_notifications == 1) --}}
-                    {{-- <td>Yes</td> --}}
-                {{-- @else --}}
-                    {{-- <td>No</td> --}}
-                {{-- @endif --}}
+                @if($supplierDetail->email_notifications == 1)
+                    <td>Yes</td>
+                @else
+                    <td>No</td>
+                @endif
             </tr>
 
             <tr>
                 <td><strong>Notification Par SMS</strong></td>
-                {{-- @if($client->sms_notification == 1) --}}
-                    {{-- <td>Yes</td> --}}
-                {{-- @else --}}
-                    {{-- <td>No</td> --}}
-                {{-- @endif --}}
+                @if($supplierDetail->sms_notification == 1)
+                    <td>Yes</td>
+                @else
+                    <td>No</td>
+                @endif
             </tr>
 
 

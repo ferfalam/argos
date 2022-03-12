@@ -1379,7 +1379,7 @@
             $('#email').val('');
             $('#p_mobile').val('');
             $('#visibility').val('');
-            $('#contect_type').val('');
+            $('#contect_type').val('client');
             $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
             $(".ccpicker").CcPicker("setCountryByCode", "fr");
         }

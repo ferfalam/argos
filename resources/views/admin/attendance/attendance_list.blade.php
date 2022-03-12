@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-md-8 col-xs-6">
                     {{ ucwords($row->name) }} <br>
-                    <span class="font-light text-muted">{{ ucfirst($row->designation_name) }}</span>
+                    <span class="font-light" style="color: black">{{ ucfirst($row->designation_name) }}</span>
                 </div>
                 <div class="col-md-3 col-xs-4">
                     @if($row->clock_in > 0)

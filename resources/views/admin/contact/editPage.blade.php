@@ -366,6 +366,9 @@
                                                 if($contact->contect_type == 'supplier'){
                                                     $main_id = $contact->supplier_detail_id;    
                                                 }
+                                                if($contact->contect_type == 'spv'){
+                                                    $main_id = $contact->spv_detail_id;
+                                                }
 
                                             @endphp
 

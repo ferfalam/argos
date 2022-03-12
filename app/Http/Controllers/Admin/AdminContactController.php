@@ -8,6 +8,7 @@ use App\Contect;
 use App\Designation;
 use App\ClientDetails;
 use App\SupplierDetails;
+use App\SpvDetails;
 use App\Helper\Reply;
 use App\Helper\Files;
 use Illuminate\Http\Request;
@@ -47,6 +48,8 @@ class AdminContactController extends AdminBaseController
     }
     elseif($type == 'supplier'){
         $this->clients = SupplierDetails::where('id',$client_id)->get();
+    }elseif($type == 'spv'){
+      $this->clients = SpvDetails::where('id',$client_id)->get();
     }else{
       $this->clients = ClientDetails::all();
     }
@@ -75,6 +78,10 @@ class AdminContactController extends AdminBaseController
       $contect->supplier_detail_id = $request->user_id;
     }
 
+    if($request->contect_type == 'spv'){
+      $contect->spv_detail_id = $request->user_id;
+    }
+
     if ($request->hasFile('image')) {
       $contect->image = Files::upload($request->image, 'avatar', 300);
     }
@@ -88,6 +95,8 @@ class AdminContactController extends AdminBaseController
         return Reply::redirect(route('admin.contact.index'));
     }elseif($request->page_type == 'supplier'){
         return Reply::redirect(route('admin.supplier.contacts',[$request->user_id]));
+    }elseif($request->page_type == 'spv'){
+      return Reply::redirect(route('admin.spv-contacts', $request->user_id));
     }
 
     return Reply::redirect(route('admin.contact.index'));
@@ -102,7 +111,7 @@ class AdminContactController extends AdminBaseController
           $company = SupplierDetails::all();
       }
       elseif($request->content_type == 'spv'){
-          $company = [];
+          $company = SpvDetails::all();
       }
 
       return response()->json(['company' => $company ]);
@@ -113,6 +122,7 @@ class AdminContactController extends AdminBaseController
     
     $contactsInClient = ClientDetails::where('contacts_id',$id)->first();
     $contactsInSupplier = SupplierDetails::where('contacts_id',$id)->first();
+    $contactsInSpv = SpvDetails::where('contacts_id',$id)->first();
 
     if($contactsInClient != null)
     {
@@ -126,13 +136,20 @@ class AdminContactController extends AdminBaseController
       $contactsInSupplier->save();
     }
 
+    if($contactsInSpv != null)
+    {
+      $contactsInSpv->contacts_id = null;
+      $contactsInSpv->save();
+    }
+
     $contact = Contect::where('id',$id)->delete();
     return response()->json(["status" => "success"]);
 
   }
-  public function edit($id,$type = null)
+    public function edit($id,$type = null)
   {
 
+    
     $this->type = $type;
     $this->pageTitle = 'app.addContact';
     $this->contact = Contect::findOrFail($id);
@@ -146,12 +163,12 @@ class AdminContactController extends AdminBaseController
       $this->clients = SupplierDetails::all();
     }
 
+    if($this->contact->contect_type == 'spv'){
+      $this->clients = SpvDetails::all();
+    }
+
 
     $this->designations = Designation::with('members', 'members.user')->get();
-    // echo '<pre>';
-    // print_r($this->contact);
-    // exit;
-   
 
     return view('admin.contact.editPage',$this->data);
   }
@@ -177,6 +194,9 @@ class AdminContactController extends AdminBaseController
     elseif($request->contect_type == 'supplier' )
     {
         $contact->supplier_detail_id = $request->user_id;
+    }elseif($request->contect_type == 'spv' )
+    {
+        $contact->spv_detail_id = $request->user_id;
     }else {
       $contact->supplier_detail_id = null;
       $contact->client_detail_id = null;
@@ -203,6 +223,10 @@ class AdminContactController extends AdminBaseController
 
     if($request->page_type == 'supplier'){
       return Reply::redirect(route('admin.supplier.contacts',$contact->supplier_detail_id));      
+    }
+
+    if($request->page_type == 'spv'){
+      return Reply::redirect(route('admin.spv-contacts',$request->user_id));      
     }
 
     return Reply::redirect(route('admin.contact.index'));    

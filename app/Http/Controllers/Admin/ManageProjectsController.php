@@ -31,6 +31,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Project;
 use App\ProjectMilestone;
+use App\ProjectPlace;
+use App\SPV;
 use App\TaskUser;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -73,6 +75,7 @@ class ManageProjectsController extends AdminBaseController
         //Budget Total
         $this->projectBudgetTotal = Project::sum('project_budget');
         $this->categories = ProjectCategory::all();
+        $this->places = ProjectPlace::all();
 
         $this->projectEarningTotal = Payment::join('projects', 'projects.id', '=', 'payments.project_id')
             ->where('payments.status', 'complete')
@@ -104,9 +107,11 @@ class ManageProjectsController extends AdminBaseController
     {
         $this->clients = User::allClients();
         $this->categories = ProjectCategory::all();
+        $this->technologies = ProjectPlace::all();
         $this->templates = ProjectTemplate::all();
         $this->currencies = Currency::all();
         $this->employees = User::allEmployees()->where('status', 'active');
+        $this->spvs = SPV::all();
 
         $project = new Project();
         $this->upload = can_upload();
@@ -141,6 +146,10 @@ class ManageProjectsController extends AdminBaseController
         if ($request->category_id != '') {
             $project->category_id = $request->category_id;
         }
+        if ($request->place_id != '') {
+            $project->place_id = $request->place_id;
+        }
+        $project->spv_id = $request->spv_id;
         $project->client_id = $request->client_id;
 
         if ($request->client_view_task) {
@@ -421,9 +430,11 @@ class ManageProjectsController extends AdminBaseController
     {
         $this->clients = User::allClients();
         $this->categories = ProjectCategory::all();
+        $this->places = ProjectPlace::all();
         $this->project = Project::findOrFail($id)->withCustomFields();
         $this->fields = $this->project->getCustomFieldGroupsWithFields()->fields;
         $this->currencies = Currency::all();
+        $this->spvs = SPV::all();
         return view('admin.projects.edit', $this->data);
     }
 
@@ -456,6 +467,10 @@ class ManageProjectsController extends AdminBaseController
             $project->category_id = $request->category_id;
         }
 
+        if ($request->place_id != '') {
+            $project->place_id = $request->place_id;
+        }
+
         if ($request->client_view_task) {
             $project->client_view_task = 'enable';
         } else {
@@ -478,6 +493,7 @@ class ManageProjectsController extends AdminBaseController
         }
 
         $project->client_id = ($request->client_id == 'null' || $request->client_id == '') ? null : $request->client_id;
+        $project->spv_id = ($request->spv_id == 'null' || $request->spv_id == '') ? null : $request->spv_id;
         $project->feedback = $request->feedback;
 
         if ($request->calculate_task_progress) {

@@ -21,7 +21,7 @@
 @endsection
 
 @section('content')
-    @include('admin.spv.client_header')
+    @include('admin.spv.spv_header')
 
     @include('admin.spv.tabs')
 
@@ -34,7 +34,7 @@
         <div style="display: grid;">
             <div class="col-xs-12">
                 {!! Form::open(['id'=>'addNotes','class'=>'ajax-form hide','method'=>'POST']) !!}
-                {!! Form::hidden('client_id', $client->id) !!}
+                {!! Form::hidden('spv_detail_id', $spvDetails->id) !!}
                 <div class="form-body" id ="addContact">
                     <div class="row m-t-30">
                         <div class="col-md-6">
@@ -153,6 +153,29 @@
         </div>
 
     </x-tab-container>
+
+        {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="editContactModal" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Ajax Modal Ends--}}
     
 
 @endsection
@@ -172,7 +195,7 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('admin.notes.data', $client->id) !!}',
+        ajax: '{!! route('admin.spv.notes.data', $spvDetails->id) !!}',
         deferRender: true,
         language: {
             "url": "<?php echo __("app.datatable") ?>"
@@ -206,7 +229,7 @@
             
             $('#save-form').click(function () {
                 $.easyAjax({
-                    url: '{{route('admin.notes.store')}}',
+                    url: '{{route('admin.spv.notes.add')}}',
                     container: '#addNotes',
                     type: "POST",
                     redirect: true,
@@ -224,7 +247,7 @@
              $('body').on('click', '.edit-contact', function () {
                 var id = $(this).data('contact-id');
 
-                var url = '{{ route('admin.notes.edit', ':id')}}';
+                var url = '{{ route('admin.spv.notes.edit', ':id')}}';
                 url = url.replace(':id', id);
 
                 $('#modelHeading').html('Update Contact');
@@ -234,7 +257,7 @@
             $('body').on('click', '.view-contact', function () {
                 var id = $(this).data('contact-id');
 
-                var url = '{{ route('admin.notes.view', ':id')}}';
+                var url = '{{ route('admin.spv.notes.view', ':id')}}';
                 url = url.replace(':id', id);
 
                 $('#modelHeading').html('Update Contact');
@@ -256,7 +279,7 @@
             closeOnCancel: true
         }, function(isConfirm){
             if (isConfirm) {
-                var url = "{{ route('admin.notes.destroy',':id') }}";
+                var url = "{{ route('admin.spv.notes.delete',':id') }}";
                 url = url.replace(':id', id);
 
                 var token = "{{ csrf_token() }}";

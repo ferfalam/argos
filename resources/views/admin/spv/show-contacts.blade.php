@@ -16,7 +16,7 @@
 
 @section('content')
 
-    @include('admin.spv.client_header')
+    @include('admin.spv.spv_header')
 
     @include('admin.spv.tabs')
 
@@ -25,15 +25,15 @@
             
             <x-slot name="btns">
                 {{-- <a href="" id="show-add-form" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a>  --}}
-                <a href="{{route('admin.contact.create')}}" id="" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
+                <a href="{{route('admin.contact.create',['type'=>'spv','client_id' => $spvDetails->id ])}}" id="" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
             </x-slot>
 
-            <div class="col-xs-12">
-                {!! Form::open(['id'=>'addContact','class'=>'ajax-form hide','method'=>'POST']) !!}
+            {{-- <div class="col-xs-12"> --}}
+                {{-- {!! Form::open(['id'=>'addContact','class'=>'ajax-form hide','method'=>'POST']) !!} --}}
     
                 {{-- {!! Form::hidden('user_id', $client->id) !!} --}}
     
-                <div class="form-body">
+                {{-- <div class="form-body">
                     <div class="row m-t-30">
                         <div class="col-md-4 ">
                             <div class="form-group">
@@ -58,11 +58,11 @@
                 </div>
                 <div class="form-actions m-t-30">
                     <button type="button" id="save-form" class="btn btn-success"> <i class="fa fa-check"></i> @lang('app.save')</button>
-                </div>
-                {!! Form::close() !!}
+                </div> --}}
+                {{-- {!! Form::close() !!} --}}
     
-                <hr>
-            </div>
+                {{-- <hr> --}}
+            {{-- </div> --}}
     
             <div class="table-responsive m-t-30">
                 <table class="table table-bordered table-hover toggle-circle default footable-loaded footable" id="contacts-table">
@@ -72,21 +72,13 @@
                         <th>@lang('app.name')</th>
                         <th>@lang('app.phone')</th>
                         <th>@lang('app.email')</th>
+                        <th>@lang('app.civility')</th>
+                        <th>@lang('app.function')</th>
+                        <th>@lang('app.visibility')</th>
+                        <th>@lang('app.contect_type')</th>
                         <th>@lang('app.action')</th>
                     </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Demo Name</td>
-                            <td>+3827937289</td>
-                            <td>demo@gmail.com</td>
-                            <td>
-                                <a href="javascript:;" class="btn btn-info btn-circle edit-contact" data-toggle="tooltip" data-contact-id="4" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <a href="javascript:;" class="btn btn-danger btn-circle sa-params" data-toggle="tooltip" data-contact-id="4" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -129,6 +121,28 @@
     var table = $('#contacts-table').dataTable({
         responsive: true,
         processing: true,
+        serverSide: true,
+        ajax: '{!! route('admin.contacts.data',["id" => $spvDetails->id,"type" => "spv" ] ) !!}',
+        deferRender: true,
+        language: {
+            "url": "<?php echo __("app.datatable") ?>"
+        },
+        "fnDrawCallback": function( oSettings ) {
+            $("body").tooltip({
+                selector: '[data-toggle="tooltip"]'
+            });
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'name' },
+            { data: 'mobile', name: 'phone' },
+            { data: 'email', name: 'email' },
+            { data: 'gender', name: 'gender' },
+            { data: 'function', name: 'function' },
+            { data: 'visibility', name: 'visibility' },
+            { data: 'contect_type', name: 'contect type' },
+            { data: 'action', name: 'action' }
+        ]
     });
 
     $('#save-form').click(function () {
@@ -167,7 +181,7 @@
         }, function(isConfirm){
             if (isConfirm) {
 
-                var url = "{{ route('admin.contacts.destroy',':id') }}";
+                var url = "{{ route('admin.contact.delete',':id') }}";
                 url = url.replace(':id', id);
 
                 var token = "{{ csrf_token() }}";
@@ -175,7 +189,7 @@
                 $.easyAjax({
                     type: 'POST',
                             url: url,
-                            data: {'_token': token, '_method': 'DELETE'},
+                            data: {'_token': token},
                     success: function (response) {
                         if (response.status == "success") {
                             $.unblockUI();
@@ -188,16 +202,16 @@
         });
     });
 
-    $('body').on('click', '.edit-contact', function () {
-        var id = $(this).data('contact-id');
+    // $('body').on('click', '.edit-contact', function () {
+    //     var id = $(this).data('contact-id');
 
-        var url = '{{ route('admin.spv.edit-contact', ':id')}}';
-        url = url.replace(':id', id);
+    //     var url = '{{ route('admin.spv.edit-contact', ':id')}}';
+    //     url = url.replace(':id', id);
 
-        $('#modelHeading').html('Update Contact');
-        $.ajaxModal('#editContactModal',url);
+    //     $('#modelHeading').html('Update Contact');
+    //     $.ajaxModal('#editContactModal',url);
 
-    });
+    // });
 
 
 </script>

@@ -59,19 +59,19 @@
 
     <div class="col-xs-12">
         <div class="form-group">
-            <label class="control-label">@lang('app.clientName')</label>
-            <select class="select2 form-control" data-placeholder="@lang('app.clientName')" id="client_id">
+            <label class="control-label">@lang('app.place')</label>
+            <select class="select2 form-control" data-placeholder="@lang('app.place')" id="client_id">
                 <option selected value="all">@lang('app.all')</option>
-                @foreach($clients as $client)
-                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                @foreach($places as $place)
+                    <option value="{{ $place->id }}">{{ $place->place_name }}</option>
                 @endforeach
             </select>
         </div>
     </div>
     <div class="col-xs-12">
         <div class="form-group">
-            <label class="control-label">@lang('modules.projects.projectCategory')</label>
-            <select class="select2 form-control" data-placeholder="@lang('modules.projects.projectCategory')" id="category_id">
+            <label class="control-label">@lang('modules.projects.technology')</label>
+            <select class="select2 form-control" data-placeholder="@lang('modules.projects.technology')" id="category_id">
                 <option selected value="all">@lang('app.all')</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->category_name }}</option>

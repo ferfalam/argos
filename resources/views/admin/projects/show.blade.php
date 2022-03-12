@@ -23,7 +23,7 @@
             <i class="icon-pin icon-2 pin-icon  @if($projectPin) pinned @else unpinned @endif" ></i>
         </a>
 
-        <a href="{{ route('admin.payments.create', ['project' => $project->id]) }}" class="btn btn-sm btn-primary btn-outline" ><i class="fa fa-plus"></i> @lang('modules.payments.addPayment')</a>
+        {{-- <a href="{{ route('admin.payments.create', ['project' => $project->id]) }}" class="btn btn-sm btn-primary btn-outline" ><i class="fa fa-plus"></i> @lang('modules.payments.addPayment')</a> --}}
 
         @php
             if ($project->status == 'in progress') {

@@ -492,6 +492,17 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('projectCategory/create-cat', ['uses' => 'ManageProjectCategoryController@createCat'])->name('projectCategory.create-cat');
                 Route::resource('projectCategory', 'ManageProjectCategoryController');
 
+                Route::post('projectTechnology/store-cat', ['uses' => 'ManageProjectTechnologyController@storeCat'])->name('projectTechnology.store-cat');
+                Route::get('projectTechnology/create-cat', ['uses' => 'ManageProjectTechnologyController@createCat'])->name('projectTechnology.create-cat');
+                Route::resource('projectTechnology', 'ManageProjectTechnologyController');
+
+                Route::resource('espace', 'ManageEspaceController');
+
+
+                Route::post('dataRoom/store-cat/', ['uses' => 'ManageDataRoomController@storeCat'])->name('dataRoom.store-cat');
+                Route::get('dataRoom/create-cat/{task_id}/{file_id}', ['uses' => 'ManageDataRoomController@createCat'])->name('dataRoom.create-cat');
+                Route::resource('dataRoom', 'ManageDataRoomController');
+
                 Route::post('expenseCategory/store-cat', ['uses' => 'ManageExpenseCategoryController@storeCat'])->name('expenseCategory.store-cat');
                 Route::get('expenseCategory/create-cat', ['uses' => 'ManageExpenseCategoryController@createCat'])->name('expenseCategory.create-cat');
                 Route::resource('expenseCategory', 'ManageExpenseCategoryController');
@@ -1119,6 +1130,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/spv/{id}/edit-contact', 'AdminSPVController@editContact')->name('spv.edit-contact');
             Route::post('/spv/getSubcategory', ['uses' => 'AdminSPVController@getSubcategory'])->name('spv.getSubcategory');
 
+            Route::get('/spv/notes/data/{id}', ['uses' => 'AdminSPVController@data'])->name('spv.notes.data');
+            Route::post('/spv/notes/add/', ['uses' => 'AdminSPVController@addNotes'])->name('spv.notes.add');
+            Route::get('/spv/notes/edit/{id}', ['uses' => 'AdminSPVController@editNotes'])->name('spv.notes.edit');
+            Route::PUT('/spv/notes/update/{id}', ['uses' => 'AdminSPVController@updateNotes'])->name('spv.notes.update');
+            Route::get('/spv/notes/view/{id}', ['uses' => 'AdminSPVController@viewNotes'])->name('spv.notes.view');
+            Route::DELETE('/spv/notes/delete/{id}', ['uses' => 'AdminSPVController@deleteNotes'])->name('spv.notes.delete');
+
+            Route::resource('spv-docs', 'SpvDocsController');
+            Route::get('spv-Docs/quick-create/{id}', ['uses' => 'SpvDocsController@quickCreate'])->name('spv-docs.quick-create');
+            Route::get('spv-Docs/download/{id}', ['uses' => 'SpvDocsController@download'])->name('spv-docs.download');
 
 
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
@@ -1127,7 +1148,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
             Route::get("contacts/create/{type?}/{client_id?}", 'AdminContactController@create')->name('contact.create');
-
             Route::post('contacts/getCompany','AdminContactController@getCompany')->name('contact.getCompany');
             Route::Post("contacts/store", 'AdminContactController@store')->name('contact.store');
             Route::Post("contacts/delete/{id}", 'AdminContactController@delete')->name('contact.delete');
@@ -1136,7 +1156,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get("contacts/view/table", 'AdminContactController@contactData')->name('contact.table');
             Route::get('contact/get-result','AdminContactController@contactgetResult')->name('contact.getResult');
 
-			Route::get("documents", 'AdminDocumentController@index')->name('document.index');
+
+            Route::get("documents", 'AdminDocumentController@index')->name('document.index');
 
             Route::get('language/change-language', 'AdminProfileSettingsController@changeLanguage')->name('language.change-language');
 

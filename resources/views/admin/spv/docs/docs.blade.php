@@ -11,7 +11,7 @@
 
 @section('content')
 
-    @include('admin.spv.client_header')
+    @include('admin.spv.spv_header')
 
     @include('admin.spv.tabs')
 
@@ -31,20 +31,20 @@
                     </tr>
                 </thead>
                 <tbody id="employeeDocsList">
-                    @forelse($clientDocs as $key=>$clientDoc)
+                    @forelse($spvDocs as $key=>$spvDoc)
                         <tr>
                             <td>{{ $key+1 }}</td>
-                            <td width="70%">{{ ucwords($clientDoc->name) }}</td>
+                            <td width="70%">{{ ucwords($spvDoc->name) }}</td>
                             <td>
-                                <a href="{{ route('admin.client-docs.download', $clientDoc->id) }}"
+                                <a href="{{ route('admin.spv-docs.download', $spvDoc->id) }}"
                                 data-toggle="tooltip" data-original-title="Download"
                                 class="btn btn-default btn-circle"><i
                                             class="fa fa-download"></i></a>
-                                <a target="_blank" href="{{ $clientDoc->file_url }}"
+                                <a target="_blank" href="{{ $spvDoc->file_url }}"
                                 data-toggle="tooltip" data-original-title="View"
                                 class="btn btn-info btn-circle"><i
                                             class="fa fa-search"></i></a>
-                                <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $clientDoc->id }}"
+                                <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $spvDoc->id }}"
                                 data-pk="list" class="btn btn-danger btn-circle sa-params"><i class="fa fa-times"></i></a>
                             </td>
 

@@ -287,7 +287,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
         
         $users->where('users.id', '<>', $exceptId);
-        $users->where('users.company_id', company()->id);
         $users->orderBy('users.name', 'asc');
         $users->groupBy('users.id');
         return $users->get();
@@ -574,6 +573,28 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             ->groupBy('users.id')
             ->where('users.company_id', $companyID)
             ->get();
+    }
+
+    public static function allAdminsByCompany($companyID)
+    {
+        return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->select('users.id', 'users.name', 'users.email', 'users.created_at')
+        ->where('roles.name', 'admin')
+        ->groupBy('users.id')
+        ->where('users.company_id', $companyID)
+            ->get();
+    }
+
+    public static function allClientsByCompany($companyID)
+    {
+        return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->select('users.id', 'users.name', 'users.email', 'users.created_at')
+        ->where('roles.name', 'client')
+        ->groupBy('users.id')
+        ->where('users.company_id', $companyID)
+        ->get();
     }
 
     public function sendPasswordResetNotification($token)

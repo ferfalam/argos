@@ -24,7 +24,9 @@
                             @elseif($day == 'Holiday')
                                 <a href="javascript:;" title="@lang("app.menu.holiday")" class="" data-attendance-date="{{ $key2 }}"><i class="fa fa-star text-warning"></i></a>
                             @elseif(in_array($key2, $closeDays))
-                                <a href="javascript:;" title="Jour non ouvrable" class="" data-attendance-date="{{ $key2 }}"><i class="fa fa-square text-info"></i></a>
+                                <a href="javascript:;" title="@lang('modules.attendances.closeDays')" class="" data-attendance-date="{{ $key2 }}"><i class="fa fa-square text-info"></i></a>
+                            @elseif(is_array($day) && $day["type"] == 'Congé')
+                                <a href="javascript:;" title=" {{$day["reason"]}} " class="" data-attendance-date="{{ $key2 }}"><i class="fa fa-star text-warning"></i></a>
                             @else
                                 @if($day != '-')
                                     @php
