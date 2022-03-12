@@ -7,7 +7,7 @@ use App\Observers\SupplierUserNotesObserver;
 
 class SupplierUserNotes extends BaseModel
 {
-    protected $table = 'Supplier_user_notes';
+    protected $table = 'supplier_user_notes';
     protected $fillable = ['user_id', 'note_id'];
 
     protected static function boot()
