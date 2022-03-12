@@ -11,7 +11,7 @@ class SpvDocs extends BaseModel
     protected $fillable = [];
 
     protected $guarded = ['id'];
-    protected $table = 'Spv_docs';
+    protected $table = 'spv_docs';
 
     protected $appends = ['file_url'];
 
