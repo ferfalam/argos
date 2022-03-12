@@ -13,7 +13,7 @@ class SpvDetails extends BaseModel
     use Notifiable;
     use CustomFieldsTrait;
 
-    protected $table = 'Spv_details';
+    protected $table = 'spv_details';
     protected $fillable = [
         'company_name',
         'name',
