@@ -123,72 +123,7 @@
             <a href="{{route('admin.spv.create')}}" class="btn btn-cs-blue">@lang('app.addAnSpv')</a>
         </div>
         <div class="panel-body">
-            <!-- <div class="table-responsive">
-                <table class="table  dataTable table-bordered table-hover toggle-circle default footable-loaded footable">
-                    <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                Raison sociale
-                            </th>
-                            <th>
-                                {{__('Contact principal')}}
-                            </th>
-                            <th>
-                                {{__('app.city')}}
-                            </th>
-                            <th>
-                                {{__('app.country')}}
-                            </th>
-                            <th>
-                                {{__('app.created_at')}}
-                            </th>
-                            <th>
-                                {{__('app.mobile')}}
-                            </th>
-                            <th>
-                                {{__('app.action')}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            
-                            <td>E33 Lisbonne</td>
-                            
-                            <td>
-                                <a style="display:flex; align-items:center; gap:10px;" href="{{route('admin.spv.show', $spv->id)}}"> 
-                                    <img src="http://127.0.0.1:8000/img/default-profile-3.png" style="width:30px; height:30px; border-radius: 50%;">Serge DUPONT <br> 
-                                </a>
-                            </td>
-
-                            <td>Lisbonne</td>
-
-                            <td>
-                                <span class="flag-icon flag-icon-fr" style="width : 60px !important; height:30px !important;"></span>
-                            </td>
-
-                            <td>15/12/2021</td>
-                            <td>
-                                <a href="tel:+33 6 87 65 88 77">+33 6 87 65 88 77</a>
-                            </td>
-                            <td>
-                                <div class="btn-group dropdown m-r-10">
-                                    <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button"><i class="fa fa-gears" style="color: #000;"></i></button>
-                                    <ul role="menu" class="dropdown-menu pull-right">
-                                        <li><a href=""><i class="fa fa-pencil" aria-hidden="true"></i> {{ trans('app.edit')}}</a></li>
-                                        <li><a href=""><i class="fa fa-search" aria-hidden="true"></i> {{__('app.view')}}</a></li>
-                                        <li><a href=""  data-user-id=""  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i>{{trans('app.delete')}}</a></li>
-                                    </ul> 
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> -->
+         
             <x-table :dataTable="$dataTable"></x-table>
         </div>
     </div>
