@@ -125,7 +125,7 @@ class SupplierNotesController extends AdminBaseController
         $this->client_user_notes = SupplierUserNotes::where('note_id', '=', $this->notes->id)->get();
         $this->clientMembers = $this->notes->supplierMember->pluck('user_id')->toArray();
 
-        return view('admin.notes.edit', $this->data);
+        return view('admin.suppliers-notes.edit', $this->data);
     }
 
     public function view($id)
@@ -135,7 +135,7 @@ class SupplierNotesController extends AdminBaseController
         $this->notes = Notes::findOrFail($id);
         $this->clientMembers = $this->notes->supplierMember->pluck('user_id')->toArray();
         $this->client_user_notes = SupplierUserNotes::where('note_id', '=', $this->notes->id)->get();
-        return view('admin.Suppliers-notes.view', $this->data);
+        return view('admin.suppliers-notes.view', $this->data);
     }
 
     /**
