@@ -235,6 +235,7 @@ class ManageClientsController extends AdminBaseController
             
             if(isset($contact)){
                 $contact->client_detail_id = $client->id;
+                $contact->contect_type = 'client';
                 $contact->save();
             }
 
@@ -387,20 +388,20 @@ class ManageClientsController extends AdminBaseController
         // print_r($request->all());
         // exit;
 
-        if($request->contact_principal == 'create'){
-            $contact = new Contect();
-            $contact->gender =  isset($request->gender) ? $request->input('gender'):'' ;
-            $contact->name = $request->name;
-            $contact->function = $request->function;
-            $contact->email = $request->email;
-            $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
-            $contact->visibility = $request->visibility;
-            $contact->contect_type = $request->contect_type;
-            if ($request->hasFile('image')) {
-              $contact->image = Files::upload($request->image, 'avatar', 300);
-            }
-            $contact->save();
-        }
+        // if($request->contact_principal == 'create'){
+        //     $contact = new Contect();
+        //     $contact->gender =  isset($request->gender) ? $request->input('gender'):'' ;
+        //     $contact->name = $request->name;
+        //     $contact->function = $request->function;
+        //     $contact->email = $request->email;
+        //     $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
+        //     $contact->visibility = $request->visibility;
+        //     $contact->contect_type = $request->contect_type;
+        //     if ($request->hasFile('image')) {
+        //       $contact->image = Files::upload($request->image, 'avatar', 300);
+        //     }
+        //     $contact->save();
+        // }
 
         $new_code = Country::select('phonecode')->where('id', $request->phone_code)->first();
         $client = ClientDetails::find($id);
@@ -431,6 +432,7 @@ class ManageClientsController extends AdminBaseController
             }else{
                  $contact = Contect::find($request->contact_principal);
                  $contact->client_detail_id = $client->id;
+                 $contact->contect_type = 'client';
                  $contact->save();
             }
 

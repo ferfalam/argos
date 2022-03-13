@@ -1321,7 +1321,7 @@
             $('#image').prop('disabled',false);
             
             $('#name').val('');
-            $('#function').val('');
+            $("#function").val($("#function option:first").val());
             $('#email').val('');
             $('#p_mobile').val('');
             $('#visibility').val('');
