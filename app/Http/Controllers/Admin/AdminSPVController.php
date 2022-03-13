@@ -181,6 +181,7 @@ class AdminSPVController extends AdminBaseController
         
         if(isset($contact)){
           $contact->spv_detail_id = $Spv->id;
+          $contact->contect_type = 'spv';
           $contact->save();
         }
 
@@ -333,6 +334,7 @@ class AdminSPVController extends AdminBaseController
     }else{
        $contact = Contect::find($request->contact_principal);
        $contact->spv_detail_id = $Spv->id;
+       $contact->contect_type = 'spv';
        $contact->save();
     }
 

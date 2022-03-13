@@ -225,6 +225,7 @@ class AdminSuppliersController extends AdminBaseController
 
             if(isset($contact)){
                 $contact->supplier_detail_id = $supplier->id;
+                $contact->contect_type = 'supplier';
                 $contact->save();
             }
             
@@ -364,6 +365,7 @@ class AdminSuppliersController extends AdminBaseController
         }else{
             $contact = Contect::find($request->contact_principal);
             $contact->supplier_detail_id = $supplier->id;
+            $contact->contect_type = 'supplier';
             $contact->save();
         }
 
