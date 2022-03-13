@@ -64,18 +64,18 @@ class ClientBaseController extends Controller
      */
     public function __construct()
     {
-        // Inject currently logged in user object into every view of user dashboard
 
+        // Inject currently logged in user object into every view of user dashboard
+        
         $this->clientTheme = ThemeSetting::where('panel', 'client')->first();
         $this->languageSettings = LanguageSetting::where('status', 'enabled')->get();
-
+        
         $this->middleware(function ($request, $next) {
-
             if (!session()->has('client_company')) {
                 $clientDetails = ClientDetails::withoutGlobalScope(CompanyScope::class)
-                    ->select('id', 'user_id', 'company_id')
-                    ->with('company')
-                    ->where('user_id', Auth::user()->id)
+                    // ->select('id', 'user_id', 'company_id')
+                    // ->with('company')
+                    // ->where('user_id', Auth::user()->id)
                     ->first();
 
                 if (!is_null($clientDetails)) {
@@ -86,9 +86,9 @@ class ClientBaseController extends Controller
                 }
             }
             $this->company_details = ClientDetails::withoutGlobalScope(CompanyScope::class)
-                ->select('id', 'user_id', 'company_id')
-                ->with('company:id,company_name')
-                ->where('user_id', Auth::user()->id)
+                // ->select('id', 'user_id', 'company_id')
+                // ->with('company:id,company_name')
+                // ->where('user_id', Auth::user()->id)
                 ->get();
 
             $this->isAdmin = User::withoutGlobalScope(CompanyScope::class)

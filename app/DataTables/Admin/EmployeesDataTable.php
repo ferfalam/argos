@@ -30,7 +30,6 @@ class EmployeesDataTable extends BaseDataTable
             ->addColumn('role', function ($row) use ($roles, $firstAdmin) {
                 $roleRow = '';
                 $isAdmin = User::isAdmin($row->id);
-                
                 $currentRoleName = $roles->filter(function ($value, $key) use ($row) {
                     return $value->id == $row->current_role;
                 })->first();

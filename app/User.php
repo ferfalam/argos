@@ -456,76 +456,80 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return [];
     }
 
-    public function getNameAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id)) {
-            $client = ClientDetails::select('id', 'company_id', 'name')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
-            if ($client) {
-                return $value;
-            }
-            return $client['name'];
-        }
+    // public function getNameAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id)) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'name')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'name')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
+    //         if ($client) {
+    //             return $value;
+    //         }
+    //         return $client['name'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
-    public function getEmailAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id) && user()) {
-            $client = ClientDetails::select('id', 'company_id', 'email')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
+    // public function getEmailAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id) && user()) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'email')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'email')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
 
-            return $client['email'];
-        }
+    //         return $client['email'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
-    public function getImageAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id)) {
-            $client = ClientDetails::select('id', 'company_id', 'image')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
+    // public function getImageAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id)) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'image')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'image')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
 
-            return $client['image'];
-        }
+    //         return $client['image'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
     public function getImageUrlAttribute()
     {
         return ($this->image) ? asset_url('avatar/' . $this->image) : asset('img/default-profile-3.png');
     }
 
-    public function getMobileAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id)) {
-            $client = ClientDetails::select('id', 'company_id', 'mobile')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
+    // public function getMobileAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id)) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'mobile')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'mobile')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
 
-            return $client['mobile'];
-        }
+    //         return $client['mobile'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
     public function getUserOtherRoleAttribute()
     {
