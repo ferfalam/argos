@@ -224,6 +224,7 @@
                             <div class="col-md-12">
                                 <fieldset>
                                     <input type="hidden" name="page_type" value="{{ $contact->contect_type }}" >
+                                    <input type="hidden" name="edit_type"  value="{{ $type }}" >
                                     <input type="hidden" name="id" id="id" value="{{$contact->id}}">
                                     <legend>@lang('app.genralinfo')</legend>
                                     <div class="col-md-6">
@@ -263,7 +264,29 @@
                                                 </td>
                                             </tr>
 
+
                                             <tr>
+                                                <td>
+                                                    <label for="function" class="required">@lang('app.function')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="function" id="function" class="form-control select2">
+                                                        @foreach ($designations as $designation)
+                                                            <option value=" {{ $designation->name }}" @if( $designation->name == $contact->function) selected @endif  >
+                                                                {{$designation->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+
+
+                                            {{-- <tr>
                                                 <td>
                                                     <label for="function" class="required">@lang('app.function')</label>
                                                 </td>
@@ -271,7 +294,7 @@
                                                     <input type="text" name="function"  id="function" class="form-control" value="{{$contact->function}}">
                                                 </td>
                                                 
-                                            </tr>
+                                            </tr> --}}
 
                                             <tr>
                                                 <td>
@@ -320,6 +343,7 @@
                                                 </td>
                                                 <td>
                                                     <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                        <option value="free" @if($contact->contect_type	 == 'free'  ) selected @endif >Free</option>
                                                         <option value="client" @if($contact->contect_type	 == 'client'  ) selected @endif  >Client</option>
                                                         <option value="supplier" @if($contact->contect_type	 == 'supplier' ) selected @endif >Supplier</option>
                                                         <option value="spv" @if($contact->contect_type	 == 'spv'  ) selected @endif >Spv</option>
@@ -332,13 +356,29 @@
                                                 </td>
                                             </tr>
 
+                                            @php
+                                                $main_id = 0;
+                                                if($contact->contect_type == 'client' )
+                                                {
+                                                    $main_id = $contact->client_detail_id;    
+                                                }
+
+                                                if($contact->contect_type == 'supplier'){
+                                                    $main_id = $contact->supplier_detail_id;    
+                                                }
+                                                if($contact->contect_type == 'spv'){
+                                                    $main_id = $contact->spv_detail_id;
+                                                }
+
+                                            @endphp
+
                                             <tr>
                                                 <td><label for="user_id" class="required">@lang('app.attach_to')
                                                     </label></td>
                                                 <td>
                                                     <select name="user_id" id="user_id" class="form-control select2">
                                                             @foreach($clients as $client)
-                                                            <option value="{{$client->id}}" @if($contact->client_detail_id == $client->id )  selected @endif >{{$client->company_name}}</option>
+                                                            <option value="{{$client->id}}"  @if( $main_id == $client->id )  selected @endif >{{$client->company_name}}</option>
                                                             @endforeach
                                                     </select>
                                                    
@@ -354,8 +394,7 @@
                                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                                         <div class="fileinput-new thumbnail"
                                                             style="width: 123px; height: 137px;">
-                                                            <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                alt="" />
+                                                            <img  src="{{$contact->image_url}}" alt="" />
                                                         </div>
                                                         <div class="fileinput-preview fileinput-exists thumbnail"
                                                             style="max-width: 200px; max-height: 150px;"></div>
@@ -436,6 +475,46 @@
             }
         })
     });
+
+    var main_contact_type = $('#contect_type').val();
+
+    if(main_contact_type == 'free'){
+        $('#user_id').prop('disabled',true);
+    }
+
+
+    $('#contect_type').change(function(){
+        var contect_type =  $(this).val();
+        if(contect_type == 'free'){
+            $('#user_id').prop('disabled',true);
+        }
+        else{
+            $('#user_id').prop('disabled',false);
+            getCompany(contect_type);
+        }
+        $('#user_id').html("");
+    });
+
+        function getCompany(content_type){
+            var url = "{{route('admin.contact.getCompany')}}";
+            var token = "{{ csrf_token() }}";
+            $.easyAjax({
+                url: url,
+                type: "POST",
+                data: {'_token': token, content_type: content_type},
+                success: function (data) {
+                    var options = [];
+                    var rData = [];
+                    rData = data.company;
+                    $.each(rData, function( index, value ) {
+                        var selectData = '';
+                        selectData = '<option value="'+value.id+'">'+value.company_name+'</option>';
+                        options.push(selectData);
+                    });
+                    $('#user_id').html(options);
+                }
+            })
+        }
 
     $("#mobile").CcPicker("setCountryByPhoneCode", "{{ explode(" ",$contact->mobile)[0] }}");
 </script>

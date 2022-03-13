@@ -25,7 +25,7 @@
             
             <x-slot name="btns">
                 {{-- <a href="" id="show-add-form" class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a>  --}}
-                <a href="{{route('admin.contact.create',['supplier'])}}"  class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
+                <a href="{{route('admin.contact.create',['type'=>'supplier','client_id' => $supplierDetail->id ])}}"  class="btn btn-cs-green"><i class="fa fa-user-plus"></i> @lang('modules.contacts.addContact')</a> 
             </x-slot>
 
             {{-- <div class="col-xs-12">
@@ -122,7 +122,7 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('admin.contacts.data', $client->id) !!}',
+        ajax: '{!! route('admin.contacts.data',["id" => $supplierDetail->id,"type" => "supplier" ] ) !!}',
         deferRender: true,
         language: {
             "url": "<?php echo __("app.datatable") ?>"

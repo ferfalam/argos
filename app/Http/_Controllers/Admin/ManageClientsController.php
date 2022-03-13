@@ -197,11 +197,11 @@ class ManageClientsController extends AdminBaseController
             // log search
             if (!is_null($client->company_name)) {
                 $user_id = $existing_user ? $existing_user->id : $user->id;
-                $this->logSearchEntry($user_id, $client->company_name, 'admin.clients.edit', 'client');
+                $this->logSearchEntry($user_id, $client->company_name, 'admin.clients.edit', 'supplier');
             }
             //log search
-            $this->logSearchEntry($client->id, $request->name, 'admin.clients.edit', 'client');
-            $this->logSearchEntry($client->id, $request->email, 'admin.clients.edit', 'client');
+            $this->logSearchEntry($client->id, $request->name, 'admin.clients.edit', 'supplier');
+            $this->logSearchEntry($client->id, $request->email, 'admin.clients.edit', 'supplier');
         } else {
             return Reply::error('Provided email is already registered. Try with different email.');
         }

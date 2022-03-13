@@ -20,5 +20,15 @@ class Notes extends BaseModel
     {
         return $this->hasMany(ClientUserNotes::class, 'note_id');
     }
+
+    public function supplierMember()
+    {
+        return $this->hasMany(SupplierUserNotes::class, 'note_id');
+    }
+
+    public function spvMember()
+    {
+        return $this->hasMany(SpvUserNotes::class, 'note_id');
+    }
    
 }

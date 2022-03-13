@@ -8,7 +8,7 @@ use App\Scopes\CompanyScope;
 use App\Traits\CustomFieldsTrait;
 use Illuminate\Notifications\Notifiable;
 
-class SupplierDetails extends Model
+class SupplierDetails extends BaseModel
 {
     use Notifiable;
     use CustomFieldsTrait;
@@ -80,7 +80,8 @@ class SupplierDetails extends Model
         return ($this->image) ? asset_url('avatar/' . $this->image) : asset('img/default-profile-3.png');
     }
 
-
-
+    public function SupplierProjects(){
+        return $this->hasMany(Project::class, 'supplier_detail_id');
+    }
 
 }

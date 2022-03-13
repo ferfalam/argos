@@ -45,14 +45,22 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <style>
     #s2id_category_id{
-    width: 210px !important;
-   }
-   #s2id_country{
+        width: 210px !important;
+    }
+    
+    #s2id_function{
+        width: 210px !important;
+    }
+
+    #s2id_contact_principal{
+        width: 210px !important;
+    }
+    #s2id_country{
         width: 210px !important;        
     }
- .salutation .form-control {
-     padding: 2px 2px;
-   }
+    .salutation .form-control {
+        padding: 2px 2px;
+    }
   .select-category button{
     background-color: white !important;
     font-size: 13px;
@@ -302,7 +310,7 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <legend>Observation </legend>
+                                        <legend>Description </legend>
                                         <table>
                                             <tr>
                                                 <td colspan="3" style="padding-top: 0px">
@@ -501,6 +509,27 @@
                                         <legend>Administrateur</legend>
                                         <div class="d-flex align-items-center">
                                             <table>
+                                                <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
+                                                            <option value="without_user">create without contact Principal</option>
+                                                            {{-- <option value="select">select from the list </option> --}}
+                                                            <option value="create">create a new one</option>
+
+                                                            @foreach($contects as $contect)
+                                                                <option data='{!!$contect!!}'  value="{{ $contect->id}}"> {{ $contect->name }}  </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
 
                                                 <tr>
                                                     <td>
@@ -519,7 +548,7 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <a href="#!" >
+                                                        <a href="#!" class="invisible" >
                                                             <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                         </a>
                                                     </td>
@@ -544,7 +573,12 @@
                                                         <label for="function" class="required">Fonction</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="function" name="function" value="">
+                                                        <select name="function" id="function" class="form-control select2">
+                                                            @foreach ($designations as $designation)
+                                                                <option value="{{ $designation->name }}">
+                                                                    {{$designation->name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -558,34 +592,6 @@
                                                     </td>
                                                     <td>
                                                         <input type="email" class="form-control" id="email" name="email" value="">
-                                                    </td>
-                                                    <td>
-                                                        <a href="#!" class="invisible">
-                                                            <img src="{{ asset('img/plus.png') }}" alt="">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>
-                                                        <label for="password"
-                                                            class="required">@lang('app.motdepasse')</label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="password" name="password" id="password" class="form-control">
-                                                    </td>
-                                                </tr>
-
-
-                                                <tr>
-                                                    <td>
-                                                        <label for="p_phone" class="required">Tel</label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex">
-                                                            <input type="text" name="p_phone" id="p_phone"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
-                                                        </div>
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -610,16 +616,34 @@
                                                         </a>
                                                     </td>
                                                 </tr>
-    
+
+
                                                 <tr>
                                                     <td>
-                                                        <label for="p_fax" class="required">Fax</label>
+                                                        <label for="visibility" class="required">@lang('app.visibility')
+                                                        </label>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex">
-                                                            <input type="text" name="p_fax" id="p_fax"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
-                                                        </div>
+                                                        <input type="text" class="form-control" id="visibility" name="visibility"
+                                                            value="">
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                            <option value="free" disabled>Free</option>
+                                                            <option value="client" disabled>Client</option>
+                                                            <option value="supplier" >Supplier</option>
+                                                            <option value="spv" disabled>Spv</option>
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -628,6 +652,7 @@
                                                     </td>
                                                 </tr>
 
+
                                                 <tr>
                                                     <td>&nbsp;</td>
                                                     <td class="text-center" colspan="2">
@@ -635,7 +660,7 @@
                                                             <div class="fileinput-new thumbnail"
                                                                 style="width: 123px; height: 137px;">
                                                                 <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                    alt="" />
+                                                                    alt=""  id="contact_img"  />
                                                             </div>
                                                             <div class="fileinput-preview fileinput-exists thumbnail"
                                                                 style="max-width: 200px; max-height: 150px;"></div>
@@ -1269,6 +1294,89 @@
     });
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
+
+    var contact_principal =  $('#contact_principal').val();
+
+    if( contact_principal == 'without_user'){
+        $('#name').prop('disabled',true);
+        $('#function').prop('disabled',true);
+        $('#email').prop('disabled',true);
+        $('#p_mobile').prop('disabled',true);
+        $('#visibility').prop('disabled',true);
+        $('#contect_type').prop('disabled',true);      
+        $('input[name=gender]').prop('disabled',true);
+        $('#image').prop('disabled',true);
+    }
+
+
+    $('#contact_principal').change(function(){
+        if($(this).val() == 'create'){
+            $('#name').prop('disabled',false);
+            $('#function').prop('disabled',false);
+            $('#email').prop('disabled',false);
+            $('#p_mobile').prop('disabled',false);
+            $('#visibility').prop('disabled',false);
+            $('#contect_type').prop('disabled',false);      
+            $('input[name=gender]').prop('disabled',false);
+            $('#image').prop('disabled',false);
+            
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('supplier');
+            $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
+        }
+        else if($(this).val() == 'without_user' ){           
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+            
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('');
+            $('#contact_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
+        }
+        else{
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+
+            var contact_data = $(this).find(':selected').attr('data');
+
+            var allData  = JSON.parse(contact_data);
+
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+
+            $('#contact_img').attr('src', allData.image_url)
+
+            
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+        }
+    });
+
 </script>
 @endpush
 

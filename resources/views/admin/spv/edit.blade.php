@@ -49,7 +49,10 @@
     #s2id_category_id{
     width: 210px !important;
    }
- .salutation .form-control {
+    #s2id_contact_principal{
+        width: 210px !important;
+    }
+    .salutation .form-control {
      padding: 2px 2px;
    }
   .select-category button{
@@ -228,7 +231,7 @@
 
                 <div class="panel-wrapper collapse in" aria-expanded="true">
                     <div class="panel-body">
-                        {!! Form::open(['id' => 'updateClient', 'class' => 'ajax-form', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
+                        {!! Form::open(['id' => 'updateSpv', 'class' => 'ajax-form', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
                         <div class="form-body" style="margin-top:   0px">
 
                             <div class="row">
@@ -240,7 +243,7 @@
                                             <tr>
                                                 <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $clientDetail->company_name }}">
+                                                    <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $spvDetails->company_name }}">
                                                 </td>
                                                 <td>
                                                     <a href="#!" class="invisible">
@@ -248,11 +251,12 @@
                                                     </a>
                                                 </td>
                                             </tr>
+
                                             <tr>
                                                 <td><label for="address" class="required">@lang('app.address')</label>
                                                 </td>
                                                 <td><textarea class="form-control" name="address" id="address"
-                                                        style="width:100%" rows="2">{{$userDetail->address}}</textarea></td>
+                                                        style="width:100%" rows="2">{{$spvDetails->address}}</textarea></td>
                                                 <td>
                                                     <a href="#!" class="invisible">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
@@ -268,7 +272,7 @@
                                                     <select name="country" id="country" class="form-control select2">
                                                         @foreach ($countries as $country)
                                                             <option value=" {{ $country->id }} " 
-                                                                @if($country->id == $userDetail->country_id) selected @endif>{{ ucfirst(strtolower($country->name)) }}</option>
+                                                                @if($country->id == $spvDetails->country_id) selected @endif>{{ ucfirst(strtolower($country->name)) }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -288,7 +292,7 @@
                                                         <option value="" disabled>@lang('app.cp')</option>
                                                         @foreach ($tla as $t)
                                                             @if ($t->type == 'city')
-                                                                <option value="{{ $t->id }}" @if($t->id == $userDetail->city_id) selected @endif>
+                                                                <option value="{{ $t->id }}" @if($t->id == $spvDetails->city_id) selected @endif>
                                                                     {{ ucfirst(strtolower($t->name)) }}</option>
                                                             @endif
                                                         @endforeach
@@ -307,7 +311,7 @@
                                         <table>
                                             <tr>
                                                 <td colspan="3" style="padding-top: 0px">
-                                                    <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5">{{$userDetail->observation}}</textarea>
+                                                    <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5">{{$spvDetails->description}}</textarea>
                                                 </td>
                                             </tr>
                                         </table>
@@ -325,7 +329,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="company_phone" id="company_phone"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="" >
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$spvDetails->tel)) > 0)  {{explode(" ",$spvDetails->tel)[1]}} @endif " >
                                                     </div>
                                                 </td>
                                                 <td>
@@ -342,7 +346,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="mobile" id="mobile"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$userDetail->mobile)) > 0) {{explode(" ",$userDetail->mobile)[1]}} @endif ">
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$spvDetails->mobile)) > 0) {{explode(" ",$spvDetails->mobile)[1]}} @endif ">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -359,7 +363,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <input type="text" name="fax" id="fax"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="" >
+                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$spvDetails->fax)) > 0) {{explode(" ",$spvDetails->fax)[1]}} @endif " >
                                                     </div>
                                                 </td>
                                                 <td>
@@ -374,7 +378,7 @@
                                                     <label for="company_email" class="required">Email</label>
                                                 </td>
                                                 <td>
-                                                    <input type="email" id="company_email" name="company_email" value="{{$userDetail->email}}" class="form-control">
+                                                    <input type="email" id="company_email" name="company_email" value="{{$spvDetails->email}}" class="form-control">
 
                                                 </td>
                                                 <td>
@@ -398,7 +402,7 @@
                                                 <td >
                                                     <select  name="category_id" id="category_id" class="form-control select2">
                                                         @foreach ($categories as $categorie)
-                                                            <option value="{{ $categorie->id }}" @if($categorie->id == $userDetail->category_id) selected @endif >
+                                                            <option value="{{ $categorie->id }}" @if($categorie->id == $spvDetails->category_id) selected @endif >
                                                                 {{ $categorie->category_name }}
                                                             </option>
                                                         @endforeach     
@@ -418,7 +422,7 @@
                                                 <td>
                                                     <select  name="sub_category_id" id="sub_category_id" class="form-control select2">
                                                         @foreach ($subcategories as $subcategorie)
-                                                            <option value="{{ $subcategorie->id }}"   @if($subcategorie->id == $userDetail->sub_category_id) selected @endif   >
+                                                            <option value="{{ $subcategorie->id }}"   @if($subcategorie->id == $spvDetails->sub_category_id) selected @endif   >
                                                                 {{ $subcategorie->category_name }}
                                                             </option>
                                                         @endforeach
@@ -442,7 +446,7 @@
                                                         </option>
                                                         @foreach ($languageSettings as $language)
                                                             <option value="{{ $language->language_code }}"
-                                                                @if ($global->locale == $language->language_code) selected @endif @if($userDetail->language == $language->language_code) selected @endif >
+                                                                @if ($global->locale == $language->language_code) selected @endif @if($spvDetails->language == $language->language_code) selected @endif >
                                                                 {{ $language->language_name }}
                                                             </option>
                                                         @endforeach
@@ -469,8 +473,8 @@
                                                 </td>
                                                 <td>
                                                     <select name="emailNotification" id="emailNotification" class="form-control select2">
-                                                        <option value="1" @if($userDetail->email_notifications == 1) selected @endif >Oui</option>
-                                                        <option value="0" @if($userDetail->email_notifications == 0) selected @endif >Non</option>
+                                                        <option value="1" @if($spvDetails->email_notifications == 1) selected @endif >Oui</option>
+                                                        <option value="0" @if($spvDetails->email_notifications == 0) selected @endif >Non</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -486,8 +490,8 @@
                                                 </td>
                                                 <td>
                                                     <select name="smsNotification" id="smsNotification" class="form-control select2">
-                                                        <option value="1" @if($userDetail->sms_notification == 1) selected @endif >Oui</option>
-                                                        <option value="0" @if($userDetail->sms_notification == 0) selected @endif >Non</option>
+                                                        <option value="1" @if($spvDetails->sms_notifications == 1) selected @endif >Oui</option>
+                                                        <option value="0" @if($spvDetails->sms_notifications == 0) selected @endif >Non</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -502,24 +506,62 @@
 
                                 </div>
 
-                                <div class="col-md-4">
-                                    <fieldset>
+                            <!--     <div class="col-md-4"> -->
+                                   <!--  <fieldset>
                                         <legend>Administrateur</legend>
                                         <div class="d-flex align-items-center">
-                                            <table>
+                                            <table> -->
+                                                <!-- <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
+                                                            <option value="without_user" >create without contact Principal</option>
+                                                            <option value="select" @if($spvDetails->contacts_id) selected @endif>select from the list </option>
+                                                            {{-- <option value="create">create a new one</option> --}}
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
 
                                                 <tr>
                                                     <td>
-                                                        <label for="" class="mb-0">@lang('app.civility') {{ $userDetail->gender}}    </label>
+                                                        <label for="" class="mb-0">Contact</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact" id="contact" class="form-control select2">
+                                                           <option value="">Selection</option>
+                                                        @foreach($contects as $contect)
+                                                            <option value="{{$contect->id }}" @if($contect->id == $spvDetails->contacts_id) selected @endif>{{ $contect->name }}</option>
+                                                        @endforeach
+                                                            {{-- <option value="select">select from the list </option> --}}
+                                                            {{-- <option value="create">create a new one</option> --}}
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+ -->
+                                                <!-- <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">@lang('app.civility') {{ $spvDetails->gender}}    </label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                             <div class="form-group mb-0">
-                                                                <input type="radio" @if($userDetail->gender == 'male') checked @endif  name="gender" value="male">
+                                                                <input type="radio" @if($spvDetails->gender == 'male') checked @endif  name="gender" value="male">
                                                                 <label for="gender" style="margin-bottom: 0px">M</label>
                                                             </div>
                                                             <div class="form-group mb-0">
-                                                                <input type="radio"  @if($userDetail->gender == 'female') checked @endif   name="gender" value="female">
+                                                                <input type="radio"  @if($spvDetails->gender == 'female') checked @endif   name="gender" value="female">
                                                                 <label for="gender" style="margin-bottom: 0px">Mme</label>
                                                             </div>
                                                         </div>
@@ -536,7 +578,7 @@
                                                         <label for="name" class="required">Nom/Prénom</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control"  id="name" name="name"  value="{{ $userDetail->name }}">
+                                                        <input type="text" class="form-control"  id="name" name="name"  value="{{ $spvDetails->name }}">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -550,7 +592,7 @@
                                                         <label for="function" class="required">Fonction</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="function" name="function" value="{{ $userDetail->function }}">
+                                                        <input type="text" class="form-control" id="function" name="function" value="{{ $spvDetails->function }}">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -563,7 +605,7 @@
                                                         <label for="email" class="required">Email</label>
                                                     </td>
                                                     <td>
-                                                        <input type="email" class="form-control" id="email" name="email" value=" {{ $userDetail->userEmail }}">
+                                                        <input type="email" class="form-control" id="email" name="email" value=" {{ $spvDetails->userEmail }}">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -656,6 +698,256 @@
                                                                 <p class="text-secondary" style="font-size: 12px;">@lang('app.fomatimage')</p>
                                                                 <p class="text-secondary" style="font-size: 12px;">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
                                                             </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+ --><!-- 
+                                            </table>
+                                        </div>
+
+                                    </fieldset> -->
+                                <!-- </div> -->
+                                 <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>Administrateur</legend>
+                                        <div class="d-flex align-items-center">
+                                            <table>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
+                                                            <option value="without_user" >create without contact Principal</option>
+                                                            @foreach($contects as $contect)
+                                                                <option data='{!! $contect !!}'  value="{{$contect->id }}" @if($contect->id == $spvDetails->contacts_id) selected @endif>{{ $contect->name }}</option>
+                                                            @endforeach
+
+                                                            @foreach($freeContacts as $freeContact)
+                                                                <option data='{!! $freeContact !!}' value="{{$freeContact->id }}" @if($freeContact->id == $spvDetails->contacts_id) selected @endif>{{ $freeContact->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                {{-- <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Contact</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contact" id="contact" class="form-control select2">
+                                                           <option value="">Selection</option>
+                                                            @foreach($contects as $contect)
+                                                                <option value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
+                                                            @endforeach
+                                                            <option value="select">select from the list </option>
+                                                            <option value="create">create a new one</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible"  >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> --}}
+
+                                                
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">@lang('app.civility')</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex" style="margin-right: 40px; gap:20px">
+                                                            <div class="form-group mb-0">
+                                                                <input type="radio" name="gender" value="male">
+                                                                <label for="gender" style="margin-bottom: 0px">M</label>
+                                                            </div>
+                                                            <div class="form-group mb-0">
+                                                                <input type="radio" name="gender" value="female">
+                                                                <label for="gender" style="margin-bottom: 0px">Mme</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible" >
+                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="name" class="required">Nom/Prénom</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="name" name="name" value="">
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="function" class="required">Fonction</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="function" id="function" class="form-control select2">
+                                                            @foreach($designations as $designation)
+                                                                <option value="{{ $designation->name }}">
+                                                                    {{$designation->name }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        {{-- <input type="text" class="form-control" id="function" name="function" value=""> --}}
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label for="email" class="required">Email</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="email" class="form-control" id="email" name="email" value="">
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                {{-- <tr>
+                                                    <td>
+                                                        <label for="password"
+                                                            class="required">@lang('app.motdepasse')</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="password" name="password" id="password" class="form-control">
+                                                    </td>
+                                                </tr> --}}
+
+
+                                                {{-- <tr>
+                                                    <td>
+                                                        <label for="p_phone" class="required">Tel</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="p_phone" id="p_phone"
+                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> --}}
+    
+                                                <tr>
+                                                    <td>
+                                                        <label for="p_mobile" class="required">Mobile</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="p_mobile" id="p_mobile"
+                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+    
+                                                {{-- <tr>
+                                                    <td>
+                                                        <label for="fax" class="required">Fax</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="p_fax" id="p_fax"
+                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> --}}
+
+
+                                                 <tr>
+                                                    <td><label for="visibility" class="required">@lang('app.visibility')
+                                                        </label></td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="visibility" name="visibility"
+                                                            value="">
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                            <option value="free">Free</option>
+                                                            <option value="client"  >Client</option>
+                                                            <option value="supplier" disabled>Supplier</option>
+                                                            <option value="spv" disabled>Spv</option>
+                                                        </select>
+
+                                                         {{-- <input type="text" name="contect_type" id="contect_type" class="form-control"> --}}
+                                                     </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr> 
+
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td class="text-center" colspan="2">
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="fileinput-new thumbnail"
+                                                                style="width: 123px; height: 137px;">
+                                                                <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
+                                                                    alt="" id="contact_profile_img"  />
+                                                            </div>
+                                                            {{-- <div class="fileinput-preview fileinput-exists thumbnail"
+                                                                style="max-width: 200px; max-height: 150px;"></div>
+                                                            <div class="mt-5">
+                                                                <span class="btn btn-info btn-file">
+                                                                    <span class="fileinput-new"> @lang('app.selectImage') </span>
+                                                                    <span class="fileinput-exists"> @lang('app.change') </span>
+                                                                    <input type="file" name="image" id="image"> </span>
+                                                                <a href="javascript:;" class="btn btn-danger fileinput-exists"
+                                                                    data-dismiss="fileinput"> @lang('app.remove') </a>
+                                                            </div>
+                                                            <div class="mt-1">
+                                                                <p class="text-secondary" style="font-size: 12px;">@lang('app.fomatimage')</p>
+                                                                <p class="text-secondary" style="font-size: 12px;">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
+                                                            </div> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -924,7 +1216,7 @@
                                                             @foreach($field->values as $key=>$value)
                                                                 <label class="radio-inline @if($key == 0) p-0 @endif">
                                                                     <div class="radio radio-info">
-                                                                        <input type="radio" name="custom_fields_data[{{$field->name.'_'.$field->id}}]" id="optionsRadios{{$key.$field->id}}" value="{{$value}}" @if(isset($clientDetail) && $clientDetail->custom_fields_data['field_'.$field->id] == $value) checked @elseif($key==0) checked @endif>>
+                                                                        <input type="radio" name="custom_fields_data[{{$field->name.'_'.$field->id}}]" id="optionsRadios{{$key.$field->id}}" value="{{$value}}" @if(isset($spvDetails) && $spvDetails->custom_fields_data['field_'.$field->id] == $value) checked @elseif($key==0) checked @endif>>
                                                                         <label for="optionsRadios{{$key.$field->id}}">{{$value}}</label>
                                                                     </div>
                                                                 </label>
@@ -1097,7 +1389,7 @@
         });
 
         function getCategory(cat_id){
-            var url = "{{route('admin.clients.getSubcategory')}}";
+            var url = "{{route('admin.spv.getSubcategory')}}";
             var token = "{{ csrf_token() }}";
             $.easyAjax({
             url: url,
@@ -1135,12 +1427,12 @@
 
     $('#save-form').click(function () {
         $.easyAjax({
-            url: '{{route('admin.clients.update',[$userDetail->id])}}',
-            container: '#updateClient',
+            url: '{{route('admin.spv.update',[$spvDetails->id])}}',
+            container: '#updateSpv',
             type: "POST",
             redirect: true,
-            file: (document.getElementById("image").files.length == 0) ? false : true,
-            data: $('#updateClient').serialize(),
+            // file: (document.getElementById("image").files.length == 0) ? false : true,
+            data: $('#updateSpv').serialize(),
             error: function (response) {
                     $("input").css("border-color", "#ccc")
                     $("input").attr("title", ``)
@@ -1222,12 +1514,10 @@
     });
 
     $(".ccpicker").CcPicker("setCountryByCode", "fr");
-    $("#mobile").CcPicker("setCountryByPhoneCode", " @if(count(explode(" ",$userDetail->mobile)) >0 ) {{ explode(" ",$userDetail->mobile)[0] }} @endif ");
-    $("#company_phone").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->tel)) >0 ) {{ explode(" ",$userDetail->tel)[0]}} @endif");
-    $("#fax").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->fax)) >0 ) {{explode(" ",$userDetail->fax)[0]}} @endif ");
-    $("#p_mobile").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->userMoblie)) >0 ) {{ explode(" ",$userDetail->userMoblie)[0]}} @endif ");
-    $("#p_fax").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->userFax)) >0 ) {{ explode(" ",$userDetail->userFax)[0]}} @endif ");
-    $("#p_phone").CcPicker("setCountryByPhoneCode", "@if(count(explode(" ",$userDetail->userTel)) >0 ) {{ explode(" ",$userDetail->userTel)[0]}} @endif ");
+    // $("#mobile").CcPicker("setCountryByPhoneCode", " @if(count(explode(" ",$spvDetails->mobile)) >0 ) {{ explode(" ",$spvDetails->mobile)[0] }} @endif ");
+    $("#mobile").CcPicker("setCountryByPhoneCode", "{{explode(" ",$spvDetails->mobile)[0]}}");
+    $("#company_phone").CcPicker("setCountryByPhoneCode", "{{explode(" ",$spvDetails->tel)[0]}}");
+    $("#fax").CcPicker("setCountryByPhoneCode", "{{explode(" ",$spvDetails->fax)[0]}}")
     
 
     $('.category-form').click(function() {
@@ -1268,6 +1558,99 @@
             $.ajaxModal('#clientCategoryModal', url);
     })
 
+ 
+    var contact_principal =  $('#contact_principal').val();
+
+    if( contact_principal == 'without_user'){
+
+        $('#name').prop('disabled',true);
+        $('#function').prop('disabled',true);
+        $('#email').prop('disabled',true);
+        $('#p_mobile').prop('disabled',true);
+        $('#visibility').prop('disabled',true);
+        $('#contect_type').prop('disabled',true);      
+        $('input[name=gender]').prop('disabled',true);
+        $('#contact').prop('disabled',true);
+        $('#image').prop('disabled',true);
+
+    }else{
+
+        $('#name').prop('disabled',true);
+        $('#function').prop('disabled',true);
+        $('#email').prop('disabled',true);
+        $('#p_mobile').prop('disabled',true);
+        $('#visibility').prop('disabled',true);
+        $('#contect_type').prop('disabled',true);      
+        $('input[name=gender]').prop('disabled',true);
+        $('#image').prop('disabled',true);
+
+        var contact_data = $('#contact_principal').find(':selected').attr('data');
+        var allData  = JSON.parse(contact_data);
+
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+
+            $('#contact_profile_img').attr('src', allData.image_url)
+
+    }
+
+    $('#contact_principal').change(function(){
+
+        if($(this).val() == 'without_user'){
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#image').prop('disabled',true);
+
+            $('#contact').val('');
+            $('#contact').prop('disabled',true);
+
+            $('#name').val('');
+            $('#function').val('');
+            $('#email').val('');
+            $('#p_mobile').val('');
+            $('#visibility').val('');
+            $('#contect_type').val('');
+            $('#contact_profile_img').attr('src', 'https://via.placeholder.com/200x150.png?text= {{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}')
+            $(".ccpicker").CcPicker("setCountryByCode", "fr");
+        }   
+        else{           
+            $('#name').prop('disabled',true);
+            $('#function').prop('disabled',true);
+            $('#email').prop('disabled',true);
+            $('#p_mobile').prop('disabled',true);
+            $('#visibility').prop('disabled',true);
+            $('#contect_type').prop('disabled',true);      
+            $('input[name=gender]').prop('disabled',true);
+            $('#contact').prop('disabled',true);
+            $('#image').prop('disabled',true);
+
+            var contact_data = $(this).find(':selected').attr('data');
+            var allData  = JSON.parse(contact_data);
+            
+            $('#name').val(allData.name);
+            $('#function').val(allData.function);
+            $('#email').val(allData.email);
+            $('#p_mobile').val(allData.mobile.split(" ")[1]);
+            $('#visibility').val(allData.visibility);
+            $('#contect_type').val('free');
+            $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
+            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+
+            $('#contact_profile_img').attr('src', allData.image_url)
+            
+        }
+    });
 
 </script>
 @endpush

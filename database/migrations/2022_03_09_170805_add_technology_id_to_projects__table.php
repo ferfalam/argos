@@ -14,8 +14,12 @@ class AddTechnologyIdToProjectsTable extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->integer('place_id')->unsigned()->default(1);
+            // $table->integer('place_id')->unsigned()->default(1);
+            // $table->foreign('place_id')->references('id')->on('project_places')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->Integer('place_id')->unsigned()->nullable();
             $table->foreign('place_id')->references('id')->on('project_places')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 

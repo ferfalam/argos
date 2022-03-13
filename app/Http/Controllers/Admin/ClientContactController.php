@@ -40,13 +40,25 @@ class ClientContactController extends AdminBaseController
         return view('admin.client-contacts.show', $this->data);
     }
 
-    public function data($id)
+    public function data($id,$type = null)
     {
-        $timeLogs = Contect::where('client_detail_id', $id)->get();
+        if($type == 'supplier'){
+            $timeLogs = Contect::where('supplier_detail_id', $id)->get();
+         
+        }
+        if($type == 'client')
+        {
+            $timeLogs = Contect::where('client_detail_id', $id)->get();
+        }
+
+        if($type == 'spv')
+        {
+            $timeLogs = Contect::where('spv_detail_id', $id)->get();
+        }
 
         return DataTables::of($timeLogs)
             ->addColumn('action', function ($row) {
-                return '<a href="'.route("admin.contact.edit",$row->id).'" class="btn btn-info btn-circle edit-contact"
+                return '<a href="'.route("admin.contact.edit",['id' => $row->id, 'type' => 'spv' ]).'" class="btn btn-info btn-circle edit-contact"
                 data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                     <a href="javascript:;" class="btn btn-danger btn-circle sa-params"
@@ -74,8 +86,7 @@ class ClientContactController extends AdminBaseController
     public function edit($id)
     {
         $this->contact = ClientContact::findOrFail($id);
-        exit;
-        // return view('admin.client-contacts.edit', $this->data);
+        return view('admin.client-contacts.edit', $this->data);
     }
 
     public function update(StoreContact $request, $id)

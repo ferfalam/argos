@@ -216,7 +216,10 @@
                         {
                             $(this).append('<option value="' + response.tla.name + '">' + response.tla.name + '</option>');
                         });
-                    }else{
+                    }else if(response.tla.type == "city"){
+                        $('#{{$type}}').append('<option value="' + response.tla.id + '">' + response.tla.name + '</option>');
+                    }
+                    else{
                         $('#{{$type}}').append('<option value="' + response.tla.name + '">' + response.tla.name + '</option>');
                     }
                     // }

@@ -31,7 +31,7 @@ class StoreContectsRequest extends CoreRequest
             'function' => 'required',
             'visibility' => 'required',
             'contect_type' => 'required',
-            'user_id' => 'required',
+            'user_id' => 'required_unless:contect_type,free',
             // 'slack_username' => 'nullable|unique:employee_details,slack_username',
            // 'website' => 'nullable',
         //            'facebook' => 'nullable|regex:/http(s)?:\/\/(www\.)?(facebook|fb)\.com\/(A-z 0-9)?/',

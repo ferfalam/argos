@@ -254,7 +254,27 @@
                                                 </td>
                                             </tr>
 
+
                                             <tr>
+                                                <td>
+                                                    <label for="function" class="required">@lang('app.function')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="function" id="function" class="form-control select2">
+                                                        @foreach ($designations as $designation)
+                                                            <option value=" {{ $designation->name }} ">
+                                                                {{$designation->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            {{-- <tr>
                                                 <td>
                                                     <label for="function" class="required">@lang('app.function')</label>
                                                 </td>
@@ -266,7 +286,7 @@
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
 
                                             <tr>
                                                 <td>
@@ -288,6 +308,8 @@
                                                     </div><!-- /input-group -->
                                                 </td>
                                             </tr>
+
+                                            
 
                                             
                                         </table>
@@ -315,6 +337,7 @@
                                                 </td>
                                                 <td>
                                                     <select name="contect_type" id="contect_type" class="form-control select2" >
+                                                        <option value="free" @if($type != 'free' && $type != 'contact' ) disabled @endif >Free</option>
                                                         <option value="client" @if($type != 'client' && $type != 'contact' ) disabled @endif  >Client</option>
                                                         <option value="supplier" @if($type != 'supplier' && $type != 'contact' ) disabled @endif >Supplier</option>
                                                         <option value="spv" @if($type != 'spv' && $type != 'contact' ) disabled @endif >Spv</option>
@@ -338,7 +361,7 @@
                                                     </select>
                                                    
                                                 <td>
-                                                    <a href="#!" >
+                                                    <a href="#!" class="invisible" >
                                                         <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                     </a>
                                                 </td>
@@ -401,11 +424,22 @@
     });
 
 
+    if($('#contect_type').val() == 'free'){
+        $('#user_id').html("");
+        $('#user_id').prop('disabled',true);
+    }
+
     // getCompany();
     $('#contect_type').change(function (e) {
         var content_type = $(this).val();
+        if(content_type == 'free'){
+            $('#user_id').prop('disabled',true);
+        }
+        else{
+            $('#user_id').prop('disabled',false);
+            getCompany(content_type);
+        }
         $('#user_id').html("");
-        getCompany(content_type);
     });
 
         function getCompany(content_type){
