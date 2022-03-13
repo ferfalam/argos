@@ -63,7 +63,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->skills = Skill::all();
         $this->departments = Team::all();
         $this->designations = Designation::all();
-        $this->totalEmployees = count($this->employees);
+        $this->totalEmployees = count(User::allUsersByCompany(company()->id));
         $this->roles = Role::where('roles.name', 'Employee')->get();
         $whoseProjectCompleted = ProjectMember::join('projects', 'projects.id', '=', 'project_members.project_id')
             ->join('users', 'users.id', '=', 'project_members.user_id')
@@ -306,7 +306,8 @@ class ManageEmployeesController extends AdminBaseController
      */
     public function edit($id)
     {
-        $this->userDetail = User::withoutGlobalScope('active')->with('role')->findOrFail($id);
+        $this->userDetail = User::withoutGlobalScope('active')->findOrFail($id);
+        //dd($this->userDetail);
         $this->employeeDetail = EmployeeDetails::where('user_id', '=', $this->userDetail->id)->first();
         $this->teams = Team::all();
         $this->designations = Designation::all();

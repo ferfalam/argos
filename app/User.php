@@ -602,6 +602,18 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         ->get();
     }
 
+
+    public static function allUsersByCompany($companyID)
+    {
+        return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->select('users.id', 'users.name', 'users.email', 'users.created_at')
+        ->groupBy('users.id')
+        ->where('users.super_admin', "0")
+        ->where('users.company_id', $companyID)
+        ->get();
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));

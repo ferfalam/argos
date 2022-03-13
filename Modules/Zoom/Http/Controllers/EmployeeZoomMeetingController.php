@@ -44,11 +44,11 @@ class EmployeeZoomMeetingController extends MemberBaseController
      */
     public function index(MeetingDataTable $dataTable)
     {
-        if ($this->user->zoomSetting()->get()[0]->api_key) {
+        //if ($this->user->zoomSetting()->get()[0]->api_key) {
             $this->employees = User::allEmployeesByCompany(user()->company_id);
             $this->clients = User::allClientsByCompany(user()->company_id);
             $this->admins = User::allAdminsByCompany(user()->company_id);
-        }
+        //}
         $this->categories = Category::all();
         $this->projects = Project::all();
         $this->upload = can_upload();

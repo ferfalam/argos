@@ -65,7 +65,6 @@ class AdminBaseController extends Controller
         parent::__construct();
         // Inject currently logged in user object into every view of user dashboard
         $this->middleware(function ($request, $next) {
-
             $this->global = $this->company = company_setting();
             $this->invoiceSetting = invoice_setting();
             $this->superadmin = global_settings();
