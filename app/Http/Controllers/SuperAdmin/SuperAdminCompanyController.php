@@ -307,19 +307,32 @@ class SuperAdminCompanyController extends SuperAdminBaseController
             $company->updateCustomFieldData($request->get('custom_fields_data'));
         }
 
-        $savearr = [
-            'email' => $request->email,
-            'name' => $request->admin_name,
-        ];
+        //->update($savearr)
+        $user = User::find($request->userid);
 
-        if (!is_null($request->password)) {
-            $savearr['password'] = bcrypt($request->password);
-        }
+        if ($user->email != $request->email) {
+            $user = $company->addUser($company, $request);
+            $user->status = 'active';
+            $user->email_verification_code = null;
+            request()->request->add(['company_id' => $company->id]);
+            $user->save();
+            if ($user) {
+                Mail::to($user->email)
+                    ->send(new Admin($request->company_name, ["email" => $user->email, "password" => $request->password]));
+            }
+            $adminRole = Role::where('name', 'admin')->where('company_id', $company->id)->withoutGlobalScopes([CompanyScope::class, 'active'])->first();
 
-        $user = DB::table('users')->where('id', $request->userid)->update($savearr);
-        if ($user) {
-            Mail::to($request->email)
-                ->send(new UpdateAdmin($request->company_name, ["email" => $request->email, "password" => $request->password]));
+            $user->roles()->attach($adminRole->id);
+        }else{
+            if (!is_null($request->password)) {
+                $savearr['password'] = bcrypt($request->password);
+                $user->password=$request->password;
+            }
+            $user->name = $request->admin_name;
+            if ($user) {
+                Mail::to($request->email)
+                    ->send(new UpdateAdmin($request->company_name, ["email" => $request->email, "password" => $request->password]));
+            }
         }
 
         return Reply::redirect(route('super-admin.companies.index'), __('messages.updateSuccess'));
@@ -406,8 +419,8 @@ class SuperAdminCompanyController extends SuperAdminBaseController
                 foreach ($admins as $admin) {
                     $res .= '<img class="protip" data-pt-title="' . $admin->name . '" data-pt-scheme="black" src="' . asset($admin->getImageUrlAttribute()) . '" alt="">';
                 }
-                $companyUser = User::withoutGlobalScope(CompanyScope::class)->withoutGlobalScope('active')->where('company_id', $row->id)->first();
-                $res .=  $companyUser->name . '</div>';
+                //$companyUser = User::withoutGlobalScope(CompanyScope::class)->withoutGlobalScope('active')->where('company_id', $row->id)->first();
+                $res .= '</div>';
                 return $res;
                 //     
                 //     <img src="' . asset("img/user-2.png") . '" alt="">
