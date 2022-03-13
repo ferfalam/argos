@@ -7,8 +7,12 @@ use App\ClientSubCategory;
 use App\CompanyTLA;
 use App\ContractType;
 use App\Country;
+use App\DataRoom;
+use App\Espace;
 use App\Project;
+use App\SPV;
 use App\User;
+use Carbon\Carbon;
 
 class AdminDocumentController extends AdminBaseController
 {
@@ -16,18 +20,8 @@ class AdminDocumentController extends AdminBaseController
   public function __construct()
   {
     parent::__construct();
+    $this->pageTitle = 'app.menu.documents';
     $this->pageIcon = 'icon-people';
-    parent::__construct();
-    $this->pageTitle = 'app.menu.spv';
-    $this->pageIcon = 'icon-people';
-    $this->clients = User::allClients();
-    $this->totalClients = count($this->clients);
-    $this->categories = ClientCategory::all();
-    $this->projects = Project::all();
-    $this->contracts = ContractType::all();
-    $this->countries = Country::all();
-    $this->subcategories = ClientSubCategory::all();
-    $this->tla = CompanyTLA::all();
   }
 
   /**
@@ -37,9 +31,15 @@ class AdminDocumentController extends AdminBaseController
    */
   public function index()
   {
-    $this->pageTitle = 'app.menu.documents';
-    $this->spv = User::allClients();
+    $this->spv = SPV::all();
+    $this->totalDatarooms = DataRoom::count();
+    $this->totalCanPublish = DataRoom::canPublish()->count();
+    $this->totalCanNotPublish = DataRoom::canNotPublish()->count();
+    $this->datarooms = DataRoom::all();
+    $this->projects = Project::all();
+    $this->espaces = Espace::all();
     //$this->spv = $this->spv->first();
+    
     return view('admin.document.index', $this->data);
   }
 }

@@ -253,6 +253,7 @@ return array(
         'status' => 'Statut',
     ),
     'spv' => "Sélectionnez SPV",
+    'SPVInfo' => 'Informations SPV',
     'espace' => array(
         'title' => 'Espace',
         'espaceName' => 'Nom de l\'espace'

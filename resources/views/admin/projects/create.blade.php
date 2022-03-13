@@ -144,7 +144,7 @@
 
                                             <a href="javascript:;" id="addProjectTechnology" class="text-info"><i class="ti-settings text-info"></i> </a>
                                         </label>
-                                        <select class="selectpicker form-control" name="place_id" id="technology_id"
+                                        <select class="selectpicker form-control" name="place_id" id="place_id"
                                                 data-style="form-control">
                                             @forelse($technologies as $technology)
                                                 <option value="{{ $technology->id }}">{{ ucwords($technology->place_name) }}</option>

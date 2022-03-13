@@ -47,7 +47,7 @@ class ManageEspaceController extends AdminBaseController
         $category->espace_name = $request->espace_name;
         $category->save();
         $categoryData = Espace::all();
-        return Reply::successWithData(__('messages.categoryAdded'), ['data' => $categoryData]);
+        return Reply::successWithData(__('messages.espaceAdded'), ['data' => $categoryData]);
     }
 
     /**
@@ -80,7 +80,11 @@ class ManageEspaceController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Espace::find($id);
+        $category->espace_name = $request->espace_name;
+        $category->save();
+        $categoryData = Espace::all();
+        return Reply::successWithData(__('messages.espaceUpdated'), ['data' => $categoryData]);
     }
 
     /**

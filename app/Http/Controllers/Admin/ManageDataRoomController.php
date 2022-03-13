@@ -7,6 +7,9 @@ use App\Espace;
 use App\Helper\Reply;
 use App\Http\Controllers\Controller;
 use App\Task;
+use App\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 
 class ManageDataRoomController extends AdminBaseController
@@ -85,7 +88,11 @@ class ManageDataRoomController extends AdminBaseController
      */
     public function edit($id)
     {
-        //
+        $this->doc = DataRoom::find($id);
+        $this->espaces = Espace::all();
+        $this->employees = User::allEmployeesByCompany(company()->id);
+        $this->admins = User::allAdminsByCompany(company()->id);
+        return view("admin.data-room.edit", $this->data);
     }
 
     /**
@@ -97,7 +104,26 @@ class ManageDataRoomController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $dataRoom = DataRoom::find($id);
+        $dataRoom->doc_name = $request->doc_name;
+        $dataRoom->project_name = $request->project_name;
+        $dataRoom->task_name = $request->task_name;
+        $dataRoom->file_id = $request->file_id;
+        $dataRoom->espace_id = $request->espace_id;
+        $dataRoom->last_update_user_id = user()->id;
+        $dataRoom->publish = $request->publish == "1" ? true : false;
+        if ( $dataRoom->publish) {
+            $dataRoom->publish_date = new DateTime();
+        }else{
+            $dataRoom->publish_date = null;
+        }
+        $dataRoom->visible_by = $request->visible_by == "" ? "" : json_encode($request->visible_by);
+        if ($request->all) {
+            $dataRoom->visible_by = "all";
+        }
+        //dd($dataRoom);
+        $dataRoom->update();
+        return Reply::success(__('messages.dataRoomUpdated'));
     }
 
     /**
@@ -108,6 +134,7 @@ class ManageDataRoomController extends AdminBaseController
      */
     public function destroy($id)
     {
-        //
+        DataRoom::destroy($id);
+        return Reply::success(__('messages.dataRoomDeleted'));
     }
 }

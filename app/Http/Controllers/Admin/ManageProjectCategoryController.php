@@ -108,7 +108,11 @@ class ManageProjectCategoryController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = ProjectCategory::find($id);
+        $category->category_name = $request->category_name;
+        $category->save();
+        $categoryData = ProjectCategory::all();
+        return Reply::successWithData(__('messages.categoryUpdated'), ['data' => $categoryData]);
     }
 
     /**
