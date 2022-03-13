@@ -246,14 +246,16 @@
                                         data-toggle="tooltip" data-original-title="Download"
                                         class="btn btn-inverse btn-circle"><i
                                                 class="fa fa-download"></i></a>
-                                    <a href="javascript:;"
-                                        data-toggle="tooltip" data-original-title="Edit" data-doc-id="{{$doc->id}}"
-                                        class="btn btn-warning btn-circle edit-doc"><i
-                                                class="fa fa-edit"></i></a>
-                                    <a href="javascript:;"
-                                        data-toggle="tooltip" data-original-title="Delete" data-doc-id="{{$doc->id}}"
-                                        class="btn btn-danger btn-circle delete-doc"><i
-                                                class="fa fa-times"></i></a>
+                                    @if (user()->isSupervisor(company()->supervisor_id))
+                                        <a href="javascript:;"
+                                            data-toggle="tooltip" data-original-title="Edit" data-doc-id="{{$doc->id}}"
+                                            class="btn btn-warning btn-circle edit-doc"><i
+                                                    class="fa fa-edit"></i></a>
+                                        <a href="javascript:;"
+                                            data-toggle="tooltip" data-original-title="Delete" data-doc-id="{{$doc->id}}"
+                                            class="btn btn-danger btn-circle delete-doc"><i
+                                                    class="fa fa-times"></i></a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

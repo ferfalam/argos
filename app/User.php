@@ -386,6 +386,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $query;
     }
 
+    public function isSupervisor($s_id)
+    {
+        return $this->id == $s_id;
+    }
+
     public static function isAdmin($userId)
     {
         $user = User::find($userId);
