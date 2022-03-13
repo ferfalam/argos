@@ -281,6 +281,18 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="address">@lang('modules.accountSettings.supervisor')</label>
+                                                <select name="locale" id="locale" class="form-control select2">
+                                                    <option value="" disabled>@lang('modules.accountSettings.supervisor')</option>
+                                                    @foreach($users as $u)
+                                                        <option value="{{ $u->id }}" @if($global->superviseur_id == $u->id) selected @endif >{{ $u->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">

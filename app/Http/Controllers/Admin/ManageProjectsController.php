@@ -32,7 +32,7 @@ use Illuminate\Http\Request;
 use App\Project;
 use App\ProjectMilestone;
 use App\ProjectPlace;
-use App\SPV;
+use App\SpvDetails;
 use App\TaskUser;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -111,7 +111,7 @@ class ManageProjectsController extends AdminBaseController
         $this->templates = ProjectTemplate::all();
         $this->currencies = Currency::all();
         $this->employees = User::allEmployees()->where('status', 'active');
-        $this->spvs = SPV::all();
+        $this->spvs = SpvDetails::all();
 
         $project = new Project();
         $this->upload = can_upload();
@@ -149,7 +149,7 @@ class ManageProjectsController extends AdminBaseController
         if ($request->place_id != '') {
             $project->place_id = $request->place_id;
         }
-        $project->spv_id = $request->spv_id;
+        $project->spv_detail_id = $request->spv_detail_id;
         $project->client_id = $request->client_id;
 
         if ($request->client_view_task) {
@@ -434,7 +434,7 @@ class ManageProjectsController extends AdminBaseController
         $this->project = Project::findOrFail($id)->withCustomFields();
         $this->fields = $this->project->getCustomFieldGroupsWithFields()->fields;
         $this->currencies = Currency::all();
-        $this->spvs = SPV::all();
+        $this->spvs = SpvDetails::all();
         return view('admin.projects.edit', $this->data);
     }
 
@@ -493,7 +493,7 @@ class ManageProjectsController extends AdminBaseController
         }
 
         $project->client_id = ($request->client_id == 'null' || $request->client_id == '') ? null : $request->client_id;
-        $project->spv_id = ($request->spv_id == 'null' || $request->spv_id == '') ? null : $request->spv_id;
+        $project->spv_detail_id = ($request->spv_detail_id == 'null' || $request->spv_detail_id == '') ? null : $request->spv_detail_id;
         $project->feedback = $request->feedback;
 
         if ($request->calculate_task_progress) {

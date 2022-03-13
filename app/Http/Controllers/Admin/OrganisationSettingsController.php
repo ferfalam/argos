@@ -8,6 +8,7 @@ use App\Helper\Files;
 use App\Helper\Reply;
 use App\Http\Requests\Settings\UpdateOrganisationSettings;
 use App\Traits\CurrencyExchange;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,14 @@ class OrganisationSettingsController extends AdminBaseController
         $this->company    = Company::findOrFail(company()->id);
         $this->currencies = Currency::all();
         $this->dateObject = Carbon::now($this->company->timezone);
-
+        $temps = [];
+        foreach (User::allAdminsByCompany($this->company->id) as $key => $user) {
+            array_push($temps, $user);
+        }
+        foreach (User::allEmployeesByCompany($this->company->id) as $key => $user) {
+            array_push($temps, $user);
+        }
+        $this->users = $temps;
         return view('admin.settings.edit', $this->data);
     }
 
