@@ -61,7 +61,9 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="subject"  class="control-label required">@lang('app.amount') ({{ $global->currency->currency_symbol }})</label>
+                                        <label for="subject"  class="control-label required">@lang('app.amount') 
+                                            {{-- ({{ $global->currency }}) --}}
+                                        </label>
                                         <input type="number" min="0" class="form-control" id="amount" name="amount">
                                     </div>
 
