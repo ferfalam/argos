@@ -109,7 +109,11 @@ class ManageTaskCategoryController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = TaskCategory::find($id);
+        $category->category_name = $request->category_name;
+        $category->save();
+        $categoryData = TaskCategory::all();
+        return Reply::successWithData(__('messages.categoryUpdated'), ['data' => $categoryData]);
     }
 
     /**

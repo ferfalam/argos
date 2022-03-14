@@ -8,6 +8,16 @@ class GlobalSetting extends BaseModel
     protected $default = ['id'];
     protected $appends = ['login_background_url','logo_url','logo_front_url','show_public_message'];
 
+    /**
+     * Get the superviseur  associated with the GlobalSetting
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function superviseur()
+    {
+        return $this->hasOne(User::class, 'superviseur_id');
+    }
+
     public function getLoginBackgroundUrlAttribute()
     {
         if (is_null($this->login_background) || $this->login_background == 'login-background.jpg') {

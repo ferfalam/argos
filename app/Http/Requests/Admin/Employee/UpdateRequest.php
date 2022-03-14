@@ -46,7 +46,7 @@ class UpdateRequest extends CoreRequest
             //'departement_id' => "required",
             'country'  => 'required',
             'city'  => 'required',
-            'qualification'  => 'required',
+            //'qualification'  => 'required',
             'native_country'  => 'required',
             'nationality'  => 'required',
             'language'  => 'required',

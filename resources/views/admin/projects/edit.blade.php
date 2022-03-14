@@ -209,9 +209,10 @@
 
 
 
-                            <h3 class="box-title m-b-10">@lang('modules.projects.clientInfo')</h3>
+                            
                             <div class="row">
                                 <div class="col-md-4 ">
+                                    <h3 class="box-title m-b-10">@lang('modules.projects.clientInfo')</h3>
                                     <div class="form-group">
                                         <select class="select2 form-control" name="client_id" id="client_id"
                                                 data-style="form-control">
@@ -230,6 +231,7 @@
                                 </div>
                             
                                 <div class="col-md-4">
+                                    <h3 class="box-title m-b-10"></h3>
                                     <div class="form-group">
                                         <div class="checkbox checkbox-info">
                                             <input id="client_view_task" name="client_view_task" value="true" onchange="checkTask()"
@@ -241,6 +243,7 @@
                                 </div>
 
                                 <div class="col-xs-12 col-md-4">
+                                    <h3 class="box-title m-b-10">@lang('modules.SPVInfo')</h3>
                                     <div class="form-group">
                                         <select class="select2 form-control" name="spv_id" id="spv_id"
                                                 data-style="form-control">

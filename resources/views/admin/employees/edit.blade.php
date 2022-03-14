@@ -235,8 +235,7 @@
                                                 <td>
                                                     <div class="d-flex" style="margin-right: 40px; gap:20px">
                                                         <div class="form-group mb-0">
-                                                            <input type="radio" name="civility" value="male"
-                                                                @if ($userDetail->gender == 'male')checked @endif>
+                                                            <input type="radio" name="civility" value="male" checked>
                                                             <label for="civility" style="margin-bottom: 0px">M</label>
                                                         </div>
                                                         <div class="form-group mb-0">

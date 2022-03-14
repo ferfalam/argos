@@ -386,6 +386,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $query;
     }
 
+    public function isSupervisor($s_id)
+    {
+        return $this->id == $s_id;
+    }
+
     public static function isAdmin($userId)
     {
         $user = User::find($userId);
@@ -451,76 +456,80 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return [];
     }
 
-    public function getNameAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id)) {
-            $client = ClientDetails::select('id', 'company_id', 'name')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
-            if ($client) {
-                return $value;
-            }
-            return $client['name'];
-        }
+    // public function getNameAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id)) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'name')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'name')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
+    //         if ($client) {
+    //             return $value;
+    //         }
+    //         return $client['name'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
-    public function getEmailAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id) && user()) {
-            $client = ClientDetails::select('id', 'company_id', 'email')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
+    // public function getEmailAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id) && user()) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'email')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'email')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
 
-            return $client['email'];
-        }
+    //         return $client['email'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
-    public function getImageAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id)) {
-            $client = ClientDetails::select('id', 'company_id', 'image')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
+    // public function getImageAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id)) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'image')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'image')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
 
-            return $client['image'];
-        }
+    //         return $client['image'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
     public function getImageUrlAttribute()
     {
         return ($this->image) ? asset_url('avatar/' . $this->image) : asset('img/default-profile-3.png');
     }
 
-    public function getMobileAttribute($value)
-    {
-        if (!is_null($this->id) && $this->isClient($this->id)) {
-            $client = ClientDetails::select('id', 'company_id', 'mobile')
-                ->where(
-                    'user_id',
-                    $this->id
-                )
-                ->first();
+    // public function getMobileAttribute($value)
+    // {
+    //     if (!is_null($this->id) && $this->isClient($this->id)) {
+    //         //$client = ClientDetails::select('id', 'company_id', 'mobile')
+    //         $client = EmployeeDetails::select('id', 'company_id', 'mobile')
+    //             ->where(
+    //                 'user_id',
+    //                 $this->id
+    //             )
+    //             ->first();
 
-            return $client['mobile'];
-        }
+    //         return $client['mobile'];
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
     public function getUserOtherRoleAttribute()
     {
@@ -593,6 +602,18 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         ->select('users.id', 'users.name', 'users.email', 'users.created_at')
         ->where('roles.name', 'client')
         ->groupBy('users.id')
+        ->where('users.company_id', $companyID)
+        ->get();
+    }
+
+
+    public static function allUsersByCompany($companyID)
+    {
+        return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->select('users.id', 'users.name', 'users.email', 'users.created_at')
+        ->groupBy('users.id')
+        ->where('users.super_admin', "0")
         ->where('users.company_id', $companyID)
         ->get();
     }

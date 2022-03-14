@@ -34,8 +34,8 @@
     .filter-badges{
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
+        justify-content: center;
+        /* gap: 10px; */
         flex-wrap: wrap;
         margin-bottom: 20px;
     }
@@ -74,7 +74,9 @@
         width: 55px;
         height: 55px;
         border-radius: 1000px;
-        color: white;
+        color: black;
+        font-size: 20px;
+        font-weight: 600;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -118,6 +120,9 @@
         <x-filter-form-group label="app.project">
             <select class="form-control select2" name="client" id="client" data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
+                @foreach ($projects as $project)
+                    <option value="{{$project->project_name}}">{{$project->project_name}}</option>
+                @endforeach
             </select>
         </x-filter-form-group>
 
@@ -125,12 +130,14 @@
             <select class="form-control select2" name="category_id" id="category_id"
             data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
+                <option value="1">@lang('app.yes')</option>
+                <option value="0">@lang('app.no')</option>
             </select>
         </x-filter-form-group>
 
         <x-filter-btn-group class="p-t-10">
             <x-button id="apply-filters" classes="btn btn-cs-green col-md-6" title="app.apply"></x-button>
-            <x-button id="reset-filters" classes="btn btn-inverse col-md-offset-1 col-md-5 rounded-pill" title="app.reset"></x-button>
+            <x-button id="reset-filters" classes="btn btn-inverse col-md-6 rounded-pill" title="app.reset"></x-button>
         </x-filter-btn-group>
 
     </form>
@@ -142,19 +149,19 @@
         <div class="panel-body">
             <div class="panel-card">
                 <div class="panel-card-count">
-                    0
+                    {{$totalDatarooms}}
                 </div>
                 <span class="panel-card-text">{{__('app.totalDocuments')}}</span>
             </div>
             <div class="panel-card">
                 <div class="panel-card-count panel-card-count-yellow">
-                    0
+                    {{$totalCanPublish}}
                 </div>
                 <span class="panel-card-text">{{__('app.authorizedPublications')}}</span>
             </div>
             <div class="panel-card">
                 <div class="panel-card-count panel-card-count-orange">
-                    0
+                    {{$totalCanNotPublish}}
                 </div>
                 <span class="panel-card-text">{{__('app.unauthorizedPublications')}}</span>
             </div>
@@ -162,15 +169,9 @@
     </div>
 
     <div class="filter-badges">
-        <button class="btn btn-primary" data-tag="Localisation">Localisation</button>
-        <button class="btn btn-primary" data-tag="Localisation">Environnement</button>
-        <button class="btn btn-primary" data-tag="Localisation">Planning</button>
-        <button class="btn btn-primary" data-tag="Localisation">Données techniques</button>
-        <button class="btn btn-primary" data-tag="Informations juridiques">Informations juridiques</button>
-        <button class="btn btn-primary" data-tag="données PPA">données PPA</button>
-        <button class="btn btn-primary" data-tag="données économiques">données économiques</button>
-        <button class="btn btn-primary" data-tag="Avantages du projet">Avantages du projet</button>
-        <button class="btn btn-primary" data-tag="extension">extension</button>
+        @foreach ($espaces as $espace)
+            <button class="btn btn-primary" data-tag="{{$espace->id}}">{{$espace->espace_name}}</button>
+        @endforeach
     </div>
 
     <div class="">
@@ -195,7 +196,8 @@
                                 {{__('app.visibility')}}
                             </th>
                             <th>
-                                {{__('app.publication')}}
+                                {{__('app.publication')}} ||
+                                {{__('app.date')}}
                             </th>
                             <th>
                                 {{__('app.action')}}
@@ -203,42 +205,108 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>08-02-2021</td>
-                            
-                            <td>Carte avec positionnement GPS</td>
-                            
-                            <td>Kerkennah island</td>
-        
-                            <td>
-                                01 Localisation
-                            </td>
-        
-                            <td>
-                                <span>Tous (ou)</span>
-                                <img src="http://127.0.0.1:8000/img/default-profile-3.png" style="width:30px; height:30px; border-radius: 50%;">
-                                <img src="http://127.0.0.1:8000/img/default-profile-3.png" style="width:30px; height:30px; border-radius: 50%;">
-                            </td>
-        
-                            <td>08-12-2021</td>
-                            
-                            <td>
-                                <div class="btn-group dropdown m-r-10">
-                                    <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button"><i class="fa fa-gears" style="color: #000;"></i></button>
-                                    <ul role="menu" class="dropdown-menu pull-right">
-                                        <li><a href=""><i class="fa fa-search" aria-hidden="true"></i> {{ trans('app.search')}}</a></li>
-                                        <li><a href=""><i class="fa fa-pencil" aria-hidden="true"></i> {{ trans('app.edit')}}</a></li>
-                                        <li><a href=""><i class="fa fa-search" aria-hidden="true"></i> {{__('app.view')}}</a></li>
-                                        <li><a href=""  data-user-id=""  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i>{{trans('app.delete')}}</a></li>
-                                    </ul> 
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach ($datarooms as $doc)
+                            <tr>
+                                <td>{{\Carbon\Carbon::parse($doc->created_at)->format($global->date_format)}}</td>
+                                
+                                <td>{{$doc->doc_name}}</td>
+                                
+                                <td>{{$doc->project_name}}</td>
+            
+                                <td>
+                                   {{$doc->task_name}}
+                                </td>
+                                
+                                <td>
+                                    @if ($doc->canSee() == '')
+                                        <span></span>
+                                    @elseif ($doc->canSee() == 'all')
+                                        <span>@lang('app.all')</span>
+                                    @else
+                                        @foreach ($doc->canSee() as $cs)
+                                            <img src="{{$cs->image_url}}" style="width:30px; height:30px; border-radius: 50%;">
+                                        @endforeach
+                                    @endif
+                                </td>
+            
+                                <td>@if ($doc->publish)
+                                    @lang('app.yes')
+                                    @else
+                                    @lang('app.no')
+                                    @endif
+                                    ||
+                                    {{$doc->publish_date ? \Carbon\Carbon::parse($doc->publish_date)->format($global->date_format) : ''}}</td>
+                                
+                                <td>
+                                    <a target="_blank" href="{{ $doc->file()->file_url }}"
+                                                data-toggle="tooltip" data-original-title="View"
+                                                class="btn btn-info btn-circle"><i
+                                                        class="fa fa-search"></i></a>
+                                    <a href="{{ route('admin.task-files.download', $doc->file()->id) }}"
+                                        data-toggle="tooltip" data-original-title="Download"
+                                        class="btn btn-inverse btn-circle"><i
+                                                class="fa fa-download"></i></a>
+                                    @if (user()->isSupervisor(company()->supervisor_id))
+                                        <a href="javascript:;"
+                                            data-toggle="tooltip" data-original-title="Edit" data-doc-id="{{$doc->id}}"
+                                            class="btn btn-warning btn-circle edit-doc"><i
+                                                    class="fa fa-edit"></i></a>
+                                        <a href="javascript:;"
+                                            data-toggle="tooltip" data-original-title="Delete" data-doc-id="{{$doc->id}}"
+                                            class="btn btn-danger btn-circle delete-doc"><i
+                                                    class="fa fa-times"></i></a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="dataRoomModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->.
+    </div>
+    {{--Ajax Modal Ends--}}
+    {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="espaceModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->.
+    </div>
+    {{--Ajax Modal Ends--}}
 @endsection
 
 @push('footer-script')
@@ -306,6 +374,14 @@
             $('#ticket-filters').toggle('slide');
         })
 
+        $('body').on('click', '.edit-doc',function(){
+            var id = $(this).data('doc-id');
+            var url = "{{ route('admin.dataRoom.edit', ':id')}}";
+            url = url.replace(':id', id);
+            $('#modelHeading').html("@lang('modules.dataRoom.title')");
+            $.ajaxModal('#dataRoomModal',url);
+        });
+
         // $('#apply-filters').click(function () {
 
         //     $('#clients-table').on('preXhr.dt', function (e, settings, data) {
@@ -371,6 +447,22 @@
 
         //     window.location.href = url;
         // }
-            
+        $('.delete-doc').on('click', (e) => {
+            e.preventDefault();
+            var token = "{{ csrf_token() }}";
+            var id = $(this).data('doc-id');
+            var url = "{{ route('admin.dataRoom.destroy', ':id')}}";
+            url = url.replace(':id', id);
+            $.easyAjax({
+                url: url,
+                type: "POST",
+                data: {'_token': token, '_method':'DELETE'},
+                success: function(response) {
+                    if (response.status == 'success') {
+                        window.location.reload()
+                    }
+                }
+            })
+        });
     </script>
 @endpush

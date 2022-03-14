@@ -1553,7 +1553,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Client routes
     Route::group(
-        ['namespace' => 'Client', 'prefix' => 'client', 'as' => 'client.', 'middleware' => []],
+        ['namespace' => 'Client', 'prefix' => 'client', 'as' => 'client.', 'middleware' => ['role:client']],
         function () {
 
             Route::resource('dashboard', 'ClientDashboardController');

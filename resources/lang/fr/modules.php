@@ -253,6 +253,7 @@ return array(
         'status' => 'Statut',
     ),
     'spv' => "Sélectionnez SPV",
+    'SPVInfo' => 'Informations SPV',
     'espace' => array(
         'title' => 'Espace',
         'espaceName' => 'Nom de l\'espace'
@@ -545,6 +546,7 @@ return array(
     ),
     'accountSettings' =>
     array(
+        'supervisor' => "Superviseur",
         'updateTitle' => 'Mettre à jour les paramètres de l\'organisation',
         'companyName' => 'Nom de la société',
         'companyEmail' => 'Email de la société',

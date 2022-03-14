@@ -1,6 +1,8 @@
 <?php
 
 return array(
+  'allUsers' => "Tous les utilisateurs",
+  'docManagement' => "Gestion des documents",
   'loginAsEmployee' => 'connectezVousCommeEmployé',
   'ogImage' => 'Etc.',
   'listOfCompanies' => 'LISTE DES SOCIÉTÉS',
@@ -26,6 +28,7 @@ return array(
   'share' => 'Partager',
   'save' => 'Sauvegarder',
   'update' => 'Mettre à jour',
+  'modify' => 'Modifier',
   'back' => 'Retour',
   'reset' => 'Réinitialiser',
   'addNew' => 'Ajouter de nouveau',

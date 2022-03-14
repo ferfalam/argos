@@ -323,7 +323,7 @@
                                             
                                             <tr>
                                                 <td>
-                                                    <label for="qualification" class="required">@lang('app.qualification')</label>
+                                                    <label for="qualification" class="">@lang('app.qualification')</label>
                                                 </td>
                                                 <td>
                                                     <select name="qualification" id="qualification" class="form-control select2">

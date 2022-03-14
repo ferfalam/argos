@@ -64,14 +64,13 @@ class MemberBaseController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         // Inject currently logged in user object into every view of user dashboard
-
-        Carbon::setUtf8(true);
-        $this->setFileSystemConfigs();
 
         $this->middleware(function ($request, $next) {
             $this->user = user();
-            $this->global = company_setting();
+            $this->global = $this->company = company_setting();
+            $this->global->locale = $this->user->locale;
             $this->pushSetting = push_setting();
             $this->companyName = $this->global->company_name;
             $this->employeeTheme = employee_theme();
@@ -79,10 +78,9 @@ class MemberBaseController extends Controller
             $this->faqs = EmployeeFaq::all();
 
             App::setLocale($this->user->locale);
-            Carbon::setUtf8(true);
             Carbon::setLocale($this->user->locale);
             setlocale(LC_TIME, $this->user->locale . '_' . strtoupper($this->user->locale));
-            $this->global->locale = $this->user->locale;
+            //$this->global->locale = $this->user->locale;
             $this->setFileSystemConfigs();
             $this->timer = ProjectTimeLog::memberActiveTimer($this->user->id);
             $this->modules = $this->user->modules;

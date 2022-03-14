@@ -35,21 +35,22 @@ class NewUser extends BaseNotification
     public function via($notifiable)
     {
         $via = ['database'];
-
-        if ($this->emailSetting->send_email == 'yes' && $notifiable->email_notifications) {
-            array_push($via, 'mail');
-        } else if (
-            request()->has('sendMail') && request('sendMail') == 'yes'
-            && request()->has('sendMail') && request('email_notifications') == 1
-        ) {
-            array_push($via, 'mail');
+        if($this->emailSetting){
+            if ($this->emailSetting->send_email == 'yes' && $notifiable->email_notifications) {
+                array_push($via, 'mail');
+            } else if (
+                request()->has('sendMail') && request('sendMail') == 'yes'
+                && request()->has('sendMail') && request('email_notifications') == 1
+            ) {
+                array_push($via, 'mail');
+            }
+    
+            if ($this->emailSetting->send_slack == 'yes') {
+                array_push($via, 'slack');
+            }
+    
+            return $via;
         }
-
-        if ($this->emailSetting->send_slack == 'yes') {
-            array_push($via, 'slack');
-        }
-
-        return $via;
     }
 
     /**

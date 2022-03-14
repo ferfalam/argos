@@ -238,7 +238,6 @@ if (!function_exists('company_setting')) {
         if (!session()->has('company_setting')) {
             session(['company_setting' => \App\Company::with('currency', 'package')->withoutGlobalScope('active')->where('id', auth()->user()->company_id)->first()]);
         }
-
         return session('company_setting');
     }
 }

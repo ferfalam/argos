@@ -50,6 +50,11 @@ class Project extends BaseModel
         return $this->belongsTo(ClientDetails::class, 'client_id', 'user_id');
     }
 
+    public function spvdetails()
+    {
+        return $this->belongsTo(SpvDetails::class, 'spv_detail_id');
+    }
+
     public function client_details()
     {
         return $this->belongsTo(ClientDetails::class, 'client_id', 'user_id');

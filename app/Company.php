@@ -142,7 +142,17 @@ class Company extends BaseModel
         if (is_null($user)) {
             $user = new User();
         }
+        $observation = [
+            "departement" => [],
+            "skills" => [],
+            "start_date" => "",
+            "end_date" => ""
+        ];
         $user->name = $request->admin_name;
+        $user->company_id = $company->id;
+        $user->observation = json_encode($observation);
+        $user->address = $company->address;
+        $user->mobile = $company->company_phone;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->status = 'active';

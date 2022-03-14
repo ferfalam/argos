@@ -6,6 +6,7 @@ use App\DataTables\BaseDataTable;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
@@ -20,7 +21,8 @@ class EmployeesDataTable extends BaseDataTable
      */
     public function dataTable($query)
     {
-        $roles = Role::where('name', '<>', 'client')->get();
+        //$roles = Role::where('name', '<>', 'client')->get();
+        $roles = Role::all();
         $firstAdmin = User::firstAdmin();
         
         return datatables()
@@ -28,7 +30,6 @@ class EmployeesDataTable extends BaseDataTable
             ->addColumn('role', function ($row) use ($roles, $firstAdmin) {
                 $roleRow = '';
                 $isAdmin = User::isAdmin($row->id);
-
                 $currentRoleName = $roles->filter(function ($value, $key) use ($row) {
                     return $value->id == $row->current_role;
                 })->first();
@@ -130,8 +131,9 @@ class EmployeesDataTable extends BaseDataTable
             ->leftJoin('employee_details', 'employee_details.user_id', '=', 'users.id')
             ->leftJoin('designations', 'employee_details.designation_id', '=', 'designations.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
-            ->select('users.id', 'users.name', 'users.email', 'employee_details.employee_id', 'users.created_at', 'roles.name as roleName', 'roles.id as roleId', 'users.image', 'users.status', \DB::raw('(select user_roles.role_id from role_user as user_roles where user_roles.user_id = users.id ORDER BY user_roles.role_id DESC limit 1) as `current_role`'), \DB::raw('(select roles.name from roles as roles where roles.id = current_role limit 1) as `current_role_name`'), 'designations.name as designation_name')
-            ->where('roles.name', '<>', 'client')->where('users.company_id', company()->id);
+            ->select('users.id', 'users.name', 'users.username', 'users.email', 'employee_details.employee_id', 'users.created_at', 'roles.name as roleName', 'roles.id as roleId', 'users.image', 'users.status', \DB::raw('(select user_roles.role_id from role_user as user_roles where user_roles.user_id = users.id ORDER BY user_roles.role_id DESC limit 1) as `current_role`'), \DB::raw('(select roles.name from roles as roles where roles.id = current_role limit 1) as `current_role_name`'), 'designations.name as designation_name')
+            ->where('users.company_id', company()->id);
+            //->where('roles.name', '<>', 'client')
 
         if ($request->status != 'all' && $request->status != '') {
             $users = $users->where('users.status', $request->status);
@@ -213,7 +215,7 @@ class EmployeesDataTable extends BaseDataTable
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
-            __('modules.employees.employeeId') => ['data' => 'employee_id', 'name' => 'employee_details.employee_id'],
+            __('modules.employees.employeeId') => ['data' => 'username', 'name' => 'employee_details.employee_id'],
             __('app.name') => ['data' => 'name', 'name' => 'name', 'exportable' => false],
             __('app.employee_name') => ['data' => 'employee_name', 'employee_name' => 'employee_name', 'visible' => false],
             __('app.email') => ['data' => 'email', 'name' => 'email'],

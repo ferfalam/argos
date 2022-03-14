@@ -142,10 +142,10 @@
             </a>
         </li>
 
-        <li class="{{ request()->routeIs('admin.document*') ? 'active' : '' }}">
+        <li class="{{ request()->routeIs('admin.document.*') ? 'active' : '' }}">
             <a href="{{ route('admin.document.index') }}">
                 <ion-icon name="document-text"></ion-icon>
-                Documents
+                @lang('app.docManagement')
             </a>
         </li>
 

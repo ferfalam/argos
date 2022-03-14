@@ -106,7 +106,11 @@ class ManageProjectTechnologyController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = ProjectPlace::find($id);
+        $category->place_name = $request->place_name;
+        $category->save();
+        $categoryData = ProjectPlace::all();
+        return Reply::successWithData(__('messages.placeUpdated'), ['data' => $categoryData]);
     }
 
     /**
