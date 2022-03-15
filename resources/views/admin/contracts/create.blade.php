@@ -45,9 +45,17 @@
                                         <label class="control-label required" for="company_name">@lang('app.client')</label>
                                         <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">
                                             @foreach($clients as $client)
-                                                <option
-                                                        value="{{ $client->id }}">{{ ucwords($client->name) }}</option>
+                                                <option value="{{ 'client '.$client->id }}">{{ ucwords($client->company_name) }}</option>
                                             @endforeach
+
+                                            @foreach($suppliers as $supplier)
+                                                <option value="{{ 'supplier '.$supplier->id }}">{{ ucwords($supplier->company_name) }}</option>
+                                            @endforeach
+
+                                            @foreach($spvs as $spv)
+                                                <option value="{{ 'spv '.$spv->id }}">{{ ucwords($spv->company_name) }}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>

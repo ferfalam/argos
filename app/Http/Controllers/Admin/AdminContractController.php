@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\ClientDetails;
+use App\SupplierDetails;
+use App\SpvDetails;
 use App\Contract;
 use App\ContractDiscussion;
 use App\ContractFile;
@@ -54,7 +56,9 @@ class AdminContractController extends AdminBaseController
 
     public function create()
     {
-        $this->clients = User::allClients();
+        $this->clients = ClientDetails::all();
+        $this->suppliers = SupplierDetails::all();
+        $this->spvs = SpvDetails::all();
         $this->contractType = ContractType::all();
         $this->upload = can_upload();
         return view('admin.contracts.create', $this->data);
@@ -72,7 +76,9 @@ class AdminContractController extends AdminBaseController
 
     public function edit($id)
     {
-        $this->clients = User::allClients();
+        $this->clients = ClientDetails::all();
+        $this->suppliers = SupplierDetails::all();
+        $this->spvs = SpvDetails::all();
         $this->contractType = ContractType::all();
         $this->contract = Contract::with('signature', 'renew_history', 'renew_history.renewedBy')->find($id);
         $this->upload = can_upload();
@@ -98,7 +104,16 @@ class AdminContractController extends AdminBaseController
 
     private function storeUpdate($request, $contract)
     {
-        $contract->client_id            = $request->client;
+        $clientData =  explode(" ",$request->client);
+
+        if($clientData[0] == 'client')
+        {
+            $contract->client_detail_id = $clientData[1];
+        }elseif($clientData[0] == 'supplier'){
+            $contract->supplier_detail_id = $clientData[1];
+        }elseif($clientData[0] == "spv"){
+            $contract->spv_detail_id = $clientData[1];
+        }
         $contract->subject              = $request->subject;
         $contract->amount               = $request->amount;
         $contract->original_amount      = $request->amount;
@@ -121,10 +136,12 @@ class AdminContractController extends AdminBaseController
             Files::deleteFile($contract->company_logo, 'avatar');
             $contract->company_logo = Files::upload($request->company_logo, 'avatar', 300);
         }
-
+        
         if ($request->contract_detail) {
             $contract->contract_detail = $request->contract_detail;
         }
+        // print_r($clientData);
+        // exit;
         $contract->save();
 
         return $contract;
@@ -231,7 +248,9 @@ class AdminContractController extends AdminBaseController
 
     public function copy($id)
     {
-        $this->clients = User::allClients();
+        $this->clients = ClientDetails::all();
+        $this->suppliers = SupplierDetails::all();
+        $this->spvs = SpvDetails::all();
         $this->contractType = ContractType::all();
         $this->contract = Contract::with('signature', 'renew_history', 'renew_history.renewedBy')->find($id);
         return view('admin.contracts.copy', $this->data);
@@ -240,7 +259,18 @@ class AdminContractController extends AdminBaseController
     public function copySubmit(StoreRequest $request)
     {
         $contract  = new Contract();
-        $contract->client_id            = $request->client;
+
+        $clientData =  explode(" ",$request->client);
+
+        if($clientData[0] == 'client')
+        {
+            $contract->client_detail_id = $clientData[1];
+        }elseif($clientData[0] == 'supplier'){
+            $contract->supplier_detail_id = $clientData[1];
+        }elseif($clientData[0] == "spv"){
+            $contract->spv_detail_id = $clientData[1];
+        }
+        // $contract->client_id            = $request->client;
         $contract->subject              = $request->subject;
         $contract->amount               = $request->amount;
         $contract->original_amount      = $request->amount;

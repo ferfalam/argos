@@ -77,6 +77,17 @@
             </div>
         </div>
 
+        @php
+            $mainId = 0;
+            if($contract->client_detail_id != null ){
+                $mainId = $contract->client_detail_id;
+            }elseif($contract->supplier_detail_id != null){
+                $mainId = $contract->supplier_detail_id;
+            }elseif($contract->spv_detail_id != null){
+                $mainId = $contract->spv_detail_id;
+            }
+        @endphp
+
         <div class="col-md-6">
             <div class="white-box">
                 <h3 class="box-title m-b-0">@lang('app.edit') @lang('app.menu.contract')</h3>
@@ -90,7 +101,15 @@
                             <div>
                                 <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">
                                     @foreach($clients as $client)
-                                        <option value="{{ $client->id }}" @if($client->id == $contract->client_id) selected @endif>{{ ucwords($client->name) }}</option>
+                                        <option value="{{  'client '.$client->id }}" @if($client->id == $mainId) selected @endif >{{ ucwords($client->company_name) }}</option>
+                                    @endforeach
+
+                                    @foreach($suppliers as $supplier)
+                                        <option value="{{ 'supplier '.$supplier->id }}" @if($supplier->id == $mainId) selected @endif>{{ ucwords($supplier->company_name) }}</option>
+                                    @endforeach
+
+                                    @foreach($spvs as $spv)
+                                        <option value="{{ 'spv '.$spv->id }}" @if($supplier->id == $mainId) selected @endif>{{ ucwords($spv->company_name) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -107,7 +126,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="subject " class="required">@lang('app.amount') ({{ $global->currency->currency_symbol }})</label>
+                            <label for="subject " class="required">@lang('app.amount') 
+                                {{-- ({{ $global->currency->currency_symbol }}) --}}
+                            </label>
                             <input type="number" class="form-control" id="amount" name="amount" value="{{ $contract->amount ?? '' }}">
                         </div>
                     </div>

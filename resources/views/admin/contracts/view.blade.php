@@ -59,11 +59,15 @@
                                              </div>
                                              @endif
                                             <address>
-                                                    <h3><b>{{ ucwords($contract->client->client_detail->company_name)}}</b></h3>
-                                                    <p class="text-muted">{!! nl2br($contract->client->client_detail->address) !!}</p>
+                                                    <h3><b>
+                                                        {{-- {{ ucwords($contract->client->client_detail->company_name)}} --}}
+                                                    </b></h3>
+                                                    <p class="text-muted">
+                                                        {{-- {!! nl2br($contract->client->client_detail->address) !!} --}}
+                                                    </p>
                                             </address>
                                             @if($contract->amount!=0)
-                                            <h3>@lang('modules.contracts.contractValue'): {{currency_formatter($contract->amount, $global->currency->currency_symbol) }}</h3>
+                                            <h3>@lang('modules.contracts.contractValue'): {{$contract->amount }}</h3>
                                             @endif
                                             <table class="table">
                                                 <tr>
@@ -154,10 +158,16 @@
                                                 </div>
                                              @endif
                                             <address>
-                                                <h3><b>{{ ucwords($contract->client->client_detail->company_name)}}</b></h3>
-                                                    <p class="text-muted">{!! nl2br($contract->client->client_detail->address) !!}</p>
+                                                <h3><b>
+                                                    {{-- {{ ucwords($contract->client->client_detail->company_name)}} --}}
+                                                </b></h3>
+                                                    <p class="text-muted">
+                                                        {{-- {!! nl2br($contract->client->client_detail->address) !!} --}}
+                                                    </p>
                                             </address>
-                                            <h3>@lang('modules.contracts.contractValue'): {{ $global->currency->currency_symbol }}{{ $contract->amount }}</h3>
+                                            <h3>@lang('modules.contracts.contractValue'):
+                                                 {{-- {{ $global->currency->currency_symbol }} --}}
+                                                {{ $contract->amount }}</h3>
 
                                             <table class="table">
                                                 <tr>
