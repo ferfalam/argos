@@ -74,7 +74,7 @@ class ClientBaseController extends Controller
             if (!session()->has('client_company')) {
                 $clientDetails = EmployeeDetails::withoutGlobalScope(CompanyScope::class)
                     ->select('id', 'user_id', 'company_id')
-                    ->with('company')
+                    ->with('user', 'user.company')
                     ->where('user_id', Auth::user()->id)
                     ->first();
                 if (!is_null($clientDetails)) {
@@ -86,7 +86,7 @@ class ClientBaseController extends Controller
             }
             $this->company_details = EmployeeDetails::withoutGlobalScope(CompanyScope::class)
                 ->select('id', 'user_id', 'company_id')
-                ->with('company:id,company_name')
+                ->with('user.company')
                 ->where('user_id', Auth::user()->id)
                 ->get();
 
