@@ -44,6 +44,17 @@ class Company extends BaseModel
         return $this->belongsTo(Package::class, 'package_id');
     }
 
+    
+     /**
+      * Get the supervisor associated with the Company
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\HasOne
+      */
+     public function supervisor()
+     {
+         return User::find($this->supervisor_id);
+     }
+
     public function admins()
     {
         $admins = $this->hasMany(User::class)

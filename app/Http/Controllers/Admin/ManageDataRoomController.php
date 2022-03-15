@@ -6,6 +6,7 @@ use App\DataRoom;
 use App\Espace;
 use App\Helper\Reply;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewDocInDataRoomNotification;
 use App\Task;
 use App\User;
 use Carbon\Carbon;
@@ -66,6 +67,8 @@ class ManageDataRoomController extends AdminBaseController
         $dataRoom->last_update_user_id = user()->id;
         //dd($dataRoom);
         $dataRoom->save();
+
+        $dataRoom->notify(new NewDocInDataRoomNotification($dataRoom));
         return Reply::success(__('messages.dataRoomAdded'));
     }
 
