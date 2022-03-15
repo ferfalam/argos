@@ -43,12 +43,12 @@ class ContractsDataTable extends BaseDataTable
             ->editColumn('end_date', function ($row) {
                 return $row->end_date == null ? $row->end_date : $row->end_date->format($this->global->date_format);
             })
-            ->editColumn('amount', function ($row) {
-                return currency_formatter($row->amount, $this->global->currency->currency_symbol);
-            })
-            ->editColumn('client.name', function ($row) {
-                return '<a href="' . route('admin.clients.show', $row->client_id) . '">' . ucfirst($row->client->name) . '</a>';
-            })
+            // ->editColumn('amount', function ($row) {
+            //     return currency_formatter($row->amount, $this->currency->currency_symbol);
+            // })
+            // ->editColumn('client.name', function ($row) {
+            //     return '<a href="' . route('admin.clients.show', $row->client_id) . '">' . ucfirst($row->client->name) . '</a>';
+            // })
             ->editColumn('subject', function ($row) {
                 return '<a href="' . route('admin.contracts.show', md5($row->id)) . '">' . ucfirst($row->subject) . '</a>';
             })
@@ -140,7 +140,7 @@ class ContractsDataTable extends BaseDataTable
             '#' => ['data' => 'id', 'name' => 'id', 'visible' => true],
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false],
             __('app.subject') => ['data' => 'subject', 'name' => 'subject'],
-            __('app.client')  => ['data' => 'client.name', 'name' => 'client.name'],
+            // __('app.client')  => ['data' => 'client.name', 'name' => 'client.name'],
             __('app.amount') => ['data' => 'amount', 'name' => 'amount'],
             __('app.startDate') => ['data' => 'start_date', 'name' => 'start_date'],
             __('app.endDate') => ['data' => 'end_date', 'name' => 'end_date'],

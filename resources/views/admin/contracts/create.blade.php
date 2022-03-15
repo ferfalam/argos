@@ -45,9 +45,17 @@
                                         <label class="control-label required" for="company_name">@lang('app.client')</label>
                                         <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">
                                             @foreach($clients as $client)
-                                                <option
-                                                        value="{{ $client->id }}">{{ ucwords($client->name) }}</option>
+                                                <option value="{{ 'client '.$client->id }}">{{ ucwords($client->company_name) }}</option>
                                             @endforeach
+
+                                            @foreach($suppliers as $supplier)
+                                                <option value="{{ 'supplier '.$supplier->id }}">{{ ucwords($supplier->company_name) }}</option>
+                                            @endforeach
+
+                                            @foreach($spvs as $spv)
+                                                <option value="{{ 'spv '.$spv->id }}">{{ ucwords($spv->company_name) }}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>
@@ -61,7 +69,9 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="subject"  class="control-label required">@lang('app.amount') ({{ $global->currency->currency_symbol }})</label>
+                                        <label for="subject"  class="control-label required">@lang('app.amount') 
+                                            {{-- ({{ $global->currency }}) --}}
+                                        </label>
                                         <input type="number" min="0" class="form-control" id="amount" name="amount">
                                     </div>
 
