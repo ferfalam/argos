@@ -168,7 +168,7 @@ class Company extends BaseModel
         $employee->user_id = $user->id;
         $employee->employee_id = 'emp-' . $user->id;
         $employee->company_id = $user->company_id;
-        $employee->address = 'address';
+        $employee->address = $this->address;
         $employee->hourly_rate = '50';
         $employee->save();
 

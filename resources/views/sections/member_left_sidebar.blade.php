@@ -86,6 +86,13 @@
             <li><a href="{{ route('member.events.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang('app.menu.Events')</span></a> </li>
         @endif
 
+        <li class="{{ request()->routeIs('member.document.*') ? 'active' : '' }}">
+            <a href="{{ route('member.document.index') }}">
+                <i class="icon-file-text fa-fw"></i>
+                @lang('app.docManagement')
+            </a>
+        </li>
+
         {{-- @if (in_array('tasks', $modules))
             <li>
                 <a href="#projects" data-toggle="collapse" aria-expanded="false"> <ion-icon name="rocket-outline"></ion-icon> @lang('app.menu.tasks') </a>

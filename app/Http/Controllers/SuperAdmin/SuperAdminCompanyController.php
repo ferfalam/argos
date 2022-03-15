@@ -264,7 +264,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         $this->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
         $this->currencies = Currency::all();
         $this->packages = Package::all();
-        $this->companyUser = DB::table('users')->where('company_id', $id)->first();
+        $this->companyUser = $this->company->admins()->orderBy('users.created_at', 'DESC')->first();
 
         return view('super-admin.companies.edit', $this->data);
     }
@@ -323,6 +323,8 @@ class SuperAdminCompanyController extends SuperAdminBaseController
             $adminRole = Role::where('name', 'admin')->where('company_id', $company->id)->withoutGlobalScopes([CompanyScope::class, 'active'])->first();
 
             $user->roles()->attach($adminRole->id);
+
+            $company->addEmployeeDetails($user, 'superadmin');
         }else{
             if (!is_null($request->password)) {
                 $savearr['password'] = bcrypt($request->password);
@@ -377,7 +379,6 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         if ($request->type != 'all' && $request->type != '') {
             $packages = $packages->where('package_type', $request->type);
         }
-
         return Datatables::of($packages)
             ->addColumn('action', function ($row) {
                 $companyUser = User::withoutGlobalScope(CompanyScope::class)->withoutGlobalScope('active')->where('company_id', $row->id)->first();

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.member-app')
 
 
 @push('head-script')

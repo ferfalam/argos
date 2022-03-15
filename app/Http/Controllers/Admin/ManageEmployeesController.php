@@ -406,7 +406,6 @@ class ManageEmployeesController extends AdminBaseController
             //     'department_id' => $request->department?$request->department:'',
             //     'designation_id' => $request->designation?$request->designation:'',
             // ];
-
             $employee = EmployeeDetails::where("user_id", $id)->get()[0];
             $employee->address = $user->address;
             $employee->employee_id = $user->username;

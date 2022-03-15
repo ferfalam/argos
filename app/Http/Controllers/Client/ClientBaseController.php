@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\ClientDetails;
+use App\EmployeeDetails;
 use App\Company;
 use App\GdprSetting;
 use App\GlobalSetting;
@@ -66,18 +66,17 @@ class ClientBaseController extends Controller
     {
 
         // Inject currently logged in user object into every view of user dashboard
-        
+
         $this->clientTheme = ThemeSetting::where('panel', 'client')->first();
         $this->languageSettings = LanguageSetting::where('status', 'enabled')->get();
-        
+
         $this->middleware(function ($request, $next) {
             if (!session()->has('client_company')) {
-                $clientDetails = ClientDetails::withoutGlobalScope(CompanyScope::class)
-                    // ->select('id', 'user_id', 'company_id')
-                    // ->with('company')
-                    // ->where('user_id', Auth::user()->id)
+                $clientDetails = EmployeeDetails::withoutGlobalScope(CompanyScope::class)
+                    ->select('id', 'user_id', 'company_id')
+                    ->with('company')
+                    ->where('user_id', Auth::user()->id)
                     ->first();
-
                 if (!is_null($clientDetails)) {
                     session(['company' => $clientDetails->company]);
                     session(['client_company' => $clientDetails->company_id]);
@@ -85,10 +84,10 @@ class ClientBaseController extends Controller
                     abort(403);
                 }
             }
-            $this->company_details = ClientDetails::withoutGlobalScope(CompanyScope::class)
-                // ->select('id', 'user_id', 'company_id')
-                // ->with('company:id,company_name')
-                // ->where('user_id', Auth::user()->id)
+            $this->company_details = EmployeeDetails::withoutGlobalScope(CompanyScope::class)
+                ->select('id', 'user_id', 'company_id')
+                ->with('company:id,company_name')
+                ->where('user_id', Auth::user()->id)
                 ->get();
 
             $this->isAdmin = User::withoutGlobalScope(CompanyScope::class)

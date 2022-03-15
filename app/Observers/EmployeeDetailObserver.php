@@ -14,7 +14,7 @@ class EmployeeDetailObserver
     {
         // Cannot put in creating, because saving is fired before creating. And we need company id for check bellow
         if (company()) {
-            $detail->company_id = company()->id;
+            //$detail->company_id = company()->id;
         }
     }
 

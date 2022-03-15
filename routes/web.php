@@ -1190,6 +1190,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('tla', 'MemberCompanyTLAController');
             Route::get('tla/create/{type}', 'MemberCompanyTLAController@create2');
             Route::post('tla/destroy/{type}', 'MemberCompanyTLAController@destroy');
+            Route::get("documents", 'MemberDocumentController@index')->name('document.index');
+
             
             Route::post('projects/gantt-task-update/{id}', ['uses' => 'MemberProjectsController@updateTaskDuration'])->name('projects.gantt-task-update');
             Route::get('projects/ajaxCreate/{columnId?}', ['uses' => 'MemberProjectsController@ajaxCreate'])->name('projects.ajaxCreate');
