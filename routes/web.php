@@ -500,7 +500,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
                 Route::post('dataRoom/store-cat/', ['uses' => 'ManageDataRoomController@storeCat'])->name('dataRoom.store-cat');
-                Route::get('dataRoom/create-cat/{task_id}/{file_id}', ['uses' => 'ManageDataRoomController@createCat'])->name('dataRoom.create-cat');
+                Route::get('dataRoom/create-cat/{type}/{task_id}/{file_id}', ['uses' => 'ManageDataRoomController@createCat'])->name('dataRoom.create-cat');
                 Route::resource('dataRoom', 'ManageDataRoomController');
 
                 Route::post('expenseCategory/store-cat', ['uses' => 'ManageExpenseCategoryController@storeCat'])->name('expenseCategory.store-cat');

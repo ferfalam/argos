@@ -27,7 +27,7 @@ class TaskFile extends BaseModel
 
     public function inDataRoom()
     {
-        $dr = DataRoom::where('file_id', $this->id)->first();
+        $dr = DataRoom::where('file_id', $this->id)->where('type', 'task')->first();
         return $dr;
     }
 }

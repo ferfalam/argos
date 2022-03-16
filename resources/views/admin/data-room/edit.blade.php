@@ -12,6 +12,7 @@
         {!! Form::open(['id' => 'createDataRoom', 'class' => 'ajax-form', 'method' => 'PUT']) !!}
         <div class="form-body">
             <input type="hidden" name="file_id" value="{{ $doc->file_id }}">
+            <input type="hidden" name="type" value="{{ $doc->type }}">
             <div class="row">
                 <div class="col-xs-12 ">
                     <div class="form-group">
@@ -52,7 +53,7 @@
                                 <option value="Espace" disabled></option>
                                 @foreach ($espaces as $espace)
                                     <option value="{{ $espace->id }}"
-                                        @if ($doc->espace_id == $espace->id) selected @endif>{{ $espace->espace_name }}
+                                        @if ($doc->espace_id == $espace->id) selected @endif>{{ strtoupper($espace->espace_name) }}
                                     </option>
                                 @endforeach
                             </select>
@@ -80,15 +81,21 @@
                     </div>
                 </div>
             </div>
-            <div class="row @if ($doc->visible_by != 'all') d-none @endif" id="visibility-section">
+            <div class="row" @if ($doc->visible_by == 'all') style="display: none;" @endif id="visibility-section">
                 <div class="col-xs-12 ">
                     <div class="form-group">
                         <label class="control-label">@lang('app.visibility')</label>
                         <div class="switchery-demo d-flex align-items-center">
                             <select name="visible_by[]" id="visible_by" class="select2 mr-2 select2-multiple "
                                 data-placeholder="Visible par" multiple="multiple">
+                                @php
+                                    if (is_array($doc->canSee())) {
+                                        # code...
+                                        $visible_id=array_map(function ($n){return $n->id;},$doc->canSee());
+                                    }
+                                @endphp
                                 @foreach ($employees as $u)
-                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                    <option value="{{ $u->id }}" @if (is_array($doc->canSee()) && in_array($u->id, $visible_id)) selected @endif >{{ $u->name }}</option>
                                 @endforeach
                                 @foreach ($admins as $u)
                                     <option value="{{ $u->id }}">{{ $u->name }}</option>
@@ -101,9 +108,9 @@
             <div class="row">
                 <div class="col-xs-12 ">
                     <div class="form-group">
-                        <input type="checkbox" name="all" id="all">
+                        <input type="checkbox" name="all" id="all" @if ($doc->visible_by == 'all') checked @endif>
                         <label class="" for="all"
-                            @if ($doc->visible_by != 'all') checked @endif>@lang('app.allUsers')</label>
+                            >@lang('app.allUsers')</label>
                     </div>
                 </div>
             </div>

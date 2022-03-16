@@ -88,7 +88,7 @@
 
         <li class="{{ request()->routeIs('member.document.*') ? 'active' : '' }}">
             <a href="{{ route('member.document.index') }}">
-                <i class="icon-file-text fa-fw"></i>
+                <i class="fa fa-file"></i>
                 @lang('app.docManagement')
             </a>
         </li>

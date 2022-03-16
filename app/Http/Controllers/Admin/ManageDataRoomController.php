@@ -7,11 +7,14 @@ use App\Espace;
 use App\Helper\Reply;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewDocInDataRoomNotification;
+use App\SubTask;
+use App\SubTaskFile;
 use App\Task;
 use App\User;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ManageDataRoomController extends AdminBaseController
 {
@@ -35,11 +38,14 @@ class ManageDataRoomController extends AdminBaseController
         return view("admin.data-room.create");
     }
 
-    public function createCat($task_id, $file_id)
+    public function createCat($type, $task_id, $file_id)
     {
-        $this->task_room = Task::find($task_id);
+        $this->task_room = $type == 'task' ?  Task::find($task_id) : SubTask::find($task_id);
+        $this->project_name = $type == 'task' ?  $this->task_room->project->project_name : $this->task_room->task->project->project_name;
+        $this->task_name = $type == 'task' ?  $this->task_room->heading : $this->task_room->task->heading;
         $this->espaces = Espace::all();
         $this->file_id = $file_id;
+        $this->type = $type;
         return view("admin.data-room.create", $this->data);
     }
 
@@ -63,9 +69,9 @@ class ManageDataRoomController extends AdminBaseController
         $dataRoom->task_name = $request->task_name;
         $dataRoom->file_id = $request->file_id;
         $dataRoom->espace_id = $request->espace_id;
+        $dataRoom->type = $request->type;
         $dataRoom->user_id = user()->id;
         $dataRoom->last_update_user_id = user()->id;
-        //dd($dataRoom);
         $dataRoom->save();
 
         $dataRoom->notify(new NewDocInDataRoomNotification($dataRoom));
@@ -95,6 +101,7 @@ class ManageDataRoomController extends AdminBaseController
         $this->espaces = Espace::all();
         $this->employees = User::allEmployeesByCompany(company()->id);
         $this->admins = User::allAdminsByCompany(company()->id);
+        //dd($this->doc);
         return view("admin.data-room.edit", $this->data);
     }
 
@@ -113,6 +120,7 @@ class ManageDataRoomController extends AdminBaseController
         $dataRoom->task_name = $request->task_name;
         $dataRoom->file_id = $request->file_id;
         $dataRoom->espace_id = $request->espace_id;
+        $dataRoom->type = $request->type;
         $dataRoom->last_update_user_id = user()->id;
         $dataRoom->publish = $request->publish == "1" ? true : false;
         if ( $dataRoom->publish) {

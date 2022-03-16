@@ -379,7 +379,7 @@
         <div class="row m-t-20">
             <div class="col-md-8">
                 <div class="panel ">
-                    <div class="panel-heading">@lang('app.project') @lang('app.note')</div>
+                    <div class="panel-heading">Note de projet</div>
                     <div class="panel-wrapper collapse in">
                         <div class="panel-body b-all border-radius">
                             <div class="row">

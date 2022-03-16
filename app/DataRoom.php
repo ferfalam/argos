@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class DataRoom extends Model
 {
-    
+    use Notifiable;
 
     /**
      * Get the user that owns the DataRoom
@@ -25,7 +26,8 @@ class DataRoom extends Model
      */
     public function file()
     {
-        return TaskFile::find($this->file_id);
+        $file_url = $this->type == "task" ? TaskFile::find($this->file_id) : SubTaskFile::find($this->file_id);
+        return $file_url;
     }
 
     public function canSee()

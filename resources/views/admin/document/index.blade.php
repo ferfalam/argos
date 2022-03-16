@@ -18,10 +18,10 @@
     .filter-badges{
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
         /* gap: 10px; */
         flex-wrap: wrap;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
     }
 
     .filter-badges .btn-primary{
@@ -350,8 +350,8 @@
         $('#modelHeading').html("@lang('modules.dataRoom.title')");
         $.ajaxModal('#dataRoomModal',url);
     });
-    $('.delete-doc').on('click', (e) => {
-        e.preventDefault();
+    $('body').on('click', '.delete-doc',function(e){
+        console.log(e.target)
         var token = "{{ csrf_token() }}";
         var id = $(this).data('doc-id');
         var url = "{{ route('admin.dataRoom.destroy', ':id')}}";
@@ -397,8 +397,6 @@
             data['project'] = project;
             data['espace_id'] = espace;
             data['publish'] = publish;
-            
-            espace = '{{$espaces[0]->id}}';
         });
         window.LaravelDataTables["projects-table"].draw();
     }

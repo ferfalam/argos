@@ -11,12 +11,13 @@
         {!! Form::open(['id'=>'createDataRoom','class'=>'ajax-form','method'=>'POST']) !!}
         <div class="form-body">
             <input type="hidden" name="file_id" value="{{$file_id}}">
+            <input type="hidden" name="type" value="{{$type}}">
             <div class="row">
                 <div class="col-xs-12 ">
                     <div class="form-group">
                         <label>@lang('modules.projects.projectName')</label>
-                        <input type="text" name="" id="project_name" class="form-control" value="{{$task_room->project->project_name}}" disabled>
-                        <input type="hidden" name="project_name" id="project_name" class="form-control" value="{{$task_room->project->project_name}}">
+                        <input type="text" name="" id="project_name" class="form-control" value="{{$project_name}}" disabled>
+                        <input type="hidden" name="project_name" id="project_name" class="form-control" value="{{$project_name}}">
                     </div>
                 </div>
             </div>
@@ -24,8 +25,8 @@
                 <div class="col-xs-12 ">
                     <div class="form-group">
                         <label>@lang('modules.gantt.task_name')</label>
-                        <input type="text" name="" id="task_name" class="form-control" value="{{$task_room->heading}}" disabled>
-                        <input type="hidden" name="task_name" id="task_name" class="form-control" value="{{$task_room->heading}}">
+                        <input type="text" name="" id="task_name" class="form-control" value="{{$task_name}}" disabled>
+                        <input type="hidden" name="task_name" id="task_name" class="form-control" value="{{$task_name}}">
                     </div>
                 </div>
             </div>
@@ -46,7 +47,7 @@
                                 class="form-control select2 mr-2">
                                 <option value="Espace" disabled></option>
                                 @foreach ($espaces as $espace)
-                                <option value="{{$espace->id}}">{{$espace->espace_name}}</option>
+                                <option value="{{$espace->id}}">{{strtoupper($espace->espace_name)}}</option>
                                 @endforeach
                             </select>
                             <a href="javascript:;" class="text-info" id="add-espace">

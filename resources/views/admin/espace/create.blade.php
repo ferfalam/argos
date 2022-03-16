@@ -17,7 +17,7 @@
                 @forelse($categories as $key=>$category)
                     <tr id="cat-{{ $category->id }}">
                         <td>{{ $key+1 }}</td>
-                        <td>{{ ucwords($category->espace_name) }}</td>
+                        <td>{{ strtoupper($category->espace_name) }}</td>
                         <td>
                             <a href="javascript:;" data-cat-id="{{ $category->id }}" data-cat-name="{{ $category->espace_name }}" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a>
                             <a href="javascript:;" data-cat-id="{{ $category->id }}" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>
@@ -92,7 +92,7 @@
                     rData = response.data;
                     $.each(rData, function( index, value ) {
                         var selectData = '';
-                        selectData = '<option value="'+value.id+'">'+value.category_name+'</option>';
+                        selectData = '<option value="'+value.id+'">'+value.espace_name.toUpperCase()+'</option>';
                         options.push(selectData);
                     });
                 }
@@ -122,12 +122,12 @@
                     rData = response.data;
                     $.each(rData, function (index, value) {
                         var selectData = '';
-                        selectData = '<option value="' + value.id + '">' + value.espace_name + '</option>';
+                        selectData = '<option value="' + value.id + '">' + value.espace_name.toUpperCase() + '</option>';
                         options.push(selectData);
                         listData += '<tr id="cat-' + value.id + '">'+
                             '<td>'+(index+1)+'</td>'+
-                            '<td>' + value.espace_name + '</td>'+
-                            '<td><a href="javascript:;" data-cat-id="' + value.id + '" data-cat-name="' + value.espace_name + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a><a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
+                            '<td>' + value.espace_name.toUpperCase() + '</td>'+
+                            '<td><a href="javascript:;" data-cat-id="' + value.id + '" data-cat-name="' + value.espace_name + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
                             '</tr>';
                     });
 
@@ -157,11 +157,11 @@
                     rData = response.data;
                     $.each(rData, function (index, value) {
                         var selectData = '';
-                        selectData = '<option value="' + value.id + '">' + value.espace_name + '</option>';
+                        selectData = '<option value="' + value.id + '">' + value.espace_name.toUpperCase() + '</option>';
                         options.push(selectData);
                         listData += '<tr id="cat-' + value.id + '">'+
                             '<td>'+(index+1)+'</td>'+
-                            '<td>' + value.espace_name + '</td>'+
+                            '<td>' + value.espace_name.toUpperCase() + '</td>'+
                             '<td><a href="javascript:;" data-cat-id="' + value.id + '" data-cat-name="' + value.espace_name + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
                             '</tr>';
                     });

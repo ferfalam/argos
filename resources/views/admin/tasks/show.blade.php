@@ -256,7 +256,14 @@
 
                                                     <a href="javascript:;" data-toggle="tooltip"  data-original-title="Delete" data-file-id="{{ $file->id }}"
                                                        data-pk="list" class="btn btn-danger btn-circle task-file-delete"><i class="fa fa-times"></i></a>
-
+                                                    
+                                                    @if ($file->inDataRoom())
+                                                    <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
+                                                    data-pk="list" class="btn btn-circle" style="background-color: #262626;"><i class="fa fa-database"></i></a>
+                                                    @else
+                                                    <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-task-id="{{ $subtask->id }}" data-type="sub_task" data-file-id="{{ $file->id }}"
+                                                        data-pk="list" class="btn btn-warning btn-circle file-in-dataRoom"><i class="fa fa-database"></i></a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </li>
@@ -324,7 +331,7 @@
                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
                                            data-pk="list" class="btn btn-circle" style="background-color: #262626;"><i class="fa fa-database"></i></a>
                                         @else
-                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
+                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-type="task" data-task-id="{{ $task->id }}"  data-file-id="{{ $file->id }}"
                                             data-pk="list" class="btn btn-warning btn-circle file-in-dataRoom"><i class="fa fa-database"></i></a>
                                         @endif
 
@@ -639,6 +646,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="{{ asset('plugins/bower_components/moment/moment.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
@@ -1134,8 +1142,14 @@
 <script>
     $('body').on('click', '.file-in-dataRoom',function(){
         var id = $(this).data('file-id');
-        var url = "{{ route('admin.dataRoom.create-cat', [$task->id, ':id'])}}";
+        var id_task = $(this).data('task-id');
+        var type = $(this).data('type');
+        console.log($(this).data())
+        var url = "{{ route('admin.dataRoom.create-cat', [':type', ':task', ':id'])}}";
         url = url.replace(':id', id);
+        url = url.replace(':type', type);
+        url = url.replace(':task', id_task);
+        console.log(url)
         $('#modelHeading').html("@lang('modules.dataRoom.title')");
         $.ajaxModal('#dataRoomModal',url);
     });

@@ -27,11 +27,16 @@ class DataRoomsDataTable extends BaseDataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                if (User::isAdmin(user()->id)) {
+                 $url = route("admin.task-files.download", $row->file()->id);
+                }else{
+                    $url = route("member.task-files.download", $row->file()->id);
+                }
                 $action = '<a target="_blank" href="'.$row->file()->file_url.'"
                             data-toggle="tooltip" data-original-title="View"
                             class="btn btn-info btn-circle"><i
                                     class="fa fa-search"></i></a>
-                <a href="'.route("admin.task-files.download", $row->file()->id).'
+                <a href="'.$url.'
                     data-toggle="tooltip" data-original-title="Download"
                     class="btn btn-inverse btn-circle"><i
                             class="fa fa-download"></i></a>';
@@ -69,7 +74,7 @@ class DataRoomsDataTable extends BaseDataTable
                 else{
                     $res = "";
                     foreach ($row->canSee() as $cs){
-                        $res.='<img src="'.$cs->image_url.'" style="width:30px; height:30px; border-radius: 50%;">';
+                        $res.= '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $cs->name . '" src="'.$cs->image_url.'" style="width:30px; height:30px; border-radius: 50%;">';
                     }
                     return $res;
                 }
@@ -114,6 +119,7 @@ class DataRoomsDataTable extends BaseDataTable
             $model->where('publish', $request->publish);
         }
         if (!is_null($request->espace_id)) {
+            Log::info($request->espace_id);
             $model->where('espace_id', $request->espace_id);
         }
         if (!user()->isSupervisor(company()->supervisor_id) || !User::isAdmin(user()->id)) {

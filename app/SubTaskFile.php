@@ -24,4 +24,9 @@ class SubTaskFile extends BaseModel
         static::addGlobalScope(new CompanyScope);
     }
 
+    public function inDataRoom()
+    {
+        $dr = DataRoom::where('file_id', $this->id)->where('type', 'sub_task')->first();
+        return $dr;
+    }
 }
