@@ -7,10 +7,12 @@ use App\Currency;
 use App\Helper\Files;
 use App\Helper\Reply;
 use App\Http\Requests\Settings\UpdateOrganisationSettings;
+use App\Notifications\NewSupervisorNotification;
 use App\Traits\CurrencyExchange;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrganisationSettingsController extends AdminBaseController
 {
@@ -57,6 +59,8 @@ class OrganisationSettingsController extends AdminBaseController
     {
         $setting = Company::findOrFail($id);
         $setting->update($request->all());
+
+        $setting->supervisor()->notify(new NewSupervisorNotification(company()->supervisor()));
 
         if ($request->hasFile('logo')) {
             $setting->logo = Files::upload($request->logo, 'app-logo');

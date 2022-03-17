@@ -98,7 +98,7 @@
                                     <option value="{{ $u->id }}" @if (is_array($doc->canSee()) && in_array($u->id, $visible_id)) selected @endif >{{ $u->name }}</option>
                                 @endforeach
                                 @foreach ($admins as $u)
-                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                    <option value="{{ $u->id }}" @if (is_array($doc->canSee()) && in_array($u->id, $visible_id)) selected @endif >{{ $u->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -152,7 +152,7 @@
         var url = '{{ route('admin.espace.create') }}';
         $('#modelHeading').html('Manage Espace');
         $.ajaxModal('#espaceModal', url);
-        $('#dataRoomModal').modal('toggle');
+        $('#dataRoomModal').modal('hide');
     })
 
     $('#createDataRoom').on('submit', (e) => {

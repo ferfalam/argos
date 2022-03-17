@@ -81,7 +81,7 @@
         var url = '{{ route('admin.espace.create')}}';
         $('#modelHeading').html('Manage Espace');
         $.ajaxModal('#espaceModal', url);
-        $('#dataRoomModal').modal('toggle');
+        //$('#dataRoomModal').modal('hide');
     })
 
     $('#createDataRoom').on('submit', (e) => {

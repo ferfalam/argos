@@ -495,13 +495,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('projectTechnology/store-cat', ['uses' => 'ManageProjectTechnologyController@storeCat'])->name('projectTechnology.store-cat');
                 Route::get('projectTechnology/create-cat', ['uses' => 'ManageProjectTechnologyController@createCat'])->name('projectTechnology.create-cat');
                 Route::resource('projectTechnology', 'ManageProjectTechnologyController');
-
-                Route::resource('espace', 'ManageEspaceController');
-
-
-                Route::post('dataRoom/store-cat/', ['uses' => 'ManageDataRoomController@storeCat'])->name('dataRoom.store-cat');
-                Route::get('dataRoom/create-cat/{type}/{task_id}/{file_id}', ['uses' => 'ManageDataRoomController@createCat'])->name('dataRoom.create-cat');
-                Route::resource('dataRoom', 'ManageDataRoomController');
+                
 
                 Route::post('expenseCategory/store-cat', ['uses' => 'ManageExpenseCategoryController@storeCat'])->name('expenseCategory.store-cat');
                 Route::get('expenseCategory/create-cat', ['uses' => 'ManageExpenseCategoryController@createCat'])->name('expenseCategory.create-cat');
@@ -1169,6 +1163,17 @@ Route::group(['middleware' => 'auth'], function () {
         }
     );
 
+    Route::group(
+        ['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['role:admin|employee']],
+        function () {
+            Route::resource('espace', 'ManageEspaceController');
+
+            Route::post('dataRoom/store-cat/', ['uses' => 'ManageDataRoomController@storeCat'])->name('dataRoom.store-cat');
+            Route::get('dataRoom/create-cat/{type}/{task_id}/{file_id}', ['uses' => 'ManageDataRoomController@createCat'])->name('dataRoom.create-cat');
+            Route::get('dataRoom/history/{id}', ['uses' => 'ManageDataRoomController@history'])->name('dataRoom.history');
+            Route::post('dataRoom/saveHistory/{id}', ['uses' => 'ManageDataRoomController@saveHistory'])->name('dataRoom.save-history');
+            Route::resource('dataRoom', 'ManageDataRoomController');
+    });
     // Employee routes
     Route::group(
         ['namespace' => 'Member', 'prefix' => 'member', 'as' => 'member.', 'middleware' => ['role:employee']],

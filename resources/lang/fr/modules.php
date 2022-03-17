@@ -260,7 +260,10 @@ return array(
     ),
     'dataRoom' => array(
         'title' => "Data Room",
-        'docName' => "Nom du document"
+        'docName' => "Nom du document",
+        'updateDoc' => " a mis à jour ce fichier",
+        'seeDoc' => " a visualisé ce fichier",
+        'downloadDoc' => " a télécharger ce fichier",
     ),
     'projects' =>
     array(

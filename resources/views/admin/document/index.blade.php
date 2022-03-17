@@ -24,6 +24,16 @@
         margin-bottom: 0px;
     }
 
+    .filter-badges .active{
+        background: rgba(1, 28, 75) !important;
+        border: 1px solid rgba(1, 28, 75)  !important;
+        font-weight: 500;
+        color: white;
+        font-size: 15px;
+        text-transform: uppercase;
+        padding: 9px 14px;
+    }
+
     .filter-badges .btn-primary{
         background: rgba(0, 162, 242, 1) !important;
         border: 1px solid rgba(0, 162, 242, 1) !important;
@@ -230,7 +240,7 @@
 
     <div class="filter-badges">
         @foreach ($usedEspaces as $esc)
-            <button class="btn btn-primary filter-btn" data-tag="{{$esc->id}}">{{$esc->espace_name}}</button>
+            <button class="btn @if ($usedEspaces[0]->id == $esc->id) active @else btn-primary @endif filter-btn" data-tag="{{$esc->id}}">{{$esc->espace_name}}</button>
         @endforeach
     </div>
 
@@ -241,6 +251,27 @@
     <!-- .row -->
 
  
+        {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="historyModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->.
+    </div>
+    {{--Ajax Modal Ends--}}
 
     {{--Ajax Modal--}}
     <div class="modal fade bs-modal-md in" id="dataRoomModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -351,7 +382,7 @@
         $.ajaxModal('#dataRoomModal',url);
     });
     $('body').on('click', '.delete-doc',function(e){
-        console.log(e.target)
+        //console.log(e.target)
         var token = "{{ csrf_token() }}";
         var id = $(this).data('doc-id');
         var url = "{{ route('admin.dataRoom.destroy', ':id')}}";
@@ -412,9 +443,64 @@
     });
 
     $('.filter-btn').on('click', function(event) {
+        $('.filter-btn.active').addClass('btn-primary')
+        $('.filter-btn.active').removeClass("active")
+        $(this).removeClass("btn-primary")
+        $(this).addClass("active")
         event.preventDefault();
         espace = $(this).data('tag')
         showData();
+    });
+
+
+    $('body').on('click', '.history-doc',function(e){
+        var id = $(this).data('doc-id');
+        var url = "{{ route('admin.dataRoom.history', ':id')}}";
+        url = url.replace(':id', id);
+        $('#modelHeading').html("@lang('modules.tasks.history')");
+        $.ajaxModal('#historyModal',url);
+    });
+
+    $('body').on('click', '.view-doc',function(e){
+        var token = "{{ csrf_token() }}";
+        var id = $(this).data('doc-id');
+        var url = "{{ route('admin.dataRoom.save-history', ':id')}}";
+        url = url.replace(':id', id);
+        //console.log("VIEW")
+        $.easyAjax({
+            url: url,
+            type: "POST",
+            data: {
+                '_token': token,
+                'details' : 'seeDoc'
+                },
+            success: function(response) {
+                if (response.status == 'success') {
+                    window.location.reload()
+                }
+            }
+        })
+    });
+
+    $('body').on('click', '.download-doc',function(e){
+        var token = "{{ csrf_token() }}";
+        var id = $(this).data('doc-id');
+        var url = "{{ route('admin.dataRoom.save-history', ':id')}}";
+        url = url.replace(':id', id);
+        //console.log("DOWNLOAD")
+        $.easyAjax({
+            url: url,
+            type: "POST",
+            data: {
+                '_token': token,
+                'details' : 'downloadDoc'
+                },
+            success: function(response) {
+                if (response.status == 'success') {
+                    window.location.reload()
+                }
+            }
+        })
     });
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataRoom;
+use App\DataRoomHistory;
 use App\Espace;
 use App\Helper\Reply;
 use App\Http\Controllers\Controller;
@@ -74,7 +75,7 @@ class ManageDataRoomController extends AdminBaseController
         $dataRoom->last_update_user_id = user()->id;
         $dataRoom->save();
 
-        $dataRoom->notify(new NewDocInDataRoomNotification($dataRoom));
+        company()->supervisor()->notify(new NewDocInDataRoomNotification($dataRoom));
         return Reply::success(__('messages.dataRoomAdded'));
     }
 
@@ -134,6 +135,11 @@ class ManageDataRoomController extends AdminBaseController
         }
         //dd($dataRoom);
         $dataRoom->update();
+        $history = new DataRoomHistory();
+        $history->user_id = user()->id;
+        $history->data_room_id = $id;
+        $history->details = "updateDoc";
+        $history->save();
         return Reply::success(__('messages.dataRoomUpdated'));
     }
 
@@ -145,7 +151,27 @@ class ManageDataRoomController extends AdminBaseController
      */
     public function destroy($id)
     {
+        $history = new DataRoomHistory();
+        $history->user_id = user()->id;
+        $history->details = "deleteDoc";
+        $history->title = DataRoom::find($id)->doc_name;
+        $history->save();
         DataRoom::destroy($id);
         return Reply::success(__('messages.dataRoomDeleted'));
+    }
+
+    public function history($id)
+    {
+        $this->doc_histories = DataRoomHistory::where('data_room_id', $id)->whereNotNull('data_room_id')->orderBy('created_at', 'DESC')->get(); 
+        return view("admin.document.history", $this->data);
+    }
+
+    public function saveHistory(Request $request, $id)
+    {
+        $history = new DataRoomHistory();
+        $history->user_id = user()->id;
+        $history->data_room_id = $id;
+        $history->details = $request->details;
+        $history->save();
     }
 }

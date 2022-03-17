@@ -56,7 +56,7 @@
                     <div class="col-xs-12 ">
                         <div class="form-group">
                             <label>@lang('modules.espace.espaceName')</label>
-                            <input type="hidden" name="espace_id" id="espace_id">
+                            <input type="hidden" name="espace_id_update" id="espace_id_update">
                             <input type="text" name="espace_name" id="espace_name_update" class="form-control">
                         </div>
                     </div>
@@ -95,14 +95,17 @@
                         selectData = '<option value="'+value.id+'">'+value.espace_name.toUpperCase()+'</option>';
                         options.push(selectData);
                     });
+                    $('#espace_id').html(options);
+                    //$('#espace_id').selectpicker('refresh');
                 }
+                
             }
         });
     });
 
     $('body').on('click', '.modify-category', function (event) {
         $('#create-section').hide()
-        $("#espace_id").val($(this).data('cat-id'))
+        $("#espace_id_update").val($(this).data('cat-id'))
         $("#espace_name_update").val($(this).data('cat-name'))
         $('#update-section').show()
     })
@@ -132,6 +135,8 @@
                     });
 
                     $('.category-table tbody' ).html(listData);
+                    $('#espace_id').html(options);
+                    //$('#espace_id').selectpicker('refresh');
                     $('#espace_name').val('');
                 }
             }
@@ -168,7 +173,8 @@
 
                     $('.category-table tbody' ).html(listData);
                     $('#espace_name').val('');
-                    //$('#espace_id').html(options);
+                    $('#espace_id').html(options);
+                    //$('#espace_id').selectpicker('refresh');
                     $('#update-section').hide()
                     $('#create-section').show()
                 }

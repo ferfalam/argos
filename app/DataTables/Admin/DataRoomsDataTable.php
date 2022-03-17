@@ -28,27 +28,33 @@ class DataRoomsDataTable extends BaseDataTable
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 if (User::isAdmin(user()->id)) {
-                 $url = route("admin.task-files.download", $row->file()->id);
+                    $url = route("admin.task-files.download", $row->file()->id);
                 }else{
                     $url = route("member.task-files.download", $row->file()->id);
                 }
-                $action = '<a target="_blank" href="'.$row->file()->file_url.'"
+                $action = '<a target="_blank" href="'.$row->file()->file_url. '" data-doc-id="' . $row->id . '"
                             data-toggle="tooltip" data-original-title="View"
-                            class="btn btn-info btn-circle"><i
+                            class="btn btn-info btn-circle view-doc"><i
                                     class="fa fa-search"></i></a>
-                <a href="'.$url.'
-                    data-toggle="tooltip" data-original-title="Download"
-                    class="btn btn-inverse btn-circle"><i
+                <a href="'.$url. '
+                    data-toggle="tooltip" data-original-title="Download" data-doc-id="' . $row->id . '"
+                    class="btn btn-info btn-circle download-doc"><i
                             class="fa fa-download"></i></a>';
                 if (user()->isSupervisor(company()->supervisor_id)){
                     $action.=' <a href="javascript:;"
                         data-toggle="tooltip" data-original-title="Edit" data-doc-id="'.$row->id.'"
                         class="btn btn-warning btn-circle edit-doc"><i
                                 class="fa fa-edit"></i></a>
+
                     <a href="javascript:;"
                         data-toggle="tooltip" data-original-title="Delete" data-doc-id="'.$row->id.'"
                         class="btn btn-danger btn-circle delete-doc"><i
-                                class="fa fa-times"></i></a>';
+                                class="fa fa-times"></i></a>
+
+                    <a href="javascript:;"
+                        data-toggle="tooltip" data-original-title="History" data-doc-id="'.$row->id. '"
+                        class="btn btn-info btn-circle history-doc"><i
+                                class="ion icon-clock"></i></a>';
                 }
                 return $action;
             })
@@ -119,10 +125,10 @@ class DataRoomsDataTable extends BaseDataTable
             $model->where('publish', $request->publish);
         }
         if (!is_null($request->espace_id)) {
-            Log::info($request->espace_id);
+            //Log::info($request->espace_id);
             $model->where('espace_id', $request->espace_id);
         }
-        if (!user()->isSupervisor(company()->supervisor_id) || !User::isAdmin(user()->id)) {
+        if (!user()->isSupervisor(company()->supervisor_id) && !User::isAdmin(user()->id)) {
             $model->where('visible_by', 'like', '%'.user()->id.'%')
             ->orWhere('visible_by', 'all');
         }
