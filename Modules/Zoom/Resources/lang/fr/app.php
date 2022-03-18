@@ -3,7 +3,7 @@
 return array(
     'menu' =>
     array(
-        'meeting' => 'Réunion',
+        'meeting' => 'Réunions',
         'zoom' => 'zoom',
         'room' => 'Pièce',
         'zoomMeeting' => "Visio-Conférence",
