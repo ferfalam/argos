@@ -32,7 +32,7 @@ class SuperAdminSettingsController extends SuperAdminBaseController
      */
     public function index()
     {
-        $this->global = GlobalSetting::first();
+        $global = $this->global;
         $this->currencies = GlobalCurrency::all();
         $this->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
         $this->languageSettings = LanguageSetting::where('status', 'enabled')->get();
