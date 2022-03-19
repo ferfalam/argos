@@ -1243,10 +1243,10 @@
         <section class="panel panel-default">
             <header class="panel-heading">
                 <div class="panel-btn">
-                    <a class="btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="Refresh Mail"
-                        href="#!">
-                        <i class="fas fa-sync"></i>
-                    </a>
+{{--                    <a class="btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="Refresh Mail"--}}
+{{--                        href="#!">--}}
+{{--                        <i class="fas fa-sync"></i>--}}
+{{--                    </a>--}}
                     <button onclick="deleteMessage()" class="btn btn-circle btn-danger icon" id="msgAction" data-type="delete"><i
                             class="far fa-trash-alt"></i></button>
                 </div>
@@ -1313,12 +1313,6 @@
 <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
 <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
@@ -1424,78 +1418,7 @@
             "autoWidth": false,
             select: true,
             "pageLength": 25,
-            "buttons": [
-			{
-				extend: 'copyHtml5',
-				text: '<i class="far fa-copy"></i>',
-				titleAttr: 'Copy',
-				title: $('.export_title').html(),
-				exportOptions: {
-					columns: ':visible'
-				}
-			},
-			{
-				extend: 'excelHtml5',
-				text: '<i class="fa fa-file-excel"></i>',
-				titleAttr: 'Excel',
-				title: $('.export_title').html(),
-				exportOptions: {
-					columns: ':visible'
-				}
-			},
-			{
-				extend: 'csvHtml5',
-				text: '<i class="fa fa-file-alt"></i>',
-				titleAttr: 'CSV',
-				title: $('.export_title').html(),
-				exportOptions: {
-					columns: ':visible'
-				}
-			},
-			{
-				extend: 'pdfHtml5',
-				text: '<i class="fa fa-file-pdf"></i>',
-				titleAttr: 'PDF',
-				title: $('.export_title').html(),
-				footer: true,
-				customize: function ( win ) {
-					win.styles.tableHeader.fontSize = 10;
-					win.styles.tableFooter.fontSize = 10;
-					win.styles.tableHeader.alignment = 'left';
-				},
-				exportOptions: {
-					columns: ':visible'
-				}
-			},
-			{
-				extend: 'print',
-				text: '<i class="fa fa-print"></i>',
-				titleAttr: 'Print',
-				title: $('.export_title').html(),
-				customize: function ( win ) {
-					$(win.document.body)
-						.css( 'font-size', '9pt' );
-
-					$(win.document.body).find( 'table' )
-						.addClass( 'compact' )
-						.css( 'font-size', 'inherit' );
-
-					$(win.document.body).find( 'h1' )
-						.css( 'font-size', '14pt' );
-				},
-				footer: true,
-				exportOptions: {
-					columns: ':visible'
-				}
-			},
-			// {
-			// 	extend: 'colvis',
-			// 	text: '<i class="fas fa-columns"></i>',
-			// 	titleAttr: 'Columns',
-			// 	title: $('.export_title').html(),
-			// 	postfixButtons: ['colvisRestore']
-			// },
-		]
+            searching: false,
         });
 </script>
 @endpush
