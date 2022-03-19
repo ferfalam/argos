@@ -146,7 +146,7 @@
 
     $('#updateEspace').on('submit', (e) => {
         e.preventDefault();
-        var id = $("#espace_id").val();
+        var id = $("#espace_id_update").val();
         var url = "{{ route('admin.espace.update', ':id')}}";
         url = url.replace(':id', id);
         $.easyAjax({

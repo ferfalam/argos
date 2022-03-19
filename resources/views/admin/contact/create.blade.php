@@ -324,8 +324,20 @@
                                                 <td><label for="visibility" class="required">@lang('app.visibility')
                                                     </label></td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="visibility" name="visibility"
-                                                        value="">
+                                                    <div id="visibility-section">
+                                                        <select name="visible_by[]" id="visible_by" class="select2 mr-2 select2-multiple "
+                                                            data-placeholder="Visible par" multiple="multiple">
+                                                            @foreach ($employees as $u)
+                                                                <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                                            @endforeach
+                                                            @foreach ($admins as $u)
+                                                                <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <input type="checkbox" name="all" id="all">
+                                                    <label class="" for="all"
+                                                        >@lang('app.allUsers')</label>
                                                 <td>
                                                     <a href="#!" class="invisible">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
@@ -424,6 +436,14 @@
     });
 
 
+    $("#all").change(function(event) {
+        if (event.target.checked) {
+            $("#visibility-section").hide()
+        } else {
+            $("#visibility-section").show()
+        }
+    })
+    
     if($('#contect_type').val() == 'free'){
         $('#user_id').html("");
         $('#user_id').prop('disabled',true);

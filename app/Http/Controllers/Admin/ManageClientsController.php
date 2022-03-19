@@ -427,7 +427,7 @@ class ManageClientsController extends AdminBaseController
         //     $client->contacts_id = $request->contact;
         // }
 
-            if($request->contact_principal == 'without_user'){
+            if(!$request->contact_principal){
                 $client->contacts_id = null;
             }else{
                  $contact = Contect::find($request->contact_principal);
@@ -439,9 +439,6 @@ class ManageClientsController extends AdminBaseController
         if(isset($contact)){
             $client->contacts_id = $contact->id; 
         }        
-
-
-        
 
         if ($request->has('emailNotification')) {
             $client->email_notifications = $request->emailNotification;

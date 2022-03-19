@@ -13,6 +13,8 @@
 @endsection
 
 @push('head-script')
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
 <style>
     .table-alphabets{
         display: flex;
@@ -38,15 +40,19 @@
     <form action="" id="filter-form">
         <div class="col-xs-12">
             <div class="form-group">
-                <label class="required">@lang('modules.employees.employeeName')</label>
-                <input type="text" name="name" id="name" class="form-control" value="" autocomplete="nope">
+                <label class="">@lang('modules.employees.employeeName')</label>
+                <input type="text" name="name" id="f-name" class="form-control" value="" autocomplete="nope">
             </div>
         </div>
 
         <div class="col-xs-12">
             <div class="form-group">
                 <label class="control-label">@lang('app.function')</label>
-                <select class="form-control select2" name="function" id="function" data-style="form-control">
+                <select class="form-control select2" name="function" id="f-function_id" data-style="form-control">
+                    <option value="all">@lang('modules.client.all')</option>
+                    @foreach ($designations as $option)
+                        <option value="{{$option->name}}">{{$option->name}}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -54,8 +60,11 @@
         <div class="col-xs-12">
             <div class="form-group">
                 <label class="control-label">@lang('app.type')</label>
-                <select class="form-control select2" name="type" id="type" data-style="form-control">
+                <select class="form-control select2" name="type" id="f-type" data-style="form-control">
                     <option value="all">@lang('modules.client.all')</option>
+                    <option value="client">Client</option>
+                    <option value="spv">SPV</option>
+                    <option value="free">Free</option>
                 </select>
             </div>
         </div>
@@ -82,6 +91,7 @@
             <div class="panel-body">
 
                 <div class="d-flex table-alphabets">
+                    <a href="Javascript:;" class="search-record">*</a>
                     <a href="Javascript:;" class="search-record">A</a>
                     <a href="Javascript:;" class="search-record" >B</a>
                     <a href="Javascript:;" class="search-record" >C</a>
@@ -121,7 +131,7 @@
                             <th>@lang('app.civility')</th>
                             <th>@lang('app.function')</th>
                             <th>@lang('app.visibility')</th>
-                            <th>@lang('app.contect_type')</th>
+                            <th>@lang('app.type')</th>
                             <th>@lang('app.action')</th>
                         </tr>
                         </thead>
@@ -138,38 +148,63 @@
 <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+<script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
+<script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script>
-    var table = $("#table-contact").dataTable({
-        responsive: true,
-        processing: true,
-        serverSide: true,
-        ajax: '{!! route('admin.contact.table') !!}',
-        deferRender: true,
-        language: {
-            "url": "<?php echo __("app.datatable") ?>"
-        },
-        "fnDrawCallback": function( oSettings ) {
-            $("body").tooltip({
-                selector: '[data-toggle="tooltip"]'
-            });
-        },
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'mobile', name: 'phone' },
-            { data: 'email', name: 'email' },
-            { data: 'gender', name: 'gender' },
-            { data: 'function', name: 'function' },
-            { data: 'visibility', name: 'visibility' },
-            { data: 'contect_type', name: 'contect type' },
-            { data: 'action', name: 'action' }
-        ]
-    });
+    var table = resetTable()
 
+    $('#apply-filters').click(function (e) {
+        resetTable($("#f-name").val(),$("#f-function_id").val(),$("#f-type").val())
+    })
+
+    $('#reset-filters').click(function (e) {
+        resetTable()
+    })
+
+    function resetTable(name='', function_id='all', type='all') {
+        $("#f-name").val(name);
+        $("#f-function_id").val(function_id);
+        $("#f-type").val(type)
+        $('#table-contact').DataTable().clear().destroy();
+        $("#table-contact").dataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax:{
+                'type':'get',
+                'url': '{{ route("admin.contact.table") }}',
+                'data':{ 
+                    name : name,
+                    function_id : function_id,
+                    type : type
+                 },
+            },
+            deferRender: true,
+            language: {
+                "url": "<?php echo __("app.datatable") ?>"
+            },
+            "fnDrawCallback": function( oSettings ) {
+                $("body").tooltip({
+                    selector: '[data-toggle="tooltip"]'
+                });
+            },
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'mobile', name: 'phone' },
+                { data: 'email', name: 'email' },
+                { data: 'gender', name: 'gender' },
+                { data: 'function', name: 'function' },
+                { data: 'visibility', name: 'visibility' },
+                { data: 'contect_type', name: 'contect type' },
+                { data: 'action', name: 'action' }
+            ]
+        });
+    }
     $('body').on('click','.search-record',function(e){
         var str_val = $(this).text();
         $('#table-contact').DataTable().clear().destroy();
-         $('#table-contact').dataTable({
+        $('#table-contact').dataTable({
             responsive: true,
             processing: true,
             serverSide: true,
@@ -200,7 +235,6 @@
             ]
         });
     });
-
 
     $('body').on('click', '.sa-params', function(){
         var id = $(this).attr('data-contact-id');

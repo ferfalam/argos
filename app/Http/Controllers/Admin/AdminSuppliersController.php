@@ -7,38 +7,29 @@ use App\ClientDetails;
 use App\Country;
 use App\Contect;
 use App\Designation;
-use App\DataTables\Admin\SupplierDataTable;
-use App\DataTables\Admin\ClientsDataTable;
 use App\Helper\Reply;
 use App\Http\Requests\Admin\Supplier\StoreSupplierRequest;
 use App\Http\Requests\Admin\Supplier\UpdateSupplierRequest;
-use App\Http\Requests\Gdpr\SaveConsentUserDataRequest;
 use App\Invoice;
 use App\Lead;
 use App\LanguageSetting;
 use App\Helper\Files;
 use App\Notifications\NewUser;
 use App\Payment;
-use App\PurposeConsent;
-use App\PurposeConsentUser;
 use App\Role;
 use App\Scopes\CompanyScope;
 use App\UniversalSearch;
 use App\User;
 use App\Project;
-use App\Contract;
-use App\Notes;
 use App\ContractType;
 use App\ClientCategory;
 use App\ClientSubCategory;
 use App\CompanyTLA;
+use App\DataTables\Admin\SupplierDataTable;
+use App\SupplierCategory;
+use App\SupplierSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Yajra\DataTables\Facades\DataTables;
-
-
-
 
 class AdminSuppliersController extends AdminBaseController
 {
@@ -51,9 +42,9 @@ class AdminSuppliersController extends AdminBaseController
     $this->countries = Country::all();
     $this->tla = CompanyTLA::all();
     $this->middleware(function ($request, $next) {
-      abort_if(!in_array('clients', $this->user->modules), 403);
-      return $next($request);
-  });
+        abort_if(!in_array('clients', $this->user->modules), 403);
+        return $next($request);
+    });
   }
 
   /**
@@ -66,16 +57,15 @@ class AdminSuppliersController extends AdminBaseController
 
         $this->clients = User::allSuppliers();
         $this->totalClients = count($this->clients);
-        $this->categories = ClientCategory::all();
+        $this->categories = SupplierCategory::all();
         $this->projects = Project::all();
         $this->contracts = ContractType::all();
         $this->countries = Country::all();
-        $this->subcategories = ClientSubCategory::all();
+        $this->subcategories = SupplierSubCategory::all();
         return $dataTable->render('admin.suppliers.index', $this->data);
   }
 
   public function create($leadID = null){
-
     if($leadID){
       $this->leadDetail = Lead::findOrFail($leadID);
       $this->leadName = $this->leadDetail->client_name;
@@ -93,10 +83,10 @@ class AdminSuppliersController extends AdminBaseController
       }
     }
 
-      $client = new ClientDetails();
-      $this->categories = ClientCategory::all();
-      $this->subcategories = ClientSubCategory::all();
-      $this->fields = $client->getCustomFieldGroupsWithFields()->fields;
+      $client = new SupplierDetails();
+      $this->categories = SupplierCategory::all();
+      $this->subcategories = SupplierSubCategory::all();
+      //$this->fields = $client->getCustomFieldGroupsWithFields()->fields;  
       $this->countries = Country::all();
       $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
       $this->designations = Designation::with('members', 'members.user')->get();
@@ -170,8 +160,11 @@ class AdminSuppliersController extends AdminBaseController
             $contact->name = $request->name;
             $contact->function = $request->function;
             $contact->email = $request->email;
-            $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile') ;
-            $contact->visibility = $request->visibility;
+            $contact->mobile =  $request->p_mobile_phoneCode .' '.$request->input('p_mobile');
+            $contact->visibility = $request->visible_by == "" ? "" : json_encode($request->visible_by);
+            if ($request->all) {
+                $contact->visibility = "all";
+            }
             $contact->contect_type = $request->contect_type;
             if($request->hasFile('image')) {
               $contact->image = Files::upload($request->image, 'avatar', 300);
@@ -277,8 +270,8 @@ class AdminSuppliersController extends AdminBaseController
 
     $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
     $this->countries = Country::all();
-    $this->categories = ClientCategory::all();
-    $this->subcategories = ClientSubCategory::all();
+    $this->categories = SupplierCategory::all();
+    $this->subcategories = SupplierSubCategory::all();
     $this->contects  = Contect::where('supplier_detail_id',$id)->get();
 
     $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
@@ -545,4 +538,10 @@ class AdminSuppliersController extends AdminBaseController
         return view('admin.suppliers.payments', $this->data);
     }
 
+    public function getSubcategory(Request $request)
+    {
+        $this->subcategories = SupplierSubCategory::where('category_id', $request->cat_id)->get();
+
+        return Reply::dataOnly(['subcategory' => $this->subcategories]);
+    }
 }   

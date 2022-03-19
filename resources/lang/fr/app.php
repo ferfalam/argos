@@ -1,6 +1,7 @@
 <?php
 
 return array(
+  'supplier' =>"Fournisseur",
   'allUsers' => "Tous les utilisateurs",
   'docManagement' => "Gestion des documents",
   'loginAsEmployee' => 'connectezVousCommeEmployé',
@@ -196,7 +197,7 @@ return array(
     'chat' => 'Chat',
     'home' => 'Home',
     'contacts' => "Contacts",
-    'suppliers' => 'Fournisseuses',
+    'suppliers' => 'Fournisseurs',
     'spv' => 'Spv',
     'mailing' => 'Envoi postal',
     'coal_index' => 'Indice carbone',
@@ -652,7 +653,7 @@ return array(
   'paymentMethod' => 'Mode de paiement',
   'both' => 'En-tête et pied de page',
   'header' => 'Entête',
-  'type' => 'Taper',
+  'type' => 'Type',
   'loginAsClient' => 'Connectez-vous en tant que client',
   'changeToPosition' => 'position',
   'selectCurrency' => 'Sélectionnez la devise',

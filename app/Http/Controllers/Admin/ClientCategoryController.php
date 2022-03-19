@@ -82,7 +82,11 @@ class ClientCategoryController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = ClientCategory::find($id);
+        $category->category_name = $request->category_name;
+        $category->save();
+        $categoryData = ClientCategory::all();
+        return Reply::successWithData(__('messages.categoryUpdated'), ['data' => $categoryData]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\ClientContact;
 use App\Http\Requests\Admin\Contect\StoreContectsRequest;
 use App\User;
 use App\Contect;
@@ -34,6 +35,7 @@ class AdminContactController extends AdminBaseController
   public function index()
   {
     $this->pageTitle = 'app.menu.contacts';
+    $this->designations = Designation::all();
     return view('admin.contact.index', $this->data);
   }
 
@@ -55,6 +57,8 @@ class AdminContactController extends AdminBaseController
     }
 
     $this->designations = Designation::with('members', 'members.user')->get();
+    $this->employees = User::allEmployeesByCompany(company()->id);
+    $this->admins = User::allAdminsByCompany(company()->id);
 
     return view('admin.contact.create', $this->data);
   }
@@ -67,7 +71,7 @@ class AdminContactController extends AdminBaseController
     $contect->function = $request->function;
     $contect->email = $request->email;
     $contect->mobile = $request->mobile_phoneCode.' '.$request->mobile;
-    $contect->visibility = $request->visibility;
+    // $contect->visibility = $request->visibility;
     $contect->contect_type = $request->contect_type;
 
     if($request->contect_type == 'client' ){
@@ -85,17 +89,23 @@ class AdminContactController extends AdminBaseController
     if ($request->hasFile('image')) {
       $contect->image = Files::upload($request->image, 'avatar', 300);
     }
+    $contect->visibility = $request->visible_by == "" ? "" : json_encode($request->visible_by);
+    if ($request->all) {
+      $contect->visibility = "all";
+    }
     $contect->save();
 
     if($request->page_type == 'client')
     {
-        return Reply::redirect(route('admin.contacts.show',$request->user_id));
+      return Reply::redirect(route('admin.contacts.show',$request->user_id));
     }
     elseif($request->page_type == 'contact' ){
-        return Reply::redirect(route('admin.contact.index'));
-    }elseif($request->page_type == 'supplier'){
-        return Reply::redirect(route('admin.supplier.contacts',[$request->user_id]));
-    }elseif($request->page_type == 'spv'){
+      return Reply::redirect(route('admin.contact.index'));
+    }
+    elseif($request->page_type == 'supplier'){
+      return Reply::redirect(route('admin.supplier.contacts',[$request->user_id]));
+    }
+    elseif($request->page_type == 'spv'){
       return Reply::redirect(route('admin.spv-contacts', $request->user_id));
     }
 
@@ -169,6 +179,9 @@ class AdminContactController extends AdminBaseController
 
 
     $this->designations = Designation::with('members', 'members.user')->get();
+    $this->employees = User::allEmployeesByCompany(company()->id);
+    $this->admins = User::allAdminsByCompany(company()->id);
+
 
     return view('admin.contact.editPage',$this->data);
   }
@@ -209,6 +222,10 @@ class AdminContactController extends AdminBaseController
     if ($request->hasFile('image')) {
       $contact->image = Files::upload($request->image, 'avatar', 300);
     }
+    $contact->visibility = $request->visible_by == "" ? "" : json_encode($request->visible_by);
+    if ($request->all) {
+      $contact->visibility = "all";
+    }
 
     $contact->save();
 
@@ -232,11 +249,22 @@ class AdminContactController extends AdminBaseController
     return Reply::redirect(route('admin.contact.index'));    
 
   }
-  public function contactData()
+  public function contactData(Request $request)
   {
-    $timeLogs = Contect::all();
-
-    return DataTables::of($timeLogs)
+    $timeLogs = Contect::whereNotNull('id');
+    if ($request->type != 'all') {
+      # code...
+      $timeLogs->where("contect_type", $request->type);
+    }
+    if ($request->function_id != 'all') {
+      # code...
+      $timeLogs->where("function", $request->function_id);
+    }
+    if ($request->name) {
+      # code...
+      $timeLogs->where("name",'like', '%'.$request->name.'%');
+    }
+    return DataTables::of($timeLogs->get())
         ->addColumn('action', function ($row) {
             return '<a href="'.route("admin.contact.edit",[ 'id'=> $row->id,'type'=> 'contect' ]).'" class="btn btn-info btn-circle edit-contact"
                   data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -247,6 +275,25 @@ class AdminContactController extends AdminBaseController
         ->editColumn('name', function ($row) {
             return ucwords($row->name);
         })
+        ->editColumn('id', function ($row) {
+          $res = '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $row->name . '" src="' . $row->image_url . '" style="width:30px; height:30px; border-radius: 50%;">';
+
+          return $res;
+        })
+        ->editColumn('visibility', function ($row) {
+          if ($row->canSee() == '') {
+            return '<span></span>';
+          } elseif ($row->canSee() == 'all')
+            return '<span>' . __("app.all") . '</span>';
+          else {
+            $res = "";
+            foreach ($row->canSee() as $cs) {
+              $res .= '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $cs->name . '" src="' . $cs->image_url . '" style="width:30px; height:30px; border-radius: 50%;">';
+            }
+            return $res;
+          }
+        })
+        ->rawColumns(['visibility', 'action', 'id'])
         ->removeColumn('user_id')
         ->make(true);
   }
@@ -255,21 +302,44 @@ class AdminContactController extends AdminBaseController
     // print_r($request['query']);
     // exit;
 
-    $timeLogs = Contect::where('name','like',$request['query'].'%')->get();
+    if ($request['query'] != "*") {
+      $timeLogs = Contect::where('name','like',$request['query'].'%')->get();
+    }else{
+      $timeLogs = Contect::all();
+    }
 
     return DataTables::of($timeLogs)
-        ->addColumn('action', function ($row) {
-            return '<a href="'.route("admin.contact.edit",$row->id).'" class="btn btn-info btn-circle edit-contact"
+      ->addColumn('action', function ($row) {
+        return '<a href="' . route("admin.contact.edit", ['id' => $row->id, 'type' => 'contect']) . '" class="btn btn-info btn-circle edit-contact"
                   data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                 <a href="javascript:;" class="btn btn-danger btn-circle sa-params"
                   data-toggle="tooltip" data-contact-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></a>';
-        })
-        ->editColumn('name', function ($row) {
-            return ucwords($row->name);
-        })
-        ->removeColumn('user_id')
-        ->make(true);
+      })
+      ->editColumn('name', function ($row) {
+        return ucwords($row->name);
+      })
+      ->editColumn('id', function ($row) {
+        $res = '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $row->name . '" src="' . $row->image_url . '" style="width:30px; height:30px; border-radius: 50%;">';
+
+        return $res;
+      })
+      ->editColumn('visibility', function ($row) {
+        if ($row->canSee() == '') {
+          return '<span></span>';
+        } elseif ($row->canSee() == 'all')
+          return '<span>' . __("app.all") . '</span>';
+        else {
+          $res = "";
+          foreach ($row->canSee() as $cs) {
+            $res .= '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $cs->name . '" src="' . $cs->image_url . '" style="width:30px; height:30px; border-radius: 50%;">';
+          }
+          return $res;
+        }
+      })
+      ->rawColumns(['visibility', 'action', 'id'])
+      ->removeColumn('user_id')
+      ->make(true);
   }
 
 

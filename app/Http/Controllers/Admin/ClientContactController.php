@@ -43,20 +43,25 @@ class ClientContactController extends AdminBaseController
     public function data($id,$type = null)
     {
         if($type == 'supplier'){
-            $timeLogs = Contect::where('supplier_detail_id', $id)->get();
+            $timeLogs = Contect::where('supplier_detail_id', $id);
          
         }
         if($type == 'client')
         {
-            $timeLogs = Contect::where('client_detail_id', $id)->get();
+            $timeLogs = Contect::where('client_detail_id', $id);
         }
 
         if($type == 'spv')
         {
-            $timeLogs = Contect::where('spv_detail_id', $id)->get();
+            $timeLogs = Contect::where('spv_detail_id', $id);
         }
 
-        return DataTables::of($timeLogs)
+        if ( !User::isAdmin(user()->id)) {
+            $timeLogs->where('visible_by', 'like', '%' . user()->id . '%')
+                ->orWhere('visible_by', 'all');
+        }
+
+        return DataTables::of($timeLogs->get())
             ->addColumn('action', function ($row) {
                 return '<a href="'.route("admin.contact.edit",['id' => $row->id, 'type' => 'spv' ]).'" class="btn btn-info btn-circle edit-contact"
                 data-toggle="tooltip" data-contact-id="' . $row->id . '"  data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -64,9 +69,23 @@ class ClientContactController extends AdminBaseController
                     <a href="javascript:;" class="btn btn-danger btn-circle sa-params"
                       data-toggle="tooltip" data-contact-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></a>';
             })
+            ->editColumn('visibility', function ($row) {
+                if ($row->canSee() == '') {
+                    return '<span></span>';
+                } elseif ($row->canSee() == 'all')
+                    return '<span>' . __("app.all") . '</span>';
+                else {
+                    $res = "";
+                    foreach ($row->canSee() as $cs) {
+                        $res .= '<img data-toggle="tooltip" data-placement="right" data-original-title="' . $cs->name . '" src="' . $cs->image_url . '" style="width:30px; height:30px; border-radius: 50%;">';
+                    }
+                    return $res;
+                }
+            })
             ->editColumn('name', function ($row) {
                 return ucwords($row->name);
             })
+            ->rawColumns(["visibility", "action","id"])
             ->removeColumn('user_id')
             ->make(true);
     }

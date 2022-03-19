@@ -1191,6 +1191,9 @@ return array(
         'active' => 'active',
         'inActive' => 'inactive',
     ),
+    'suppliers' => array(
+        'createTitle' => 'Fiche Fournisseur'
+    ),
     'projectTemplate' =>
     array(
         'addNewTemplate' => 'Ajouter un nouveau modèle',

@@ -20,8 +20,8 @@
                     <tr id="cat-{{ $subcategory->id }}">
                         <td>{{ $key+1 }}</td>
                         <td>{{ ($subcategory->category_name) }}</td>
-                        <td>{{ ($subcategory->client_category->category_name) }}</td>
-                        <td><a href="javascript:;" data-client-cat-id="{{$subcategory->client_category->id }}" data-cat-name="{{$subcategory->category_name}}" data-cat-id="{{ $subcategory->id }}" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="{{ $subcategory->id }}"  class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>
+                        <td>{{ ($subcategory->supplier_category->category_name) }}</td>
+                        <td><a href="javascript:;" data-client-cat-id="{{$subcategory->supplier_category->id }}" data-cat-name="{{$subcategory->category_name}}" data-cat-id="{{ $subcategory->id }}" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="{{ $subcategory->id }}"  class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>
                     </tr>
                 @empty
                     <tr>
@@ -151,7 +151,7 @@
     $('body').on('click', '.delete-category', function(e) {
         var id = $(this).data('cat-id');
 
-        var url = "{{ route('admin.clientSubCategory.destroy',':id') }}";
+        var url = "{{ route('admin.supplierSubCategory.destroy',':id') }}";
         url = url.replace(':id', id);
 
         var token = "{{ csrf_token() }}";
@@ -187,7 +187,7 @@
          let category = $('#category').val();      // id of modal category drop down
 
         $.easyAjax({
-            url: '{{route('admin.clientSubCategory.store')}}',
+            url: '{{route('admin.supplierSubCategory.store')}}',
             container: '#createProjectCategory',
             type: "POST",
             data: $('#createProjectCategory').serialize(),
@@ -204,8 +204,8 @@
                             listData += '<tr id="cat-' + value.id + '">'+
                                 '<td>'+(index+1)+'</td>'+
                                 '<td>' + value.category_name + '</td>'+
-                                '<td>' + value.client_category.category_name + '</td>'+
-                                '<td><a href="javascript:;" data-client-cat-id="' + value.client_category.id + '" data-cat-name="' + value.category_name + '" data-cat-id="' + value.id + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
+                                '<td>' + value.supplier_category.category_name + '</td>'+
+                                '<td><a href="javascript:;" data-client-cat-id="' + value.supplier_category.id + '" data-cat-name="' + value.category_name + '" data-cat-id="' + value.id + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
                                 '</tr>';
                         });
 
@@ -226,7 +226,7 @@
          let category_id = $('#category_id').val();    //id of create client category field
          let category = $('#category').val();      // id of modal category drop down
          var id = $("#sub_category_id_update").val();
-        var url = "{{route('admin.clientSubCategory.update', ':id')}}";
+        var url = "{{route('admin.supplierSubCategory.update', ':id')}}";
         url = url.replace(':id', id);
 
         $.easyAjax({
@@ -247,8 +247,8 @@
                             listData += '<tr id="cat-' + value.id + '">'+
                                 '<td>'+(index+1)+'</td>'+
                                 '<td>' + value.category_name + '</td>'+
-                                '<td>' + value.client_category.category_name + '</td>'+
-                                '<td><a href="javascript:;" data-client-cat-id="' + value.client_category.id + '" data-cat-name="' + value.category_name + '" data-cat-id="' + value.id + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
+                                '<td>' + value.supplier_category.category_name + '</td>'+
+                                '<td><a href="javascript:;" data-client-cat-id="' + value.supplier_category.id + '" data-cat-name="' + value.category_name + '" data-cat-id="' + value.id + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
                                 '</tr>';
                         });
 

@@ -330,8 +330,26 @@
                                                 <td><label for="visibility" class="required">@lang('app.visibility')
                                                     </label></td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="visibility" name="visibility"
-                                                        value="{{$contact->visibility}}">
+                                                   <div id="visibility-section" style="@if($contact->visibility == 'all') display:none; @endif">
+                                                        <select name="visible_by[]" id="visible_by" class="select2 mr-2 select2-multiple "
+                                                            data-placeholder="Visible par" multiple="multiple">
+                                                            @php
+                                                                if (is_array($contact->canSee())) {
+                                                                    # code...
+                                                                    $visible_id=array_map(function ($n){return $n->id;},$contact->canSee());
+                                                                }
+                                                            @endphp
+                                                            @foreach ($employees as $u)
+                                                                <option value="{{ $u->id }}" @if (is_array($contact->canSee()) && in_array($u->id, $visible_id)) selected @endif>{{ $u->name }}</option>
+                                                            @endforeach
+                                                            @foreach ($admins as $u)
+                                                                <option value="{{ $u->id }}" @if (is_array($contact->canSee()) && in_array($u->id, $visible_id)) selected @endif>{{ $u->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <input type="checkbox" name="all" id="all" @if($contact->visibility == 'all') checked @endif>
+                                                    <label class="" for="all"
+                                                        >@lang('app.allUsers')</label>
                                                 <td>
                                                     <a href="#!" class="invisible">
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
@@ -444,6 +462,14 @@
         dataUrl: "{{ asset('data.json') }}"
     });
 
+
+    $("#all").change(function(event) {
+        if (event.target.checked) {
+            $("#visibility-section").hide()
+        } else {
+            $("#visibility-section").show()
+        }
+    })
 
     $('#save-form').click(function () {
         $.easyAjax({

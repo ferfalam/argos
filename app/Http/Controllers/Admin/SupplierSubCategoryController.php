@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\ClientCategory;
-use App\ClientSubCategory;
+use App\SupplierCategory;
+use App\SupplierSubCategory;
 use App\Helper\Reply;
 use App\Http\Requests\Admin\Client\StoreClientSubcategory;
+use App\Http\Requests\Admin\Supplier\StoreSupplierSubcategory;
 
-class ClientSubCategoryController extends AdminBaseController
+class SupplierSubCategoryController extends AdminBaseController
 {
 
     /**
@@ -29,9 +30,9 @@ class ClientSubCategoryController extends AdminBaseController
      */
     public function create()
     {
-        $this->subcategories = ClientSubCategory::all();
-        $this->categories = ClientCategory::all();
-        return view('admin.clients.create-subcategory', $this->data);
+        $this->subcategories = SupplierSubCategory::all();
+        $this->categories = SupplierCategory::all();
+        return view('admin.suppliers.create-subcategory', $this->data);
     }
 
     /**
@@ -42,11 +43,11 @@ class ClientSubCategoryController extends AdminBaseController
      */
     public function store(StoreClientSubcategory $request)
     {
-        $category = new ClientSubCategory();
+        $category = new SupplierSubCategory();
         $category->category_id = $request->category_id;
         $category->category_name = $request->category_name;
         $category->save();
-        $categoryData = ClientSubCategory::with('client_category')->get();
+        $categoryData = SupplierSubCategory::with('supplier_category')->get();
         return Reply::successWithData(__('messages.categoryAdded'), ['data' => $categoryData]);
     }
 
@@ -81,11 +82,11 @@ class ClientSubCategoryController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        $category = ClientSubCategory::find($id);
+        $category = SupplierSubCategory::find($id);
         $category->category_id = $request->category_id;
         $category->category_name = $request->category_name;
         $category->save();
-        $categoryData = ClientSubCategory::with('client_category')->get();
+        $categoryData = SupplierSubCategory::with('supplier_category')->get();
         return Reply::successWithData(__('messages.categoryUpdated'), ['data' => $categoryData]);
     }
 
@@ -97,8 +98,8 @@ class ClientSubCategoryController extends AdminBaseController
      */
     public function destroy($id)
     {
-        ClientSubCategory::destroy($id);
-        $categoryData = ClientSubCategory::all();
+        SupplierSubCategory::destroy($id);
+        $categoryData = SupplierSubCategory::all();
         return Reply::successWithData(__('messages.categoryDeleted'), ['data' => $categoryData]);
        
     }

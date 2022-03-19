@@ -408,6 +408,12 @@ Route::group(['middleware' => 'auth'], function () {
                 //subcategory
                 Route::resource('clientSubCategory', 'ClientSubCategoryController');
                 Route::resource('clientCategory', 'ClientCategoryController');
+
+                Route::get('supplierCategory/create-cat', ['uses' => 'SupplierCategoryController@createCat'])->name('supplierCategory.create-cat');
+                Route::post('supplierCategory/store-cat', ['uses' => 'SupplierCategoryController@storeCat'])->name('supplierCategory.store-cat');
+                //subcategory
+                Route::resource('supplierSubCategory', 'SupplierSubCategoryController');
+                Route::resource('supplierCategory', 'SupplierCategoryController');
                 // Lead Files
                 Route::get('lead-files/download/{id}', ['uses' => 'LeadFilesController@download'])->name('lead-files.download');
                 Route::get('lead-files/thumbnail', ['uses' => 'LeadFilesController@thumbnailShow'])->name('lead-files.thumbnail');
@@ -1100,6 +1106,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('suppliers/contacts/{id}','AdminSuppliersController@showContacts')->name('supplier.contacts');
             Route::get('suppliers/projects/{id}','AdminSuppliersController@showProjects')->name('supplier.projects');
             Route::get('suppliers/invoices/{id}','AdminSuppliersController@showInvoices')->name('supplier.invoices');
+            Route::post('/suppliers/getSubcategory', ['uses' => 'AdminSuppliersController@getSubcategory'])->name('suppliers.getSubcategory');
 
             Route::get('suppliers-docs/quick-create/{id}', ['uses' => 'SupplierDocsController@quickCreate'])->name('suppliers-docs.quick-create');
             Route::get('suppliers-docs/download/{id}', ['uses' => 'SupplierDocsController@download'])->name('suppliers-docs.download');

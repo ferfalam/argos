@@ -43,43 +43,43 @@
             <input type="hidden" class="form-control" id="end-date" placeholder="@lang('app.endDate')" value="" />
         </x-filter-form-group>
 
-        <x-filter-form-group label="app.client">
+        <x-filter-form-group label="app.supplier">
             <select class="form-control select2" name="client" id="client" data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
-                {{-- @forelse($clients as $client)
+                @forelse($clients as $client)
                 <option value="{{$client->id}}">{{ $client->name }}</option>
                 @empty
-                @endforelse --}}
+                @endforelse
             </select>
         </x-filter-form-group>
 
         <x-filter-form-group label="app.category">
             <select class="form-control select2" name="category_id" id="category_id" data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
-                {{-- @foreach($categories as $category)
+                @foreach($categories as $category)
                 <option value="{{$category->id}}">{{ ucwords($category->category_name) }}</option>
-                @endforeach --}}
+                @endforeach
             </select>
         </x-filter-form-group>
 
         <x-filter-form-group label="modules.logTimeSetting.project">
             <select class="form-control select2" name="project_id" id="project_id" data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
-                {{-- @foreach($projects as $project)
+                @foreach($projects as $project)
                 <option value="{{$project->id}}">{{ $project->project_name }}</option>
-                @endforeach --}}
+                @endforeach
             </select>
         </x-filter-form-group>
 
-        <x-filter-form-group label="modules.contracts.contractType">
+        {{-- <x-filter-form-group label="modules.contracts.contractType">
             <select class="form-control select2" name="contract_type_id" id="contract_type_id"
                 data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
-                {{-- @foreach($contracts as $contract)
+                @foreach($contracts as $contract)
                 <option value="{{$contract->id}}">{{ $contract->name }}</option>
-                @endforeach --}}
+                @endforeach
             </select>
-        </x-filter-form-group>
+        </x-filter-form-group> --}}
 
         <x-filter-form-group label="modules.stripeCustomerAddress.country">
             <select class="form-control select2" name="country_id" id="country_id" data-style="form-control">
@@ -92,7 +92,7 @@
 
         <x-filter-btn-group class="p-t-10">
             <x-button id="apply-filters" classes="btn btn-cs-green col-md-6" title="app.apply"></x-button>
-            <x-button id="reset-filters" classes="btn btn-inverse col-md-offset-1 col-md-5 rounded-pill"
+            <x-button id="reset-filters" classes="btn btn-inverse col-md-6 rounded-pill"
                 title="app.reset"></x-button>
         </x-filter-btn-group>
 
@@ -111,8 +111,8 @@
 @section('content')
 <div class="panel-4">
     <div class="panel-heading">
-        <h2>@lang('liste des fournisseurs')</h2>
-        <a href="{{route('admin.suppliers.create')}}" class="btn btn-cs-blue">ajouter un fournisseur</a>
+        <h2>@lang('Liste des fournisseurs')</h2>
+        <a href="{{route('admin.suppliers.create')}}" class="btn btn-cs-blue">Ajouter un fournisseur</a>
     </div>
     <div class="panel-body">
          <x-table :dataTable="$dataTable"></x-table>
@@ -249,7 +249,8 @@
         })
 
         $('#apply-filters').click(function () {
-            $('#clients-table').on('preXhr.dt', function (e, settings, data) {
+
+            $('#suppliers-table').on('preXhr.dt', function (e, settings, data) {
                 var startDate = $('#start-date').val();
 
                 if (startDate == '') {
@@ -276,11 +277,10 @@
                 data['project_id'] = project_id;
                 data['contract_type_id'] = contract_type_id;
                 data['country_id'] = country_id;
-
             });
-            $.easyBlockUI('#clients-table');
-            window.LaravelDataTables["clients-table"].draw();
-            $.easyUnblockUI('#clients-table');
+            $.easyBlockUI('#suppliers-table');
+            window.LaravelDataTables["suppliers-table"].draw();
+            $.easyUnblockUI('#suppliers-table');
         });
 
         $('#reset-filters').click(function () {
@@ -288,13 +288,13 @@
             $('.select2').val('all');
             $('#filter-form').find('select').select2();
 
-            $.easyBlockUI('#clients-table');
+            $.easyBlockUI('#suppliers-table');
             $('#start-date').val('');
             $('#end-date').val('');
             $('#reportrange span').html('');
 
-            window.LaravelDataTables["clients-table"].draw();
-            $.easyUnblockUI('#clients-table');
+            window.LaravelDataTables["suppliers-table"].draw();
+            $.easyUnblockUI('#suppliers-table');
         })
 
         // function exportData(){

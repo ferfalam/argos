@@ -44,15 +44,19 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <style>
+
+    .select2{
+        display: inline-grid;
+    }
     
     #s2id_category_id{
-        width: 210px !important;
+        /* width: 210px !important; */
     }
     #s2id_function{
-        width: 210px !important;
+        /* width: 210px !important; */
     }
     #s2id_contact_principal{
-        width: 210px !important;
+        /* width: 210px !important; */
     }
     .salutation .form-control {
         padding: 2px 2px;
@@ -133,7 +137,7 @@
 
     .row .col-md-4 {
         width: 100%;
-        height: max-content !important;
+        /* height: max-content !important; */
     }
 
     fieldset .form-group {
@@ -236,281 +240,284 @@
                     <div class="panel-body">
                         {!! Form::open(['id' => 'updateClient', 'class' => 'ajax-form', 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
                         <div class="form-body" style="margin-top:   0px">
-
                             <div class="row">
-
-                                <div class="col-md-4">
-                                    <fieldset>
-                                       <legend>Identifications</legend>
-                                        <table>
-                                            <tr>
-                                                <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
-                                                <td>
-                                                    <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $clientDetail->company_name }}">
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="address" class="required">@lang('app.address')</label>
-                                                </td>
-                                                <td><textarea class="form-control" name="address" id="address"
-                                                        style="width:100%" rows="2">{{$clientDetail->address}}</textarea></td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="country" class="required">@lang('app.country')</label>
-                                                </td>
-                                                <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        @foreach ($countries as $country)
-                                                            <option value=" {{ $country->id }} " 
-                                                                @if($country->id == $clientDetail->country_id) selected @endif>{{ ucfirst(strtolower($country->name)) }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="city" class="required">@lang('app.cp')</label>
-                                                </td>
-                                                <td>
-                                                    <select name="city" id="city" class="form-control select2">
-                                                        <option value="" disabled>@lang('app.cp')</option>
-                                                        @foreach ($tla as $t)
-                                                            @if ($t->type == 'city')
-                                                                <option value="{{ $t->id }}" @if($t->id == $clientDetail->city_id) selected @endif>
-                                                                    {{ ucfirst(strtolower($t->name)) }}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:;" class="text-info plus-form">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
-
-                                    <fieldset>
-                                        <legend>Description </legend>
-                                        <table>
-                                            <tr>
-                                                <td colspan="3" style="padding-top: 0px">
-                                                    <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5">{{$clientDetail->description}}</textarea>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <fieldset>
-                                        <legend>Coordonées </legend>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <label for="tel" class="required">Tel</label>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <input type="text" name="company_phone" id="company_phone"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$clientDetail->tel)) > 0)  {{explode(" ",$clientDetail->tel)[1]}} @endif " >
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="mobile" class="required">Mobile</label>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <input type="text" name="mobile" id="mobile"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$clientDetail->mobile)) > 0) {{explode(" ",$clientDetail->mobile)[1]}} @endif ">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="fax" class="required">Fax</label>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <input type="text" name="fax" id="fax"
-                                                            class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$clientDetail->fax)) > 0) {{explode(" ",$clientDetail->fax)[1]}} @endif " >
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="company_email" class="required">Email</label>
-                                                </td>
-                                                <td>
-                                                    <input type="email" id="company_email" name="company_email" value="{{$clientDetail->email}}" class="form-control">
-
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
-
-                                     <fieldset>
-                                        <legend>Informations Générales </legend>
-                                        <table>
-                                            
-                                            <tr >        
-                                                <td>
-                                                    <label for="category_id" class="required">Catégorie Client</label>
-                                                </td>
-                                                <td >
-                                                    <select  name="category_id" id="category_id" class="form-control select2">
-                                                        @foreach ($categories as $categorie)
-                                                            <option value="{{ $categorie->id }}" @if($categorie->id == $clientDetail->category_id) selected @endif >
-                                                                {{ $categorie->category_name }}
+                                <div class="row" style="grid-template-columns: repeat(2, 1fr);grid-column: 1/3;">
+                                    <div class="col-md-4">
+                                        <fieldset style="height: 50%">
+                                           <legend>Identifications</legend>
+                                            <table>
+                                                <tr>
+                                                    <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $clientDetail->company_name }}">
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="address" class="required">@lang('app.address')</label>
+                                                    </td>
+                                                    <td><textarea class="form-control" name="address" id="address"
+                                                            style="width:100%" rows="2">{{$clientDetail->address}}</textarea></td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+    
+                                                <tr>
+                                                    <td>
+                                                        <label for="country" class="required">@lang('app.country')</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="country" id="country" class="form-control select2">
+                                                            @foreach ($countries as $country)
+                                                                <option value=" {{ $country->id }} " 
+                                                                    @if($country->id == $clientDetail->country_id) selected @endif>{{ ucfirst(strtolower($country->name)) }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+    
+                                                <tr>
+                                                    <td>
+                                                        <label for="city" class="required">@lang('app.cp')</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="city" id="city" class="form-control select2">
+                                                            <option value="" disabled>@lang('app.cp')</option>
+                                                            @foreach ($tla as $t)
+                                                                @if ($t->type == 'city')
+                                                                    <option value="{{ $t->id }}" @if($t->id == $clientDetail->city_id) selected @endif>
+                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:;" class="text-info plus-form">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+    
+                                        <fieldset style="height: 50%">
+                                            <legend>Description </legend>
+                                            <table>
+                                                <tr>
+                                                    <td colspan="3" style="padding-top: 0px">
+                                                        <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5">{{$clientDetail->description}}</textarea>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+                                    </div>
+    
+                                    <div class="col-md-4">
+                                        <fieldset style="height: 50%">
+                                            <legend>Coordonées </legend>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <label for="tel" class="required">Tel</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="company_phone" id="company_phone"
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$clientDetail->tel)) > 0)  {{explode(" ",$clientDetail->tel)[1]}} @endif " >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="mobile" class="required">Mobile</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="mobile" id="mobile"
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$clientDetail->mobile)) > 0) {{explode(" ",$clientDetail->mobile)[1]}} @endif ">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+    
+                                                <tr>
+                                                    <td>
+                                                        <label for="fax" class="required">Fax</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <input type="text" name="fax" id="fax"
+                                                                class="form-control phone-input ccpicker" aria-label="..." value="@if(count(explode(" ",$clientDetail->fax)) > 0) {{explode(" ",$clientDetail->fax)[1]}} @endif " >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+    
+                                                <tr>
+                                                    <td>
+                                                        <label for="company_email" class="required">Email</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="email" id="company_email" name="company_email" value="{{$clientDetail->email}}" class="form-control">
+    
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+    
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+    
+                                         <fieldset style="height: 50%">
+                                            <legend>Informations Générales </legend>
+                                            <table>
+                                                
+                                                <tr >        
+                                                    <td>
+                                                        <label for="category_id" class="required">Catégorie Client</label>
+                                                    </td>
+                                                    <td >
+                                                        <select  name="category_id" id="category_id" class="form-control select2">
+                                                            @foreach ($categories as $categorie)
+                                                                <option value="{{ $categorie->id }}" @if($categorie->id == $clientDetail->category_id) selected @endif >
+                                                                    {{ $categorie->category_name }}
+                                                                </option>
+                                                            @endforeach     
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="Javascript:;" class="text-info category-form " >
+                                                            <img src="{{ asset('img/plus.png') }}" alt="" data-type="category">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="sub_category_id" class="required">Sous Catégorie</label>
+                                                    </td>
+                                                    <td>
+                                                        <select  name="sub_category_id" id="sub_category_id" class="form-control select2">
+                                                            @foreach ($subcategories as $subcategorie)
+                                                                <option value="{{ $subcategorie->id }}"   @if($subcategorie->id == $clientDetail->sub_category_id) selected @endif   >
+                                                                    {{ $subcategorie->category_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="Javascript:;" class="text-info subcategory-form ">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="language" class="required">Langue</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="language" id="language" class="form-control select2">
+                                                            <option @if ($global->locale == 'en') selected @endif value="en">
+                                                                English
                                                             </option>
-                                                        @endforeach     
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="Javascript:;" class="text-info category-form " >
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="category">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="sub_category_id" class="required">Sous Catégorie</label>
-                                                </td>
-                                                <td>
-                                                    <select  name="sub_category_id" id="sub_category_id" class="form-control select2">
-                                                        @foreach ($subcategories as $subcategorie)
-                                                            <option value="{{ $subcategorie->id }}"   @if($subcategorie->id == $clientDetail->sub_category_id) selected @endif   >
-                                                                {{ $subcategorie->category_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="Javascript:;" class="text-info subcategory-form ">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="language" class="required">Langue</label>
-                                                </td>
-                                                <td>
-                                                    <select name="language" id="language" class="form-control select2">
-                                                        <option @if ($global->locale == 'en') selected @endif value="en">
-                                                            English
-                                                        </option>
-                                                        @foreach ($languageSettings as $language)
-                                                            <option value="{{ $language->language_code }}"
-                                                                @if ($global->locale == $language->language_code) selected @endif @if($clientDetail->language == $language->language_code) selected @endif >
-                                                                {{ $language->language_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="Javascript:;" class="text-info language-form" style="background:none">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-                                    </fieldset>
-
+                                                            @foreach ($languageSettings as $language)
+                                                                <option value="{{ $language->language_code }}"
+                                                                    @if ($global->locale == $language->language_code) selected @endif @if($clientDetail->language == $language->language_code) selected @endif >
+                                                                    {{ $language->language_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="Javascript:;" class="text-info language-form" style="background:none">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+    
+                                            </table>
+                                        </fieldset>
+    
                                     
-                                    <fieldset>
-                                        <legend>Informations Générales </legend>
-                                        <table>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="emailNotification" class="required">Notification Par Mail </label>
-                                                </td>
-                                                <td>
-                                                    <select name="emailNotification" id="emailNotification" class="form-control select2">
-                                                        <option value="1" @if($clientDetail->email_notifications == 1) selected @endif >Oui</option>
-                                                        <option value="0" @if($clientDetail->email_notifications == 0) selected @endif >Non</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="smsNotification" class="required">Notification Par SMS  </label>
-                                                </td>
-                                                <td>
-                                                    <select name="smsNotification" id="smsNotification" class="form-control select2">
-                                                        <option value="1" @if($clientDetail->sms_notifications == 1) selected @endif >Oui</option>
-                                                        <option value="0" @if($clientDetail->sms_notifications == 0) selected @endif >Non</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible" >
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                    </div>
 
-                                        </table>
-                                    </fieldset>
+                                    <div class="col-md-4" style="grid-column: 1/3">
+                                        <fieldset>
+                                            <legend>Informations Générales </legend>
+                                            <table>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="emailNotification" class="required">Notification Par Mail </label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="emailNotification" id="emailNotification" class="form-control select2">
+                                                            <option value="1" @if($clientDetail->email_notifications == 1) selected @endif >Oui</option>
+                                                            <option value="0" @if($clientDetail->email_notifications == 0) selected @endif >Non</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <label for="smsNotification" class="required">Notification Par SMS  </label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="smsNotification" id="smsNotification" class="form-control select2">
+                                                            <option value="1" @if($clientDetail->sms_notifications == 1) selected @endif >Oui</option>
+                                                            <option value="0" @if($clientDetail->sms_notifications == 0) selected @endif >Non</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible" >
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </fieldset>
+
+                                    </div>
 
                                 </div>
 
+
                                 <div class="col-md-4">
                                     <fieldset>
-                                        <legend>Administrateur</legend>
+                                        <legend>Contact Principal</legend>
                                         <div class="d-flex align-items-center">
                                             <table>
 
@@ -520,20 +527,20 @@
                                                     </td>
                                                     <td>
                                                         <select name="contact_principal" id="contact_principal" class="form-control select2">
-                                                            <option value="without_user" >create without contact Principal</option>
+                                                            {{-- <option value="without_user" >create without contact Principal</option> --}}
                                                             {{-- <option value="select" @if($clientDetail->contacts_id) selected @endif>select from the list </option> --}}
                                                             @foreach($contects as $contect)
                                                                 <option data='{!! $contect !!}'  value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
                                                             @endforeach
 
-                                                            @foreach($freeContacts as $freeContact)
+                                                            {{-- @foreach($freeContacts as $freeContact)
                                                                 <option data='{!! $freeContact !!}' value="{{$freeContact->id }}" @if($freeContact->id == $clientDetail->contacts_id) selected @endif>{{ $freeContact->name }}</option>
-                                                            @endforeach
+                                                            @endforeach --}}
                                                             {{-- <option value="create">create a new one</option> --}}
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <a href="#!" class="invisible"  >
+                                                        <a href="{{ route('admin.contact.create', ['type'=>"client", 'client_id'=>$clientDetail->id]) }}" class=""  >
                                                             <img src="{{ asset('img/attach-to.png') }}" alt="">
                                                         </a>
                                                     </td>
@@ -696,7 +703,7 @@
                                                 </tr> --}}
 
 
-                                                 <tr>
+                                                 {{-- <tr>
                                                     <td><label for="visibility" class="required">@lang('app.visibility')
                                                         </label></td>
                                                     <td>
@@ -707,14 +714,14 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr>
+                                                </tr> --}}
                                                 <tr>
                                                     <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
                                                     </td>
                                                     <td>
                                                         <select name="contect_type" id="contect_type" class="form-control select2" >
-                                                            <option value="free">Free</option>
                                                             <option value="client"  >Client</option>
+                                                            <option value="free" disable>Free</option>
                                                             <option value="supplier" disabled>Supplier</option>
                                                             <option value="spv" disabled>Spv</option>
                                                         </select>

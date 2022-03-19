@@ -75,7 +75,7 @@
                         <th>@lang('app.civility')</th>
                         <th>@lang('app.function')</th>
                         <th>@lang('app.visibility')</th>
-                        <th>@lang('app.contect_type')</th>
+                        <th>@lang('app.type')</th>
                         <th>@lang('app.action')</th>
                     </tr>
                     </thead>

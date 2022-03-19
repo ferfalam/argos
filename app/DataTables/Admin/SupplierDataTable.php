@@ -2,12 +2,13 @@
 
 namespace App\DataTables\Admin;
 
-use App\SupplierDetails;
 use App\DataTables\BaseDataTable;
+use App\SupplierDetails;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Services\DataTable;
 
 class SupplierDataTable extends BaseDataTable
 {
@@ -32,16 +33,16 @@ class SupplierDataTable extends BaseDataTable
                 $action .= '</ul> </div>';
                 return $action;
             })
-            ->addColumn('country', function($row){
-                return '<span class="flag-icon flag-icon-'. strtolower($row->iso) .'" style="width : 60px !important; height:30px !important;"></span>';
+            ->addColumn('country', function ($row) {
+                return '<span class="flag-icon flag-icon-' . strtolower($row->iso) . '" style="width : 60px !important; height:30px !important;"></span>';
             })
-            ->addColumn('city', function($row){
+            ->addColumn('city', function ($row) {
                 return $row->city;
             })
             ->editColumn(
                 'company_name',
                 function ($row) {
-                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.suppliers.show', $row->id) . '"> <img src="'. $row->image_url .'" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->company_name) . ' <br> ' . $row->country . '</a>';
+                    return '<a style="display:flex; align-items:center; gap:10px;" href="' . route('admin.suppliers.show', $row->id) . '"> <img src="' . $row->image_url . '" style="width:30px; height:30px; border-radius: 50%;" />' . ucfirst($row->company_name) . ' <br> ' . $row->country . '</a>';
                 }
             )
             ->editColumn(
@@ -81,8 +82,7 @@ class SupplierDataTable extends BaseDataTable
     public function query(SupplierDetails $model)
     {
         $request = $this->request();
-
-        $model = $model->leftjoin('contects','supplier_details.contacts_id','=','contects.id')
+        $model = $model->leftjoin('contects', 'supplier_details.contacts_id', '=', 'contects.id')
             ->leftJoin('countries', 'supplier_details.country_id', '=', 'countries.id')
             ->select(
                 'supplier_details.id',
@@ -98,7 +98,7 @@ class SupplierDataTable extends BaseDataTable
             )
             ->groupBy('supplier_details.id');
 
-            
+
         if ($request->startDate !== null && $request->startDate != 'null' && $request->startDate != '') {
             $startDate = Carbon::createFromFormat($this->global->date_format, $request->startDate)->toDateString();
             $model = $model->where(DB::raw('DATE(supplier_details.`created_at`)'), '>=', $startDate);

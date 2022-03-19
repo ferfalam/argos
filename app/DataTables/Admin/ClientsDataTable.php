@@ -6,6 +6,7 @@ use App\ClientDetails;
 use App\DataTables\BaseDataTable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 

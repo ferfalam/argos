@@ -29,7 +29,7 @@ class StoreContectsRequest extends CoreRequest
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'function' => 'required',
-            'visibility' => 'required',
+            'visible_by' => 'required_unless:all,true',
             'contect_type' => 'required',
             'user_id' => 'required_unless:contect_type,free',
             // 'slack_username' => 'nullable|unique:employee_details,slack_username',

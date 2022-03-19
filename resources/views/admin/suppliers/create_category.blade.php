@@ -79,7 +79,7 @@
     $('#updateProjectCategory').on('submit', (e) => {
         e.preventDefault();
         var id = $("#category_id_update").val();
-        var url = "{{route('admin.clientCategory.update', ':id')}}";
+        var url = "{{route('admin.supplierCategory.update', ':id')}}";
         url = url.replace(':id', id);
         $.easyAjax({
             url: url,
@@ -117,7 +117,7 @@
 
     $('body').on('click', '.delete-category', function(e) {
         var id = $(this).data('cat-id');
-        var url = "{{ route('admin.clientCategory.destroy',':id') }}";
+        var url = "{{ route('admin.supplierCategory.destroy',':id') }}";
         url = url.replace(':id', id);
 
         var token = "{{ csrf_token() }}";
@@ -149,7 +149,7 @@
     $('#createProjectCategory').on('submit', (e) => {
         e.preventDefault();
         $.easyAjax({
-            url: '{{route('admin.clientCategory.store')}}',
+            url: '{{route('admin.supplierCategory.store')}}',
             container: '#createProjectCategory',
             type: "POST",
             data: $('#createProjectCategory').serialize(),

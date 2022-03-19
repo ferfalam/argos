@@ -80,7 +80,7 @@
             </select>
         </x-filter-form-group>
 
-        <x-filter-form-group label="modules.contracts.contractType">
+        {{-- <x-filter-form-group label="modules.contracts.contractType">
             <select class="form-control select2" name="contract_type_id" id="contract_type_id"
             data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
@@ -88,7 +88,7 @@
                     <option value="{{$contract->id}}">{{ $contract->name }}</option>
                 @endforeach
             </select>
-        </x-filter-form-group>
+        </x-filter-form-group> --}}
 
         <x-filter-form-group label="modules.stripeCustomerAddress.country">
             <select class="form-control select2" name="country_id" id="country_id"
@@ -104,7 +104,7 @@
 
         <x-filter-btn-group class="p-t-10">
             <x-button id="apply-filters" classes="btn btn-cs-green col-md-6" title="app.apply"></x-button>
-            <x-button id="reset-filters" classes="btn btn-inverse col-md-offset-1 col-md-5 rounded-pill" title="app.reset"></x-button>
+            <x-button id="reset-filters" classes="btn btn-inverse col-md-6 rounded-pill" title="app.reset"></x-button>
         </x-filter-btn-group>
 
         <x-filter-form-group hidden label="modules.productCategory.subCategory">
