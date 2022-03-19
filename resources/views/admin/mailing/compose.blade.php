@@ -1209,6 +1209,11 @@
     .panel-default .note-editing-area .note-editable{
         min-height: 200px !important;
     }
+    .select2-choices{
+        width: 102% !important;
+        margin-top: -10px !important;
+        margin-left: -13px !important;
+    }
 </style>
 @endpush
 
@@ -1220,28 +1225,28 @@
                 <h4 class="panel-title">Mailbox Folder</h4>
             </div>
             <div class="panel-body">
-                <a href="#!" class="btn btn-default btn-block mb-md"><i class="fas fa-envelope"></i> Compose</a>
+                <a href="{{route('admin.mailing.compose')}}" class="btn btn-default btn-block mb-md"><i class="fas fa-envelope"></i> Compose</a>
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active">
-                        <a href="#!">
+                    <li class="">
+                        <a href="{{route('admin.mailing.index')}}">
                             <i class="far fa-envelope"></i>
-                            Inbox <span class="label text-weight-normal pull-right">0</span>
+                            Inbox <span class="label text-weight-normal pull-right">{{\App\Models\Messageuser::where('uid',auth()->user()->id)->where('status', 'direct')->count()}}</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="#!"> <i class="fas fa-share-square"></i>
-                            Sent <span class="label text-weight-normal pull-right">0</span>
+                        <a href="{{route('admin.mailing.sent')}}"> <i class="fas fa-share-square"></i>
+                            Sent <span class="label text-weight-normal pull-right">{{\App\Models\Message::where('from',auth()->user()->id)->where('status','Delivered')->count()}}</span>
                         </a>
                     </li>
-                    <li class="">
-                        <a href="#!"> <i class="far fa-bell text-yellow"></i>
-                            Important </a>
-                    </li>
-                    <li class="">
-                        <a href="#!">
-                            <i class="far fa-trash-alt"></i> Trash </a>
-                    </li>
+{{--                    <li class="">--}}
+{{--                        <a href="#!"> <i class="far fa-bell text-yellow"></i>--}}
+{{--                            Important </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="">--}}
+{{--                        <a href="#!">--}}
+{{--                            <i class="far fa-trash-alt"></i> Trash </a>--}}
+{{--                    </li>--}}
                 </ul>
             </div>
         </div>
@@ -1251,25 +1256,36 @@
             <div class="panel-heading panel-heading-1">
                 <h4 class="panel-title">Write Message</h4>
             </div>
-            <form action="http://localhost/SMS/communication/message_send" class="frm-submit-data"
+            <form action="{{route('admin.mailing.compose.save')}}" class="frm-submit-data"
                 enctype="multipart/form-data" method="post" accept-charset="utf-8">
-                <input type="hidden" name="school_csrf_name" value="b2bdb3f60f0e0fe949ac3519ccca0ebd">
+                @csrf
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="control-label required">De</label>
-                        <select name="branch_id" class="form-control select2" id="branchID">
+                        <select name="from" class="form-control select2" id="branchID">
+                            <option value="">{{auth()->user()->name}}</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label required">A </label>
-                        <select name="branch_id" class="form-control select2" id="branchID">
+                        <select name="to" class="form-control select2" id="branchID">
+                            @foreach ($to as $item)
+                                @if (auth()->user()->id != $item->id)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" hidden>
                         <label class="control-label required">CC </label>
-                        <select name="branch_id" class="form-control select2" id="branchID">
+                        <select name="cc[]" class="form-control select2" id="branchID" multiple>
+                            @foreach ($to as $item)
+                                @if (auth()->user()->id != $item->id)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                     
@@ -1310,9 +1326,9 @@
                     <div class="row" style="width: 100%;">
                         <div class="col-md-12">
                             <div class="pull-right">
-                                <button type="reset" class="btn btn-primary">
+                                <a type="reset" class="btn btn-primary" href="{{url('admin/mailing')}}">
                                     <i class="fas fa-times"></i><span> Discard</span>
-                                </button>
+                                </a>
                                 <button type="submit" name="submit" value="send" class="btn btn-secondary"
                                     data-loading-text="<i class='fas fa-spinner fa-spin'></i> Processing">
                                     <i class="fas fa-paper-plane"></i><span> Send</span>

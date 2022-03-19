@@ -1216,25 +1216,25 @@
 
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active">
-                        <a href="#!">
+                        <a href="{{route('admin.mailing.index')}}">
                             <i class="far fa-envelope"></i>
-                            Inbox <span class="label text-weight-normal pull-right">0</span>
+                            Inbox <span class="label text-weight-normal pull-right">{{\App\Models\Messageuser::where('uid',auth()->user()->id)->where('status', 'direct')->count()}}</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="#!"> <i class="fas fa-share-square"></i>
-                            Sent <span class="label text-weight-normal pull-right">0</span>
+                        <a href="{{route('admin.mailing.sent')}}"> <i class="fas fa-share-square"></i>
+                            Sent <span class="label text-weight-normal pull-right">{{\App\Models\Message::where('from',auth()->user()->id)->where('status','Delivered')->count()}}</span>
                         </a>
                     </li>
-                    <li class="">
-                        <a href="#!"> <i
-                                class="far fa-bell text-yellow"></i>
-                            Important </a>
-                    </li>
-                    <li class="">
-                        <a href="#!">
-                            <i class="far fa-trash-alt"></i> Trash </a>
-                    </li>
+{{--                    <li class="">--}}
+{{--                        <a href="#!"> <i--}}
+{{--                                class="far fa-bell text-yellow"></i>--}}
+{{--                            Important </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="">--}}
+{{--                        <a href="#!">--}}
+{{--                            <i class="far fa-trash-alt"></i> Trash </a>--}}
+{{--                    </li>--}}
                 </ul>
             </div>
         </div>
@@ -1247,7 +1247,7 @@
                         href="#!">
                         <i class="fas fa-sync"></i>
                     </a>
-                    <button class="btn btn-circle btn-danger icon" id="msgAction" data-type="delete"><i
+                    <button onclick="deleteMessage()" class="btn btn-circle btn-danger icon" id="msgAction" data-type="delete"><i
                             class="far fa-trash-alt"></i></button>
                 </div>
                 <h4 class="panel-title">
@@ -1256,31 +1256,54 @@
             </header>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table text-dark table-hover table-condensed mb-none table-export dataTable no-footer">
+                    <table id="messages-table" class="table text-dark table-hover table-condensed mb-none table-export dataTable no-footer">
                         <thead>
                             <tr role="row">
                                 <th class="sorting_disabled" rowspan="1" colspan="1">
-                                    dslkd;ls
                                 </th>
                                 <th>Sender</th>
                                 <th >Subjects</th>
                                 <th >Message</th>
                                 <th >Time</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach ($messages as $message)
                             <tr class="odd">
-                                <td>/dskladj</td>
-                                <td>Muneeb</td>
-                                <td>Akram</td>
-                                <td>2309829832</td>
-                                <td>da;ldslkdklj</td>
+                                <td><input type="checkbox" value="{{$message->id}}" /></td>
+                                <td>{{$message->message->users()->first()->name}}</td>
+                                <td>{{$message->message->subject}}</td>
+                                <td>{!! $message->message->message !!}</td>
+                                <td>{{$message->message->created_at}}</td>
+                                <td><button onclick="viewmessage('{{$message->message->id}}')" class="dt-button buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" type="button" title="View Message"><span><i class="fa fa-eye"></i></span></button></td>
                             </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modelmessage">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{--                    <button type="button" class="btn btn-primary">Save changes</button>--}}
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -1305,7 +1328,50 @@
 <script src="{{ asset('js/datatables/buttons.server-side.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/moment/moment.js') }}"></script>
 <script type="text/javascript" src="{{ asset('plugins/daterange-picker/daterangepicker.js') }}"></script>
-
+<script>
+    function deleteMessage(){
+        var token = "{{ csrf_token() }}";
+        var searchIDs = $("#messages-table input:checkbox:checked").map(function(){
+            return $(this).val();
+        }).get(); // <----
+        if(searchIDs.length == 0){
+            alert("Please select Messages");
+        }else {
+            let confirmAction = confirm("Are you sure to execute this action?");
+            if (confirmAction) {
+                //mailing.trashsentmessage
+                $.easyAjax({
+                    url: '{{route('admin.mailing.trashinboxmessage')}}',
+                    type: "POST",
+                    data: {messages: searchIDs, _token : token},
+                    success: function (response) {
+                        // if(response.status == "success"){
+                            window.location.reload();
+                        // }
+                    }
+                });
+            }
+        }
+        console.log(searchIDs);
+    }
+    function viewmessage(id) {
+        $.easyAjax({
+            url: '{{url('admin/mailing/message')}}/'+id,
+            type: "GET",
+            success: function (response) {
+                // $.easyBlockUI('#employees-table');
+                $('#exampleModalLongTitle').html(response.from);
+                var mes = response.message;
+                if (response.attachment){
+                    mes+='<hr><h4>Attachment</h4><a style="width: 100px" class="btn btn-primary" href="'+response.attachment+'" target="_blank">View Attachment</a>';
+                }
+                $('#modelmessage').html(mes);
+                $('#exampleModalCenter').modal('show');
+                // $.easyUnblockUI('#employees-table');
+            }
+        })
+    }
+</script>
 <script>
     (function($) {
 
@@ -1356,6 +1422,7 @@
             "dom": '<"row"<"col-sm-6 mb-xs"B><"col-sm-6"f>><"table-responsive"t>p',
             "ordering": false,
             "autoWidth": false,
+            select: true,
             "pageLength": 25,
             "buttons": [
 			{

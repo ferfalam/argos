@@ -1137,7 +1137,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 
             Route::get("mailing", 'AdminMailingController@index')->name('mailing.index');
+            Route::get("mailing/sent", 'AdminMailingController@sent')->name('mailing.sent');
+            Route::get("mailing/message/{message}", 'AdminMailingController@getMessage')->name('mailing.message');
+            Route::post("mailing/trashsentmessage", 'AdminMailingController@trashsentmessage')->name('mailing.trashsentmessage');
+            Route::post("mailing/trashinboxmessage", 'AdminMailingController@trashinboxmessage')->name('mailing.trashinboxmessage');
             Route::get("mailing/compose", 'AdminMailingController@compose')->name('mailing.compose');
+            Route::post("mailing/compose", 'AdminMailingController@composesave')->name('mailing.compose.save');
             Route::get("coal/index", 'AdminCoalController@index')->name('coal.index');
             Route::get("coal/acceptability", 'AdminCoalController@acceptability')->name('coal.acceptability');
             Route::get("contacts", 'AdminContactController@index')->name('contact.index');
