@@ -24,7 +24,7 @@
                 <li><a href="{{ route('admin.dashboard') }}"
                         class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Général </a></li>
                 <li><a href="{{ route('admin.projectDashboard') }}"
-                        class="{{ request()->routeIs('admin.projectDashboard') ? 'active' : '' }}">Projets </a></li>
+                        class="{{ request()->routeIs('admin.projectDashboard') ? 'active' : '' }}">@lang('app.menu.projets') </a></li>
             </ul>
         </li>
 
@@ -35,7 +35,7 @@
             <li>
                 <a href="#employees" data-toggle="collapse"
                     aria-expanded="{{ $is_employee_active ? 'true' : 'false' }}">
-                    <ion-icon name="people-outline"></ion-icon> Utilisateurs
+                    <ion-icon name="people-outline"></ion-icon> @lang('app.menu.utilisateur')
                 </a>
                 <ul class="collapse list-unstyled {{ $is_employee_active ? 'in' : '' }}" id="employees">
                     @if (in_array('employees', $modules))
@@ -78,17 +78,17 @@
         <li>
             <a href="#third" data-toggle="collapse"
                 aria-expanded="{{ request()->routeIs('admin.clients.index') ? 'true' : 'false' }}">
-                <ion-icon name="grid"></ion-icon>Les tiers
+                <ion-icon name="grid"></ion-icon>@lang('app.menu.tiers')
             </a>
             <ul class="collapse list-unstyled {{ request()->routeIs('admin.clients.index') || request()->routeIs('admin.suppliers.index') ? 'in' : '' }}"
                 id="third">
                 <li>
                     <a href="{{ route('admin.clients.index') }}"
                         class="{{ request()->routeIs('admin.clients.index') ? 'active' : '' }}">
-                        @lang('app.menu.clients') </a>
+                        @lang('app.menu.client') </a>
                 </li>
                 <li><a href="{{ route('admin.suppliers.index') }}"
-                        class="{{ request()->routeIs('admin.suppliers.index') ? 'active' : '' }}">Fournisseurs </a>
+                        class="{{ request()->routeIs('admin.suppliers.index') ? 'active' : '' }}">@lang('app.menu.fournisseur') </a>
                 </li>
             </ul>
         </li>
