@@ -2,10 +2,14 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
 
 <style>
+    .modal-body{
+        max-height: 500px;
+    }
     .history-row{
         margin: 10px 0px;
         display: flex;
         border-bottom: 1px solid #c2c2c2;
+        justify-content: space-around
     }
 
     .user-img{
@@ -35,6 +39,18 @@
                 <div class="details">
                     <p class="histrory-details">{{$history->user()->name}} {{__('modules.dataRoom.'.$history->details)}}</p>
                     <p class="history-date">{{\Carbon\Carbon::parse($history->created_at)->format($global->date_format.' H:i:s')}}</p>
+                </div>
+                <div class="icon" style="font-size: 30px">
+                    @if ($history->details == 'seeDoc')
+                    <i class="fa fa-search text-info"></i>
+                        
+                    @elseif ($history->details == 'updateDoc')
+                    <i class="fa fa-edit text-warning"></i>
+
+                    @elseif ($history->details == 'downloadDoc')
+                    <i class="fa fa-download text_inverse"></i>
+                        
+                    @endif
                 </div>
             </div>
         @empty

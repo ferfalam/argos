@@ -139,10 +139,12 @@ class ContractsDataTable extends BaseDataTable
         return [
             '#' => ['data' => 'id', 'name' => 'id', 'visible' => true],
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false],
-            __('app.subject') => ['data' => 'subject', 'name' => 'subject'],
+            __('app.contract.name') => ['data' => 'subject', 'name' => 'subject'],
+            __('app.contract.organisme') => ['data' => 'client.name', 'name' => 'client_name'],
+            __('app.contract.type') => ['data' => 'type', 'name' => 'type'],
             // __('app.client')  => ['data' => 'client.name', 'name' => 'client.name'],
             __('app.amount') => ['data' => 'amount', 'name' => 'amount'],
-            __('app.startDate') => ['data' => 'start_date', 'name' => 'start_date'],
+            __('app.start_date') => ['data' => 'start_date', 'name' => 'start_date'],
             __('app.endDate') => ['data' => 'end_date', 'name' => 'end_date'],
             __('app.signature') => ['data' => 'signature', 'name' => 'signature','searchable' => false],
             Column::computed('action', __('app.action'))

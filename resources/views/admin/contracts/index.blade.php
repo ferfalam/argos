@@ -73,7 +73,7 @@
                                        value=""/>
                             </div>
                             <div class="col-xs-12">
-                                <h5 >@lang('app.client')</h5>
+                                <h5 >Organisme</h5>
                                 <div class="form-group">
                                     <div>
                                         <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">

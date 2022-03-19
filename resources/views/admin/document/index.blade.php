@@ -383,20 +383,35 @@
     });
     $('body').on('click', '.delete-doc',function(e){
         //console.log(e.target)
-        var token = "{{ csrf_token() }}";
-        var id = $(this).data('doc-id');
-        var url = "{{ route('admin.dataRoom.destroy', ':id')}}";
-        url = url.replace(':id', id);
-        $.easyAjax({
-            url: url,
-            type: "POST",
-            data: {'_token': token, '_method':'DELETE'},
-            success: function(response) {
-                if (response.status == 'success') {
-                    window.location.reload()
-                }
+        swal({
+            title: "@lang('messages.sweetAlertTitle')",
+            text: "@lang('messages.confirmation.recoverDeleteDataRoom')",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "@lang('messages.deleteConfirmation')",
+            cancelButtonText: "@lang('messages.confirmNoArchive')",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm){
+            if (isConfirm) {
+
+                var token = "{{ csrf_token() }}";
+                var id = $(this).data('doc-id');
+                var url = "{{ route('admin.dataRoom.destroy', ':id')}}";
+                url = url.replace(':id', id);
+                $.easyAjax({
+                    url: url,
+                    type: "POST",
+                    data: {'_token': token, '_method':'DELETE'},
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            window.location.reload()
+                        }
+                    }
+                })
             }
-        })
+        });
     });
     var table;
     $(".select2").select2({

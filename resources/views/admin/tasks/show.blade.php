@@ -254,9 +254,13 @@
                                                                     class="fa fa-download"></i></a>
                                                     @endif
 
-                                                    <a href="javascript:;" data-toggle="tooltip"  data-original-title="Delete" data-file-id="{{ $file->id }}"
-                                                       data-pk="list" class="btn btn-danger btn-circle task-file-delete"><i class="fa fa-times"></i></a>
-                                                    
+                                                    @if ($file->inDataRoom())
+                                                    <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
+                                                    data-pk="list" class="btn  btn-circle" style="background-color: #262626;"><i class="fa fa-times"></i></a>
+                                                    @else
+                                                    <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
+                                                    data-pk="list" class="btn btn-danger btn-circle file-delete"><i class="fa fa-times"></i></a>
+                                                    @endif
                                                     @if ($file->inDataRoom())
                                                     <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
                                                     data-pk="list" class="btn btn-circle" style="background-color: #262626;"><i class="fa fa-database"></i></a>
@@ -324,8 +328,14 @@
                                                     class="fa fa-download"></i></a>
                                         @endif
 
+                                        @if ($file->inDataRoom())
+                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
+                                           data-pk="list" class="btn  btn-circle" style="background-color: #262626;"><i class="fa fa-times"></i></a>
+                                        @else
                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
                                            data-pk="list" class="btn btn-danger btn-circle file-delete"><i class="fa fa-times"></i></a>
+                                        @endif
+                                        
 
                                         @if ($file->inDataRoom())
                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"

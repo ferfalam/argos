@@ -625,6 +625,11 @@ return array(
   'hrs' => 'HRS',
   'mins' => 'mines',
   'uploadReceipt' => 'Télécharger la réception',
+  'contract' => array(
+    'name' => "Nom du contrat",
+    'type' => "Type de contrat",
+    'organisme' => "Type de contrat"
+  ),
   'socialAuthSettings' =>
   array(
     'google' => 'google',

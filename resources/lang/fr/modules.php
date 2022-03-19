@@ -263,7 +263,7 @@ return array(
         'docName' => "Nom du document",
         'updateDoc' => " a mis à jour ce fichier",
         'seeDoc' => " a visualisé ce fichier",
-        'downloadDoc' => " a télécharger ce fichier",
+        'downloadDoc' => " a téléchargé ce fichier",
     ),
     'projects' =>
     array(

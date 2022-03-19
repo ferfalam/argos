@@ -16,6 +16,7 @@ use App\Project;
 use App\ProjectCategory;
 use App\ProjectPlace;
 use App\SPV;
+use App\SpvDetails;
 use App\User;
 use Carbon\Carbon;
 
@@ -32,7 +33,7 @@ class AdminDocumentController extends AdminBaseController
   public function index(DataRoomsDataTable $dataTable)
   {
 
-    $this->spv = SPV::all();
+    // $this->spv = SpvDetails::all();
     $this->totalDatarooms = DataRoom::count();
     $this->totalCanPublish = DataRoom::canPublish()->count();
     $this->totalCanNotPublish = DataRoom::canNotPublish()->count();
