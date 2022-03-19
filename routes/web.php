@@ -414,6 +414,12 @@ Route::group(['middleware' => 'auth'], function () {
                 //subcategory
                 Route::resource('supplierSubCategory', 'SupplierSubCategoryController');
                 Route::resource('supplierCategory', 'SupplierCategoryController');
+
+                Route::get('spvCategory/create-cat', ['uses' => 'SpvCategoryController@createCat'])->name('spvCategory.create-cat');
+                Route::post('spvCategory/store-cat', ['uses' => 'SpvCategoryController@storeCat'])->name('spvCategory.store-cat');
+                //subcategory
+                Route::resource('spvSubCategory', 'SpvSubCategoryController');
+                Route::resource('spvCategory', 'SpvCategoryController');
                 // Lead Files
                 Route::get('lead-files/download/{id}', ['uses' => 'LeadFilesController@download'])->name('lead-files.download');
                 Route::get('lead-files/thumbnail', ['uses' => 'LeadFilesController@thumbnailShow'])->name('lead-files.thumbnail');

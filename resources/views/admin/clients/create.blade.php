@@ -409,7 +409,7 @@
                                                         </td>
                                                         <td >
                                                             <select  name="category_id" id="category_id" class="form-control select2">
-                                                                <option value="">Catégorie</option>
+                                                                <option value=""></option>
 
                                                                 @foreach ($categories as $categorie)
                                                                     <option value="{{ $categorie->id }}" >

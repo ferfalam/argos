@@ -108,9 +108,9 @@ class ClientsDataTable extends BaseDataTable
             $endDate = Carbon::createFromFormat($this->global->date_format, $request->endDate)->toDateString();
             $model = $model->where(DB::raw('DATE(client_details.`created_at`)'), '<=', $endDate);
         }
-        // if ($request->client != 'all' && $request->client != '') {
-        //     $model = $model->where('users.id', $request->client);
-        // }
+        if ($request->client != 'all' && $request->client != '') {
+            $model = $model->where('client_details.id', $request->client);
+        }
         if (!is_null($request->category_id) && $request->category_id != 'all') {
             $users = $model->where('client_details.category_id', $request->category_id);
         }

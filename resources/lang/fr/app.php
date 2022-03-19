@@ -198,7 +198,7 @@ return array(
     'home' => 'Home',
     'contacts' => "Contacts",
     'suppliers' => 'Fournisseurs',
-    'spv' => 'Spv',
+    'spv' => 'SPV',
     'mailing' => 'Envoi postal',
     'coal_index' => 'Indice carbone',
     'coal_acceptability' => 'Indice Acceptabilité',
@@ -789,7 +789,7 @@ return array(
   'sent' => 'Expédié',
   'createInvoice' => 'Créer une facture',
 
-  'spvList' => 'liste des SPV',
+  'spvList' => 'Liste des SPV',
   'addAnSpv' => 'Ajouter un SPV',
   'spvSheet' => 'FICHE SPV',
 

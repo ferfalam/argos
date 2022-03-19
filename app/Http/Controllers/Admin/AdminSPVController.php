@@ -38,8 +38,9 @@ use App\Http\Requests\Admin\Spv\StoreSpvRequest;
 use App\Http\Requests\Admin\Spv\UpdateSpvRequest;
 use App\Http\Requests\ProjectNotes\StoreNotes;
 use App\Http\Requests\ProjectNotes\UpdateNotes;
-
-
+use App\Lead;
+use App\SpvCategory;
+use App\SpvSubCategory;
 
 class AdminSPVController extends AdminBaseController
 {
@@ -49,13 +50,13 @@ class AdminSPVController extends AdminBaseController
     parent::__construct();
     $this->pageTitle = 'app.menu.spv';
     $this->pageIcon = 'icon-people';
-    $this->clients = User::allClients();
+    $this->clients = User::allSpv();
     $this->totalClients = count($this->clients);
-    $this->categories = ClientCategory::all();
+    $this->categories = SpvCategory::all();
     $this->projects = Project::all();
     $this->contracts = ContractType::all();
     $this->countries = Country::all();
-    $this->subcategories = ClientSubCategory::all();
+    $this->subcategories = SpvSubCategory::all();
     $this->tla = CompanyTLA::all();
   }
 
@@ -94,8 +95,8 @@ class AdminSPVController extends AdminBaseController
 
 
     $Spv = new SpvDetails();
-    $this->categories = ClientCategory::all();
-    $this->subcategories = ClientSubCategory::all();
+    $this->categories = SpvCategory::all();
+    $this->subcategories = SpvSubCategory::all();
     // $this->fields = $Spv->getCustomFieldGroupsWithFields()->fields;
     $this->countries = Country::all();
     $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
@@ -250,8 +251,8 @@ class AdminSPVController extends AdminBaseController
     $this->clientWebsite = $this->websiteCheck($this->spvDetails->website);
 
     $this->countries = Country::all();
-    $this->categories = ClientCategory::all();
-    $this->subcategories = ClientSubCategory::all();
+    $this->categories = SpvCategory::all();
+    $this->subcategories = SpvSubCategory::all();
     $this->contects  = Contect::where('spv_detail_id',$id)->get();
 
     $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
@@ -617,7 +618,7 @@ class AdminSPVController extends AdminBaseController
 
   public function getSubcategory(Request $request)
   {
-    $this->subcategories = ClientSubCategory::where('category_id', $request->cat_id)->get();
+    $this->subcategories = SpvSubCategory::where('category_id', $request->cat_id)->get();
 
     return Reply::dataOnly(['subcategory' => $this->subcategories]);
   }

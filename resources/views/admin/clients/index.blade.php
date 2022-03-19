@@ -53,8 +53,9 @@
         <x-filter-form-group label="app.client">
             <select class="form-control select2" name="client" id="client" data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>
+                
                 @forelse($clients as $client)
-                    <option value="{{$client->id}}">{{ $client->name }}</option>
+                    <option value="{{$client->id}}">{{ $client->company_name }}</option>
                 @empty
                 @endforelse
             </select>

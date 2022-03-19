@@ -251,9 +251,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public static function allClients()
     {
-        $clients = ClientDetails::join('users', 'client_details.user_id', '=', 'users.id')
-            ->select('users.id', 'client_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'client_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
-            ->get();
+        $clients = ClientDetails::join('users', 'client_details.company_id', '=', 'users.company_id')
+            ->select('client_details.id', 'client_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'client_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+            ->groupBy('client_details.company_name')->get();
 
         return $clients;
     }
@@ -261,9 +261,19 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public static function allSuppliers()
     {
-        $clients = SupplierDetails::join('users', 'supplier_details.user_id', '=', 'users.id')
-            ->select('users.id', 'supplier_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'supplier_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
-            ->get();
+        $clients = SupplierDetails::join('users', 'supplier_details.company_id', '=', 'users.company_id')
+            ->select('supplier_details.id', 'supplier_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'supplier_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+            ->groupBy('supplier_details.company_name')->get();
+
+        return $clients;
+    }
+
+    public static function allSpv()
+    {
+        $clients = SpvDetails::join('users', 'spv_details.company_id', '=', 'users.company_id')
+        ->select('spv_details.id', 'spv_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'spv_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+        ->groupBy('spv_details.company_name')
+        ->get();
 
         return $clients;
     }

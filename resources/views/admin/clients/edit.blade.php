@@ -527,8 +527,8 @@
                                                     </td>
                                                     <td>
                                                         <select name="contact_principal" id="contact_principal" class="form-control select2">
-                                                            {{-- <option value="without_user" >create without contact Principal</option> --}}
                                                             {{-- <option value="select" @if($clientDetail->contacts_id) selected @endif>select from the list </option> --}}
+                                                            <option value="without_user" >...</option>
                                                             @foreach($contects as $contect)
                                                                 <option data='{!! $contect !!}'  value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
                                                             @endforeach
@@ -611,14 +611,8 @@
                                                         <label for="function" class="required">Fonction</label>
                                                     </td>
                                                     <td>
-                                                        <select name="function" id="function" class="form-control select2">
-                                                            @foreach($designations as $designation)
-                                                                <option value="{{ $designation->name }}">
-                                                                    {{$designation->name }}</option>
-                                                            @endforeach
-                                                        </select>
 
-                                                        {{-- <input type="text" class="form-control" id="function" name="function" value=""> --}}
+                                                        <input type="text" class="form-control" id="function" name="function" value="">
                                                     </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
@@ -675,7 +669,7 @@
                                                     <td>
                                                         <div class="d-flex">
                                                             <input type="text" name="p_mobile" id="p_mobile"
-                                                                class="form-control phone-input ccpicker" aria-label="...">
+                                                                class="form-control" aria-label="...">
                                                         </div>
                                                     </td>
                                                     <td>
@@ -1442,11 +1436,11 @@
             $('#name').val(allData.name);
             $('#function').val(allData.function);
             $('#email').val(allData.email);
-            $('#p_mobile').val(allData.mobile.split(" ")[1]);
-            $('#visibility').val(allData.visibility);
+            $('#p_mobile').val(allData.mobile);
+            // $('#visibility').val(allData.visibility);
             $('#contect_type').val('free');
             $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
-            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+            // $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
 
             $('#contact_profile_img').attr('src', allData.image_url)
             

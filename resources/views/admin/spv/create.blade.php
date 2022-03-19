@@ -44,9 +44,11 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <style>
+    .select{
+        display: inline-grid;
+    }
 
-
-    #s2id_category_id{
+    /* #s2id_category_id{
     width: 210px !important;
    }
    #s2id_contact_principal{
@@ -57,7 +59,7 @@
    }
    #s2id_function{
         width: 210px !important;
-    }
+    } */
     .select-category button{
     background-color: white !important;
     font-size: 13px;
@@ -131,7 +133,7 @@
 
     .row .col-md-4 {
         width: 100%;
-        height: max-content !important;
+        /* height: max-content !important; */
     }
 
     fieldset .form-group {
@@ -238,327 +240,47 @@
                         <div class="form-body" style="margin-top:   0px">
 
                             <div class="row">
-
-                                <div class="col-md-4">
-                                    <fieldset>
-                                        <legend>Identifications</legend>
-                                        <table>
-                                            <tr>
-                                                <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
-                                                <td>
-                                                    <input type="text" class="form-control" id="company_name" name="company_name" value="">
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="address" class="required">@lang('app.address')</label>
-                                                </td>
-                                                <td><textarea class="form-control" name="address" id="address"
-                                                        style="width:100%" rows="2"></textarea></td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="country" class="required">@lang('app.country')</label>
-                                                </td>
-                                                <td>
-                                                    <select name="country" id="country" class="form-control select2">
-                                                        @foreach ($countries as $country)
-                                                            <option value=" {{ $country->id }} ">
-                                                                {{ ucfirst(strtolower($country->name)) }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="city" class="required">@lang('app.cp')</label>
-                                                </td>
-                                                <td>
-                                                    <select name="city" id="city" class="form-control select2">
-                                                        <option value="" disabled>@lang('app.cp')</option>
-                                                        @foreach ($tla as $t)
-                                                            @if ($t->type == 'city')
-                                                                <option value=" {{ $t->id }} ">
-                                                                    {{ ucfirst(strtolower($t->name)) }}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:;" class="text-info plus-form">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
-
-                                    <fieldset>
-                                        <legend>Description </legend>
-                                        <table>
-                                            <tr>
-                                                <td colspan="3" style="padding-top: 0px">
-                                                    <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5"></textarea>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <fieldset>
-                                        <legend>Coordonées </legend>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <label for="company_phone" class="required">Tel</label>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <input type="text" name="company_phone" id="company_phone"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="mobile" class="required">Mobile</label>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <input type="text" name="mobile" id="mobile"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="fax" class="required">Fax</label>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <input type="text" name="fax" id="fax"
-                                                            class="form-control phone-input ccpicker" aria-label="...">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <label for="company_email" class="required">Email</label>
-                                                </td>
-                                                <td>
-                                                    <input type="email" id="company_email" name="company_email" class="form-control">
-
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
-
-                                    <fieldset>
-                                        <legend>Informations Générales </legend>
-                                        <table>
-                                            
-                                            <tr >        
-                                                <td>
-                                                    <label for="category_id" class="required">Catégorie Client</label>
-                                                </td>
-                                                <td >
-                                                    <select  name="category_id" id="category_id" class="form-control select2">
-                                                        @foreach ($categories as $categorie)
-                                                            <option value="{{ $categorie->id }}" >
-                                                                {{ $categorie->category_name }}
-                                                            </option>
-                                                        @endforeach     
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="Javascript:;" class="text-info category-form " >
-                                                        <img src="{{ asset('img/plus.png') }}" alt="" data-type="category">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="sub_category_id" class="required">Sous Catégorie</label>
-                                                </td>
-                                                <td>
-                                                    <select  name="sub_category_id" id="sub_category_id" class="form-control select2">
-                                                        @foreach ($subcategories as $subcategorie)
-                                                            <option value="{{ $subcategorie->id }}" >
-                                                                {{ $subcategorie->category_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="Javascript:;" class="text-info subcategory-form ">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="language" class="required">Langue</label>
-                                                </td>
-                                                <td>
-                                                    <select name="language" id="language" class="form-control select2">
-                                                        <option @if ($global->locale == 'en') selected @endif value="en">
-                                                            English
-                                                        </option>
-                                                        @foreach ($languageSettings as $language)
-                                                            <option value="{{ $language->language_code }}"
-                                                                @if ($global->locale == $language->language_code) selected @endif>
-                                                                {{ $language->language_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="Javascript:;" class="text-info language-form "> 
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-                                    </fieldset>
-
-                                    
-                                    <fieldset>
-                                        <legend>Informations Générales </legend>
-                                        <table>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="emailNotification" class="required">Notification Par Mail</label>
-                                                </td>
-                                                <td>
-                                                    <select name="emailNotification" id="emailNotification" class="form-control select2">
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <label for="smsNotification" class="required">Notification Par SMS</label>
-                                                </td>
-                                                <td>
-                                                    <select name="smsNotification" id="smsNotification" class="form-control select2">
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible" >
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-                                    </fieldset>
-
-                                </div>
-
-                               <!--  <div class="col-md-4">
-                                    <fieldset>
-                                        <legend>Administrateur</legend>
-                                        <div class="d-flex align-items-center">
-                                            <table> -->
-
-                                                <!-- <tr>
+                                <div class="row" style="grid-template-columns: repeat(2, 1fr);grid-column: 1/3;">
+                                    <div class="col-md-4">
+                                        <fieldset  style="height: 50%">
+                                            <legend>Identifications</legend>
+                                            <table>
+                                                <tr>
+                                                    <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
                                                     <td>
-                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                        <input type="text" class="form-control" id="company_name" name="company_name" value="">
                                                     </td>
                                                     <td>
-                                                        <select name="contact_principal" id="contact_principal" class="form-control select2">
-                                                            <option value="without_user">create without contact Principal</option>
-                                                            {{-- <option value="select">select from the list </option> --}}
-                                                            <option value="create">create a new one</option>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="address" class="required">@lang('app.address')</label>
+                                                    </td>
+                                                    <td><textarea class="form-control" name="address" id="address"
+                                                            style="width:100%" rows="2"></textarea></td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <label for="country" class="required">@lang('app.country')</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="country" id="country" class="form-control select2">
+                                                            @foreach ($countries as $country)
+                                                                <option value=" {{ $country->id }} ">
+                                                                    {{ ucfirst(strtolower($country->name)) }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <a href="#!" class="invisible"  >
-                                                            <img src="{{ asset('img/attach-to.png') }}" alt="">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>
-                                                        <label for="" class="mb-0">@lang('app.civility')</label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex" style="margin-right: 40px; gap:20px">
-                                                            <div class="form-group mb-0">
-                                                                <input type="radio" name="gender" value="male">
-                                                                <label for="gender" style="margin-bottom: 0px">M</label>
-                                                            </div>
-                                                            <div class="form-group mb-0">
-                                                                <input type="radio" name="gender" value="female">
-                                                                <label for="gender" style="margin-bottom: 0px">Mme</label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                   
-                                                </tr>
-
-                                                <tr>
-                                                    <td>
-                                                        <label for="name" class="required">Nom/Prénom</label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" id="name" name="name" value="">
-                                                    </td>
-                                                    <td>
                                                         <a href="#!" class="invisible">
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
@@ -567,49 +289,50 @@
 
                                                 <tr>
                                                     <td>
-                                                        <label for="function" class="required">Fonction</label>
+                                                        <label for="city" class="required">@lang('app.cp')</label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="function" name="function" value="">
+                                                        <select name="city" id="city" class="form-control select2">
+                                                            <option value="" disabled>@lang('app.cp')</option>
+                                                            @foreach ($tla as $t)
+                                                                @if ($t->type == 'city')
+                                                                    <option value=" {{ $t->id }} ">
+                                                                        {{ $t->name }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
                                                     </td>
                                                     <td>
-                                                        <a href="#!" class="invisible">
-                                                            <img src="{{ asset('img/plus.png') }}" alt="">
-                                                        </a>
+                                                        <a href="javascript:;" class="text-info plus-form">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
                                                     </td>
                                                 </tr>
+                                            </table>
+                                        </fieldset>
+
+                                        <fieldset  style="height: 50%">
+                                            <legend>Description </legend>
+                                            <table>
+                                                <tr>
+                                                    <td colspan="3" style="padding-top: 0px">
+                                                        <textarea name="observation" id="observation"  class="form-control w-100" style="width: 100%;"  rows="5"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <fieldset  style="height: 50%">
+                                            <legend>Coordonées </legend>
+                                            <table>
                                                 <tr>
                                                     <td>
-                                                        <label for="email" class="required">Email</label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="email" class="form-control" id="email" name="email" value="">
-                                                    </td>
-                                                    <td>
-                                                        <a href="#!" class="invisible">
-                                                            <img src="{{ asset('img/plus.png') }}" alt="">
-                                                        </a>
-                                                    </td>
-                                                </tr> -->
-<!-- 
-                                                <tr>
-                                                    <td>
-                                                        <label for="password"
-                                                            class="required">@lang('app.motdepasse')</label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="password" name="password" id="password" class="form-control">
-                                                    </td>
-                                                </tr> -->
-
-
-                                             <!--    <tr>
-                                                    <td>
-                                                        <label for="p_phone" class="required">Tel</label>
+                                                        <label for="company_phone" class="required">Tel</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="p_phone" id="p_phone"
+                                                            <input type="text" name="company_phone" id="company_phone"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
                                                     </td>
@@ -618,15 +341,15 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> -->
-    
-                                              <!--   <tr>
+                                                </tr>
+
+                                                <tr>
                                                     <td>
-                                                        <label for="p_mobile" class="required">Mobile</label>
+                                                        <label for="mobile" class="required">Mobile</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="p_mobile" id="p_mobile"
+                                                            <input type="text" name="mobile" id="mobile"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
                                                     </td>
@@ -635,15 +358,15 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> -->
-    
-                                               <!--  <tr>
+                                                </tr>
+
+                                                <tr>
                                                     <td>
                                                         <label for="fax" class="required">Fax</label>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex">
-                                                            <input type="text" name="p_fax" id="p_fax"
+                                                            <input type="text" name="fax" id="fax"
                                                                 class="form-control phone-input ccpicker" aria-label="...">
                                                         </div>
                                                     </td>
@@ -652,69 +375,150 @@
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
-                                                </tr> -->
+                                                </tr>
 
-                                             <!--    <tr>
-                                                    <td><label for="visibility" class="required">@lang('app.visibility')
-                                                        </label></td>
+                                                <tr>
                                                     <td>
-                                                        <input type="text" class="form-control" id="visibility" name="visibility"
-                                                            value="">
+                                                        <label for="company_email" class="required">Email</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="email" id="company_email" name="company_email" class="form-control">
+
+                                                    </td>
                                                     <td>
                                                         <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+
+                                        <fieldset  style="height: 50%">
+                                            <legend>Informations Générales </legend>
+                                            <table>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="category_id" class="required">Catégorie SPV</label>
+                                                    </td>
+                                                    <td>
+                                                        <select  name="category_id" id="category_id" class="form-control select2">
+                                                                <option value="">...</option>
+
+                                                                @foreach ($categories as $categorie)
+                                                                    <option value="{{ $categorie->id }}" >
+                                                                        {{ $categorie->category_name }}
+                                                                    </option>
+                                                                @endforeach     
+                                                            </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="client_category">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="sub_category_id" class="required">Sous Catégorie</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="sub_category_id" id="sub_category_id" class="form-control select2">
+                                                            
+                                                            @foreach($subcategories as $category)
+                                                                <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="client_sub_category">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="language" class="required">Langue</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="language" id="language" class="form-control select2">
+                                                            @foreach ($languageSettings as $language)
+                                                                <option value="{{ $language->language_code }}"
+                                                                        @if ($global->locale == $language->language_code) selected @endif>
+                                                                    {{ $language->language_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="Javascript:;" class="text-info language-form">
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
                                                         </a>
                                                     </td>
                                                 </tr>
 
-                                               
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                    <td class="text-center" colspan="2">
-                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                            <div class="fileinput-new thumbnail"
-                                                                style="width: 123px; height: 137px;">
-                                                                <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                    alt="" />
-                                                            </div>
-                                                            <div class="fileinput-preview fileinput-exists thumbnail"
-                                                                style="max-width: 200px; max-height: 150px;"></div>
-                                                            <div class="mt-5">
-                                                                <span class="btn btn-info btn-file">
-                                                                    <span class="fileinput-new"> @lang('app.selectImage') </span>
-                                                                    <span class="fileinput-exists"> @lang('app.change') </span>
-                                                                    <input type="file" name="image" id="image"> </span>
-                                                                <a href="javascript:;" class="btn btn-danger fileinput-exists"
-                                                                    data-dismiss="fileinput"> @lang('app.remove') </a>
-                                                            </div>
-                                                            <div class="mt-1">
-                                                                <p class="text-secondary" style="font-size: 12px;">@lang('app.fomatimage')</p>
-                                                                <p class="text-secondary" style="font-size: 12px;">(JPG,JPEG,PNG,GIF | 15Mo max.)</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
                                             </table>
-                                        </div>
-
-                                    </fieldset>
-                                </div> -->
-                                 <div class="col-md-4">
-                                    <fieldset>
-                                        <legend>Administrateur</legend>
-                                        <div class="d-flex align-items-center">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4" style="grid-column: 1/3">
+                                        <fieldset>
+                                            <legend>Informations Générales </legend>
                                             <table>
-
+                                                
                                                 <tr>
                                                     <td>
-                                                        <label for="" class="mb-0">Contact Principal</label>
+                                                        <label for="emailNotification" class="required">Notification Par Mail</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="emailNotification" id="emailNotification" class="form-control select2">
+                                                            <option value="1">Oui</option>
+                                                            <option value="0">Non</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <label for="smsNotification" class="required">Notification Par SMS</label>
+                                                    </td>
+                                                    <td>
+                                                        <select name="smsNotification" id="smsNotification" class="form-control select2">
+                                                            <option value="1">Oui</option>
+                                                            <option value="0">Non</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible" >
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>Contact Principal</legend>
+                                        <div class="d-flex align-items-center">
+                                            <table>
+                                                {{-- <option value="select">select from the list </option> --}}
+                                                {{-- <option value="create">create a new one</option> --}}
+                                                <tr>
+                                                    <td>
+                                                        <label for="" class="mb-0">Nom & prénoms</label>
                                                     </td>
                                                     <td>
                                                         <select name="contact_principal" id="contact_principal" class="form-control select2">
-                                                            <option value="without_user">create without contact Principal</option>
-                                                            {{-- <option value="select">select from the list </option> --}}
-                                                            <option value="create">create a new one</option>
+                                                            
+                                                            <option value="without_user">...</option>
                                                             @foreach($contects as $contect)
                                                                 <option data='{!!$contect!!}'  value="{{ $contect->id}}"> {{ $contect->name }}  </option>
                                                             @endforeach
@@ -726,7 +530,6 @@
                                                         </a>
                                                     </td>
                                                 </tr>
-
 
                                                 <tr>
                                                     <td>
@@ -813,13 +616,18 @@
                                                         </a>
                                                     </td>
                                                 </tr>
-    
+
+
                                                 <tr>
-                                                    <td><label for="visibility" class="required">@lang('app.visibility')
-                                                        </label></td>
+                                                    <td>
+                                                        <label for="visibility" class="required">@lang('app.visibility')
+                                                        </label>
+                                                    </td>
                                                     <td>
                                                         <input type="text" class="form-control" id="visibility" name="visibility"
                                                             value="">
+                                                    </td>
+
                                                     <td>
                                                         <a href="#!" class="invisible">
                                                             <img src="{{ asset('img/plus.png') }}" alt="">
@@ -827,7 +635,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><label for="contect_type" class="required">@lang('app.contact_type')</label>
+                                                    <td><label for="contact_type" class="required">@lang('app.contact_type')</label>
                                                     </td>
                                                     <td>
                                                         <select name="contect_type" id="contect_type" class="form-control select2" >
@@ -844,6 +652,7 @@
                                                     </td>
                                                 </tr>
 
+
                                                 <tr>
                                                     <td>&nbsp;</td>
                                                     <td class="text-center" colspan="2">
@@ -851,7 +660,7 @@
                                                             <div class="fileinput-new thumbnail"
                                                                 style="width: 123px; height: 137px;">
                                                                 <img src="https://via.placeholder.com/200x150.png?text={{ str_replace(' ', '+', __('modules.profile.uploadPicture')) }}"
-                                                                    alt="" id="contact_img" />
+                                                                    alt=""  id="contact_img"  />
                                                             </div>
                                                             <div class="fileinput-preview fileinput-exists thumbnail"
                                                                 style="max-width: 200px; max-height: 150px;"></div>
@@ -1304,7 +1113,6 @@
         $('#category_id').change(function (e) {
         var cat_id = $(this).val();
         getCategory(cat_id);
-           
         });
         function getCategory(cat_id){
             var url = "{{route('admin.spv.getSubcategory')}}";
@@ -1401,14 +1209,14 @@
         ]
     });
 
-    $('#addClientCategory').click(function () {
-        var url = '{{ route('admin.clientCategory.create')}}';
+    $('.client_category').click(function () {
+        var url = '{{ route('admin.spvCategory.create')}}';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     })
 
-    $('#addClientSubCategory').click(function () {
-        var url = '{{ route('admin.clientSubCategory.create')}}';
+    $('.client_sub_category').click(function () {
+        var url = '{{ route('admin.spvSubCategory.create')}}';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     })
