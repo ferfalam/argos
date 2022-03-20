@@ -4,7 +4,31 @@
     <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.css') }}">
 
+<style>
+    .select-organisme-form{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+
+    .select-organisme-form > input{
+        margin: 0;
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .select-organisme-form > label{
+        margin: 0;
+        margin-right: 15px;
+        font-size: 22px !important;
+        font-weight: 500
+    }
+    
+
+</style>
 
 @endpush
 @section('page-title')
@@ -39,34 +63,49 @@
                     <div class="panel-wrapper collapse in" aria-expanded="true">
                         <div class="panel-body">
                         {!! Form::open(['id'=>'createContract','class'=>'ajax-form','method'=>'POST']) !!}
-                            <div class="row">
+                            <div class="row" style="display: flex;align-items: end;">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label required" for="company_name">@lang('app.client')</label>
-                                        <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">
-                                            @foreach($clients as $client)
-                                                <option value="{{ 'client '.$client->id }}">{{ ucwords($client->company_name) }}</option>
-                                            @endforeach
-
-                                            @foreach($suppliers as $supplier)
-                                                <option value="{{ 'supplier '.$supplier->id }}">{{ ucwords($supplier->company_name) }}</option>
-                                            @endforeach
-
-                                            @foreach($spvs as $spv)
-                                                <option value="{{ 'spv '.$spv->id }}">{{ ucwords($spv->company_name) }}</option>
-                                            @endforeach
-
-                                        </select>
+                                        <label class="control-label required" for="contract_name">@lang('app.contract.name')</label>
+                                        <input type="text" class="form-control" id="contract_name" name="contract_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label required" for="subject">@lang('app.subject')</label>
-                                        <input type="text" class="form-control" id="subject" name="subject">
+                                    <div class="row">
+                                        <div class="form-group select-organisme-form">
+                                            <input type="radio" name="type-organisme" value="client" id="organisme-client" checked><label class="control-label" for="company_name">@lang('app.client')</label>
+                                            <input type="radio" name="type-organisme" value="supplier" id="organisme-supplier"><label class="control-label" for="company_name">@lang('app.supplier')</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group client">
+                                            <label class="control-label required" for="company_name">@lang('app.contract.organisme')</label>
+                                            <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">
+                                                @foreach($clients as $client)
+                                                    <option value="{{ 'client '.$client->id }}" >{{ ucwords($client->company_name) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group supplier" style="display: none">
+                                            <label class="control-label required" for="company_name">@lang('app.contract.organisme')</label>
+                                            <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID" disabled>
+                                                @foreach($suppliers as $supplier)
+                                                    <option value="{{ 'supplier '.$supplier->id }}" style="display: none" @if ($suppliers[0]->id == $supplier->id) selected @endif >{{ ucwords($supplier->company_name) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group spv" style="display: none">
+                                            <label class="control-label required" for="company_name">@lang('app.contract.organisme')</label>
+                                            <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID" disabled>
+                                                @foreach($spvs as $spv)
+                                                    <option value="{{ 'spv '.$spv->id }}" style="display: none" @if ($spvs[0]->id == $spv->id) selected @endif >{{ ucwords($spv->company_name) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="display: flex;align-items: end;">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="subject"  class="control-label required">@lang('app.amount') 
@@ -77,7 +116,7 @@
 
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="form-group" style="padding-top: 19px; padding-left: 53px;">
+                                    <div class="form-group" style="">
                                         <div class="checkbox checkbox-info">
                                             <input name="no_amount" id="check_amount"
                                                 type="checkbox" onclick="setAmount()">
@@ -103,8 +142,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row" style="display: flex;align-items: end;">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label required">@lang('modules.timeLogs.startDate')</label>
                                         <input id="start_date" name="start_date" type="text"
@@ -112,51 +151,64 @@
                                                 value="{{ \Carbon\Carbon::today()->format($global->date_format) }}">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">@lang('modules.timeLogs.endDate')</label>
                                         <input id="end_date" name="end_date" type="text" class="form-control"
                                             value="{{ \Carbon\Carbon::today()->format($global->date_format) }}">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group" style="padding-top: 19px; padding-left: 53px;">
+                                <div class="col-md-2">
+                                    <div class="form-group" style="">
                                         <div class="checkbox checkbox-info" onclick="setEndDate()">
                                             <input name="no_enddate" id="no_enddate" type="checkbox">
                                             <label for="no_enddate">@lang('modules.contracts.noEndDate')</label>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>@lang('modules.contracts.contractName')</label>
-                                                <input name="contract_name" type="text"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>@lang('modules.contracts.alternateAddress')</label>
-                                                <textarea class="form-control" name="alternate_address" 
-                                                    class="form-control"></textarea>
-                                            </div>
-                                        </div>
-                              </div>
-                              <div class="row">
                                 <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>@lang('modules.lead.mobile')</label>
-                                            <input type="tel" name="mobile" id="mobile" class="form-control">
-                                        </div>
+                                    <div class="form-group">
+                                        <label class="required">Signataire</label>
+                                        <select class="select2 form-control" data-placeholder="@lang('app.client')" name="user_id" id="user_id">
+                                            @foreach($company_users as $u)
+                                                <option value="{{ $u->id }}" >{{ ucwords($u->name) }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-group">
-                                            <label>@lang('modules.clients.officePhoneNumber')</label>
-                                            <input type="text" name="office_phone" id="office_phone"   class="form-control">
-                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Projet</label>
+                                        <select class="select2 form-control" data-placeholder="@lang('app.client')" name="project_id" id="project_id">
+                                            @foreach($projects as $project)
+                                                <option value="{{ $project->id }}" >{{ ucwords($project->project_name) }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row" style="display: flex;align-items: end;">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>@lang('modules.contracts.alternateAddress')</label>
+                                        <textarea class="form-control" name="alternate_address" rows="1"
+                                            class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@lang('modules.lead.mobile')</label>
+                                        <input type="tel" name="mobile" id="mobile" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <div class="form-group">
+                                        <label>@lang('modules.clients.officePhoneNumber')</label>
+                                        <input type="text" name="office_phone" id="office_phone"   class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="row">
                                 <div class="col-md-3 ">
                                         <div class="form-group">
                                             <label>@lang('modules.stripeCustomerAddress.city')</label>
@@ -169,66 +221,135 @@
                                             <input type="text" name="state" id="state"   class="form-control">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+                            </div> --}}
+                            <div class="row" style="display: flex;align-items: end;">
                                 <div class="col-md-3 ">
                                         <div class="form-group">
                                             <label>@lang('modules.stripeCustomerAddress.country')</label>
-                                            <input type="text" name="country" id="country"  class="form-control">
+                                            <select name="country" id="country" class="form-control select2">
+                                                @foreach ($countries as $country)
+                                                    <option value=" {{ $country->name }} ">
+                                                        {{ ucfirst(strtolower($country->name)) }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 <div class="col-md-3 ">
                                         <div class="form-group">
                                             <label>@lang('modules.stripeCustomerAddress.postalCode')</label>
-                                            <input type="text" name="postal_code" id="postalCode"class="form-control">
+                                            <div style="display: flex; align-items: center;">
+                                                <select name="city" id="city" class="form-control select2">
+                                                    <option value="" disabled>@lang('app.cp')</option>
+                                                    @foreach ($tla as $t)
+                                                        @if ($t->type == 'city')
+                                                            <option value=" {{ $t->name }} ">
+                                                                {{ $t->name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                                <a href="javascript:;" class="text-info plus-form" style="margin-left: 10px">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="" data-type="city"> </a>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row"  style="display: flex;align-items: end; justify-content:end">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <label class="control-label">@lang('modules.contracts.summary')</label>
+                                            <label class="control-label">Commentaires</label>
                                             <textarea class="form-control summernote" id="contract_detail" name="contract_detail" rows="4"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                            <div class="row">
-                                <div class="col-xs-12">
+                            <div class="row"  style="display: flex;align-items: end;">
+                                {{-- <div class="col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label">@lang('modules.contracts.notes')</label>
                                         <textarea class="form-control summernote" id="description" name="description" rows="4"></textarea>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
-                            <div class="row">
-                                    <div class="col-md-6">
-                                        <label>@lang('modules.contracts.companyLogo')</label>
-                                        <div class="form-group">
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                    <img src="http://via.placeholder.com/200x150.png?text=@lang('modules.contracts.companyLogo')"
-                                                        alt=""/>
-                                                </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail"
-                                                    style="max-width: 200px; max-height: 150px;"></div>
-                                                <div>
-                                                <span class="btn btn-info btn-file">
-                                                    <span class="fileinput-new"> @lang('app.selectImage') </span>
-                                                    <span class="fileinput-exists"> @lang('app.change') </span>
-                                                    <input type="file" id="company_logo" name="company_logo"> </span>
-                                                    <a href="javascript:;" class="btn btn-danger fileinput-exists"
-                                                    data-dismiss="fileinput"> @lang('app.remove') </a>
+                            <div class="row"  style="display: flex;align-items: end; margin-bottom:20px">
+                                <div class="col-xs-12">
+                                    @if($upload)
+                                        <button type="button"
+                                                class="btn btn-block btn-outline-info btn-sm col-md-2 select-image-button"
+                                                style="margin-bottom: 10px;display: none "><i class="fa fa-upload"></i>
+                                            File Select Or Upload
+                                        </button>
+                                        <div id="file-upload-box">
+                                            <div class="row" id="file-dropzone">
+                                                <div class="col-xs-12">
+                                                    <div class="dropzone"
+                                                            id="file-upload-edit-dropzone">
+                                                        {{ csrf_field() }}
+                                                        <div class="fallback">
+                                                            <input name="file" type="file" multiple/>
+                                                        </div>
+                                                        <input name="image_url" id="image_url" type="hidden"/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-
+                                        <input type="hidden" name="taskID" id="taskID" value="">
+                                    @else
+                                        <div class="alert alert-danger">@lang('messages.storageLimitExceed', ['here' => '<a href='.route('admin.billing.packages'). '>Here</a>'])</div>
+                                    @endif
                                 </div>
+                            </div>
+                            {{-- @if(isset($contractFiles))
+                                <div class="row" id="list">
+                                    <ul class="list-group" id="files-list">
+                                        @forelse($meetingFiles as $file)
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        {{ $file->filename }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                            <a target="_blank" href="{{ $file->file_url }}"
+                                                                data-toggle="tooltip" data-original-title="View"
+                                                                class="btn btn-info btn-circle"><i
+                                                                        class="fa fa-search"></i></a>
+                                                        @if(is_null($file->external_link))
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('admin.zoom-meeting-files.download', $file->id) }}"
+                                                                data-toggle="tooltip" data-original-title="Download"
+                                                                class="btn btn-inverse btn-circle"><i
+                                                                        class="fa fa-download"></i></a>
+                                                        @endif
+                                                        &nbsp;&nbsp;
+                                                        <a href="javascript:;" data-toggle="tooltip"
+                                                            data-original-title="Delete"
+                                                            data-file-id="{{ $file->id }}"
+                                                            class="btn btn-danger btn-circle sa-params .file-delete" data-pk="list"><i
+                                                                    class="fa fa-times"></i></a>
+
+                                                        <span class="m-l-10">{{ $file->created_at->diffForHumans() }}</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @empty
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        @lang('messages.noFileUploaded')
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endforelse
+
+                                    </ul>
+                                </div>
+                            @endif --}}
+
+                            <div class="row" style="display: flex;align-items: end; justify-content:end">
                                 <button type="submit" id="save-form" class="btn btn-success waves-effect waves-light m-r-10">
                                     @lang('app.save')
                                 </button>
-                                <button type="reset" class="btn btn-inverse waves-effect waves-light">@lang('app.reset')</button>
+                            </div>
+                                {{-- <button type="reset" class="btn btn-inverse waves-effect waves-light">@lang('app.reset')</button> --}}
                             </div>
                         {!! Form::close() !!}
                     </div>
@@ -237,6 +358,27 @@
         </div>
     </div>
     <!-- .row -->
+    {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="addModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->.
+    </div>
+    {{--Ajax Modal Ends--}}
     {{--Ajax Modal--}}
     <div class="modal fade bs-modal-md in" id="taskCategoryModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" id="modal-data-application">
@@ -265,7 +407,7 @@
     <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
     <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
-
+    <script src="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.js') }}"></script>
     <script>
 
 
@@ -294,16 +436,6 @@
             $('#end_date').datepicker('setStartDate', maxDate);
         });
 
-        $('#save-form').click(function () {
-            $.easyAjax({
-                url: '{{route('admin.contracts.store')}}',
-                container: '#createContract',
-                type: "POST",
-                file: (document.getElementById("company_logo").files.length == 0) ? false : true,
-                redirect: true,
-                data: $('#createContract').serialize()
-            })
-        });
         $('#createContractType').click(function(){
             var url = '{{ route('admin.contract-type.create-contract-type')}}';
             $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
@@ -341,6 +473,105 @@
             ["view", ["fullscreen"]]
         ]
     });
+
+
+    $("#organisme-client").change(function (e) {
+        //clientID
+        if (e.target.checked) {
+            $('.supplier').hide()
+            $('.client').show()
+            $('.supplier select').prop('disabled', 'disabled');
+            $('.client select').prop('disabled', false);
+        }
+    })
+    $("#organisme-supplier").change(function (e) {
+        //clientID
+        if (e.target.checked) {
+            $('.supplier').show()
+            $('.client').hide()
+            $('.supplier select').prop('disabled', false);
+            $('.client select').prop('disabled', 'disabled');
+        }
+    })
+
+    $('.plus-form').click(function() {
+            let target = $(event.target)[0];
+            const field = $('#' + target.dataset.type)
+            const url = '{{ route('admin.tla.create') }}/' + target.dataset.type;
+            $('#modelHeading').html('...');
+            $.ajaxModal('#addModal', url);
+        })
+        @if($upload)
+            Dropzone.autoDiscover = false;
+            //Dropzone class
+            editDropzone = new Dropzone("div#file-upload-edit-dropzone", {
+                url: "{{ route('admin.contract-files.multiple-upload') }}",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                paramName: "file",
+                maxFilesize: 10,
+                maxFiles: 10,
+                acceptedFiles: "image/*,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                addRemoveLinks: true,
+                parallelUploads: 10,
+                dictDefaultMessage: "@lang('modules.projects.dropFile')",
+                init: function () {
+                    editDropzone = this;
+                    this.on("success", function (file, response) {
+                        if(response.status == 'fail') {
+                            $.showToastr(response.message, 'error');
+                            return;
+                        }
+                    })
+                }
+            });
+
+            editDropzone.on('sending', function (file, xhr, formData) {
+                console.log(editDropzone.getAddedFiles().length, 'sending');
+                var ids = $('#taskID').val();
+                var task_request_id = $('#task_request_id').val();
+                formData.append('contract_id', ids);
+                //formData.append('task_request_id', task_request_id);
+            });
+
+            editDropzone.on('completemultiple', function () {
+                var msgs = "@lang('messages.contractAdded')";
+                $.showToastr(msgs, 'success');
+                var url="{{route('admin.contracts.edit', ':id')}}"
+                url.replace(':id', $('#task_request_id').val())
+                window.location.href = url;
+            });
+        @endif
+
+
+        $('#save-form').click(function () {
+            // file: (document.getElementById("company_logo").files.length == 0) ? false : true,
+            $.easyAjax({
+                url: '{{route('admin.contracts.store')}}',
+                container: '#createContract',
+                type: "POST",
+                redirect: true,
+                data: $('#createContract').serialize(),
+                success: function (response) {
+                    var dropzone = 0;
+                    @if($upload)
+                        dropzone = editDropzone.getQueuedFiles().length;
+                    @endif
+
+                    if(dropzone > 0){
+                        taskID = response.contract_id;
+                        $('#taskID').val(response.contract_id);
+                        editDropzone.processQueue();
+                    }
+                    else{
+                        var msgs = "@lang('messages.contractAdded')";
+                        $.showToastr(msgs, 'success');
+                        window.location.reload();
+                    }
+                }
+            })
+        });
     </script>
 @endpush
 

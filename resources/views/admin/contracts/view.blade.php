@@ -5,6 +5,11 @@
     .img-width {
             width: 185px;
         }
+
+        .list-group{
+                display: flex;
+                flex-direction: column;
+        }
     </style>
 @endpush
 

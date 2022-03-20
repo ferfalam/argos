@@ -30,7 +30,7 @@ class UpdateRequest extends CoreRequest
         $setting = Company::withoutGlobalScope('active')->where('id', company()->id)->first();
         return [
             'client' => 'required',
-            'subject' => 'required',
+            //'subject' => 'required',
             'amount' => 'required',
             'contract_type' => 'required|exists:contract_types,id',
             'start_date' => ['required' , new CheckDateFormat(null, $setting->date_format)],

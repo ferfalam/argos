@@ -33,8 +33,29 @@ class Contract extends BaseModel
     }
 
     public function client()
+    {   
+        $supplier = $this->belongsTo(SupplierDetails::class, 'supplier_detail_id')->withoutGlobalScopes(['active', CompanyScope::class]);
+        if (isset($supplier->company_name)) {
+            # code...
+            return $supplier;
+        }else{
+            return $this->belongsTo(ClientDetails::class, 'client_detail_id')->withoutGlobalScopes(['active', CompanyScope::class]);
+        }
+    }
+
+    public function supplier()
     {
-        return $this->belongsTo(User::class, 'client_id')->withoutGlobalScopes(['active', CompanyScope::class]);
+        return $this->belongsTo(SupplierDetails::class, 'supplier_detail_id')->withoutGlobalScopes(['active', CompanyScope::class]);
+    }
+
+    // public function spv()
+    // {
+    //     return $this->belongsTo(ClientDetails::class, 'client_detail_id')->withoutGlobalScopes(['active', CompanyScope::class]);
+    // }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'subject');
     }
 
     public function contract_type()

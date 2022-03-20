@@ -636,7 +636,7 @@ return array(
   'contract' => array(
     'name' => "Nom du contrat",
     'type' => "Type de contrat",
-    'organisme' => "Type de contrat"
+    'organisme' => "Organisme"
   ),
   'socialAuthSettings' =>
   array(

@@ -149,23 +149,51 @@ class ContractFilesController  extends AdminBaseController
     public function storeMultiple(Request $request)
     {
         if ($request->hasFile('file')) {
-            foreach ($request->file as $fileData){
+            $limitReached = false;
+            foreach ($request->file as $fileData) {
+                $upload = can_upload($fileData->getSize() / (1000 * 1024));
+                if ($upload) {
+                    $file = new ContractFile();
+                    $file->user_id     = $this->user->id;
+                    $file->contract_id = $request->contract_id;
 
-                $file = new ContractFile();
-                $file->user_id     = $this->user->id;
-                $file->contract_id = $request->contract_id;
+                    $filename = Files::uploadLocalOrS3($fileData, 'contract-files/' . $request->contract_id);
 
-                $filename = Files::uploadLocalOrS3($fileData, 'contract-files/'.$request->contract_id);
-
-                $file->filename = $fileData->getClientOriginalName();
-                $file->hashname = $filename;
-                $file->size     = $fileData->getSize();
-                $file->save();
-                //                $this->logProjectActivity($request->contract_id, __('messages.newFileUploadedToTheProject'));
+                    $file->filename = $fileData->getClientOriginalName();
+                    $file->hashname = $filename;
+                    $file->size     = $fileData->getSize();
+                    $file->save();
+                } else {
+                    $limitReached = true;
+                }
             }
-
+            if ($limitReached) {
+                return Reply::error(__('messages.storageLimitExceed', ['here' => '<a href=' . route('admin.billing.packages') . '>Here</a>']));
+            }
         }
-        return Reply::redirect(route('admin.contracts.index'), __('modules.contracts.projectUpdated'));
+
+
+        // $view = view('admin.tasks.ajax-list', $this->data)->render();
+
+        return Reply::success(__('messages.fileUploaded'));
+        // if ($request->hasFile('file')) {
+        //     foreach ($request->file as $fileData){
+
+        //         $file = new ContractFile();
+        //         $file->user_id     = $this->user->id;
+        //         $file->contract_id = $request->contract_id;
+
+        //         $filename = Files::uploadLocalOrS3($fileData, 'contract-files/'.$request->contract_id);
+
+        //         $file->filename = $fileData->getClientOriginalName();
+        //         $file->hashname = $filename;
+        //         $file->size     = $fileData->getSize();
+        //         $file->save();
+        //         //                $this->logProjectActivity($request->contract_id, __('messages.newFileUploadedToTheProject'));
+        //     }
+
+        // }
+        // return Reply::redirect(route('admin.contracts.index'), __('modules.contracts.projectUpdated'));
     }
 
     /**

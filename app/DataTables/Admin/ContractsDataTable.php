@@ -6,6 +6,7 @@ use App\Contract;
 use App\DataTables\BaseDataTable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
@@ -37,6 +38,34 @@ class ContractsDataTable extends BaseDataTable
                 $action .= '</ul> </div>';
                 return $action;
             })
+            // ->addColumn('app.contract.organisme', function ($row) {
+            //     if ($row->client) {
+            //         # code...
+            //         return $row->client->company_name;
+            //     }
+            //     if ($row->supplier) {
+            //         # code...
+            //         return $row->supplier->company_name;
+            //     }
+            // })
+            
+            // ->editColumn('client', function ($row) {
+            //     Log::info($row);
+            //     if ($row->client) {
+            //         # code...
+            //         return $row->client->company_name;
+            //     }
+            //     if ($row->supplier) {
+            //         # code...
+            //         return $row->supplier->company_name;
+            //     }
+            // })
+            ->editColumn('start_date', function ($row) {
+                return $row->start_date->format($this->global->date_format);
+            })
+            ->editColumn('start_date', function ($row) {
+                return $row->start_date->format($this->global->date_format);
+            })
             ->editColumn('start_date', function ($row) {
                 return $row->start_date->format($this->global->date_format);
             })
@@ -54,7 +83,7 @@ class ContractsDataTable extends BaseDataTable
             })
             ->editColumn('signature', function ($row) {
                 if ($row->signature) {
-                    return 'signed';
+                    return 'Signed';
                 }
                 return 'Not Signed';
             })
@@ -72,7 +101,7 @@ class ContractsDataTable extends BaseDataTable
     {
         $request = $this->request();
 
-        $model = $model->with('contract_type', 'client', 'signature');
+        $model = $model->with('contract_type', 'client', 'project');
 
         
         if (($request->startDate !== null && $request->startDate != 'null' && $request->startDate != '') && $request->endDate !== null && $request->endDate != 'null' && $request->endDate != '') {
@@ -137,11 +166,12 @@ class ContractsDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            '#' => ['data' => 'id', 'name' => 'id', 'visible' => true],
+            // '#' => ['data' => 'id', 'name' => 'id', 'visible' => true],
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false],
-            __('app.contract.name') => ['data' => 'subject', 'name' => 'subject'],
-            __('app.contract.organisme') => ['data' => 'client.name', 'name' => 'client_name'],
-            __('app.contract.type') => ['data' => 'type', 'name' => 'type'],
+            __('app.contract.name') => ['data' => 'contract_name', 'name' => 'contract_name'],
+            __('app.contract.organisme') => ['data' => 'client.company_name', 'name' => 'client'],
+            __('app.contract.type') => ['data' => 'contract_type.name', 'name' => 'contract_type'],
+            __('app.project') => ['data' => 'project.project_name', 'name' => 'project.project_name'],
             // __('app.client')  => ['data' => 'client.name', 'name' => 'client.name'],
             __('app.amount') => ['data' => 'amount', 'name' => 'amount'],
             __('app.start_date') => ['data' => 'start_date', 'name' => 'start_date'],

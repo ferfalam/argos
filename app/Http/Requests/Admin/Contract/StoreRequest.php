@@ -31,7 +31,7 @@ class StoreRequest extends CoreRequest
 
         return [
             'client' => 'required',
-            'subject' => 'required',
+            //'subject' => 'required',
             'amount' => 'required|numeric',
             'contract_type' => 'required|exists:contract_types,id',
             'start_date' => ['required' , new CheckDateFormat(null, $setting->date_format)],

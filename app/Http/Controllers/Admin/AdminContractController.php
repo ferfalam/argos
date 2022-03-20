@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\ClientDetails;
+use App\CompanyTLA;
 use App\SupplierDetails;
 use App\SpvDetails;
 use App\Contract;
@@ -10,6 +11,7 @@ use App\ContractDiscussion;
 use App\ContractFile;
 use App\ContractSign;
 use App\ContractType;
+use App\Country;
 use App\DataTables\Admin\ContractsDataTable;
 use App\EventAttendee;
 use App\Helper\Reply;
@@ -22,6 +24,7 @@ use App\Notifications\NewContract;
 use App\Services\Google;
 use App\User;
 use App\Helper\Files;
+use App\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -59,7 +62,15 @@ class AdminContractController extends AdminBaseController
         $this->clients = ClientDetails::all();
         $this->suppliers = SupplierDetails::all();
         $this->spvs = SpvDetails::all();
+        $this->tla = CompanyTLA::all();
+        $this->countries = Country::all();
         $this->contractType = ContractType::all();
+        $this->projects = Project::where('company_id', company()->id)->get();
+        $this->company_users = User::where('users.company_id', company()->id)
+                                ->join('role_user', 'role_user.user_id', 'users.id')
+                                ->join('roles', 'roles.id', 'role_user.role_id')
+                                ->where('roles.name','<>', 'externe')
+                                ->select('users.*')->get();
         $this->upload = can_upload();
         return view('admin.contracts.create', $this->data);
     }
@@ -68,20 +79,38 @@ class AdminContractController extends AdminBaseController
     {
         $contract = new Contract();
         $contract = $this->storeUpdate($request, $contract);
-        if ($contract != null) {
-            return Reply::redirect(route('admin.contracts.edit', $contract->id), __('messages.contractAdded'));
-        }
-        return Reply::success('messages.contractAdded');
+        // if ($contract != null) {
+        //     return Reply::redirect(route('admin.contracts.edit', $contract->id), __('messages.contractAdded'));
+        // }
+        $contractSign = new ContractSign();
+        $contractSign->contract_id = $contract->id;
+        $contractSign->company_id = company()->id;
+        $contractSign->full_name = User::find($request->user_id)->name;
+        $contractSign->signature = User::find($request->user_id)->name;
+        $contractSign->email = User::find($request->user_id)->email;
+        $contractSign->save();
+        
+        return Reply::successWithData('messages.contractAdded', ['contract_id' => $contract->id]);
     }
 
     public function edit($id)
     {
+        $this->contract = Contract::find($id);
         $this->clients = ClientDetails::all();
         $this->suppliers = SupplierDetails::all();
         $this->spvs = SpvDetails::all();
+        $this->tla = CompanyTLA::all();
+        $this->countries = Country::all();
         $this->contractType = ContractType::all();
-        $this->contract = Contract::with('signature', 'renew_history', 'renew_history.renewedBy')->find($id);
+        $this->projects = Project::where('company_id', company()->id)->get();
+        $this->company_users = User::where('users.company_id', company()->id)
+            ->join('role_user', 'role_user.user_id', 'users.id')
+            ->join('roles', 'roles.id', 'role_user.role_id')
+            ->where('roles.name', '<>', 'externe')
+            ->select('users.*')->get();
         $this->upload = can_upload();
+        $this->contractFiles = $this->contract->files()->get();
+        // dd($this->contractFiles);
         return view('admin.contracts.edit', $this->data);
     }
 
@@ -89,8 +118,14 @@ class AdminContractController extends AdminBaseController
     {
         $contract = Contract::findOrFail($id);
         $this->storeUpdate($request, $contract);
-
-        return Reply::redirect(route('admin.contracts.index'), __('messages.contractUpdated'));
+        $contractSign = ContractSign::where('contract_id' , $contract->id)->first();
+        $contractSign->company_id = company()->id;
+        $contractSign->full_name = User::find($request->user_id)->name;
+        $contractSign->signature = User::find($request->user_id)->name;
+        $contractSign->email = User::find($request->user_id)->email;
+        $contractSign->save();
+        // dd($contractSign);
+        return Reply::successWithData('messages.contractUpdated', ['contract_id' => $contract->id]);
     }
 
     public function show($id)
@@ -105,16 +140,21 @@ class AdminContractController extends AdminBaseController
     private function storeUpdate($request, $contract)
     {
         $clientData =  explode(" ",$request->client);
-
         if($clientData[0] == 'client')
         {
             $contract->client_detail_id = $clientData[1];
+            $contract->spv_detail_id = null;
+            $contract->supplier_detail_id = null;
         }elseif($clientData[0] == 'supplier'){
+            $contract->client_detail_id = null;
             $contract->supplier_detail_id = $clientData[1];
+            $contract->spv_detail_id = null;
         }elseif($clientData[0] == "spv"){
+            $contract->supplier_detail_id = null;
+            $contract->client_detail_id = null;
             $contract->spv_detail_id = $clientData[1];
         }
-        $contract->subject              = $request->subject;
+        $contract->subject              = $request->project_id;
         $contract->amount               = $request->amount;
         $contract->original_amount      = $request->amount;
         $contract->contract_name = $request->contract_name;
@@ -132,10 +172,10 @@ class AdminContractController extends AdminBaseController
         $contract->end_date             = $request->end_date == null ? $request->end_date : Carbon::createFromFormat($this->global->date_format, $request->end_date)->format('Y-m-d');
         $contract->original_end_date    = $request->end_date == null ? $request->end_date : Carbon::createFromFormat($this->global->date_format, $request->end_date)->format('Y-m-d');
         $contract->description          = $request->description;
-        if ($request->hasFile('company_logo')) {
-            Files::deleteFile($contract->company_logo, 'avatar');
-            $contract->company_logo = Files::upload($request->company_logo, 'avatar', 300);
-        }
+        // if ($request->hasFile('company_logo')) {
+        //     Files::deleteFile($contract->company_logo, 'avatar');
+        //     $contract->company_logo = Files::upload($request->company_logo, 'avatar', 300);
+        // }
         
         if ($request->contract_detail) {
             $contract->contract_detail = $request->contract_detail;

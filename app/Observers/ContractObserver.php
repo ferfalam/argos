@@ -20,9 +20,9 @@ class ContractObserver
 
     public function updated(Contract $contract)
     {
-        if (!isRunningInConsoleOrSeeding() && !is_null($contract->client)){
-            $contract->client->notify(new NewContract($contract));
-        }
+        // if (!isRunningInConsoleOrSeeding() && !is_null($contract->client)){
+        //     $contract->client->notify(new NewContract($contract));
+        // }
     }
 
     public function saving(Contract $contract)
