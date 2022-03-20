@@ -715,10 +715,10 @@
                                                     </td>
                                                     <td>
                                                         <select name="contect_type" id="contect_type" class="form-control select2" >
-                                                            <option value="client"  >Client</option>
-                                                            <option value="free" disable>Free</option>
+                                                            <option value="client"  disabled>Client</option>
+                                                            <option value="free" >Free</option>
                                                             <option value="supplier" disabled>Supplier</option>
-                                                            <option value="spv" disabled>Spv</option>
+                                                            <option value="spv" >Spv</option>
                                                         </select>
 
                                                          {{-- <input type="text" name="contect_type" id="contect_type" class="form-control"> --}}
@@ -1289,13 +1289,13 @@
     });
 
     $('#addClientCategory').click(function () {
-        var url = '{{ route('admin.clientCategory.create')}}';
+        var url = '{{ route('admin.spvCategory.create')}}';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     })
 
     $('#addClientSubCategory').click(function () {
-        var url = '{{ route('admin.clientSubCategory.create')}}';
+        var url = '{{ route('admin.spvSubCategory.create')}}';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     })
@@ -1329,7 +1329,7 @@
             let target = $(event.target)[0];
         
             const field = $('#' + target.dataset.type)
-            const url = '{{ route('admin.clientCategory.create') }}';
+            const url = '{{ route('admin.spvCategory.create') }}';
             $('#modelHeading').html('...');
             $.ajaxModal('#clientCategoryModal', url);
     })
@@ -1338,7 +1338,7 @@
             let target = $(event.target)[0];
         
             const field = $('#' + target.dataset.type)
-            const url = '{{ route('admin.clientSubCategory.create') }}';
+            const url = '{{ route('admin.spvSubCategory.create') }}';
             $('#modelHeading').html('...');
             $.ajaxModal('#clientCategoryModal', url);
     })
@@ -1395,11 +1395,11 @@
             $('#name').val(allData.name);
             $('#function').val(allData.function);
             $('#email').val(allData.email);
-            $('#p_mobile').val(allData.mobile.split(" ")[1]);
-            $('#visibility').val(allData.visibility);
-            $('#contect_type').val('free');
+            $('#p_mobile').val(allData.mobile);
+            // $('#visibility').val(allData.visibility);
+            $('#contect_type').val(allData.contect_type);
             $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
-            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+            // $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
 
             $('#contact_profile_img').attr('src', allData.image_url)
 
@@ -1448,7 +1448,7 @@
             $('#email').val(allData.email);
             $('#p_mobile').val(allData.mobile);
             // $('#visibility').val(allData.visibility);
-            $('#contect_type').val('free');
+            $('#contect_type').val(allData.contect_type);
             $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
             // $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
 

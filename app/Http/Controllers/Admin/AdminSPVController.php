@@ -215,13 +215,13 @@ class AdminSPVController extends AdminBaseController
 
   public function show($id)
   {
-    $this->categories = ClientCategory::all();
-    $this->subcategories = ClientSubCategory::all();
+    $this->categories = Spvcategory::all();
+    $this->subcategories = SpvSubCategory::all();
     $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
     $this->clientStats = $this->clientStats($id);
     $this->country = Country::where('id', $this->spvDetails->country_id)->first();
-    $this->category = ClientCategory::where('id', $this->spvDetails->category_id)->first();
-    $this->sub_category = ClientSubCategory::where('id', $this->spvDetails->sub_category_id)->first();
+    $this->category = SpvCategory::where('id', $this->spvDetails->category_id)->first();
+    $this->sub_category = SpvSubCategory::where('id', $this->spvDetails->sub_category_id)->first();
     $this->language = LanguageSetting::where('language_code', $this->spvDetails->language)->first();
     $this->email = $this->spvDetails->email;
 

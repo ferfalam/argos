@@ -58,14 +58,14 @@
             @if($spvDetails->category_id != null)
             <tr>
                 <td><strong>@lang('modules.clients.clientCategory')</strong></td>
-                <td>{{ $spvDetails->clientCategory->category_name }}</td>
+                <td>{{ $category->category_name }}</td>
             </tr>
             @endif
 
             @if($spvDetails->sub_category_id != null)
             <tr>
                 <td><strong>@lang('modules.clients.clientSubCategory')</strong></td>
-                <td>{{ $spvDetails->clientSubcategory->category_name }}</td>
+                <td>{{ $sub_category->category_name }}</td>
             </tr>
             @endif
 

@@ -114,9 +114,9 @@ class ClientsDataTable extends BaseDataTable
         if (!is_null($request->category_id) && $request->category_id != 'all') {
             $users = $model->where('client_details.category_id', $request->category_id);
         }
-        if (!is_null($request->sub_category_id) && $request->sub_category_id != 'all') {
-            $users = $model->where('client_details.sub_category_id', $request->sub_category_id);
-        }
+        // if (!is_null($request->sub_category_id) && $request->sub_category_id != 'all') {
+        //     $users = $model->where('client_details.sub_category_id', $request->sub_category_id);
+        // }
 
         if (!is_null($request->project_id) && $request->project_id != 'all') {
             $model->whereHas('projects', function ($query) use ($request) {

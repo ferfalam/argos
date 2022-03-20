@@ -6,6 +6,7 @@ use App\SpvDetails;
 use App\DataTables\BaseDataTable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
@@ -81,7 +82,6 @@ class SpvDataTable extends BaseDataTable
     public function query(SpvDetails $model)
     {
         $request = $this->request();
-
         $model = $model->leftjoin('contects','spv_details.contacts_id','=','contects.id')
         ->leftJoin('countries', 'spv_details.country_id', '=', 'countries.id')
             ->select(
@@ -111,11 +111,13 @@ class SpvDataTable extends BaseDataTable
             $model = $model->where('spv_details.id', $request->client);
         }
         if (!is_null($request->category_id) && $request->category_id != 'all') {
-            $users = $model->where('spv_details.category_id', $request->category_id);
+            // Log::info(json_encode($request->all()));
+
+            $model = $model->where('spv_details.category_id', $request->category_id);
         }
-        if (!is_null($request->sub_category_id) && $request->sub_category_id != 'all') {
-            $users = $model->where('spv_details.sub_category_id', $request->sub_category_id);
-        }
+        // if (!is_null($request->sub_category_id) && $request->sub_category_id != 'all') {
+        //     $model = $model->where('spv_details.sub_category_id', $request->sub_category_id);
+        // }
 
         if (!is_null($request->project_id) && $request->project_id != 'all') {
             $model->whereHas('projects', function ($query) use ($request) {

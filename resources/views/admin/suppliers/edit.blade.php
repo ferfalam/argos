@@ -402,7 +402,7 @@
                                                 
                                                 <tr>
                                                     <td>
-                                                        <label for="category_id" class="required">Catégorie Client</label>
+                                                        <label for="category_id" class="required">Catégorie Fournisseur</label>
                                                     </td>
                                                     <td>
                                                         <select name="category_id" id="category_id" class="form-control select2">
@@ -1234,13 +1234,13 @@
     });
 
     $('#addClientCategory').click(function () {
-        var url = '{{ route('admin.clientCategory.create')}}';
+        var url = '{{ route('admin.supplierCategory.create')}}';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     })
 
     $('#addClientSubCategory').click(function () {
-        var url = '{{ route('admin.clientSubCategory.create')}}';
+        var url = '{{ route('admin.supplierSubCategory.create')}}';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     })
@@ -1273,7 +1273,7 @@
         let target = $(event.target)[0];
         console.log(target.dataset.type)
         const field = $('#' + target.dataset.type)
-        const url = '{{ url('admin/clientCategory/create') }}/';
+        const url = '{{ url('admin/supplierCategory/create') }}/';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     });
@@ -1281,7 +1281,7 @@
         let target = $(event.target)[0];
         console.log(target.dataset.type)
         const field = $('#' + target.dataset.type)
-        const url = '{{ url('admin/clientSubCategory/create') }}/';
+        const url = '{{ url('admin/supplierSubCategory/create') }}/';
         $('#modelHeading').html('...');
         $.ajaxModal('#clientCategoryModal', url);
     });
@@ -1335,11 +1335,11 @@
             $('#name').val(allData.name);
             $('#function').val(allData.function);
             $('#email').val(allData.email);
-            $('#p_mobile').val(allData.mobile.split(" ")[1]);
-            $('#visibility').val(allData.visibility);
-            $('#contect_type').val('free');
+            $('#p_mobile').val(allData.mobile);
+            // $('#visibility').val(allData.visibility);
+            $('#contect_type').val(allData.contect_type);
             $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
-            $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
+            // $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
 
             $('#contact_profile_img').attr('src', allData.image_url)
 
@@ -1388,7 +1388,7 @@
             $('#email').val(allData.email);
             $('#p_mobile').val(allData.mobile);
             // $('#visibility').val(allData.visibility);
-            $('#contect_type').val('free');
+            $('#contect_type').val(allData.contect_type);
             $("input[name=gender][value='"+allData.gender+"'] ").prop('checked',true);
             // $("#p_mobile").CcPicker("setCountryByPhoneCode", allData.mobile.split(" ")[0]);
 

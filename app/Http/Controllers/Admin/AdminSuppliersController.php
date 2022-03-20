@@ -262,7 +262,6 @@ class AdminSuppliersController extends AdminBaseController
 
 
   public function edit($id){
-
      // $this->userDetail = SupplierDetails::join('users', 'supplier_details.user_id', '=', 'users.id')
     //         ->where('supplier_details.id', $id)
     //         ->select('supplier_details.id','supplier_details.address', 'supplier_details.name', 'supplier_details.email', 'supplier_details.user_id', 'supplier_details.mobile', 'supplier_details.category_id', 'supplier_details.sub_category_id', 'supplier_details.tel','supplier_details.fax', 'users.locale','users.function', 'users.status', 'users.login','users.country_id','users.observation','users.email_notifications' ,'users.sms_notification', 'users.city_id','users.gender','users.language', 'users.email as userEmail','users.mobile as userMoblie','users.id as userId','users.tel as userTel','users.fax as userFax' )
@@ -286,8 +285,8 @@ class AdminSuppliersController extends AdminBaseController
         // $user = DB::table('users')->where('id',$id)->get(); 
 
         // $this->client = User::findClient($id);
-        $this->categories = ClientCategory::all();
-        $this->subcategories = ClientSubCategory::all();
+        $this->categories = SupplierCategory::all();
+        $this->subcategories = SupplierSubCategory::all();
         $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
 
         if($this->supplierDetail->contacts_id != null){
@@ -297,8 +296,8 @@ class AdminSuppliersController extends AdminBaseController
         
         // $this->clientStats = $this->clientStats($id);
         $this->country = Country::where('id',$this->supplierDetail->country_id)->first();
-        $this->category = ClientCategory::where('id',$this->supplierDetail->category_id)->first();
-        $this->sub_category = ClientSubCategory::where('id',$this->supplierDetail->sub_category_id)->first();
+        $this->category = SupplierCategory::where('id',$this->supplierDetail->category_id)->first();
+        $this->sub_category = SupplierSubCategory::where('id',$this->supplierDetail->sub_category_id)->first();
         $this->language = LanguageSetting::where('language_code',$this->supplierDetail->language)->first();
         $this->email = $this->supplierDetail->email; 
         // exit;

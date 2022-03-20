@@ -61,14 +61,14 @@
             @if($supplierDetail->category_id != null)
             <tr>
                 <td><strong>@lang('modules.clients.clientCategory')</strong></td>
-                <td>{{ $supplierDetail->clientCategory->category_name }}</td>
+                <td>{{ $category->category_name }}</td>
             </tr>
             @endif
 
             @if($supplierDetail->sub_category_id != null)
             <tr>
                 <td><strong>@lang('modules.clients.clientSubCategory')</strong></td>
-                <td>{{ $supplierDetail->clientSubcategory->category_name }}</td>
+                <td>{{ $sub_category->category_name }}</td>
             </tr>
             @endif
 
