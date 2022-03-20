@@ -1274,7 +1274,7 @@
                                 <td><input type="checkbox" value="{{$message->id}}" /></td>
                                 <td>{{$message->message->users()->first()->name}}</td>
                                 <td>{{$message->message->subject}}</td>
-                                <td>{!! $message->message->message !!}</td>
+                                <td>{{first_sentence($message->message->message)}}</td>
                                 <td>{{$message->message->created_at}}</td>
                                 <td><button onclick="viewmessage('{{$message->message->id}}')" class="dt-button buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" type="button" title="View Message"><span><i class="fa fa-eye"></i></span></button></td>
                             </tr>
@@ -1354,7 +1354,7 @@
             type: "GET",
             success: function (response) {
                 // $.easyBlockUI('#employees-table');
-                $('#exampleModalLongTitle').html(response.from);
+                $('#exampleModalLongTitle').html(response.subject);
                 var mes = response.message;
                 if (response.attachment){
                     mes+='<hr><h4>Attachment</h4><a style="width: 100px" class="btn btn-primary" href="'+response.attachment+'" target="_blank">View Attachment</a>';
