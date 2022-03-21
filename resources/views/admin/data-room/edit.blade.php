@@ -94,12 +94,12 @@
                                         $visible_id=array_map(function ($n){return $n->id;},$doc->canSee());
                                     }
                                 @endphp
-                                @foreach ($employees as $u)
+                                @foreach ($all_users as $u)
                                     <option value="{{ $u->id }}" @if (is_array($doc->canSee()) && in_array($u->id, $visible_id)) selected @endif >{{ $u->name }}</option>
                                 @endforeach
-                                @foreach ($admins as $u)
+                                {{-- @foreach ($admins as $u)
                                     <option value="{{ $u->id }}" @if (is_array($doc->canSee()) && in_array($u->id, $visible_id)) selected @endif >{{ $u->name }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div>

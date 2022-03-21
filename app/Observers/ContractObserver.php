@@ -13,9 +13,9 @@ class ContractObserver
 
     public function created(Contract $contract)
     {
-        if (!isRunningInConsoleOrSeeding() && !is_null($contract->client)){
-            $contract->client->notify(new NewContract($contract));
-        }
+        // if (!isRunningInConsoleOrSeeding() && !is_null($contract->client)){
+        //     $contract->client->notify(new NewContract($contract));
+        // }
     }
 
     public function updated(Contract $contract)

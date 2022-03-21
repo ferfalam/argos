@@ -2,8 +2,11 @@
 
 namespace App\DataTables\Admin;
 
+use App\ClientDetails;
 use App\Contract;
+use App\ContractSign;
 use App\DataTables\BaseDataTable;
+use App\SupplierDetails;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -27,13 +30,13 @@ class ContractsDataTable extends BaseDataTable
                 $action = '<div class="btn-group dropdown m-r-10">
                  <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button"><i class="fa fa-gears "></i></button>
                 <ul role="menu" class="dropdown-menu pull-right">
-                  <li><a href="' . route('admin.contracts.show', md5($row->id)) . '" class="view-contact" data-contract-id="' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i> ' . trans('app.view') . '</a></li>
-                  <li><a href="' . route('admin.contracts.edit', [$row->id]) . '"><i class="fa fa-pencil" aria-hidden="true"></i> ' . trans('app.edit') . '</a></li>
-                  <li><a href="' . route('admin.contracts.copy', [$row->id]) . '" data-contract-id="' . $row->id . '"><i class="fa fa-copy" aria-hidden="true"></i> ' . __('app.copy') . '</a></li>
-                  <li><a href="javascript:;"   data-contract-id="' . $row->id . '"  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> ' . trans('app.delete') . '</a></li>';
+                <li><a href="' . route('admin.contracts.edit', [$row->id]) . '"><i class="fa fa-pencil" aria-hidden="true"></i> ' . trans('app.edit') . '</a></li>
+                <li><a href="javascript:;"   data-contract-id="' . $row->id . '"  class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> ' . trans('app.delete') . '</a></li>';
                 if ($row->send_status == 0) {
-                    $action .= '<li><a href="javascript:;" data-toggle="tooltip"  data-estimate-id="' . $row->id . '" class="sendButton"><i class="fa fa-send"></i> ' . __('app.send') . '</a></li>';
-                    // $action .= '<li><a href="' . route('admin.contracts.send', [$row->id]) . '" data-contract-id="' . $row->id . '"><i class="fa fa-send" aria-hidden="true"></i> ' . __('app.send') . '</a></li>';
+                    // $action .= '<li><a href="javascript:;" data-toggle="tooltip"  data-estimate-id="' . $row->id . '" class="sendButton"><i class="fa fa-send"></i> ' . __('app.send') . '</a></li>';
+                      // $action .= '<li><a href="' . route('admin.contracts.send', [$row->id]) . '" data-contract-id="' . $row->id . '"><i class="fa fa-send" aria-hidden="true"></i> ' . __('app.send') . '</a></li>';
+                    // <li><a href="' . route('admin.contracts.show', md5($row->id)) . '" class="view-contact" data-contract-id="' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i> ' . trans('app.view') . '</a></li>
+                    //   <li><a href="' . route('admin.contracts.copy', [$row->id]) . '" data-contract-id="' . $row->id . '"><i class="fa fa-copy" aria-hidden="true"></i> ' . __('app.copy') . '</a></li>
                 }
                 $action .= '</ul> </div>';
                 return $action;
@@ -81,11 +84,19 @@ class ContractsDataTable extends BaseDataTable
             ->editColumn('subject', function ($row) {
                 return '<a href="' . route('admin.contracts.show', md5($row->id)) . '">' . ucfirst($row->subject) . '</a>';
             })
+            ->addColumn('client', function ($row) {
+                if ($row->client_detail_id) {
+                    return ClientDetails::find($row->client_detail_id)->company_name;
+                }else{
+                    return SupplierDetails::find($row->supplier_detail_id)->company_name;
+                }
+                return '';
+            })
             ->editColumn('signature', function ($row) {
                 if ($row->signature) {
-                    return 'Signed';
+                    return ContractSign::where('contract_id', $row->id)->first()->full_name;
                 }
-                return 'Not Signed';
+                return '';
             })
             ->addIndexColumn()
             ->rawColumns(['action', 'client.name','subject']);
@@ -101,13 +112,12 @@ class ContractsDataTable extends BaseDataTable
     {
         $request = $this->request();
 
-        $model = $model->with('contract_type', 'client', 'project');
-
+        $model = $model->with('contract_type', 'project', 'signature');
         
         if (($request->startDate !== null && $request->startDate != 'null' && $request->startDate != '') && $request->endDate !== null && $request->endDate != 'null' && $request->endDate != '') {
             $startDate = Carbon::createFromFormat($this->global->date_format, $request->startDate)->toDateString();
             $endDate = Carbon::createFromFormat($this->global->date_format, $request->endDate)->toDateString();
-            $model->where(function ($q) use ($startDate, $endDate) {
+            $model = $model->where(function ($q) use ($startDate, $endDate) {
                 $q->whereBetween(DB::raw('DATE(contracts.`end_date`)'), [$startDate, $endDate]);
                 $q->orWhereBetween(DB::raw('DATE(contracts.`start_date`)'), [$startDate, $endDate]);
             });
@@ -119,7 +129,6 @@ class ContractsDataTable extends BaseDataTable
         if ($request->contractType != 'all' && !is_null($request->contractType)) {
             $model = $model->where('contracts.contract_type_id', '=', $request->contractType);
         }
-
         return $model;
     }
 
@@ -169,7 +178,8 @@ class ContractsDataTable extends BaseDataTable
             // '#' => ['data' => 'id', 'name' => 'id', 'visible' => true],
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false],
             __('app.contract.name') => ['data' => 'contract_name', 'name' => 'contract_name'],
-            __('app.contract.organisme') => ['data' => 'client.company_name', 'name' => 'client'],
+            // __('app.contract.organisme') => ['data' => '', 'name' => 'client'],
+            Column::computed('client', __('app.contract.organisme')),
             __('app.contract.type') => ['data' => 'contract_type.name', 'name' => 'contract_type'],
             __('app.project') => ['data' => 'project.project_name', 'name' => 'project.project_name'],
             // __('app.client')  => ['data' => 'client.name', 'name' => 'client.name'],

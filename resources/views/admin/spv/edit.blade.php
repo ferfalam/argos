@@ -293,7 +293,7 @@
                                                             @foreach ($tla as $t)
                                                                 @if ($t->type == 'city')
                                                                     <option value="{{ $t->id }}" @if($t->id == $spvDetails->city_id) selected @endif>
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                        {{ $t->name }}</option>
                                                                 @endif
                                                             @endforeach
                                                         </select>
@@ -528,9 +528,9 @@
                                                                 <option data='{!! $contect !!}'  value="{{$contect->id }}" @if($contect->id == $spvDetails->contacts_id) selected @endif>{{ $contect->name }}</option>
                                                             @endforeach
 
-                                                            {{-- @foreach($freeContacts as $freeContact)
+                                                            @foreach($freeContacts as $freeContact)
                                                                 <option data='{!! $freeContact !!}' value="{{$freeContact->id }}" @if($freeContact->id == $spvDetails->contacts_id) selected @endif>{{ $freeContact->name }}</option>
-                                                            @endforeach --}}
+                                                            @endforeach
                                                             {{-- <option value="create">create a new one</option> --}}
                                                         </select>
                                                     </td>

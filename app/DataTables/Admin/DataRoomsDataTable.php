@@ -29,14 +29,16 @@ class DataRoomsDataTable extends BaseDataTable
             ->addColumn('action', function ($row) {
                 if (User::isAdmin(user()->id)) {
                     $url = route("admin.task-files.download", $row->file()->id);
-                }else{
+                } elseif (User::isEmployee(user()->id)) {
                     $url = route("member.task-files.download", $row->file()->id);
+                } else{
+                    $url = route("client.task-files.download", $row->file()->id);
                 }
                 $action = '<a target="_blank" href="'.$row->file()->file_url. '" data-doc-id="' . $row->id . '"
                             data-toggle="tooltip" data-original-title="View"
                             class="btn btn-info btn-circle view-doc"><i
                                     class="fa fa-search"></i></a>
-                <a href="'.$url. '
+                <a href="'.$url. '"
                     data-toggle="tooltip" data-original-title="Download" data-doc-id="' . $row->id . '"
                     class="btn btn-info btn-circle download-doc"><i
                             class="fa fa-download"></i></a>';
@@ -118,19 +120,15 @@ class DataRoomsDataTable extends BaseDataTable
             ->leftJoin('espaces', 'espaces.id', 'data_rooms.espace_id')
             ->selectRaw('data_rooms.*, espaces.espace_name');
 
+            if (!user()->isSupervisor(company()->supervisor_id) && !User::isAdmin(user()->id)) {
+                $model->where('visible_by', 'like', '%'.user()->id.'%')
+                ->orWhere('visible_by', 'all');
+            }
         if (!is_null($request->project) && $request->project != 'all') {
             $model->where('project_name', $request->project);
         }
         if (!is_null($request->publish) && $request->publish != 'all') {
             $model->where('publish', $request->publish);
-        }
-        if (!is_null($request->espace_id)) {
-            //Log::info($request->espace_id);
-            $model->where('espace_id', $request->espace_id);
-        }
-        if (!user()->isSupervisor(company()->supervisor_id) && !User::isAdmin(user()->id)) {
-            $model->where('visible_by', 'like', '%'.user()->id.'%')
-            ->orWhere('visible_by', 'all');
         }
         // if (!is_null($request->start_date) && !is_null($request->end_date)) {
         //     $startDate = \Carbon\Carbon::parse($request->start_date)->format("Y-m-d");
@@ -138,6 +136,10 @@ class DataRoomsDataTable extends BaseDataTable
         //     Log::info(json_encode(array($startDate, $endDate)));
         //     $model->whereBetween('data_rooms.created_at', [$startDate, $endDate]);
         // }
+        Log::info($request->espace_id);
+        if (!is_null($request->espace_id)) {
+            $model->where('espace_id', $request->espace_id);
+        }
 
         return $model;
     }

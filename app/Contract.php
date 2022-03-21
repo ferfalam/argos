@@ -4,6 +4,7 @@ namespace App;
 
 use App\Observers\ContractObserver;
 use App\Scopes\CompanyScope;
+use Illuminate\Support\Facades\Log;
 
 class Contract extends BaseModel
 {
@@ -34,8 +35,9 @@ class Contract extends BaseModel
 
     public function client()
     {   
-        $supplier = $this->belongsTo(SupplierDetails::class, 'supplier_detail_id')->withoutGlobalScopes(['active', CompanyScope::class]);
-        if (isset($supplier->company_name)) {
+        $supplier = $this->belongsTo(ClientDetails::class, 'client_detail_id');
+        dd($this);
+        if (isset($supplier->first()->company_name)) {
             # code...
             return $supplier;
         }else{

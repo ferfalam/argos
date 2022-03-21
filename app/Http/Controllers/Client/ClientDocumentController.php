@@ -1,26 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\Client;
 
-use App\ClientCategory;
-use App\ClientSubCategory;
-use App\CompanyTLA;
-use App\ContractType;
-use App\Country;
 use App\DataRoom;
 use App\DataTables\Admin\DataRoomsDataTable;
-use App\DataTables\Admin\ProjectsDataTable;
 use App\Espace;
-use App\Http\Controllers\Member\MemberBaseController;
-use App\Payment;
+use App\Http\Controllers\Controller;
 use App\Project;
-use App\ProjectCategory;
-use App\ProjectPlace;
-use App\SpvDetails;
-use App\User;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 
-class MemberDocumentController extends MemberBaseController
+class ClientDocumentController extends ClientBaseController
 {
 
     public function __construct()
@@ -32,7 +21,8 @@ class MemberDocumentController extends MemberBaseController
 
     public function index(DataRoomsDataTable $dataTable)
     {
-        $this->spv = SpvDetails::all();
+
+        // $this->spv = SpvDetails::all();
         $this->totalDatarooms = DataRoom::count();
         $this->totalCanPublish = DataRoom::canPublish()->count();
         $this->totalCanNotPublish = DataRoom::canNotPublish()->count();
@@ -40,11 +30,11 @@ class MemberDocumentController extends MemberBaseController
         $this->projects = Project::all();
         $this->espaces = Espace::all();
         $this->usedEspaces = DataRoom::select('espaces.*')
-        ->join('espaces', 'espaces.id', 'data_rooms.espace_id')
-        ->groupBy('espace_id')
-        ->get();
+            ->join('espaces', 'espaces.id', 'data_rooms.espace_id')
+            ->groupBy('espace_id')
+            ->get();
 
-        return $dataTable->render('member.document.index', $this->data);
+
+        return $dataTable->render('client.document.index', $this->data);
     }
-
 }

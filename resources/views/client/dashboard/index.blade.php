@@ -100,7 +100,7 @@
         @endif
 
         @if(in_array('projects',$modules))
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.upcomingPayments')</div>
                 <div class="panel-wrapper collapse in">
@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         @endif
 
     </div>

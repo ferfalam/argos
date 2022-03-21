@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">@lang('modules.clients.clientSubCategory')</h4>
+    <h4 class="modal-title"@lang('modules.suppliers.supplierSubCategory')</h4>
 </div>
 <div class="modal-body">
     <div class="portlet-body">

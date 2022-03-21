@@ -52,7 +52,14 @@
             </li>
         @endif
 
-        <h4 class="sidebar-heading">@lang('app.others')</h4>
+        <li class="{{ request()->routeIs('client.document.*') ? 'active' : '' }}">
+            <a href="{{ route('client.document.index') }}">
+                <i class="fa fa-file"></i>
+                @lang('app.docManagement')
+            </a>
+        </li>
+
+        {{-- <h4 class="sidebar-heading">@lang('app.others')</h4> --}}
 
         @if(in_array('invoices',$modules))
             <li class="{{request()->routeIs('client.invoices.index') ? 'active' : ''}}">

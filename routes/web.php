@@ -1583,7 +1583,11 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::resource('dashboard', 'ClientDashboardController');
 
-            Route::resource('profile', 'ClientProfileController');
+            Route::resource('profile', 'ClientProfileController');  
+
+            Route::get("documents", 'ClientDocumentController@index')->name('document.index');
+            Route::get('task-files/download/{id}', ['uses' => 'TaskFilesController@download'])->name('task-files.download');
+            Route::resource('task-files', 'TaskFilesController');
 
             // Project section
             Route::get('projects/data', ['uses' => 'ClientProjectsController@data'])->name('projects.data');

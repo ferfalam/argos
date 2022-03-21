@@ -533,9 +533,9 @@
                                                                 <option data='{!! $contect !!}'  value="{{$contect->id }}" @if($contect->id == $clientDetail->contacts_id) selected @endif>{{ $contect->name }}</option>
                                                             @endforeach
 
-                                                            {{-- @foreach($freeContacts as $freeContact)
+                                                            @foreach($freeContacts as $freeContact)
                                                                 <option data='{!! $freeContact !!}' value="{{$freeContact->id }}" @if($freeContact->id == $clientDetail->contacts_id) selected @endif>{{ $freeContact->name }}</option>
-                                                            @endforeach --}}
+                                                            @endforeach
                                                             {{-- <option value="create">create a new one</option> --}}
                                                         </select>
                                                     </td>

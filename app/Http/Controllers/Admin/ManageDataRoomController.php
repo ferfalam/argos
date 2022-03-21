@@ -100,8 +100,8 @@ class ManageDataRoomController extends AdminBaseController
     {
         $this->doc = DataRoom::find($id);
         $this->espaces = Espace::all();
-        $this->employees = User::allEmployeesByCompany(company()->id);
-        $this->admins = User::allAdminsByCompany(company()->id);
+        $this->all_users = User::where('company_id', company()->id)->where("super_admin", "0")->get();
+        // $this->admins = User::allAdminsByCompany(company()->id);
         //dd($this->doc);
         return view("admin.data-room.edit", $this->data);
     }

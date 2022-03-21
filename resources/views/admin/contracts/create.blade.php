@@ -539,7 +539,7 @@
                 var msgs = "@lang('messages.contractAdded')";
                 $.showToastr(msgs, 'success');
                 var url="{{route('admin.contracts.edit', ':id')}}"
-                url.replace(':id', $('#task_request_id').val())
+                url = url.replace(':id', $('#task_request_id').val())
                 window.location.href = url;
             });
         @endif
@@ -567,7 +567,9 @@
                     else{
                         var msgs = "@lang('messages.contractAdded')";
                         $.showToastr(msgs, 'success');
-                        window.location.reload();
+                        var url = "{{ route('admin.contracts.edit',':id') }}";
+                        url = url.replace(':id', response.contract_id);
+                        window.location.href = url;
                     }
                 }
             })

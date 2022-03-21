@@ -253,6 +253,8 @@ return array(
         'status' => 'Statut',
     ),
     'spv' => "Sélectionnez SPV",
+    'spvCategory' => "Catégories SPV",
+    'spvSubCategory' => "Sous-catégories SPV",
     'SPVInfo' => 'Informations SPV',
     'espace' => array(
         'title' => 'Espace',
@@ -1192,7 +1194,9 @@ return array(
         'inActive' => 'inactive',
     ),
     'suppliers' => array(
-        'createTitle' => 'Fiche Fournisseur'
+        'createTitle' => 'Fiche Fournisseur',
+        'supplierCategory' => 'Categories Fournisseurs',
+        'supplierSubCategory' => 'Sous-Categories Fournisseurs'
     ),
     'projectTemplate' =>
     array(
