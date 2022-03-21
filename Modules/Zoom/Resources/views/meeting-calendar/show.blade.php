@@ -162,15 +162,16 @@
     </div>
     <div class="modal-footer">
         @php
-            if ($zoomSetting->meeting_app == 'in_app') {
+            if (!user()->hasRole('client') && $zoomSetting->meeting_app == 'in_app') {
                 if (user()->id == $event->created_by && user()->hasRole('admin')) {
                     $url = route('admin.zoom-meeting.startMeeting', $event->id);
                 } elseif (user()->hasRole('employee')) {
                     $url = route('member.zoom-meeting.startMeeting', $event->id);
-                } else {
-                    $url = route('client.zoom-meeting.startMeeting', $event->id);
                 }
             } else {
+                // if (user()->hasRole('client')) {
+                //     $url = route('client.zoom-meeting.startMeeting', $event->id);
+                // }
                 $url = user()->id == $event->created_by ? $event->start_link : $event->end_link;
             }
         @endphp
@@ -199,7 +200,9 @@
                     $meetingDate = $event->start_date_time->toDateString();                    
                 @endphp
                 @if (is_null($event->occurrence_id))
-                    <a href="#" target="_blank" class="btn btn-info waves-effect" ><i class="fa fa-play"></i> Dans {{intval($diff/60).' : '.$diff%60}}</a>
+                    @if (!$event->end_date_time->lt(\Carbon\Carbon::now())) {
+                        <a href="#" target="_blank" class="btn btn-info waves-effect" ><i class="fa fa-play"></i> Dans {{intval($diff/60).' : '.$diff%60}}</a>
+                    @endif
                 @endif
             @endif
 

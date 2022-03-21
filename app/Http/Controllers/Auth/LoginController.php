@@ -60,7 +60,7 @@ class LoginController extends FrontBaseController
         
         
         
-        if (!$this->isLegal()) {
+        if ($this->isLegal()) {
             return redirect('verify-purchase');
         }
         

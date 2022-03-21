@@ -17,12 +17,12 @@
                             <label for="user_employee">@lang('app.menu.employees')</label>
                         </div>
                     </label>
-                    <label class="radio-inline">
+                    {{-- <label class="radio-inline">
                         <div class="radio radio-info">
                             <input type="radio" name="user_type" id="user_client" value="client">
                             <label for="user_client">@lang('app.menu.clients')</label>
                         </div>
-                    </label>
+                    </label> --}}
                 </div>
             </div>
             @endif
@@ -37,6 +37,10 @@
                                 <option
                                         value="{{ $member->id }}">{{ ucwords($member->name) }}</option>
                             @endforeach
+                            @foreach($admins as $admin)
+                                <option
+                                        value="{{ $admin->id }}">{{ ucwords($admin->name) }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -46,10 +50,7 @@
                     <div class="form-group">
                         <label>@lang("modules.client.clientName")</label>
                         <select class="select2 form-control" data-placeholder="@lang("modules.client.clientName")" name="client_id" id="client_id">
-                            @foreach($clients as $client)
-                                <option
-                                        value="{{ $client->id }}">{{ ucwords($client->name) }}</option>
-                            @endforeach
+                            
                         </select>
                     </div>
                 </div>
@@ -94,7 +95,7 @@
 
     $('#post-message').click(function () {
         $.easyAjax({
-            url: '{{route('member.user-chat.message-submit')}}',
+            url: '{{route('client.user-chat.message-submit')}}',
             container: '#createChat',
             type: "POST",
             data: $('#createChat').serialize(),

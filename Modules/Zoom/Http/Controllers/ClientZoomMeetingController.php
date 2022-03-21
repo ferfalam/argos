@@ -4,7 +4,7 @@ namespace Modules\Zoom\Http\Controllers;
 
 use App\Http\Controllers\Client\ClientBaseController;
 use App\Http\Controllers\Admin\AdminBaseController;
-
+use App\MeetingFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -15,6 +15,8 @@ use Modules\Zoom\Entities\ZoomSetting;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\Zoom\Entities\Category;
 use App\Project;
+use Carbon\Carbon;
+
 class ClientZoomMeetingController extends ClientBaseController
 {
     public function __construct()
@@ -70,8 +72,12 @@ class ClientZoomMeetingController extends ClientBaseController
     public function show($id)
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
-        $this->zoomSetting = ZoomSetting::first();
+        $this->zoomSetting = ZoomSetting::where('user_id', user()->id)->first();
+        $date = Carbon::parse($this->event->start_date_time);
+        $now = Carbon::now();
+        $this->meetingFiles = MeetingFile::where('meeting_id', $id)->get();
 
+        $this->diff = $date->diffInMinutes($now);
         return view('zoom::meeting-calendar.show', $this->data);
     }
 

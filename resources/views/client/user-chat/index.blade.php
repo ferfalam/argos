@@ -139,7 +139,7 @@
                     <div class="chat-user-img">
                       <img src="{{asset('img/default-profile-3.png')}}" alt="">
                     </div>
-                    <p class="chat-user-name">Mike Litorus</p>
+                    <p class="chat-user-name">Username</p>
                   </div>
                 </div>
   
