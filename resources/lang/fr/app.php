@@ -1,6 +1,9 @@
 <?php
 
 return array(
+
+  'online_users' => 'Les utilisatteurs en ligne',
+  'login_history' => 'Historique de connexion',
   'supplier' =>"Fournisseur",
   'allUsers' => "Tous les utilisateurs",
   'docManagement' => "Gestion des documents",

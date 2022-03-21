@@ -60,7 +60,7 @@ class LoginController extends FrontBaseController
         
         
         
-        if ($this->isLegal()) {
+        if (!$this->isLegal()) {
             return redirect('verify-purchase');
         }
         
@@ -206,7 +206,8 @@ class LoginController extends FrontBaseController
         if ($user->super_admin == '1') {
             return 'super-admin/dashboard';
         } elseif ($user->hasRole('admin')) {
-            $user->company()->update([
+            User::where('id', $user->id)->update([
+                'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
             return 'admin/dashboard';
@@ -214,6 +215,7 @@ class LoginController extends FrontBaseController
 
         if ($user->hasRole('employee')) {
             $user = User::where('id', $user->id)->update([
+                'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
             return 'member/dashboard';
@@ -221,6 +223,7 @@ class LoginController extends FrontBaseController
 
         if ($user->hasRole('client')) {
             $user = User::where('id', $user->id)->update([
+                'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 
@@ -237,6 +240,13 @@ class LoginController extends FrontBaseController
     public function logout(Request $request)
     {
         $user = auth()->user();
+
+        $user->online = false;
+
+        $date = Carbon::parse($user->last_login);
+        $now = Carbon::now();
+        $user->last_login_duration = $date->diffInMinutes($now);
+        $user->save();
         $this->guard()->logout();
 
         $request->session()->invalidate();

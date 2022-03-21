@@ -24,6 +24,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\SmtpSetting;
+use App\User;
 
 class SuperAdminDashboardController extends SuperAdminBaseController
 {
@@ -233,6 +234,8 @@ class SuperAdminDashboardController extends SuperAdminBaseController
             //throw $th;
         }
 
+        $this->onlineUsers = User::where('super_admin', '0')->where("online", true)->get();
+        $this->allUsers = User::where('super_admin', '0')->where("company_id", company()->id)->get();
         $this->progressPercent = $this->progressbarPercent();
         $this->isCheckScript();
         return view('super-admin.dashboard.index', $this->data);
