@@ -19,6 +19,7 @@ use App\Http\Requests\SuperAdmin\Companies\UpdateRequest;
 use App\Invoice;
 use App\InvoiceSetting;
 use App\LanguageSetting;
+use App\LoginHistory;
 use App\Mail\Admin;
 use App\Mail\UpdateAdmin;
 use App\OfflineInvoice;
@@ -567,7 +568,19 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         //Logged out
         Auth::logout();
         $request->session()->invalidate();
-        Auth::loginUsingId($companyUser->id);
+        
+        //New Login
+        User::where('id', $companyUser->id)->update([
+            'online' => true,
+            'last_login' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+        $user = User::find($companyUser->id);
+        $history = new LoginHistory();
+        $history->user_id = $user->id;
+        $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+        $history->duration = "--";
+        $history->save();
+        Auth::loginUsingId($user->id);
         return Reply::successWithData("Login...",["path"=>route('login')]);
     }
 }
