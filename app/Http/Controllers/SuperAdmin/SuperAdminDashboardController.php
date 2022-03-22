@@ -238,7 +238,8 @@ class SuperAdminDashboardController extends SuperAdminBaseController
         }
 
         $this->onlineUsers = User::where('super_admin', '0')->where("online", true)->get();
-        $this->allUsers = User::where('super_admin', '0')->where("company_id", company()->id)->get();
+        $this->allUsers = User::where('super_admin', '0')->get();
+        $this->allCompanies = Company::all();
         $this->progressPercent = $this->progressbarPercent();
         $this->isCheckScript();
         return view('super-admin.dashboard.index', $this->data);
@@ -322,30 +323,37 @@ class SuperAdminDashboardController extends SuperAdminBaseController
      */
     public function historyData(Request $request)
     {
-        $histories = LoginHistory::orderBy("login_at", "DESC");
+        $histories = LoginHistory::orderBy("login_at", "DESC")->where('duration', '<>', '--');
         if (!is_null($request->name) && $request->name != 'all') {
             $histories = $histories->where("user_id",$request->name);
         }
-        if (!is_null($request->date) && $request->name != '') {
+        if (!is_null($request->date) && $request->date != '') {
             $histories = $histories->where("login_at",">=", $request->date);
+        }
+        if (!is_null($request->company) && $request->company != 'all') {
+            $histories = $histories->where("company_id", $request->company);
         }
         return DataTables::of($histories)
             ->editColumn('name', function ($row) {
                 return '<strong>' . ucfirst($row->user()->first()->name) . '</strong>';
                 //return '<a href="' . route('super-admin.companies.edit', $row->id) . '"  data-company-id="' . $row->id . '"><strong>' . ucfirst($row->company_name) . '</strong></a>';
             })
+            ->editColumn('company', function ($row) {
+                return '<strong>' . $row->company()->first()->company_name . '</strong>';
+                //return '<a href="' . route('super-admin.companies.edit', $row->id) . '"  data-company-id="' . $row->id . '"><strong>' . ucfirst($row->company_name) . '</strong></a>';
+            })
             ->editColumn('login_at', function ($row) {
                 return Carbon::parse($row->login_at)->format(company()->date_format.' '.company()->time_format);
             })
             ->editColumn('duration', function ($row) {
-                $res = intval(intval($row->duration)/60).':'.(intval($row->duration)%60);
+                $res = gmdate("H:i:s", intval($row->duration));
                 return $res;
                 //     
                 //     <img src="' . asset("img/user-2.png") . '" alt="">
                 //     <img src="' . asset("img/user-3.png") . '" alt="">
                 //     <img src="' . asset("img/user-4.png") . '" alt=""></div>';
             })
-            ->rawColumns(['name'])
+            ->rawColumns(['name', 'company'])
             ->make(true);
     }
 }

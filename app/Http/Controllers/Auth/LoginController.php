@@ -265,7 +265,7 @@ class LoginController extends FrontBaseController
             $user->online = false;
             $date = Carbon::parse($user->last_login);
             $now = Carbon::now();
-            $user->last_login_duration = $date->diffInMinutes($now);
+            $user->last_login_duration = $date->diffInSeconds($now);
             $user->save();
             $history = LoginHistory::where("user_id", $user->id)->where("login_at", $user->last_login)->orderBy("created_at", "DESC")->first();
             $history->duration = $user->last_login_duration;

@@ -155,17 +155,38 @@
                 </div>
                 <div class="panel-body">
                     <div class="row"  id="history-filters">
-                        <x-filter-form-group label="app.selectDateRange">
-                            <div id="reportrange" class="form-control reportrange">
-                                <i class="fa fa-calendar"></i>&nbsp;
-                                <span></span> <i class="fa fa-caret-down pull-right"></i>
-                            </div>
+                        <div class="col-md-6">
+                            <div class="form-group">        
+                                <label class="control-label" style="color: #F43658 !important;">
+                                    {{__('app.selectDateRange')}}
+                                </label>
 
-                            <input type="hidden" class="form-control" id="start-date" placeholder="@lang('app.startDate')"
-                                    value=""/>
-                            <input type="hidden" class="form-control" id="end-date" placeholder="@lang('app.endDate')"
-                                    value=""/>
-                        </x-filter-form-group>
+                                <div id="reportrange" class="form-control reportrange">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <span></span> <i class="fa fa-caret-down pull-right"></i>
+                                </div>
+
+                                <input type="hidden" class="form-control" id="start-date" placeholder="@lang('app.startDate')"
+                                        value=""/>
+                                <input type="hidden" class="form-control" id="end-date" placeholder="@lang('app.endDate')"
+                                        value=""/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">        
+                                <label class="control-label" style="color: #F43658 !important;">
+                                    {{__('app.company_name')}}
+                                </label>
+
+                                <select class="form-control select2" name="company_id" id="company_id" data-style="form-control">
+                                    <option value="all">@lang('modules.client.all')</option>
+                                    @foreach ($allCompanies as $allCompany)
+                                        <option value="{{$allCompany->id}}">{{$allCompany->company_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
                         <x-filter-form-group label="app.name">
                             <select class="form-control select2" name="user_id" id="user_id" data-style="form-control">
@@ -190,7 +211,8 @@
                                     id="login-history-table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            {{-- <th>#</th> --}}
+                                            <th>@lang('app.company_name')</th>
                                             <th>@lang('app.name')</th>
                                             <th>@lang('app.date')</th>
                                             <th>@lang('app.duration')</th>
@@ -679,6 +701,9 @@
         $("#user_id").on("change", function () {
             historyLoad()
         })
+        $("#company_id").on("change", function () {
+            historyLoad()
+        })
 
         historyLoad = () => {
             var packageName = $('#package').val();
@@ -690,7 +715,7 @@
                 serverSide: true,
                 stateSave: true,
                 destroy: true,
-                ajax: '{{ route('super-admin.dashboard.history-data')}}?name='+$("#user_id").val()+'&date='+$('#start-date').val(),
+                ajax: '{{ route('super-admin.dashboard.history-data')}}?name='+$("#user_id").val()+'&date='+$('#start-date').val()+'&company='+$('#company_id').val(),
                 language: {
                     "url": "<?php echo __('app.datatable'); ?>"
                 },
@@ -699,9 +724,10 @@
                         selector: '[data-toggle="tooltip"]'
                     });
                 },
-                columns: [{
-                        data: 'id',
-                        name: 'id'
+                columns: [
+                    {
+                        data: 'company',
+                        name: 'company'
                     },
                     {
                         data: 'name',

@@ -66,7 +66,7 @@
 @section('page-title')
 <x-main-header>
     <div class="">
-        <h1 class="heading-1">@lang('app.welcome'){{\Illuminate\Support\Facades\Auth::user()->name}} !</h1>
+        <h1 class="heading-1">@lang('app.welcome') {{\Illuminate\Support\Facades\Auth::user()->name}} !</h1>
         <p class="color-danger">{{__($pageTitle)}}</p>
     </div>
 

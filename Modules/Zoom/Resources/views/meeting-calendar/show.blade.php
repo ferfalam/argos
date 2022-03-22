@@ -162,7 +162,7 @@
     </div>
     <div class="modal-footer">
         @php
-            if (!user()->hasRole('client') && $zoomSetting->meeting_app == 'in_app') {
+            if (!user()->hasRole('client') && !is_null($zoomSetting) && $zoomSetting->meeting_app == 'in_app') {
                 if (user()->id == $event->created_by && user()->hasRole('admin')) {
                     $url = route('admin.zoom-meeting.startMeeting', $event->id);
                 } elseif (user()->id == $event->created_by && user()->hasRole('employee')) {

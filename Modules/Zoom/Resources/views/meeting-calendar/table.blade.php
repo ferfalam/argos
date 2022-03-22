@@ -12,7 +12,7 @@
         </x-slot>
 
         <x-slot name="btns">
-            @if (user()->zoomSetting()->get()[0]->api_key)
+            @if (count((user()->zoomSetting()->get()))>0 && user()->zoomSetting()->get()[0]->api_key)
             <x-link type="modal" modalId="#my-meeting" classes="btn btn-cs-blue" icon="ti-plus"
                 title="zoom::modules.zoommeeting.addMeeting" />
             @endif

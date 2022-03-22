@@ -1,6 +1,10 @@
 @extends('layouts.member-app')
 
 @section('page-title')
+    <div class="">
+        <h1 class="heading-1">@lang('app.welcome') {{\Illuminate\Support\Facades\Auth::user()->name}} !</h1>
+        {{-- <p class="color-danger">{{__($pageTitle)}}</p> --}}
+    </div>
     <div class="row bg-title">
         <!-- .page title -->
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 bg-title-left">
