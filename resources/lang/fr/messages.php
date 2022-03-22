@@ -1,6 +1,8 @@
 <?php
 
 return array(
+
+  'continue' => 'Oui, continuer!',
   'unAuthorisedUser' => 'Vous n\'êtes pas utilisateur autorisé.',
   'cronIsNotRunning' => 'Il ressemble à votre travail cron hasn \'t Exécutez au cours des 48 dernières heures, vous devez vérifier si votre travail Cron Cron est configuré correctement.Ce message disparaîtra automatiquement après que le travail cron commence à nouveau à fonctionner correctement',
   'Login As Employee' => 'Connectez-vous comme employé',
@@ -525,6 +527,7 @@ After that upload the favicons to public/favicon directory.',
   'fixTheErrorsBelow' => 'Veuillez corriger les erreurs ci-dessous:',
   'confirmation' =>
   array(
+    'connectAs' => "Vous serez déconnecté puis être automatiquement reconnecté en tant que Admin. Continuer ?",
     'projectDelete' => 'Êtes-vous sûr de vouloir supprimer ce projet?',
     'clientDelete' => 'Êtes-vous sûr de vouloir supprimer ce client?',
     'leadDelete' => 'Êtes-vous sûr de vouloir supprimer cette avance?',

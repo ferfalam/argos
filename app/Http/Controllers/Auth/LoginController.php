@@ -211,6 +211,7 @@ class LoginController extends FrontBaseController
                 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
+            $user = User::find($user->id);
             $history = new LoginHistory();
             $history->user_id = $user->id;
             $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
@@ -224,6 +225,7 @@ class LoginController extends FrontBaseController
                 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
+            $user = User::find($user->id);
             $history = new LoginHistory();
             $history->user_id = $user->id;
             $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
@@ -237,6 +239,7 @@ class LoginController extends FrontBaseController
                 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
+            $user = User::find($user->id);
             $history = new LoginHistory();
             $history->user_id = $user->id;
             $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');

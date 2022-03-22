@@ -646,6 +646,23 @@
                                                         </a>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        {{-- <label for="password" class="required">Mot de passe</label> --}}
+                                                    </td>
+                                                    <td>
+                                                        {{-- <input type="password" class="form-control" id="password"
+                                                            name="password" value=""> --}}
+                                                            <a href="javascript:;" class="btn btn-info connect-as" data-company-id="{{$company->id}}">Se connecter en tant que</a>
+
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!" class="invisible">
+                                                            <img src="{{ asset('img/plus.png') }}" alt="">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
                                                 {{-- <tr class="text-center">
                                                     <td></td>
                                                     <td>
@@ -961,6 +978,39 @@
             const url = '{{ route('super-admin.tla.create') }}/' + target.dataset.type;
             $('#modelHeading').html('...');
             $.ajaxModal('#addModal', url);
+        })
+
+        $('.connect-as').click(function() {
+            var id = $(this).data('company-id');
+            swal({
+                title: "@lang('messages.sweetAlertTitle')",
+                text: "@lang('messages.confirmation.connectAs')",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "@lang('messages.continue')",
+                cancelButtonText: "@lang('messages.confirmNoArchive')",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+
+                    var url = "{{ route('super-admin.companies.connect-as',':id') }}";
+                    url = url.replace(':id', id);
+
+                    var token = "{{ csrf_token() }}";
+
+                    $.easyAjax({
+                        type: 'GET',
+                        url: url,
+                        success: function (response) {
+                            if (response.status == "success") {
+                                window.location.href = response.path
+                            }
+                        }
+                    });
+                }
+            });
         })
     </script>
 

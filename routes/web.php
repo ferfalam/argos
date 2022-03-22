@@ -158,6 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             // Companies routes
             Route::get('companies/data', ['uses' => 'SuperAdminCompanyController@data'])->name('companies.data');
+            Route::get('companies/connect-as/{companyId}', ['uses' => 'SuperAdminCompanyController@connectAs'])->name('companies.connect-as');
             Route::get('companies/editPackage/{companyId}', ['uses' => 'SuperAdminCompanyController@editPackage'])->name('companies.edit-package.get');
             Route::get('companies/default-language/', ['uses' => 'SuperAdminCompanyController@defaultLanguage'])->name('companies.default-language');
             Route::post('companies/default-language-save/', ['uses' => 'SuperAdminCompanyController@defaultLanguageUpdate'])->name('companies.default-language-save');

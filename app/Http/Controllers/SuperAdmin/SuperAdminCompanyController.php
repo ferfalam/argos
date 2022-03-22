@@ -558,4 +558,16 @@ class SuperAdminCompanyController extends SuperAdminBaseController
 
         return Reply::success(__('messages.successfullyLoginAsCompany'));
     }
+
+    public function connectAs(Request $request, $companyId)
+    {
+        $company = Company::find($companyId);
+        $companyUser = $company->admins()->orderBy('users.created_at', 'DESC')->first();
+
+        //Logged out
+        Auth::logout();
+        $request->session()->invalidate();
+        Auth::loginUsingId($companyUser->id);
+        return Reply::successWithData("Login...",["path"=>route('login')]);
+    }
 }
