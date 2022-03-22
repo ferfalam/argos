@@ -1770,6 +1770,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-Route::get('/foo', function () {
-    Artisan::call('storage:link');
-});
+// Route::get('/foo', function () {
+//     Artisan::call('storage:link');
+// });

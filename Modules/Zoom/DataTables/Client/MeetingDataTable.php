@@ -37,7 +37,7 @@ class MeetingDataTable extends BaseDataTable
                 //     $url = $this->user->id == $row->created_by ? $row->start_link : $row->end_link;
                 // }
 
-                $url = $this->user->id == $row->created_by ? $row->start_link : $row->end_link;
+                $url = $row->join_link;
 
                 $action = '<div class="btn-group dropdown m-r-10">
                 <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle waves-effect waves-light" type="button">

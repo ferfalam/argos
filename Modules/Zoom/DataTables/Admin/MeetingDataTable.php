@@ -30,10 +30,14 @@ class MeetingDataTable extends BaseDataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                if ($this->zoomSetting->meeting_app == 'in_app') {
-                    $url = route('member.zoom-meeting.startMeeting', $row->id);
-                } else {
-                    $url = $this->user->id == $row->created_by ? $row->start_link : $row->end_link;
+                if ($this->user->id == $row->created_by) {
+                    if ($this->zoomSetting->meeting_app == 'in_app') {
+                        $url = route('admin.zoom-meeting.startMeeting', $row->id);
+                    } else {
+                        $url = $row->start_link;
+                    }
+                }else{
+                        $url = $row->join_link;
                 }
 
                 $action = '<div class="btn-group dropdown m-r-10">

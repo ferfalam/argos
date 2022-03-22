@@ -165,14 +165,16 @@
             if (!user()->hasRole('client') && $zoomSetting->meeting_app == 'in_app') {
                 if (user()->id == $event->created_by && user()->hasRole('admin')) {
                     $url = route('admin.zoom-meeting.startMeeting', $event->id);
-                } elseif (user()->hasRole('employee')) {
+                } elseif (user()->id == $event->created_by && user()->hasRole('employee')) {
                     $url = route('member.zoom-meeting.startMeeting', $event->id);
+                }else{
+                $url = user()->id == $event->join_link;
                 }
             } else {
                 // if (user()->hasRole('client')) {
                 //     $url = route('client.zoom-meeting.startMeeting', $event->id);
                 // }
-                $url = user()->id == $event->created_by ? $event->start_link : $event->end_link;
+                $url = user()->id == $event->join_link;
             }
         @endphp
 

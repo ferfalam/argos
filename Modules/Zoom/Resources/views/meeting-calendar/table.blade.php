@@ -336,14 +336,14 @@
                                 <div class="form-group">
                                     <label class="control-label">@lang('zoom::modules.zoommeeting.meetingHost')</label>
                                     <select class="select2 form-control" id="created_by" name="created_by">
-                                        @if (\App\User::isAdmin($user->id))
+                                        {{-- @if (\App\User::isAdmin($user->id)) --}}
                                             <option selected value="{{ $user->id }}">{{ ucwords($user->name) }}
                                             </option>
-                                        @endif
-                                        @foreach ($employees as $emp)
+                                        {{-- @endif --}}
+                                        {{-- @foreach ($employees as $emp)
                                             <option @if ($emp->id == $user->id) selected @endif
                                                 value="{{ $emp->id }}">{{ ucwords($emp->name) }}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>

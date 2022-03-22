@@ -72,7 +72,7 @@ class MeetingInvite extends Notification implements ShouldQueue
             ->line(__('zoom::modules.zoommeeting.meetingName') . ': ' . $this->meeting->meeting_name)
             ->line(__('zoom::modules.zoommeeting.startOn') . ': ' . $this->meeting->start_date_time->format($this->global->date_format . ' - ' . $this->global->time_format))
             ->line(__('zoom::modules.zoommeeting.endOn') . ': ' . $this->meeting->end_date_time->format($this->global->date_format . ' - ' . $this->global->time_format))
-            ->action(__('email.loginDashboard'), url('/'))
+            ->action("Rejoindre", $this->meeting->join_link)
             ->line(__('email.thankyouNote'))
             ->attachData($vFile, 'cal.ics', [
                 'mime' => 'text/calendar',
