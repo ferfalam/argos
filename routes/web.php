@@ -14,6 +14,7 @@
 
 use App\Scopes\CompanyScope;
 use App\ThemeSetting;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 
 Route::post('/consent/remove-lead-request', ['uses' => 'PublicLeadGdprController@removeLeadRequest'])->name('front.gdpr.remove-lead-request');
@@ -1766,4 +1767,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('show-superadmin-user-notifications', ['uses' => 'SuperAdmin\NotificationController@showUserNotifications'])->name('show-superadmin-user-notifications');
     Route::post('mark-superadmin-notification-read', ['uses' => 'SuperAdmin\NotificationController@markAllRead'])->name('mark-superadmin-notification-read');
     Route::get('show-all-super-admin-notifications', ['uses' => 'SuperAdmin\NotificationController@showAllSuperAdminNotifications'])->name('show-all-super-admin-notifications');
+});
+
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
 });
