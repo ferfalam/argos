@@ -168,7 +168,7 @@
                         </x-filter-form-group>
 
                         <x-filter-form-group label="app.name">
-                            <select class="form-control select2" name="project" id="project" data-style="form-control">
+                            <select class="form-control select2" name="user_id" id="user_id" data-style="form-control">
                                 <option value="all">@lang('modules.client.all')</option>
                                 @foreach ($allUsers as $allUser)
                                     <option value="{{$allUser->id}}">{{$allUser->name}}</option>
@@ -451,18 +451,18 @@
         });
 
         $(function() {
-            var dateformat = '{{ $global->moment_format }}';
+            var dateformat = '{{ company()->moment_format }}';
 
             var start = '';
             var end = '';
 
             function cb(start, end) {
                 if(start){
-                    $('#start-date').val(start.format(dateformat));
-                    $('#end-date').val(end.format(dateformat));
+                    $('#start-date').val(start.format("YYYY-MM-DD"));
+                    $('#end-date').val(end.format("YYYY-MM-DD"));
                     $('#reportrange span').html(start.format(dateformat) + ' - ' + end.format(dateformat));
 
-                    showData();
+                    historyLoad();
                 }
 
             }
@@ -619,6 +619,7 @@
     <script>
         $(function() {
             tableLoad();
+            historyLoad();
         })
         tableLoad = () => {
             var packageName = $('#package').val();
@@ -671,6 +672,55 @@
                         data: 'action',
                         name: 'action'
                     }
+                ]
+            });
+        }
+
+        $("#user_id").on("change", function () {
+            historyLoad()
+        })
+
+        historyLoad = () => {
+            var packageName = $('#package').val();
+            var packageType = $('#type').val();
+
+            historyTable = $('#login-history-table').dataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                stateSave: true,
+                destroy: true,
+                ajax: '{{ route('super-admin.dashboard.history-data')}}?name='+$("#user_id").val()+'&date='+$('#start-date').val(),
+                language: {
+                    "url": "<?php echo __('app.datatable'); ?>"
+                },
+                "fnDrawCallback": function(oSettings) {
+                    $("body").tooltip({
+                        selector: '[data-toggle="tooltip"]'
+                    });
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'login_at',
+                        name: 'login_at'
+                    },
+                    {
+                        data: 'duration',
+                        name: 'duration'
+                    },
+                    // { data: 'licence_expire_on', name: 'licence_expire_on' },
+                    // { data: 'last_login', name: 'last_login'},
+                    // {
+                    //     data: 'action',
+                    //     name: 'action'
+                    // }
                 ]
             });
         }

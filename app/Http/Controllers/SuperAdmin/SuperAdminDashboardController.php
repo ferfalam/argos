@@ -7,6 +7,7 @@ use App\ClientDetails;
 use App\Company;
 use App\EmployeeDetails;
 use App\Helper\Reply;
+use App\LoginHistory;
 use App\MollieInvoice;
 use App\OfflineInvoice;
 use App\Package;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\SmtpSetting;
 use App\User;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class SuperAdminDashboardController extends SuperAdminBaseController
 {
@@ -310,5 +313,39 @@ class SuperAdminDashboardController extends SuperAdminBaseController
                 }
             }
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function historyData(Request $request)
+    {
+        $histories = LoginHistory::orderBy("login_at", "DESC");
+        if (!is_null($request->name) && $request->name != 'all') {
+            $histories = $histories->where("user_id",$request->name);
+        }
+        if (!is_null($request->date) && $request->name != '') {
+            $histories = $histories->where("login_at",">=", $request->date);
+        }
+        return DataTables::of($histories)
+            ->editColumn('name', function ($row) {
+                return '<strong>' . ucfirst($row->user()->first()->name) . '</strong>';
+                //return '<a href="' . route('super-admin.companies.edit', $row->id) . '"  data-company-id="' . $row->id . '"><strong>' . ucfirst($row->company_name) . '</strong></a>';
+            })
+            ->editColumn('login_at', function ($row) {
+                return Carbon::parse($row->login_at)->format(company()->date_format.' '.company()->time_format);
+            })
+            ->editColumn('duration', function ($row) {
+                $res = intval(intval($row->duration)/60).':'.(intval($row->duration)%60);
+                return $res;
+                //     
+                //     <img src="' . asset("img/user-2.png") . '" alt="">
+                //     <img src="' . asset("img/user-3.png") . '" alt="">
+                //     <img src="' . asset("img/user-4.png") . '" alt=""></div>';
+            })
+            ->rawColumns(['name'])
+            ->make(true);
     }
 }

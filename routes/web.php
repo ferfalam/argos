@@ -135,6 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('/dashboard', 'SuperAdminDashboardController@index')->name('dashboard');
             Route::get('/dashboard/stripe-pop-up-close', 'SuperAdminDashboardController@stripePopUpClose')->name('dashboard.stripe-pop-up-close');
+            Route::get('/dashboard/history', 'SuperAdminDashboardController@historyData')->name('dashboard.history-data');
             Route::post('profile/updateOneSignalId', ['uses' => 'SuperAdminProfileController@updateOneSignalId'])->name('profile.updateOneSignalId');
             Route::get('language', 'SuperAdminProfileController@changeLanguage')->name('language.change');
             Route::resource('/profile', 'SuperAdminProfileController', ['only' => ['index', 'update']]);

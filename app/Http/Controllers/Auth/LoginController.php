@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\GlobalSetting;
 use App\Http\Controllers\Front\FrontBaseController;
+use App\LoginHistory;
 use App\Scopes\CompanyScope;
 use App\Social;
 use App\ThemeSetting;
@@ -210,22 +211,37 @@ class LoginController extends FrontBaseController
                 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
+            $history = new LoginHistory();
+            $history->user_id = $user->id;
+            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            $history->duration = "--";
+            $history->save();
             return 'admin/dashboard';
         }
 
         if ($user->hasRole('employee')) {
-            $user = User::where('id', $user->id)->update([
+            User::where('id', $user->id)->update([
                 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
+            $history = new LoginHistory();
+            $history->user_id = $user->id;
+            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            $history->duration = "--";
+            $history->save();
             return 'member/dashboard';
         }
 
         if ($user->hasRole('client')) {
-            $user = User::where('id', $user->id)->update([
+            User::where('id', $user->id)->update([
                 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
+            $history = new LoginHistory();
+            $history->user_id = $user->id;
+            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            $history->duration = "--";
+            $history->save();
 
             return 'client/dashboard';
         }
@@ -241,12 +257,17 @@ class LoginController extends FrontBaseController
     {
         $user = auth()->user();
 
-        $user->online = false;
-
-        $date = Carbon::parse($user->last_login);
-        $now = Carbon::now();
-        $user->last_login_duration = $date->diffInMinutes($now);
-        $user->save();
+        if ($user->super_admin != "1") {
+            # code...
+            $user->online = false;
+            $date = Carbon::parse($user->last_login);
+            $now = Carbon::now();
+            $user->last_login_duration = $date->diffInMinutes($now);
+            $user->save();
+            $history = LoginHistory::where("user_id", $user->id)->orderBy("created_at", "DESC")->first();
+            $history->duration = $user->last_login_duration;
+            $history->save();
+        }
         $this->guard()->logout();
 
         $request->session()->invalidate();
