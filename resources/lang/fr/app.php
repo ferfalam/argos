@@ -1,7 +1,7 @@
 <?php
 
 return array(
-
+  'startMeeting' => 'Start Meeting',
   'online_users' => 'Les utilisatteurs en ligne',
   'login_history' => 'Historique de connexion',
   'supplier' =>"Fournisseur",
