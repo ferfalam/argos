@@ -429,7 +429,7 @@
 @endsection
 
 
-@push('footer-script')20	
+@push('footer-script')
     {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script> --}}
 <script src="//gitcdn.link/repo/wintercounter/Protip/master/protip.min.js"></script>
     <script src="{{ asset('plugins/bower_components/raphael/raphael-min.js') }}"></script>
@@ -633,7 +633,7 @@
                 }
             });
         });
-    </script>*
+    </script>
     <script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
