@@ -323,7 +323,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
      */
     public function historyData(Request $request)
     {
-        $histories = LoginHistory::orderBy("login_at", "DESC")->where('duration', '<>', '--');
+        $histories = LoginHistory::where('duration', '<>', '--');
         if (!is_null($request->name) && $request->name != 'all') {
             $histories = $histories->where("user_id",$request->name);
         }
@@ -333,13 +333,14 @@ class SuperAdminDashboardController extends SuperAdminBaseController
         if (!is_null($request->company) && $request->company != 'all') {
             $histories = $histories->where("company_id", $request->company);
         }
+        $histories = $histories->orderBy("login_at", "DESC")->get();
         return DataTables::of($histories)
             ->editColumn('name', function ($row) {
                 return '<strong>' . ucfirst($row->user()->first()->name) . '</strong>';
                 //return '<a href="' . route('super-admin.companies.edit', $row->id) . '"  data-company-id="' . $row->id . '"><strong>' . ucfirst($row->company_name) . '</strong></a>';
             })
             ->editColumn('company', function ($row) {
-                return '<strong>' . $row->company()->first()->company_name . '</strong>';
+                return '<strong>' . $row->thisCompany()->first()->company_name . '</strong>';
                 //return '<a href="' . route('super-admin.companies.edit', $row->id) . '"  data-company-id="' . $row->id . '"><strong>' . ucfirst($row->company_name) . '</strong></a>';
             })
             ->editColumn('login_at', function ($row) {

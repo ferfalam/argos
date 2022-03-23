@@ -18,7 +18,7 @@ class LoginHistory extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function company()
+    public function thisCompany()
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
