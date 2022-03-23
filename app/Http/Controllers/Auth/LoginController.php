@@ -61,9 +61,9 @@ class LoginController extends FrontBaseController
         
         
         
-        if (!$this->isLegal()) {
-            return redirect('verify-purchase');
-        }
+        // if (!$this->isLegal()) {
+        //     return redirect('verify-purchase');
+        // }
         
         if ($this->global->frontend_disable) {
             return view('auth.login', $this->data);
