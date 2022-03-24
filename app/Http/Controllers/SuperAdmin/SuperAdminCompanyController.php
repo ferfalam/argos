@@ -150,6 +150,9 @@ class SuperAdminCompanyController extends SuperAdminBaseController
             $employeeRole->save();
         }
         $user->roles()->attach($employeeRole->id);
+
+        $company->admin_id = $user->id;
+        $company->save();
         DB::commit();
         return Reply::redirect(route('super-admin.companies.index'), 'Company added successfully.');
     }
@@ -265,7 +268,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         $this->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
         $this->currencies = Currency::all();
         $this->packages = Package::all();
-        $this->companyUser = $this->company->admins()->orderBy('users.created_at', 'DESC')->first();
+        $this->companyUser = User::find($this->company->admin_id);    
 
         return view('super-admin.companies.edit', $this->data);
     }
@@ -297,6 +300,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
      */
     public function update(UpdateRequest $request, $id)
     {
+        DB::beginTransaction();
         $company = Company::find($id);
         $compannySubSetting = $company->companySubSetting;
         $this->storeAndUpdate($company, $compannySubSetting, $request);
@@ -313,6 +317,9 @@ class SuperAdminCompanyController extends SuperAdminBaseController
 
         if ($user->email != $request->email) {
             $user = $company->addUser($company, $request);
+            if (!$user) {
+                return Reply::error('Cet utilisateur ne peut pas obtenir le role d\'Admin');
+            }
             $user->status = 'active';
             $user->email_verification_code = null;
             request()->request->add(['company_id' => $company->id]);
@@ -336,8 +343,11 @@ class SuperAdminCompanyController extends SuperAdminBaseController
                 Mail::to($request->email)
                     ->send(new UpdateAdmin($request->company_name, ["email" => $request->email, "password" => $request->password]));
             }
+            $user->save();
         }
-
+        $company->admin_id = $user->id;
+        $company->save();
+        DB::commit();
         return Reply::redirect(route('super-admin.companies.index'), __('messages.updateSuccess'));
     }
 

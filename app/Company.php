@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helper\Reply;
 use App\Notifications\EmailVerification;
 use App\Notifications\NewUser;
 use App\Observers\CompanyObserver;
@@ -152,7 +153,15 @@ class Company extends BaseModel
         $user = User::withoutGlobalScopes([CompanyScope::class, 'active'])->where('email', $request->email)->first();
         if (is_null($user)) {
             $user = new User();
+            $request->validate([
+                "password" => "required | min:8"
+            ]);
+        }else{
+            if (!User::isAdmin($user->id) && !User::isEmployee($user->id)) {
+                return false;
+            }
         }
+
         $observation = [
             "departement" => [],
             "skills" => [],
@@ -165,7 +174,9 @@ class Company extends BaseModel
         $user->address = $company->address;
         $user->mobile = $company->company_phone;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
+        if (!is_null($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
         $user->status = 'active';
         $user->email_verification_code = str_random(40);
         $user->save();
