@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Modules\Zoom\Entities\ZoomSetting;
@@ -133,6 +134,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         return $this->notifications();
+    }
+
+    public function isOnline()
+    {
+        return Cache::store('file')->get('online-user-'.$this->id);
     }
 
     public function client()

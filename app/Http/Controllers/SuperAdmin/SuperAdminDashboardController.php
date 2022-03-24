@@ -238,7 +238,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
         }
 
         $this->onlineUsers = User::where('super_admin', '0')->where("online", true)->get();
-        $this->allUsers = User::where('super_admin', '0')->get();
+        $this->allUsers = User::all();
         $this->allCompanies = Company::all();
         $this->progressPercent = $this->progressbarPercent();
         $this->isCheckScript();

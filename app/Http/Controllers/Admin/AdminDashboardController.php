@@ -38,6 +38,7 @@ use App\User;
 use App\UserActivity;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends AdminBaseController
@@ -58,7 +59,6 @@ class AdminDashboardController extends AdminBaseController
      */
     public function index()
     {
-		
         $today = Carbon::now()->format('Y-m-d');
         $usersData = User::allEmployees();
         $usersData = User::leftJoin(
