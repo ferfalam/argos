@@ -52,6 +52,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
         $this->totalEmployees = User::join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->where('roles.name', 'employee')
+            ->orWhere('roles.name', 'admin')
             ->count();
         $this->totalClients = ClientDetails::count();
         $this->totalContacts = Contect::count();

@@ -338,8 +338,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
                 $request->validate([
                     "password" => "min:8"
                 ]);
-                $savearr['password'] = bcrypt($request->password);
-                $user->password=$request->password;
+                $user->password=bcrypt($request->password);
             }
             $user->name = $request->admin_name;
             if ($user) {

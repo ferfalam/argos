@@ -63,7 +63,7 @@ class SuperAdminController extends SuperAdminBaseController
         $generatedBy = new User();
         // $this->countries = Country::all();
 
-        $this->groups = Team::with('member', 'member.user')->get();
+        $this->groups = Team::where('company_id', company()->id)->get();
         $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
         return view('super-admin.super-admin.create', $this->data);
