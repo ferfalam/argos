@@ -268,7 +268,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
         $this->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
         $this->currencies = Currency::all();
         $this->packages = Package::all();
-        $this->companyUser = User::find($this->company->admin_id);    
+        $this->companyUser = User::find($this->company->admin_id) ?? Company::find($id)->admins()->first();    
 
         return view('super-admin.companies.edit', $this->data);
     }
@@ -334,7 +334,10 @@ class SuperAdminCompanyController extends SuperAdminBaseController
 
             $company->addEmployeeDetails($user, 'superadmin');
         }else{
-            if (!is_null($request->password)) {
+            if ($request->password != '') {
+                $request->validate([
+                    "password" => "min:8"
+                ]);
                 $savearr['password'] = bcrypt($request->password);
                 $user->password=$request->password;
             }

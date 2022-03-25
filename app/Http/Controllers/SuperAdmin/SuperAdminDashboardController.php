@@ -48,10 +48,14 @@ class SuperAdminDashboardController extends SuperAdminBaseController
     {
         // $this->changeAppUrlEnvironment();
         $this->totalCompanies = Company::count();
-        $this->totalEmployees = EmployeeDetails::count();
+        $this->totalEmployees = User::join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->where('roles.name', 'employee')
+            ->count();
         $this->totalClients = ClientDetails::count();
         $this->tasksresearche = ProjectMilestone::where('type','Research')->count();
         $this->tasksprogress = ProjectMilestone::where('type','Development')->count();
+        $this->totaltasks = Task::where('status','incomplete')->count();
 
         $this->totalPackages = Package::where('default', '!=', 'trial')->count();
         $this->activeCompanies = Company::where('status', '=', 'active')->count();

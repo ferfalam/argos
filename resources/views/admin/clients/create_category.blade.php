@@ -9,7 +9,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>@lang('modules.projectCategory.categoryName')</th>
+                    <th>@lang('app.categoryName')</th>
                     <th>@lang('app.action')</th>
                 </tr>
                 </thead>
@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-xs-12 ">
                         <div class="form-group">
-                            <label class="required">@lang('app.add') @lang('modules.projectCategory.categoryName')</label>
+                            <label class="required">@lang('app.add') @lang('app.categoryName')</label>
                             <input type="text" name="category_name" id="category_name" class="form-control" width="100%">
                         </div>
                     </div>

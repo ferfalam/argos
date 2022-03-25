@@ -125,7 +125,7 @@
                         <thead>
                         <tr>
                             <th>@lang('app.id')</th>
-                            <th>@lang('app.name')</th>
+                            <th>@lang('app.contactName')</th>
                             <th>@lang('app.phone')</th>
                             <th>@lang('app.email')</th>
                             <th>@lang('app.civility')</th>

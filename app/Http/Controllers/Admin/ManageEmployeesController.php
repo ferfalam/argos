@@ -196,6 +196,8 @@ class ManageEmployeesController extends AdminBaseController
             
             $employee = new EmployeeDetails();
             $employee->user_id = $user->id;
+            $employee->department_id = $request->department_id;
+            $employee->designation_id = Designation::where('name', $request->input("qualification"))->where('company_id', company()->id)->first()->id;
             $employee->address = $user->address;
             $employee->employee_id = $user->username;
             $employee->hourly_rate =  $request->hourly_rate ? $request->hourly_rate : 0;
@@ -343,9 +345,15 @@ class ManageEmployeesController extends AdminBaseController
             return Reply::error(__('messages.downGradePackageForAddEmployees', ['employeeCount' => company()->employees->count(), 'maxEmployees' => $company->package->max_employees]));
         }
         DB::beginTransaction();
+        $user = User::withoutGlobalScope('active')
+        ->findOrFail($id);
+        if ($user->email != $request->input("email")) {
+            $request->validate([
+                'email' => 'unique:users'
+            ]);
+            $user->email = $request->input("email");
+        }
         try {
-            $user = User::withoutGlobalScope('active')
-            ->findOrFail($id);
             //        $user->name = $request->input('name');
             //        $user->email = $request->input('email');
             //        $user->password = Hash::make($request->input('password'));
@@ -381,7 +389,7 @@ class ManageEmployeesController extends AdminBaseController
             //$user->local = company()->locale;
             $user->tel = "";
             $user->mobile = "+" . $request->input('mobile_phoneCode') . " " . $request->input('mobile');
-            $user->email = $request->input("email");
+            
             //$user->password = Hash::make($request->input('password'));
             $user->login = $request->input("connexion") == "1" ? 'enable' : 'disable';
             $user->status = $request->input("status") == "1" ? 'active' : 'deactive';
@@ -408,6 +416,8 @@ class ManageEmployeesController extends AdminBaseController
             // ];
             $employee = EmployeeDetails::where("user_id", $id)->get()[0];
             $employee->address = $user->address;
+            $employee->department_id = $request->department_id;
+            $employee->designation_id = Designation::where('name',$request->input("qualification"))->where('company_id', company()->id)->first()->id;
             $employee->employee_id = $user->username;
             $employee->hourly_rate =  $request->hourly_rate ? $request->hourly_rate : 0;
             $employee->slack_username = $request->slack_username == "" ? $request->slack_username : '';

@@ -111,7 +111,7 @@
             title="{!! trans('app.collaborateur') !!}"></x-stat-card>
         <x-stat-card img="card-2.png" url="" count="{{ $tasksresearche }}" title="{!! trans('app.rechercheencours') !!}"></x-stat-card>
         <x-stat-card img="card-3.png" url="" count="{{ $tasksprogress }}" title="{!! trans('app.devencours') !!}"></x-stat-card>
-        <x-stat-card img="card-4.png" url="" count="{{ $tasksresearche+$tasksprogress }}" title="{!! trans('app.tacheencours') !!}">
+        <x-stat-card img="card-4.png" url="" count="{{ $totaltasks }}" title="{!! trans('app.tacheencours') !!}">
         </x-stat-card>
         <x-stat-card img="card-5.png" url="" count="{{ $totalClients }}" title="{!! trans('app.totalcontact') !!}">
         </x-stat-card>

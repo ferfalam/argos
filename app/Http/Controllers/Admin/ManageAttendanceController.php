@@ -604,7 +604,8 @@ class ManageAttendanceController extends AdminBaseController
         }
 
         $this->holidays = Holiday::whereRaw('MONTH(holidays.date) = ?', [$request->month])->whereRaw('YEAR(holidays.date) = ?', [$request->year])->get();
-        $this->openDays = json_decode(AttendanceSetting::where("company_id", company()->id)->orderBy('created_at', 'desc')->first()->office_open_days);
+        $this->openDays = json_decode(AttendanceSetting::where('company_id', company()->id)->orderBy('created_at', 'DESC')->first()->office_open_days ?? AttendanceSetting::first()->office_open_days);
+
         $openDays = array_map(function ($d)
         {
             if ($d == 1) {

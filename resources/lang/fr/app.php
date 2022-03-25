@@ -1,6 +1,8 @@
 <?php
 
 return array(
+  'clientsList' => 'Liste Client',
+  'addClient' => 'Ajouter Client',
   'startMeeting' => 'Start Meeting',
   'online_users' => 'Les utilisatteurs en ligne',
   'login_history' => 'Historique de connexion',
@@ -105,6 +107,7 @@ return array(
   'timeLog' => 'Journal de temps',
   'selectTask' => 'Sélectionner la tâche',
   'category' => 'Catégorie',
+  'categoryName' => 'Nom de Catégorie',
   'panel' => 'Panneau',
   'showGst' => 'Montrer la TPS',
   'projectTemplate' => 'Modèle de projet',
@@ -170,11 +173,11 @@ return array(
   'function' => 'Fonction',
 
 
-  'addContact' => 'Add a Contact',
-  'contactList' => "Contact List",
-  'contactName' => "Contact Name",
-  'contactFile' => "Contact File",
-  'contact_type' => "Contact Type",
+  'addContact' => 'Ajouter Contact',
+  'contactList' => "Liste Contact",
+  'contactName' => "Nom du Contact",
+  'contactFile' => "Fichier Contact",
+  'contact_type' => "Type de Contact",
   "visibility" => "Visibilité",
   'attach_to' => "Rattachement",
   'createdAt' => 'Date création',
@@ -208,7 +211,6 @@ return array(
 	  'client' => 'clients',
 	  'fournisseur' => 'Fournisseur',
     'contacts' => "Contacts",
-    'suppliers' => 'Suppliers',
     'spv' => 'Spv',
     'mailing' => 'Envoi postal',
     'coal_index' => 'Indice carbone',
@@ -243,7 +245,7 @@ return array(
     'emailSettings' => 'Paramètres de messagerie',
     'moduleSettings' => 'Paramètres du module',
     'currencySettings' => 'Paramètres de devise',
-    'contacts' => 'contacts',
+    'contacts' => 'Contacts',
     'messages' => 'Chat',
     'themeSettings' => 'Réglage des thèmes',
     'estimates' => 'Estimations',

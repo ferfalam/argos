@@ -24,7 +24,15 @@ class Team extends BaseModel
 
     public function member()
     {
-        return $this->hasMany(EmployeeDetails::class, 'department_id');
+        $users = User::where('company_id', company()->id)->get();
+        $members = array();
+        foreach ($users as $key => $user) {
+            if (!is_null(json_decode($user->observation)->departement) && in_array($this->id, json_decode($user->observation)->departement)) {
+                array_push($members, $user);
+            }
+        }
+        return $members;
+        // return $this->hasMany(EmployeeDetails::class, 'department_id');
     }
 
 }

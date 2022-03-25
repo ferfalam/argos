@@ -32,7 +32,7 @@ class AttendanceSettingController extends AdminBaseController
     public function index()
     {
         $this->ipAddresses = [];
-        $this->attendanceSetting = AttendanceSetting::first();
+        $this->attendanceSetting = AttendanceSetting::where('company_id', company()->id)->orderBy('created_at', 'DESC')->first() ?? AttendanceSetting::first();
         $this->openDays = json_decode($this->attendanceSetting->office_open_days);
         if (json_decode($this->attendanceSetting->ip_address)) {
             $this->ipAddresses = json_decode($this->attendanceSetting->ip_address, true);

@@ -160,6 +160,12 @@ class Company extends BaseModel
             if (!User::isAdmin($user->id) && !User::isEmployee($user->id)) {
                 return false;
             }
+            if ($request->password != '') {
+                $request->validate([
+                    "password" => "min:8"
+                ]);
+                $user->password = bcrypt($request->password);
+            }
         }
 
         $observation = [
@@ -174,9 +180,6 @@ class Company extends BaseModel
         $user->address = $company->address;
         $user->mobile = $company->company_phone;
         $user->email = $request->email;
-        if (!is_null($request->password)) {
-            $user->password = bcrypt($request->password);
-        }
         $user->status = 'active';
         $user->email_verification_code = str_random(40);
         $user->save();

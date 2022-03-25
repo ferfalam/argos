@@ -251,7 +251,7 @@ class AdminContactController extends AdminBaseController
   }
   public function contactData(Request $request)
   {
-    $timeLogs = Contect::whereNotNull('id');
+    $timeLogs = Contect::where('company_id', company()->id);
     if ($request->type != 'all') {
       # code...
       $timeLogs->where("contect_type", $request->type);

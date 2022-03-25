@@ -7,9 +7,9 @@
     </x-slot>
 
     <x-slot name="btns">
-        @if(!$groups->isEmpty())
+        {{-- @if(!$groups->isEmpty()) --}}
         <x-link type="link" url="{{ route('admin.teams.create') }}" classes="btn btn-cs-blue" icon="fa fa-plus" :title="['app.add', 'app.department']"/>
-        @endif
+        {{-- @endif --}}
     </x-slot>
 </x-main-header>
 @endsection
@@ -31,18 +31,18 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <?php
-                    $size = 0;
-                    foreach ($group->member as  $item) {
-                        if ($item->user->company_id == company()->id){
-                            $size++;
-                        }
-                    }
+                    // $size = 0;
+                    // foreach ($group->member as  $item) {
+                    //     if ($item->user->company_id == company()->id){
+                    //         $size++;
+                    //     }
+                    // }
                 ?>
-                <td>{{ $group->team_name }} <label class="label label-success">{{ $size }} @lang('modules.projects.members')</label></td>
+                <td>{{ $group->team_name }} <label class="label label-success">{{ count($group->member()) }} @lang('modules.projects.members')</label></td>
                 <td>
-                    @forelse($group->member as $item)
-                        @if ($item->user->company_id == company()->id)
-                            <img data-toggle="tooltip" data-original-title="{{ ucwords($item->user->name) }}" src="{{ $item->user->image_url }}"
+                    @forelse($group->member() as $item)
+                        @if ($item->company_id == company()->id)
+                            <img data-toggle="tooltip" data-original-title="{{ ucwords($item->name) }}" src="{{ $item->image_url }}"
                             alt="user" class="img-circle" width="25" height="25">
                         @endif
                     @empty
