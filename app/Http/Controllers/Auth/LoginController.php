@@ -206,59 +206,59 @@ class LoginController extends FrontBaseController
         $user = auth()->user();
         if ($user->super_admin == '1') {
             User::where('id', $user->id)->update([
-                'online' => true,
+                // 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
-            $user = User::find($user->id);
-            $history = new LoginHistory();
-            $history->user_id = $user->id;
-            $history->company_id = $user->company->id;
-            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
-            $history->duration = "--";
-            $history->save();
+            // $user = User::find($user->id);
+            // $history = new LoginHistory();
+            // $history->user_id = $user->id;
+            // $history->company_id = $user->company->id;
+            // $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            // $history->duration = "--";
+            // $history->save();
             return 'super-admin/dashboard';
         } elseif ($user->hasRole('admin')) {
             User::where('id', $user->id)->update([
-                'online' => true,
+                // 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
-            $user = User::find($user->id);
-            $history = new LoginHistory();
-            $history->user_id = $user->id;
-            $history->company_id = $user->company->id;
-            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
-            $history->duration = "--";
-            $history->save();
+            // $user = User::find($user->id);
+            // $history = new LoginHistory();
+            // $history->user_id = $user->id;
+            // $history->company_id = $user->company->id;
+            // $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            // $history->duration = "--";
+            // $history->save();
             return 'admin/dashboard';
         }
 
         if ($user->hasRole('employee')) {
             User::where('id', $user->id)->update([
-                'online' => true,
+                // 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
-            $user = User::find($user->id);
-            $history = new LoginHistory();
-            $history->user_id = $user->id;
-            $history->company_id = $user->company->id;
-            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
-            $history->duration = "--";
-            $history->save();
+            // $user = User::find($user->id);
+            // $history = new LoginHistory();
+            // $history->user_id = $user->id;
+            // $history->company_id = $user->company->id;
+            // $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            // $history->duration = "--";
+            // $history->save();
             return 'member/dashboard';
         }
 
         if ($user->hasRole('client')) {
             User::where('id', $user->id)->update([
-                'online' => true,
+                // 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
-            $user = User::find($user->id);
-            $history = new LoginHistory();
-            $history->user_id = $user->id;
-            $history->company_id = $user->company->id;
-            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
-            $history->duration = "--";
-            $history->save();
+            // $user = User::find($user->id);
+            // $history = new LoginHistory();
+            // $history->user_id = $user->id;
+            // $history->company_id = $user->company->id;
+            // $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            // $history->duration = "--";
+            // $history->save();
 
             return 'client/dashboard';
         }
@@ -276,15 +276,14 @@ class LoginController extends FrontBaseController
 
         // if ($user->super_admin != "1") {
             # code...
-        $user->online = false;
-        $date = Carbon::parse($user->last_login);
-        $now = Carbon::now();
-        $user->last_login_duration = $date->diffInSeconds($now);
-        $user->save();
-        dd($user);
-        $history = LoginHistory::where("user_id", $user->id)->where("login_at", $user->last_login)->orderBy("created_at", "DESC")->first();
-        $history->duration = $user->last_login_duration;
-        $history->save();
+        // $user->online = false;
+        // $date = Carbon::parse($user->last_login);
+        // $now = Carbon::now();
+        // $user->last_login_duration = $date->diffInSeconds($now);
+        // $user->save();
+        // $history = LoginHistory::where("user_id", $user->id)->where("login_at", $user->last_login)->orderBy("created_at", "DESC")->first();
+        // $history->duration = $user->last_login_duration;
+        // $history->save();
         // }
         $this->guard()->logout();
 

@@ -353,10 +353,10 @@ class SuperAdminDashboardController extends SuperAdminBaseController
                 return Carbon::parse($row->login_at)->format(company()->date_format.' '.company()->time_format);
             })
             ->editColumn('duration', function ($row) {
-                if ($row->duration == '--') {
-                    return '<strong class="text-success">ONLINE</strong>';
-                }
                 $res = gmdate("H:i:s", intval($row->duration));
+                if ($row->login_at == $row->user->last_login) {
+                    $res .= '<strong class="text-success"> ONLINE</strong>';
+                }
                 return $res;
                 //     
                 //     <img src="' . asset("img/user-2.png") . '" alt="">
