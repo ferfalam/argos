@@ -113,7 +113,7 @@
         <x-stat-card img="card-3.png" url="" count="{{ $tasksprogress }}" title="{!! trans('app.devencours') !!}"></x-stat-card>
         <x-stat-card img="card-4.png" url="" count="{{ $totaltasks }}" title="{!! trans('app.tacheencours') !!}">
         </x-stat-card>
-        <x-stat-card img="card-5.png" url="" count="{{ $totalClients }}" title="{!! trans('app.totalcontact') !!}">
+        <x-stat-card img="card-5.png" url="" count="{{ $totalContacts }}" title="{!! trans('app.totalcontact') !!}">
         </x-stat-card>
     </x-panel-container>
 
@@ -212,8 +212,8 @@
                                     <thead>
                                         <tr>
                                             {{-- <th>#</th> --}}
-                                            <th>@lang('app.company_name')</th>
                                             <th>@lang('app.name')</th>
+                                            <th>@lang('app.company_name')</th>
                                             <th>@lang('app.date')</th>
                                             <th>@lang('app.duration')</th>
                                         </tr>

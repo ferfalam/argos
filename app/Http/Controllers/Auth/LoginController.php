@@ -205,6 +205,12 @@ class LoginController extends FrontBaseController
     {
         $user = auth()->user();
         if ($user->super_admin == '1') {
+            $history = new LoginHistory();
+            $history->user_id = $user->id;
+            $history->company_id = $user->company->id;
+            $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
+            $history->duration = "--";
+            $history->save();
             return 'super-admin/dashboard';
         } elseif ($user->hasRole('admin')) {
             User::where('id', $user->id)->update([
@@ -214,6 +220,7 @@ class LoginController extends FrontBaseController
             $user = User::find($user->id);
             $history = new LoginHistory();
             $history->user_id = $user->id;
+            $history->company_id = $user->company->id;
             $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
             $history->duration = "--";
             $history->save();
@@ -228,6 +235,7 @@ class LoginController extends FrontBaseController
             $user = User::find($user->id);
             $history = new LoginHistory();
             $history->user_id = $user->id;
+            $history->company_id = $user->company->id;
             $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
             $history->duration = "--";
             $history->save();
@@ -242,6 +250,7 @@ class LoginController extends FrontBaseController
             $user = User::find($user->id);
             $history = new LoginHistory();
             $history->user_id = $user->id;
+            $history->company_id = $user->company->id;
             $history->login_at = Carbon::parse($user->last_login)->format('Y-m-d H:i:s');
             $history->duration = "--";
             $history->save();
@@ -260,7 +269,7 @@ class LoginController extends FrontBaseController
     {
         $user = auth()->user();
 
-        if ($user->super_admin != "1") {
+        // if ($user->super_admin != "1") {
             # code...
             $user->online = false;
             $date = Carbon::parse($user->last_login);
@@ -270,7 +279,7 @@ class LoginController extends FrontBaseController
             $history = LoginHistory::where("user_id", $user->id)->where("login_at", $user->last_login)->orderBy("created_at", "DESC")->first();
             $history->duration = $user->last_login_duration;
             $history->save();
-        }
+        // }
         $this->guard()->logout();
 
         $request->session()->invalidate();

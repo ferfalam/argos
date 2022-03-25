@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\AuthorizationInvoice;
 use App\ClientDetails;
 use App\Company;
+use App\Contect;
 use App\EmployeeDetails;
 use App\Helper\Reply;
 use App\LoginHistory;
@@ -53,6 +54,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
             ->where('roles.name', 'employee')
             ->count();
         $this->totalClients = ClientDetails::count();
+        $this->totalContacts = Contect::count();
         $this->tasksresearche = ProjectMilestone::where('type','Research')->count();
         $this->tasksprogress = ProjectMilestone::where('type','Development')->count();
         $this->totaltasks = Task::where('status','incomplete')->count();
@@ -327,7 +329,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
      */
     public function historyData(Request $request)
     {
-        $histories = LoginHistory::where('duration', '<>', '--');
+        $histories = LoginHistory::orderBy("login_at", "DESC");
         if (!is_null($request->name) && $request->name != 'all') {
             $histories = $histories->where("user_id",$request->name);
         }
@@ -337,7 +339,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
         if (!is_null($request->company) && $request->company != 'all') {
             $histories = $histories->where("company_id", $request->company);
         }
-        $histories = $histories->orderBy("login_at", "DESC")->get();
+        $histories = $histories->get();
         return DataTables::of($histories)
             ->editColumn('name', function ($row) {
                 return '<strong>' . ucfirst($row->user()->first()->name) . '</strong>';
@@ -351,6 +353,9 @@ class SuperAdminDashboardController extends SuperAdminBaseController
                 return Carbon::parse($row->login_at)->format(company()->date_format.' '.company()->time_format);
             })
             ->editColumn('duration', function ($row) {
+                if ($row->duration == '--') {
+                    return '<strong class="text-success">ONLINE</strong>';
+                }
                 $res = gmdate("H:i:s", intval($row->duration));
                 return $res;
                 //     
@@ -358,7 +363,7 @@ class SuperAdminDashboardController extends SuperAdminBaseController
                 //     <img src="' . asset("img/user-3.png") . '" alt="">
                 //     <img src="' . asset("img/user-4.png") . '" alt=""></div>';
             })
-            ->rawColumns(['name', 'company'])
+            ->rawColumns(['name', 'company', 'duration'])
             ->make(true);
     }
 }
