@@ -575,7 +575,7 @@ class SuperAdminCompanyController extends SuperAdminBaseController
     public function connectAs(Request $request, $companyId)
     {
         $company = Company::find($companyId);
-        $companyUser = $company->admins()->orderBy('users.created_at', 'DESC')->first();
+        $companyUser = User::find($company->admin_id) ?? $company->admins()->first();
 
         //Logged out
         Auth::logout();

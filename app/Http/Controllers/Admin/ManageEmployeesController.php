@@ -103,7 +103,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->lastEmployeeID = EmployeeDetails::count();
         $this->countries = Country::all();
         $this->roles = Role::all();
-        $this->groups = Team::with('member', 'member.user')->get();
+        $this->groups = Team::all();
         $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
 
@@ -255,8 +255,6 @@ class ManageEmployeesController extends AdminBaseController
      */
     public function show($id)
     {
-
-
         $this->employee = User::with(['employeeDetail', 'employeeDetail.designation', 'employeeDetail.department', 'leaveTypes', 'country', 'roles'])->withoutGlobalScope('active')->findOrFail($id);
         $this->employeeDetail = EmployeeDetails::where('user_id', '=', $this->employee->id)->first();
         $this->cityName = CompanyTLA::where('id', $this->employee->city_id)->first();
@@ -316,7 +314,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->countries = Country::all();
         $this->userRole = Role::find($this->userDetail->role()->get()[0]->role_id);
         $this->EmployeeSkill = EmployeeSkill::where('user_id', $id)->pluck('skill_id')->toArray();
-        $this->groups = Team::with('member', 'member.user')->get();
+        $this->groups = Team::all();
         $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
 

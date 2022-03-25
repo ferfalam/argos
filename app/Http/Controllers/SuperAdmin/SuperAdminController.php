@@ -153,7 +153,7 @@ class SuperAdminController extends SuperAdminBaseController
         $this->userDetail = User::withoutGlobalScope('active')->where('super_admin', '1')
             ->findOrFail($id);
         $this->tla = CompanyTLA::all();
-        $this->groups = Team::with('member', 'member.user')->get();
+        $this->groups = Team::all();
         $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
         return view('super-admin.super-admin.edit', $this->data);
