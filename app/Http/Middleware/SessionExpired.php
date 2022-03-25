@@ -11,7 +11,7 @@ use Session;
 class SessionExpired
 {
     protected $session;
-    protected $timeout = 1200;
+    protected $timeout = 1800;
 
     public function __construct(Store $session)
     {
