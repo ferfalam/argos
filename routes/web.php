@@ -1595,6 +1595,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('task-files/download/{id}', ['uses' => 'TaskFilesController@download'])->name('task-files.download');
             Route::resource('task-files', 'TaskFilesController');
 
+            Route::get('sub-task-memberfiles/download/{id}', ['uses' => 'SubTaskFilesController@download'])->name('sub-task-files.download');
+            Route::resource('sub-task-memberfiles', 'SubTaskFilesController');
+
             // Project section
             Route::get('projects/data', ['uses' => 'ClientProjectsController@data'])->name('projects.data');
             Route::resource('projects', 'ClientProjectsController');

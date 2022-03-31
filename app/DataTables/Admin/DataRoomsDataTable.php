@@ -29,11 +29,23 @@ class DataRoomsDataTable extends BaseDataTable
             ->addColumn('action', function ($row) {
                 Log::info(json_encode($row));
                 if (User::isAdmin(user()->id)) {
-                    $url = route("admin.task-files.download", $row->file->id);
+                    if ($row->type == 'type') {
+                        $url = route("admin.task-files.download", $row->file->id);
+                    }else{
+                        $url = route("admin.sub-task-files.download", $row->file->id);
+                    }
                 } elseif (User::isEmployee(user()->id)) {
-                    $url = route("member.task-files.download", $row->file->id);
+                    if ($row->type == 'type') {
+                        $url = route("member.task-files.download", $row->file->id);
+                    }else{
+                        $url = route("member.sub-task-files.download", $row->file->id);
+                    }
                 } else{
-                    $url = route("client.task-files.download", $row->file->id);
+                    if ($row->type == 'type') {
+                        $url = route("client.task-files.download", $row->file->id);
+                    }else{
+                        $url = route("client.sub-task-files.download", $row->file->id);
+                    }
                 }
                 $action = '<a target="_blank" href="'.$row->file->file_url. '" data-doc-id="' . $row->id . '"
                             data-toggle="tooltip" data-original-title="View"
