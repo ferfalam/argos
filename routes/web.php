@@ -405,6 +405,9 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::resource('leadCategory', 'LeadCategoryController');
                 Route::resource('events-type', 'EventTypeController');
                 Route::resource('events-category', 'EventCategoryController');
+                Route::resource('milestone-title', 'ManageMilestoneTitleController');
+                Route::resource('task-title', 'ManageTaskTitleController');
+                Route::resource('room', 'RoomController');
 
                 Route::get('clientCategory/create-cat', ['uses' => 'ClientCategoryController@createCat'])->name('clientCategory.create-cat');
                 Route::post('clientCategory/store-cat', ['uses' => 'ClientCategoryController@storeCat'])->name('clientCategory.store-cat');

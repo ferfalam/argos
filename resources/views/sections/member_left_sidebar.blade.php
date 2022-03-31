@@ -131,11 +131,11 @@
             @endif
         @endif
 
-        @if(in_array('holidays',$modules))
+        {{-- @if(in_array('holidays',$modules))
             <li class="{{request()->routeIs('member.holidays.index') ? 'active' : ''}}">
                 <a href="{{ route('member.holidays.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang("app.menu.holiday") </span></a>
             </li>
-        @endif
+        @endif --}}
 
         @if(in_array('leaves',$modules))
         <li><a href="{{ route('member.leaves.index') }}" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">@lang('app.menu.leaves')</span></a> </li>

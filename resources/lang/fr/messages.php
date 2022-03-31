@@ -1,7 +1,6 @@
 <?php
 
 return array(
-
   'continue' => 'Oui, continuer!',
   'unAuthorisedUser' => 'Vous n\'êtes pas utilisateur autorisé.',
   'cronIsNotRunning' => 'Il ressemble à votre travail cron hasn \'t Exécutez au cours des 48 dernières heures, vous devez vérifier si votre travail Cron Cron est configuré correctement.Ce message disparaîtra automatiquement après que le travail cron commence à nouveau à fonctionner correctement',
@@ -67,6 +66,8 @@ return array(
   'contactAdded' => 'Contact ajouté avec succès.',
   'dataRoomAdded' => 'Data Room ajouté avec succès.',
   'dataRoomUpdated' => 'Data Room mis à jour avec succès.',
+  'milestoneTitleUpdated' => 'Titre d\'étape mis à jour avec succès.',
+  'milestoneTitleAdded' => 'Titre d\'étape ajouté avec succès.',
   'notesAdded' => 'Notes ajoutées avec succès',
   'notesUpdated' => 'Notes mises à jour avec succès',
   'notesDeleted' => 'Notes supprimées avec succès',
@@ -89,6 +90,7 @@ return array(
   'invoiceUpdated' => 'Facture mise à jour avec succès.',
   'issueStatusChanged' => 'Le statut d\'émission a changé avec succès.',
   'timeLogDeleted' => 'Le journal de temps est supprimé avec succès.',
+  'milestoneTitleDeleted' => 'Titre d\'étape est supprimé avec succès.',
   'clientAdded' => 'Info client a ajouté avec succès.',
   'clientUpdated' => 'Info client mis à jour avec succès.',
   'clientDeleted' => 'Le client a supprimé avec succès.',

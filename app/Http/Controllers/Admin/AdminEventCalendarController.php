@@ -16,6 +16,7 @@ use App\EventType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Modules\Zoom\Entities\Room;
 
 class AdminEventCalendarController extends AdminBaseController
 {
@@ -36,7 +37,8 @@ class AdminEventCalendarController extends AdminBaseController
        
         $this->employees = User::allEmployees();
         $this->events = Event::all();
-        $this->clients = User::allClients();
+        $this->rooms = Room::where('company_id', company()->id)->get();
+        $this->clients = User::allExterne();
         $this->categories = EventCategory::all();
         $this->eventTypes = EventType::all();
         $this->unique_id = uniqid();
@@ -236,7 +238,7 @@ class AdminEventCalendarController extends AdminBaseController
     public function edit($id)
     {
         $this->employees = User::allEmployees();
-        $this->clients = User::allClients();
+        $this->clients = User::allExterne();
         $this->event = Event::with('attendee')->findOrFail($id);
         $this->categories = EventCategory::all();
         $this->eventTypes = EventType::all();
@@ -246,7 +248,7 @@ class AdminEventCalendarController extends AdminBaseController
                 $value = array_push($arr, $emp->user->name);
             }
         }
-        $this->totalAttendee = $value;
+        $this->totalAttendee = $value ?? null;
         $view = view('admin.event-calendar.edit', $this->data)->render();
         return Reply::dataOnly(['status' => 'success', 'view' => $view]);
     }

@@ -20,7 +20,7 @@ return array(
   'emailAddress' => 'Adresse e-mail',
   'working' => 'Travail',
   'note' => 'Noter',
-  'milestone_type' => 'Milestone Type',
+  'milestone_type' => 'Type de l\'étape',
   'todefine' => 'a definir',
   'nom1' => 'Nom',
   'postesociete' => 'Poste/Société',

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\EventType;
-use App\Http\Requests\Admin\EventType\StoreEventType;
 use App\Helper\Reply;
+use App\Http\Controllers\Controller;
+use App\TaskTitle;
+use Illuminate\Http\Request;
 
-class EventTypeController extends AdminBaseController
+class ManageTaskTitleController extends AdminBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Display a listing of the resource.
@@ -18,7 +21,6 @@ class EventTypeController extends AdminBaseController
      */
     public function index()
     {
-        
     }
 
     /**
@@ -28,8 +30,8 @@ class EventTypeController extends AdminBaseController
      */
     public function create()
     {
-        $this->eventType = EventType::all();
-        return view('admin.event-type.create', $this->data);
+        $this->titles = TaskTitle::all();
+        return view('admin.task-title.create', $this->data);
     }
 
     /**
@@ -38,13 +40,16 @@ class EventTypeController extends AdminBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEventType $request)
+    public function store(Request $request)
     {
-        $eventType = new EventType();
-        $eventType->name = $request->name;
-        $eventType->save();
-        $eventTypeData = EventType::all();
-        return Reply::successWithData(__('messages.contractTypeAdded'), ['data' => $eventTypeData]);
+        $request->validate([
+            'name' => 'required'
+        ]);
+        $category = new TaskTitle();
+        $category->name = $request->name;
+        $category->save();
+        $categoryData = TaskTitle::all();
+        return Reply::successWithData(__('messages.milestoneTitleAdded'), ['data' => $categoryData]);
     }
 
     /**
@@ -55,7 +60,6 @@ class EventTypeController extends AdminBaseController
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -78,11 +82,14 @@ class EventTypeController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        $eventType = EventType::findOrFail($id);
-        $eventType->name = $request->name;
-        $eventType->save();
-        $eventTypeData = EventType::all();
-        return Reply::successWithData(__('messages.contractTypeUpdated'), ['data' => $eventTypeData]);
+        $request->validate([
+            'name' => 'required'
+        ]);
+        $category = TaskTitle::find($id);
+        $category->name = $request->name;
+        $category->save();
+        $categoryData = TaskTitle::all();
+        return Reply::successWithData(__('messages.milestoneTitleUpdated'), ['data' => $categoryData]);
     }
 
     /**
@@ -93,9 +100,8 @@ class EventTypeController extends AdminBaseController
      */
     public function destroy($id)
     {
-        EventType::destroy($id);
-        $eventTypeData = EventType::all();
-        return Reply::successWithData(__('messages.contractTypeDeleted'), ['data' => $eventTypeData]);
+        TaskTitle::destroy($id);
+        $categoryData = TaskTitle::all();
+        return Reply::successWithData(__('messages.milestoneTitleDeleted'), ['data' => $categoryData]);
     }
-
 }

@@ -58,7 +58,18 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label required">@lang('app.title')</label>
-                                            <input type="text" id="heading" value="{{ $taskRequests->heading ?? '' }}" name="title" class="form-control">
+                                            <a href="javascript:;"
+                                            id="createTaskTitle"
+                                            class="btn btn-xs btn-outline btn-success">
+                                                <i class="fa fa-plus"></i> 
+                                            </a>
+                                            <select class="select2 form-control" name="title"
+                                                    id="heading"
+                                                    data-style="form-control">
+                                                    @foreach($titles as $category)
+                                                        <option value="{{ $category->name }}">{{ ucwords($category->name) }}</option>
+                                                  @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     @if(in_array('projects', $modules))
@@ -238,7 +249,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    {{-- <div class="col-md-3">
                                         <div class="form-group">
 
                                             <div class="checkbox checkbox-info">
@@ -255,7 +266,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-2">
                                         <div class="form-group">
@@ -800,7 +811,11 @@
             $('#modelHeading').html("@lang('app.add') @lang('app.employee')");
             $.ajaxModal('#projectTimerModal', url);
         });
-
+        $('#createTaskTitle').click(function(){
+            var url = '{{ route('admin.task-title.create')}}';
+            $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+            $.ajaxModal('#taskLabelModal', url);
+        })
     </script>
 @endpush
 

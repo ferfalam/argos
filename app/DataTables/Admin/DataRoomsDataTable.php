@@ -27,14 +27,15 @@ class DataRoomsDataTable extends BaseDataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                Log::info(json_encode($row));
                 if (User::isAdmin(user()->id)) {
-                    $url = route("admin.task-files.download", $row->file()->id);
+                    $url = route("admin.task-files.download", $row->file->id);
                 } elseif (User::isEmployee(user()->id)) {
-                    $url = route("member.task-files.download", $row->file()->id);
+                    $url = route("member.task-files.download", $row->file->id);
                 } else{
-                    $url = route("client.task-files.download", $row->file()->id);
+                    $url = route("client.task-files.download", $row->file->id);
                 }
-                $action = '<a target="_blank" href="'.$row->file()->file_url. '" data-doc-id="' . $row->id . '"
+                $action = '<a target="_blank" href="'.$row->file->file_url. '" data-doc-id="' . $row->id . '"
                             data-toggle="tooltip" data-original-title="View"
                             class="btn btn-info btn-circle view-doc"><i
                                     class="fa fa-search"></i></a>

@@ -26,8 +26,12 @@ class DataRoom extends Model
      */
     public function file()
     {
-        $file_url = $this->type == "task" ? TaskFile::find($this->file_id) : SubTaskFile::find($this->file_id);
-        return $file_url;
+        if ($this->type == "task") {
+            return $this->belongsTo(TaskFile::class, 'file_id');
+        } else {
+            return $this->belongsTo(SubTaskFile::class, 'file_id');
+            # code...
+        }
     }
 
     public function canSee()

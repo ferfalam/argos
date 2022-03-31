@@ -86,7 +86,10 @@
                     <label class="control-label">@lang('app.select') @lang('app.milestone')</label>
 
                     <select class="form-control select2" name="milestone" id="milestone" data-style="form-control">
-                        <option value="all">@lang('app.selectProject')</option>
+                        <option value="all">@lang('app.all')</option>
+                        @foreach ($titles as $item)
+                            <option value="{{$item->name}}">{{$item->name}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -605,7 +608,7 @@
         $('#modelHeading').html('Pinned Task');
         $.ajaxModal('#taskCategoryModal',url);
     })
-    $('#milestone').html("");
+    // $('#milestone').html("");
     function getMilestoneData(project_id){
             var url = "{{ route('admin.taskboard.getMilestone', ':project_id') }}";
             var token = "{{ csrf_token() }}";

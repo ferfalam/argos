@@ -78,7 +78,11 @@ class EventCategoryController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = EventCategory::findOrFail($id);
+        $category->category_name = $request->category_name;
+        $category->save();
+        $categoryData = EventCategory::all();
+        return Reply::successWithData(__('messages.categoryUpdated'), ['data' => $categoryData]);
     }
 
     /**

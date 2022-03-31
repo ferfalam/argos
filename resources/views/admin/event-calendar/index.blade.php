@@ -197,7 +197,14 @@
                             <div class="col-md-4 ">
                                 <div class="form-group">
                                     <label class="required">@lang('modules.events.where')</label>
-                                    <input type="text" name="where" id="where" class="form-control">
+                                    <a href="javascript:;" id="addRoom" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a>
+                                    <select class="select2 form-control" data-placeholder="Room" id="where" name="where">
+                                        <option value=" ">...</option>
+                                        @foreach($rooms as $room)
+                                            <option
+                                                    value="{{ $room->name }}">{{ ucwords($room->name) }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -642,6 +649,13 @@
     document.addEventListener('DOMContentLoaded', function() { 
       calendar.render();
     });
+
+
+    $('#addRoom').click(function () {
+        var url = '{{ route('admin.roomajax.create')}}';
+        $('#modelHeading').html('...');
+        $.ajaxModal('#projectCategoryModal', url);
+    })
       
 </script>
 

@@ -9,7 +9,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>@lang('modules.projectCategory.categoryName')</th>
+                    <th>@lang('app.category')</th>
                     <th>@lang('app.action')</th>
                 </tr>
                 </thead>
@@ -18,7 +18,8 @@
                     <tr id="cat-{{ $category->id }}">
                         <td>{{ $key+1 }}</td>
                         <td>{{ ucwords($category->category_name) }}</td>
-                        <td><a href="javascript:;" data-cat-id="{{ $category->id }}" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>
+                        <td><a href="javascript:;" data-cat-name="{{ $category->category_name }}"  data-cat-id="{{ $category->id }}" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> 
+                            <a href="javascript:;" data-cat-id="{{ $category->id }}" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>
                     </tr>
                 @empty
                     <tr>
@@ -30,21 +31,43 @@
         </div>
 
         <hr>
-        {!! Form::open(['id'=>'createProjectCategory','class'=>'ajax-form','method'=>'POST']) !!}
-        <div class="form-body">
-            <div class="row">
-                <div class="col-xs-12 ">
-                    <div class="form-group">
-                        <label class="required">@lang('app.add') @lang('modules.projectCategory.categoryName')</label>
-                        <input type="text" name="category_name" id="category_name" class="form-control">
+        <div id="create-section">
+            {!! Form::open(['id'=>'createProjectCategory','class'=>'ajax-form','method'=>'POST']) !!}
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-xs-12 ">
+                        <div class="form-group">
+                            <label class="required">@lang('app.add') @lang('app.category')</label>
+                            <input type="text" name="category_name" id="category_name" class="form-control">
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="form-actions">
+                <button type="submit" id="save-category" class="btn btn-success"> <i class="fa fa-check"></i> @lang('app.save')</button>
+            </div>
+            {!! Form::close() !!}
+
         </div>
-        <div class="form-actions">
-            <button type="submit" id="save-category" class="btn btn-success"> <i class="fa fa-check"></i> @lang('app.save')</button>
+        <div id="update-section" style="display: none">
+            {!! Form::open(['id'=>'updateProjectCategory','class'=>'ajax-form','method'=>'PUT']) !!}
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-xs-12 ">
+                        <div class="form-group">
+                            <label class="required">@lang('app.update') @lang('app.category')</label>
+                            <input type="hidden" name="category_id_update" id="category_id_update" class="form-control">
+                            <input type="text" name="category_name" id="category_name_update" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" id="save-category" class="btn btn-success"> <i class="fa fa-check"></i> @lang('app.update')</button>
+            </div>
+            {!! Form::close() !!}
+
         </div>
-        {!! Form::close() !!}
     </div>
 </div>
 
@@ -81,7 +104,13 @@
         });
         e.preventDefault();
     });
-  $('#add_category').click(function () {
+    $('body').on('click', '.modify-category', function (event) {
+        $('#create-section').hide()
+        $("#category_id_update").val($(this).data('cat-id'))
+        $("#category_name_update").val($(this).data('cat-name'))
+        $('#update-section').show()
+    })
+    $('#add_category').click(function () {
             var url = '{{ route('admin.events-category.create')}}';
             $('#modelHeading').html('...');
             $.ajaxModal('#projectCategoryModal', url);
@@ -106,7 +135,7 @@
                             listData += '<tr id="cat-' + value.id + '">'+
                                 '<td>'+(index+1)+'</td>'+
                                 '<td>' + value.category_name + '</td>'+
-                                '<td><a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
+                                '<td><a href="javascript:;" data-cat-id="' + value.id + '" data-cat-name="' + value.category_name + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
                                 '</tr>';
                         });
 
@@ -120,6 +149,50 @@
 
         })
     });
+
+        $('#updateProjectCategory').on('submit', (e) => {
+        e.preventDefault();
+        var id = $("#category_id_update").val();
+        var url = "{{ route('admin.events-category.update', ':id')}}";
+        url = url.replace(':id', id);
+        $.easyAjax({
+            url: url,
+            container: '#updateProjectCategory',
+            type: "POST",
+            data: $('#updateProjectCategory').serialize(),
+            success: function (response) {
+                if (response.status == 'success') {
+                    let options = [];
+                    let rData = [];
+                    let listData = "";
+                    rData = response.data;
+                    $.each(rData, function (index, value) {
+                        var selectData = '';
+                        selectData = '<option value="' + value.id + '">' + value.category_name + '</option>';
+                        options.push(selectData);
+                        listData += '<tr id="cat-' + value.id + '">'+
+                            '<td>'+(index+1)+'</td>'+
+                            '<td>' + value.category_name + '</td>'+
+                            '<td><a href="javascript:;" data-cat-id="' + value.id + '" data-cat-name="' + value.category_name + '" class="btn btn-sm btn-warning btn-rounded modify-category">@lang("app.modify")</a> <a href="javascript:;" data-cat-id="' + value.id + '" class="btn btn-sm btn-danger btn-rounded delete-category">@lang("app.remove")</a></td>'+
+                            '</tr>';
+                    });
+
+                    $('.category-table tbody' ).html(listData);
+
+                        $('#category_add').html(options);
+                        $('#category_name').val(' ');
+                          $('#category_id').html(options);
+
+                          $('#create-section').show()
+                            $("#category_id_update").val()
+                            $("#category_name_update").val()
+                            $('#update-section').hide()
+                }
+            }
+        })
+        e.preventDefault();
+    });
+
     $(document).ready(function() {
         $(window).keydown(function(event){
             if(event.keyCode == 13) {

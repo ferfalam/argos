@@ -8,6 +8,7 @@ use App\ProjectMilestone;
 use App\Helper\Reply;
 use Yajra\DataTables\Facades\DataTables;
 use App\Currency;
+use App\MilestoneTitle;
 use Carbon\Carbon;
 
 class ManageProjectMilestonesController extends AdminBaseController
@@ -83,6 +84,7 @@ class ManageProjectMilestonesController extends AdminBaseController
     {
         $this->project = Project::findorFail($id);
         $this->currencies = Currency::all();
+        $this->milestoneTitle = MilestoneTitle::all();
         return view('admin.projects.milestones.show', $this->data);
     }
 

@@ -216,7 +216,7 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-primary">
+    {{-- <div class="panel panel-primary">
         <div class="panel-body">
             <div class="panel-card">
                 <div class="panel-card-count">
@@ -236,7 +236,7 @@
                 </div>
                 <span class="panel-card-text">{{__('app.unauthorizedPublications')}}</span>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <div class="filter-badges">

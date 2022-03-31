@@ -12,6 +12,7 @@ use App\GoogleAccount;
 use App\Helper\Files;
 use App\Helper\Reply;
 use App\Http\Requests\Tasks\StoreTask;
+use App\MilestoneTitle;
 use App\Notifications\TaskReminder;
 use App\Pinned;
 use App\TaskRequest;
@@ -26,6 +27,7 @@ use App\TaskFile;
 use App\TaskLabel;
 use App\TaskLabelList;
 use App\TaskRequestFile;
+use App\TaskTitle;
 use App\TaskUser;
 use App\Traits\ProjectProgress;
 use App\User;
@@ -55,7 +57,8 @@ class ManageAllTasksController extends AdminBaseController
     {
         $this->projects = Project::all();
         $this->milestones = ProjectMilestone::all();
-        $this->clients = User::allClients();
+        $this->titles = MilestoneTitle::all();
+        $this->clients = User::allExterne();
         $this->employees = User::allEmployees();
         $this->taskCategories = TaskCategory::all();
         $this->taskBoardStatus = TaskboardColumn::all();
@@ -187,6 +190,7 @@ class ManageAllTasksController extends AdminBaseController
     public function create()
     {
         $this->projects   = Project::all();
+        $this->titles   = TaskTitle::all();
         $this->employees  = User::allEmployees();
         $this->categories = TaskCategory::all();
         $this->taskLabels = TaskLabelList::all();

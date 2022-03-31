@@ -101,8 +101,9 @@ class AdminDashboardController extends AdminBaseController
 
         $this->counts = DB::table('users')
             ->select(
-                DB::raw('(select count(client_details.id) from `client_details` inner join role_user on role_user.user_id=client_details.user_id inner join users on client_details.user_id=users.id inner join roles on roles.id=role_user.role_id WHERE roles.name = "client" AND roles.company_id = ' . $this->user->company_id . ' AND client_details.company_id = ' . $this->user->company_id . ' and users.status = "active") as totalClients'),
-                DB::raw('(select count(DISTINCT(users.id)) from `users` inner join role_user on role_user.user_id=users.id inner join roles on roles.id=role_user.role_id WHERE roles.name = "employee" AND users.company_id = ' . $this->user->company_id . ' and users.status = "active") as totalEmployees'),
+                DB::raw('(select count(client_details.id) from `client_details` WHERE client_details.company_id = ' . $this->user->company_id .') as totalClients'),
+                // inner join role_user on role_user.user_id=users.id inner join roles on roles.id=role_user.role_id roles.name = "employee" AND 
+                DB::raw('(select count(DISTINCT(users.id)) from `users` WHERE users.company_id = ' . $this->user->company_id . ' and users.status = "active" and users.super_admin="0") as totalEmployees'),
                 DB::raw('(select count(projects.id) from `projects` WHERE projects.company_id = ' . $this->user->company_id . ') as totalProjects'),
                 DB::raw('(select count(invoices.id) from `invoices` where status = "unpaid" AND invoices.company_id = ' . $this->user->company_id . ') as totalUnpaidInvoices'),
                 DB::raw('(select sum(project_time_logs.total_minutes) from `project_time_logs` WHERE project_time_logs.company_id = ' . $this->user->company_id . ') as totalHoursLogged'),

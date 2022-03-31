@@ -63,8 +63,17 @@
                                 <div class="col-md-6 ">
                                     <div class="form-group">
                                         <label class="required">@lang('modules.projects.milestoneTitle')</label>
-                                        <input id="milestone_title" name="milestone_title" type="text"
-                                                class="form-control" >
+                                        <a href="javascript:;"
+                                            id="createMilestoneTitle"
+                                            class="btn btn-xs btn-outline btn-success">
+                                                <i class="fa fa-plus"></i> 
+                                            </a>
+                                        <select name="milestone_title" id="milestone_title" class="select2 form-control">
+                                            @foreach ($milestoneTitle as $item)
+                                            <option value="{{$item->name}}">{{$item->name}}</option>
+                                                
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 ">
@@ -77,7 +86,7 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-top: 10px;">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-check-label required" for="">@lang('app.milestone_type')</label>
@@ -310,5 +319,11 @@
         $.ajaxModal('#editTimeLogModal',url);
     })
     $('ul.showProjectTabs .projectMilestones').addClass('tab-current');
+
+    $('#createMilestoneTitle').click(function(){
+        var url = '{{ route('admin.milestone-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+        $.ajaxModal('#editTimeLogModal', url);
+    })
 </script>
 @endpush
