@@ -14,7 +14,7 @@
     @include('admin.clients.client_header')
     @include('admin.clients.tabs')
 
-    <x-tab-container title="app.menu.invoices">
+    <x-tab-container title="app.menu.payments">
         <ul class="list-group" id="invoices-list">
             @forelse($invoices as $invoice)
                 <li class="list-group-item">

@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
 
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -26,8 +27,17 @@
                                             <div class="col-md-8 ">
                                                 <div class="form-group">
                                                     <label class="required" >@lang('modules.projects.milestoneTitle')</label>
-                                                    <input id="milestone_title" name="milestone_title" type="text"
-                                                class="form-control" value="{{ $milestone->milestone_title }}">
+                                                    <a href="javascript:;"
+                                                        id="editMilestoneTitle"
+                                                        class="btn btn-xs btn-outline btn-success">
+                                                            <i class="fa fa-plus"></i> 
+                                                        </a>
+                                                    <select name="milestone_title" id="milestone_title" class="select2 form-control">
+                                                        @foreach ($milestoneTitle as $item)
+                                                            <option value="{{$item->name}}" @if ($milestone->milestone_title == $item->name) selected @endif >{{$item->name}}</option>
+                                                            
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             
@@ -50,16 +60,31 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label class="form-check-label required" for="">@lang('app.milestone_type')</label>
-                                                            <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" @if ($milestone->type =='None') checked @endif value="None">
-                                                            <label class="form-check-label"  for="none">None</label>
-                                                            <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" @if ($milestone->type =='Research') checked @endif value="Research">
-                                                            <label class="form-check-label" for="research">Research</label>
-                                                            <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" @if ($milestone->type =='Development') checked @endif value="Development">
-                                                            <label class="form-check-label" for="development">Development</label>
-                                                            <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" @if ($milestone->type =='Construction') checked @endif value="Construction">
-                                                            <label class="form-check-label" for="construction">Construction</label>
-                                                            <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" @if ($milestone->type =='Exploitation') checked @endif value="Exploitation">
-                                                            <label class="form-check-label" for="exploitation">Exploitation</label>
+                                                            <div class="form-group">
+                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" @if ($milestone->type =='None') checked @endif value="None">
+                                                                <label class="form-check-label"  for="none">None</label>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" @if ($milestone->type =='Research') checked @endif value="Research">
+                                                                <label class="form-check-label" for="research">Research</label>
+
+                                                            </div>
+                                                            <div class="form-group">
+
+                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" @if ($milestone->type =='Development') checked @endif value="Development">
+                                                                <label class="form-check-label" for="development">Development</label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" @if ($milestone->type =='Construction') checked @endif value="Construction">
+                                                                <label class="form-check-label" for="construction">Construction</label>
+                                                                
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" @if ($milestone->type =='Exploitation') checked @endif value="Exploitation">
+                                                                <label class="form-check-label" for="exploitation">Exploitation</label>
+                                                                
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -106,6 +131,28 @@
 
             </div>
         </div>
+        {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="editMilestoneModal" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Ajax Modal Ends--}}
 
     </div>
 </div>
@@ -113,6 +160,8 @@
 <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+
+<script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 <script>
   jQuery('#due_date_edit').datepicker({
         autoclose: true,
@@ -133,4 +182,10 @@
             }
         })
     });
+
+    $('#editMilestoneTitle').click(function(){
+        var url = '{{ route('admin.milestone-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+        $.ajaxModal('#editMilestoneModal', url);
+    })
 </script>

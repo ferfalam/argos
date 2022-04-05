@@ -298,7 +298,7 @@
                                                             @foreach ($tla as $t)
                                                                 @if ($t->type == 'city')
                                                                     <option value="{{ $t->id }}" @if($t->id == $clientDetail->city_id) selected @endif>
-                                                                        {{ ucfirst(strtolower($t->name)) }}</option>
+                                                                        {{ $t->name }}</option>
                                                                 @endif
                                                             @endforeach
                                                         </select>

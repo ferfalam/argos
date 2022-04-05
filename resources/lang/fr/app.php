@@ -200,6 +200,7 @@ return array(
   ),
   'menu' =>
   array(
+    'reglement' => "Règlements",
     'chat' => 'Chat',
     'home' => 'Home',
     'contacts' => "Contacts",

@@ -9,13 +9,13 @@
         <img src="{{ $clientDetail->image_url }}" alt="" class="client-profile-img" />
         <div>
           @if(isset($contect))
-          <h3>{{ ucwords($contect->name) }}</h3>
+          <h3 class="text-primary">{{ ucwords($contect->name) }}</h3>
           @endif
-          <p>
+          <h3 class="text-danger">
             {{-- @if (!empty($client->client_details) && $client->client_details->company_name != '') --}}
                 {{ $clientDetail->company_name }}
             {{-- @endif --}}
-          </p>
+        </h3>
         </div>
       </div>
       <div class="panel-right">
@@ -27,21 +27,21 @@
             </span></td>
           </tr>
           <tr>
-            <td><p>@lang('app.earnings') :</p></td>
+            <td><p>@lang('modules.contracts.totalContracts') :</p></td>
+            <td><span>
+              {{-- {{ $clientStats->totalContracts  }} --}}
+            </span></td>
+          </tr>
+          <tr>
+            <td><p>@lang('modules.dashboard.totalInvoices') :</p></td>
             <td><span>
               {{-- {{ $clientStats->projectPayments  }} --}}
             </span></td>
           </tr>
           <tr>
-            <td><p>@lang('modules.dashboard.totalUnpaidInvoices') :</p></td>
+            <td><p>@lang('modules.dashboard.totalPaidAmount') :</p></td>
             <td><span>
               {{-- {{ $clientStats->totalUnpaidInvoices}} --}}
-            </span></td>
-          </tr>
-          <tr>
-            <td><p>@lang('modules.contracts.totalContracts') :</p></td>
-            <td><span>
-              {{-- {{ $clientStats->totalContracts  }} --}}
             </span></td>
           </tr>
         </table>

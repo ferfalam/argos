@@ -79,7 +79,8 @@ class ManageEmployeesController extends AdminBaseController
 
                 $query->select('user_id as id')->from('project_members');
             })
-            ->where('roles.name', 'Employee')
+            // ->where('roles.name', 'Employee')
+            ->where('users.super_admin', '0')
             ->where('users.company_id', company()->id)
             ->get();
 

@@ -98,6 +98,7 @@ class ManageProjectMilestonesController extends AdminBaseController
     {
         $this->milestone = ProjectMilestone::findOrFail($id);
         $this->currencies = Currency::all();
+        $this->milestoneTitle = MilestoneTitle::all();
         return view('admin.projects.milestones.edit', $this->data);
     }
 
