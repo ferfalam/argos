@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\ClientDetails;
 use App\CreditNotes;
 use App\Currency;
 use App\Helper\Reply;
@@ -12,6 +13,7 @@ use App\InvoiceSetting;
 use App\Notifications\NewInvoice;
 use App\Payment;
 use App\Project;
+use App\SellType;
 use App\Tax;
 use App\User;
 use Carbon\Carbon;
@@ -68,7 +70,7 @@ class ManageInvoicesController extends AdminBaseController
 
     public function createInvoice(Request $request)
     {
-        $this->project = Project::findOrFail($request->id);
+        $this->project = Project::findOrFail($request->id) ?? null;
         $this->currencies = Currency::all();
         $this->lastInvoice = Invoice::count() + 1;
         $this->invoiceSetting = InvoiceSetting::first();
@@ -80,6 +82,23 @@ class ManageInvoicesController extends AdminBaseController
             }
         }
         return view('admin.projects.invoices.create', $this->data);
+    }
+
+    public function createClientInvoice(Request $request)
+    {
+        $this->client = ClientDetails::findOrFail($request->id) ?? null;
+        $this->currencies = Currency::all();
+        $this->types = SellType::all();
+        $this->lastInvoice = Invoice::count() + 1;
+        $this->invoiceSetting = InvoiceSetting::first();
+        $this->taxes = Tax::all();
+        $this->zero = '';
+        if (strlen($this->lastInvoice) < $this->invoiceSetting->invoice_digit){
+            for ($i = 0; $i < $this->invoiceSetting->invoice_digit - strlen($this->lastInvoice); $i++){
+                $this->zero = '0'.$this->zero;
+            }
+        }
+        return view('admin.clients.create_invoice', $this->data);        
     }
 
     /**

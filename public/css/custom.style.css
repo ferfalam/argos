@@ -1907,7 +1907,7 @@ a.article:hover {
   color: #4f4f4f;
   font-size: 14px;
   font-weight: 400;
-  width: 50%;
+  /* width: 50%; */
 }
 
 .client-profile-panel .panel-body .panel-right td p {

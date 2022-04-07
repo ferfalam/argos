@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\ClientDetails;
 use App\ClientSubCategory;
 use App\Currency;
 use App\DataTables\Admin\PaymentsDataTable;
@@ -17,6 +18,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Helper\Files;
+use App\InvoiceSetting;
+use App\PaymentMode;
+use App\SellType;
+use App\Tax;
 
 class ManagePaymentsController extends AdminBaseController
 {
@@ -53,6 +58,23 @@ class ManagePaymentsController extends AdminBaseController
             $this->projectId = request()->get('project');
         }
         return view('admin.payments.create', $this->data);
+    }
+
+    public function createPaymentClient(Request $request)
+    {
+        $this->client = ClientDetails::findOrFail($request->id) ?? null;
+        $this->currencies = Currency::all();
+        $this->types = PaymentMode::all();
+        $this->lastInvoice = Invoice::count() + 1;
+        $this->invoiceSetting = InvoiceSetting::first();
+        $this->taxes = Tax::all();
+        $this->zero = '';
+        if (strlen($this->lastInvoice) < $this->invoiceSetting->invoice_digit){
+            for ($i = 0; $i < $this->invoiceSetting->invoice_digit - strlen($this->lastInvoice); $i++){
+                $this->zero = '0'.$this->zero;
+            }
+        }
+        return view('admin.clients.create_payment', $this->data);
     }
 
     public function store(StorePayment $request)

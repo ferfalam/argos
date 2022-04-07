@@ -22,26 +22,26 @@
         <table>
           <tr>
             <td style="display: revert"><p>@lang('modules.dashboard.totalProjects') :</p></td>
-            <td><span class="color-primary">
-              {{-- {{ $clientStats->totalProjects}} --}}
+            <td><span class="">
+              {{ $clientStats->totalProjects}}
             </span></td>
           </tr>
           <tr>
             <td><p>@lang('modules.contracts.totalContracts') :</p></td>
             <td><span>
-              {{-- {{ $clientStats->totalContracts  }} --}}
+              {{ $clientStats->totalContracts  }}
             </span></td>
           </tr>
           <tr>
             <td><p>@lang('modules.dashboard.totalInvoices') :</p></td>
             <td><span>
-              {{-- {{ $clientStats->projectPayments  }} --}}
+              {{ $clientStats->projectPayments  }}
             </span></td>
           </tr>
           <tr>
             <td><p>@lang('modules.dashboard.totalPaidAmount') :</p></td>
             <td><span>
-              {{-- {{ $clientStats->totalUnpaidInvoices}} --}}
+              {{ $clientStats->totalUnpaidInvoices}}
             </span></td>
           </tr>
         </table>

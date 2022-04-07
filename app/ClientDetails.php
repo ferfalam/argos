@@ -7,6 +7,7 @@ use App\Scopes\CompanyScope;
 use App\Traits\CustomFieldsTrait;
 use Illuminate\Notifications\Notifiable;
 use App\Contect;
+use Illuminate\Support\Facades\Log;
 
 class ClientDetails extends BaseModel
 {
@@ -99,8 +100,9 @@ class ClientDetails extends BaseModel
     }
     
     public function projects()
-    {
-        return $this->belongsTo(Project::class, 'user_id', 'client_id');
+    {   
+        // Log::info((json_encode($this->belongsTo(Project::class, 'client_id'))));
+        return $this->belongsTo(Project::class, 'client_id');
     }
 
     public function ClientProjects(){
@@ -115,5 +117,6 @@ class ClientDetails extends BaseModel
     public function contects(){
         return $this->belongsTo(Contect::class, 'contects_id', 'id');
     }
+
 
 }

@@ -304,7 +304,7 @@ class ManageClientsController extends AdminBaseController
             $this->contect = Contect::find($this->clientDetail->contacts_id);
         }
 
-        // $this->clientStats = $this->clientStats($id);
+        $this->clientStats = $this->clientStats($id);
         $this->country = Country::where('id',$this->clientDetail->country_id)->first();
         $this->category = ClientCategory::where('id',$this->clientDetail->category_id)->first();
         $this->sub_category = ClientSubCategory::where('id',$this->clientDetail->sub_category_id)->first();
