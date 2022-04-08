@@ -60,7 +60,7 @@ class MeetingDataTable extends BaseDataTable
                 }
 
 
-                if ($row->status == 'waiting' && $row->end_date_time->gt(Carbon::now())) {
+                if ($row->status == 'waiting' && $row->end_date_time->lt(Carbon::now())) {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
                     if ($row->created_by == user()->id) {
@@ -148,7 +148,7 @@ class MeetingDataTable extends BaseDataTable
                 return $row->end_date_time->format(company_setting()->date_format . ' ' . company_setting()->time_format);
             })->editColumn('duree', function ($row) {
                 if ($row->status == 'waiting') {
-                    if ($row->end_date_time->lt(Carbon::now())) {
+                    if ($row->end_date_time->gt(Carbon::now())) {
                         return  '00 : 00';
                     }
                 }
@@ -156,7 +156,7 @@ class MeetingDataTable extends BaseDataTable
             })
             ->editColumn('status', function ($row) {
                 if ($row->status == 'waiting') {
-                    if ($row->end_date_time->lt(Carbon::now())) {
+                    if ($row->end_date_time->gt(Carbon::now())) {
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
                     }
 
