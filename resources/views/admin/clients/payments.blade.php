@@ -28,6 +28,7 @@
                         <th>{{ __('app.invoice') . '#' }}</th>
                         <th>{{ __('modules.invoices.amount') }}</th>
                         <th>{{ __('modules.payments.paidOn') }}</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,11 +49,17 @@
                             @endif     
                         </td>
                         <td>
-                            {{ currency_formatter($payment->amount,'') .' ('.$payment->currency->currency_code . ')' }}
+                            {{ currency_formatter($payment->amount,'') .' €' }}
                         </td>
 
                         <td>
-                            {{ $payment->paid_on->format($global->date_format . ' ' . $global->time_format) }}
+                            {{$payment->gateway }}
+                        </td>
+
+                        <td>
+                            {{-- <a href="{{ route('admin.invoices.download', $invoice->id) }}" data-toggle="tooltip" data-original-title="View" class="btn btn-default btn-circle"><i class="fa fa-eye"></i></a> --}}
+                            <a href="javascript:;" data-id="{{$payment->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-default btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
+                            <a href="javascript:;" data-id="{{$payment->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-default btn-circle delete-invoice"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 @empty
@@ -128,5 +135,33 @@
             $('#modelHeading').html('Add Payment');
             $.ajaxModal('#add-payment-modal',url);
         })
+
+        $('.edit-invoice-modal').click(function(event){
+            var url = "{{ route('admin.clients.payments.createPayment', [$clientDetail->id, ':id'])}}";
+            var id = $(event.target).data().id;
+            url = url.replace(':id', id);
+            $('#modelHeading').html('Add Invoice');
+            $.ajaxModal('#add-payment-modal',url);
+        })
+
+        $('body').on('click', '.delete-invoice', function(e) {
+        var id = $(this).data('id');
+        var url = "{{ route('admin.delete-invoice',':id') }}";
+        url = url.replace(':id', id);
+
+        var token = "{{ csrf_token() }}";
+
+        $.easyAjax({
+            type: 'POST',
+            url: url,
+            data: {'_token': token, '_method': 'DELETE'},
+            success: function (response) {
+                if (response.status == "success") {
+                    window.location.reload()
+                }
+            }
+        });
+        e.preventDefault();
+    });
     </script>
 @endpush

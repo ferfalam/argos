@@ -896,8 +896,9 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::get('payments/download', ['uses' => 'ManagePaymentsController@downloadSample'])->name('payments.downloadSample');
                         Route::post('payments/import', ['uses' => 'ManagePaymentsController@importExcel'])->name('payments.importExcel');
                         Route::get('payments/getinvoice', ['uses' => 'ManagePaymentsController@invoiceByProject'])->name('payments.getinvoice');
-                        Route::get('payments/client-create-payment/{id}', ['uses' => 'ManagePaymentsController@createPaymentClient'])->name('clients.payments.createPayment');
-                        Route::get('payments/supplier-create-payment/{id}', ['uses' => 'ManagePaymentsController@createPaymentSupplier'])->name('suppliers.payments.createPayment');
+                        Route::get('payments/client-create-payment/{id}/{invoiceID?}', ['uses' => 'ManagePaymentsController@createPaymentClient'])->name('clients.payments.createPayment');
+                        Route::post('payments/client-store-payment/', ['uses' => 'ManagePaymentsController@storePaymentClient'])->name('clients.payments.storePayment');
+                        Route::get('payments/supplier-create-payment/{id}/{invoiceID?}', ['uses' => 'ManagePaymentsController@createPaymentSupplier'])->name('suppliers.payments.createPayment');
                         Route::resource('payments', 'ManagePaymentsController');
                     }
                 );

@@ -32,10 +32,11 @@ class PaymentObserver
                     $notifyUser->notify(new NewPayment($payment));
                 }
             }else{
-                $clientId = $payment->invoice->client_id;
+                // dd($payment->invoice);
+                    // $clientId = $payment->customer_id;
                     // Notify client
-                    $notifyUser = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($clientId);
-                    $notifyUser->notify(new NewPayment($payment));
+                    // $notifyUser = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($clientId);
+                    // $notifyUser->notify(new NewPayment($payment));
             }
         }
     }

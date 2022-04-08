@@ -614,14 +614,16 @@ class ManageClientsController extends AdminBaseController
             $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
         }
 
-        $this->payments = Payment::with(['project:id,project_name', 'currency:id,currency_symbol,currency_code', 'invoice'])
-            ->leftJoin('invoices', 'invoices.id', '=', 'payments.invoice_id')
-            ->leftJoin('projects', 'projects.id', '=', 'payments.project_id')
-            ->select('payments.id', 'payments.project_id', 'payments.currency_id', 'payments.invoice_id', 'payments.amount', 'payments.status', 'payments.paid_on', 'payments.remarks')
-            ->where('payments.status', '=', 'complete')
+        $this->payments = Payment::
+            // with(['project:id,project_name', 'currency:id,currency_symbol,currency_code', 'invoice'])
+            // ->leftJoin('invoices', 'invoices.id', '=', 'payments.invoice_id')
+            // ->leftJoin('projects', 'projects.id', '=', 'payments.project_id')
+            select('payments.id', 'payments.project_id', 'payments.currency_id', 'payments.invoice_id', 'payments.amount', 'payments.gateway', 'payments.due_date')
+            // ->where('payments.status', '=', 'complete')
             ->where(function ($query) use ($id) {
-                $query->where('projects.client_id', $id)
-                    ->orWhere('invoices.client_id', $id);
+                $query
+                    // ->where('projects.client_id', $id)
+                    ->where('payments.customer_id', $id);
             })
             ->orderBy('payments.id', 'desc')
             ->get();
