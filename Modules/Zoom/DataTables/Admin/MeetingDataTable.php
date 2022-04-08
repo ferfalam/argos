@@ -5,6 +5,7 @@ namespace Modules\Zoom\DataTables\Admin;
 use App\DataTables\BaseDataTable;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Modules\Zoom\Entities\ZoomMeeting;
 use Modules\Zoom\Entities\ZoomSetting;
 use Yajra\DataTables\Html\Button;
@@ -60,7 +61,7 @@ class MeetingDataTable extends BaseDataTable
                     </li>';
             }
 
-                if ($row->status == 'waiting' && !$row->end_date_time->lt(Carbon::now())) {
+                if ($row->status == 'waiting' && $row->end_date_time->gt(Carbon::now())) {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
                     if ($row->created_by == user()->id) {
@@ -156,11 +157,12 @@ class MeetingDataTable extends BaseDataTable
                 return $row->duree;
             })
             ->editColumn('status', function ($row) {
+                // Log::info($row->end_date_time);
+                // Log::info(Carbon::now());
                 if ($row->status == 'waiting') {
                     if ($row->end_date_time->lt(Carbon::now())) {
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
-                    }
-                    if ($row->invite) {
+                    }else if ($row->invite) {
                         return  '<label class="label label-success">Confirmé</label>';
                     } else {
                         return  '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';

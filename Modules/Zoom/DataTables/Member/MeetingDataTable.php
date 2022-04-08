@@ -62,7 +62,7 @@ class MeetingDataTable extends BaseDataTable
                 }
 
 
-                if ($row->status == 'waiting' && !$row->end_date_time->lt(Carbon::now())) {
+                if ($row->status == 'waiting' && $row->end_date_time->gt(Carbon::now())) {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
                     if ($row->created_by == user()->id) {
