@@ -499,13 +499,9 @@ class AdminSuppliersController extends AdminBaseController
             // $this->fields = $this->supplierDetails->getCustomFieldGroupsWithFields()->fields;
         }
 
-        $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.total, currencies.currency_symbol, invoices.issue_date, invoices.id,
-            ( select payments.amount from payments where invoice_id = invoices.id) as paid_payment')
-            ->leftJoin('projects', 'projects.id', '=', 'invoices.project_id')
-            ->join('currencies', 'currencies.id', '=', 'invoices.currency_id')
+        $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.total, invoices.sub_total, invoices.sell_type, invoices.status, invoices.issue_date, invoices.id')
             ->where(function ($query) use ($id) {
-                $query->where('projects.client_id', $id)
-                    ->orWhere('invoices.client_id', $id);
+                $query->Where('invoices.supplier_detail_id', $id);
             })
             ->get();
 

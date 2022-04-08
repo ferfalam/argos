@@ -149,12 +149,50 @@ class ManageInvoicesController extends AdminBaseController
         $this->invoiceSetting = InvoiceSetting::first();
         $this->taxes = Tax::all();
         $this->zero = '';
+        if ($request->invoiceId) {
+            $this->invoice = Invoice::findOrFail($request->invoiceId);
+        }else{
+            $this->invoice = new Invoice();
+        }
         if (strlen($this->lastInvoice) < $this->invoiceSetting->invoice_digit){
             for ($i = 0; $i < $this->invoiceSetting->invoice_digit - strlen($this->lastInvoice); $i++){
                 $this->zero = '0'.$this->zero;
             }
         }
         return view('admin.suppliers.create_invoice', $this->data);        
+    }
+
+    public function storeSupplierInvoice(Request $request)
+    {
+        $request->validate([
+            'invoice_number' =>  'required',
+            'issue_date' =>  'required',
+            'sub_total' =>  'required',
+            'total' =>  'required',
+            'sell_type' =>  'required',
+            'status' =>  'required',
+            'tva' =>  'required',
+        ]);
+        // dd($request->all());
+        if ($request->invoice_id) {
+            $invoice = Invoice::find($request->invoice_id);
+        }else{
+            $invoice = new Invoice();
+        }
+        $invoice->company_id = company()->id;
+        $invoice->project_id = $request->project_id != "none" ?  $request->project_id : null;
+        $invoice->invoice_number = $request->invoice_number;
+        $invoice->issue_date = Carbon::createFromFormat($this->global->date_format, $request->issue_date)->format('Y-m-d');
+        $invoice->sub_total = $request->sub_total;
+        $invoice->total = $request->total;
+        $invoice->tva = $request->tva;
+        $invoice->sell_type = $request->sell_type;
+        $invoice->status = $request->status;
+        $invoice->supplier_detail_id = $request->client_id;
+        $invoice->save();
+
+        
+        return Reply::success(__('messages.invoiceCreated'));
     }
 
     /**

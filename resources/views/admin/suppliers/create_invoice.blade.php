@@ -7,7 +7,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title"><i class="fa fa-plus"></i> @lang('modules.invoices.addInvoice') - @lang('app.clients') # {{ $client->id.' '.$client->company_name }}</h4>
+    <h4 class="modal-title"><i class="fa fa-plus"></i> @lang('modules.invoices.addInvoice') - @lang('app.supplier') # {{ $client->id.' '.$client->company_name }}</h4>
 </div>
 <div class="modal-body">
     <div class="portlet-body">
@@ -16,18 +16,23 @@
         {!! Form::open(['id'=>'storePayments','class'=>'ajax-form','method'=>'POST']) !!}
         <div class="form-body">
 
-            {{-- {!! Form::hidden('project_id', $project->id) !!} --}}
+            {!! Form::hidden('client_id', $client->id) !!}
+            @if ($invoice->id)
+                {!! Form::hidden('invoice_id', $invoice->id) !!}  
+            @endif
             {{-- {!! Form::hidden('company_name', $project->clientdetails->company_name ? $project->clientdetails->company_name : $project->clientdetails->name) !!} --}}
             <div class="row">
 
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label class="control-label">Projet</label>
-                        <select class="form-control" name="currency_id" id="currency_id">
+                        <select class="form-control" name="project_id" id="currency_id">
                             <option value="none" >---</option>
                             @if ($client->projects)
                                 @foreach($client->projects as $project)
-                                    <option value="{{ $project->id }}" >{{ $project->project_name  }}</option>
+                                    <option value="{{ $project->id }}" @if ($invoice->project && $invoice->project->id == $project->id)
+                                        selected
+                                    @endif >{{ $project->project_name  }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -45,7 +50,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control" name="issue_date" id="" value="">
+                                    <input type="text" class="form-control" name="invoice_number" id="" value="{{substr($invoice->invoice_number, 4)}}">
                                 </div>
                             </div>
                         </div>
@@ -59,7 +64,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control " name="issue_date" id="invoice_date" value="{{ Carbon\Carbon::today()->format($global->date_format) }}">
+                                    <input type="text" class="form-control " name="issue_date" id="invoice_date" value="{{ Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format) }}">
                                 </div>
                             </div>
                         </div>
@@ -77,7 +82,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control" name="issue_date" id="" value="">
+                                    <input type="text" class="form-control" name="sub_total" id="" value="{{$invoice->sub_total}}">
                                 </div>
                             </div>
                         </div>
@@ -95,7 +100,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control" name="issue_date" id="" value="">
+                                    <input type="text" class="form-control" name="tva" id="" value="{{$invoice->tva}}">
                                 </div>
                             </div>
                         </div>
@@ -113,7 +118,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control" name="issue_date" id="" value="">
+                                    <input type="text" class="form-control" name="total" id="" value="{{$invoice->total}}">
                                 </div>
                             </div>
                         </div>
@@ -129,11 +134,13 @@
                         <label class="control-label">Type Vente</label>
                         <a class="btn btn-outlined-success" id="plus-sell-type" style="">
                             <i class="fa fa-plus"></i></a>
-                        <select class="form-control select2" name="currency_id" id="currency_id">
+                        <select class="form-control select2" name="sell_type" id="currency_id">
                             {{-- <option value="none" >---</option> --}}
                             @if ($types)
                                 @foreach($types as $type)
-                                    <option value="{{ $type->id }}" >{{ $type->espace_name  }}</option>
+                                    <option value="{{ $type->espace_name }}" @if ($invoice->sell_type == $type->espace_name)
+                                        selected
+                                    @endif >{{ $type->espace_name  }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -150,10 +157,16 @@
                         <label class="control-label">Statut</label>
                         {{-- <a class="btn btn-outlined-success" id="plus-sell-type" style="">
                             <i class="fa fa-plus"></i></a> --}}
-                        <select class="form-control select2" name="currency_id" id="currency_id">
-                            <option value="Non Payée" >Non Payée</option>
-                            <option value="Paiement Partiel" >Paiement Partiel</option>
-                            <option value="Soldée" >Soldée</option>
+                        <select class="form-control select2" name="status" id="currency_id">
+                            <option value="unpaid" @if ($invoice->status == "unpaid")
+                                selected
+                            @endif >Non Payée</option>
+                            <option value="partial" @if ($invoice->status == "partial")
+                                selected
+                            @endif >Paiement Partiel</option>
+                            <option value="paid"  @if ($invoice->status == "paid")
+                                selected
+                            @endif >Soldée</option>   
                         </select>
                     </div>
 
@@ -231,36 +244,51 @@
         $('.noOfZero').text(invoiceZero);
     });
 
-    $('.save-form').click(function(){
-        var type = $(this).data('type');
-        var discount = $('.discount-amount').html();
-        var total = $('.total-field').val();
-
-        if(parseFloat(discount) > parseFloat(total)){
-            $.toast({
-                heading: 'Error',
-                text: 'Discount cannot be more than total amount.',
-                position: 'top-right',
-                loaderBg:'#ff6849',
-                icon: 'error',
-                hideAfter: 3500
-            });
-            return false;
-        }
-
+    $('.save-form').click(function(e){
+        e.preventDefault();
+        // var id = $("#category_id_update").val();
+        var url = "{{route('admin.suppliers.invoices.storeInvoice')}}";
+        // url = url.replace(':id', id);
         $.easyAjax({
-            url:'{{route('admin.invoices.store')}}',
-            container:'#storePayments',
+            url: url,
+            container: '#storePayments',
             type: "POST",
-            redirect: true,
-            data:$('#storePayments').serialize() + "&type=" + type,
-            success: function (data) {
-                if(data.status == 'success'){
-                    $('#invoices-list-panel ul.list-group').html(data.html);
-                    $('#add-invoice-modal').modal('hide');
+            data: $('#storePayments').serialize(),
+            success: function (response) {
+                if(response.status == 'success'){
+                    window.location.reload()
                 }
             }
         })
+        // var type = $(this).data('type');
+        // var discount = $('.discount-amount').html();
+        // var total = $('.total-field').val();
+
+        // if(parseFloat(discount) > parseFloat(total)){
+        //     $.toast({
+        //         heading: 'Error',
+        //         text: 'Discount cannot be more than total amount.',
+        //         position: 'top-right',
+        //         loaderBg:'#ff6849',
+        //         icon: 'error',
+        //         hideAfter: 3500
+        //     });
+        //     return false;
+        // }
+
+        // $.easyAjax({
+        //     url:'{{route('admin.invoices.store')}}',
+        //     container:'#storePayments',
+        //     type: "POST",
+        //     redirect: true,
+        //     data:$('#storePayments').serialize() + "&type=" + type,
+        //     success: function (data) {
+        //         if(data.status == 'success'){
+        //             $('#invoices-list-panel ul.list-group').html(data.html);
+        //             $('#add-invoice-modal').modal('hide');
+        //         }
+        //     }
+        // })
     });
 
     $('#add-item').click(function () {
@@ -488,4 +516,21 @@
         $('#modelHeading').html('Add Sell Type');
         $.ajaxModal('#add-sell-type',url);
     })
+
+    // $('#storePayments').on('submit', (e) => {
+    //     e.preventDefault();
+    //     // var id = $("#category_id_update").val();
+    //     var url = "{{route('admin.clients.invoices.storeInvoice')}}";
+    //     // url = url.replace(':id', id);
+    //     $.easyAjax({
+    //         url: url,
+    //         container: '#storePayments',
+    //         type: "POST",
+    //         data: $('#storePayments').serialize(),
+    //         success: function (response) {
+    //             if(response.status == 'success'){
+    //             }
+    //         }
+    //     })
+    // });
 </script>

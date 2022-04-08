@@ -677,7 +677,8 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::get('invoices/create-invoice/{id?}', ['uses' => 'ManageInvoicesController@createInvoice'])->name('invoices.createInvoice');
                         Route::get('invoices/client-create-invoice/{id}/{invoiceId?}', ['uses' => 'ManageInvoicesController@createClientInvoice'])->name('clients.invoices.createInvoice');
                         Route::post('invoices/client-store-invoice', ['uses' => 'ManageInvoicesController@storeClientInvoice'])->name('clients.invoices.storeInvoice');
-                        Route::get('invoices/supplier-create-invoice/{id}', ['uses' => 'ManageInvoicesController@createSupplierInvoice'])->name('suppliers.invoices.createInvoice');
+                        Route::post('invoices/supplier-store-invoice', ['uses' => 'ManageInvoicesController@storeSupplierInvoice'])->name('suppliers.invoices.storeInvoice');
+                        Route::get('invoices/supplier-create-invoice/{id}/{invoiceId?}', ['uses' => 'ManageInvoicesController@createSupplierInvoice'])->name('suppliers.invoices.createInvoice');
                         Route::delete('delete-invoice/{id}', ['uses' => 'ManageInvoicesController@destroyIn'])->name('delete-invoice');
                         Route::resource('invoices', 'ManageInvoicesController');
 

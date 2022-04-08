@@ -263,7 +263,7 @@
                                                 data-style="form-control">
                                                 <option value="">@lang('modules.projects.selectClient')</option>
                                             @foreach($clients as $client)
-                                                <option value="{{ $client->id }}">{{ ucwords($client->name) }}</option>
+                                                <option value="{{ $client->id }}">{{ ucwords($client->company_name) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -294,7 +294,7 @@
                                                 data-style="form-control">
                                                 <option value="">@lang('modules.spv')</option>
                                             @foreach($spvs as $spv)
-                                                <option value="{{ $spv->id }}">{{ ucwords($spv->name) }}</option>
+                                                <option value="{{ $spv->id }}">{{ ucwords($spv->company_name) }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -253,7 +253,7 @@
                                                             @if($project->spv_id == $spv->id)
                                                             selected
                                                             @endif
-                                                    >{{ ucwords($spv->name) }}</option>
+                                                    >{{ ucwords($spv->company_name) }}</option>
                                                 @empty
                                                     <option value="">@lang('modules.spv')</option>
                                                 @endforelse
