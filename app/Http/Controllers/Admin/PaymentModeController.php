@@ -41,8 +41,11 @@ class PaymentModeController extends AdminBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEspace $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'espace_name' => 'required|unique:payment_modes'
+        ]);
         $category = new PaymentMode();
         $category->espace_name = $request->espace_name;
         $category->save();
@@ -80,6 +83,9 @@ class PaymentModeController extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'espace_name' => 'required|unique:payment_modes'
+        ]);
         $category = PaymentMode::find($id);
         $category->espace_name = $request->espace_name;
         $category->save();

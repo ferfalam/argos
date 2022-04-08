@@ -21,6 +21,7 @@ use App\Helper\Files;
 use App\InvoiceSetting;
 use App\PaymentMode;
 use App\SellType;
+use App\SupplierDetails;
 use App\Tax;
 
 class ManagePaymentsController extends AdminBaseController
@@ -75,6 +76,23 @@ class ManagePaymentsController extends AdminBaseController
             }
         }
         return view('admin.clients.create_payment', $this->data);
+    }
+
+    public function createPaymentSupplier(Request $request)
+    {
+        $this->client = SupplierDetails::findOrFail($request->id) ?? null;
+        $this->currencies = Currency::all();
+        $this->types = PaymentMode::all();
+        $this->lastInvoice = Invoice::count() + 1;
+        $this->invoiceSetting = InvoiceSetting::first();
+        $this->taxes = Tax::all();
+        $this->zero = '';
+        if (strlen($this->lastInvoice) < $this->invoiceSetting->invoice_digit){
+            for ($i = 0; $i < $this->invoiceSetting->invoice_digit - strlen($this->lastInvoice); $i++){
+                $this->zero = '0'.$this->zero;
+            }
+        }
+        return view('admin.suppliers.create_payment', $this->data);
     }
 
     public function store(StorePayment $request)

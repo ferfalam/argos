@@ -10,6 +10,11 @@
 
 
 @section('content')
+    <style>
+        .row{
+            display: flex;
+        }
+    </style>
 
     @include('admin.clients.client_header')
     @include('admin.clients.tabs')
@@ -31,7 +36,9 @@
                             {{ currency_formatter($invoice->total ,$invoice->currency_symbol) }} 
                         </div>
                         <div class="col-md-3">
-                            <a href="{{ route('admin.invoices.download', $invoice->id) }}" data-toggle="tooltip" data-original-title="Download" class="btn btn-default btn-circle"><i class="fa fa-download"></i></a>
+                            {{-- <a href="{{ route('admin.invoices.download', $invoice->id) }}" data-toggle="tooltip" data-original-title="View" class="btn btn-default btn-circle"><i class="fa fa-eye"></i></a> --}}
+                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-default btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
+                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-default btn-circle delete-invoice"><i class="fa fa-times"></i></a>
                             <span class="m-l-10">{{ $invoice->issue_date->format('d M, y') }}</span>
                         </div>
                     </div>
@@ -113,9 +120,36 @@
         $('ul.showClientTabs .clientInvoices').addClass('tab-current');
 
         $('#show-invoice-modal').click(function(){
-            var url = '{{ route('admin.clients.invoices.createInvoice', $clientDetail->id)}}';
+            var url = '{{ route('admin.clients.invoices.createInvoice', [$clientDetail->id])}}';
             $('#modelHeading').html('Add Invoice');
             $.ajaxModal('#add-invoice-modal',url);
         })
+        $('.edit-invoice-modal').click(function(event){
+            var url = "{{ route('admin.clients.invoices.createInvoice', [$clientDetail->id, ':id'])}}";
+            var id = $(event.target).data().id;
+            url = url.replace(':id', id);
+            $('#modelHeading').html('Add Invoice');
+            $.ajaxModal('#add-invoice-modal',url);
+        })
+
+        $('body').on('click', '.delete-invoice', function(e) {
+        var id = $(this).data('id');
+        var url = "{{ route('admin.delete-invoice',':id') }}";
+        url = url.replace(':id', id);
+
+        var token = "{{ csrf_token() }}";
+
+        $.easyAjax({
+            type: 'POST',
+            url: url,
+            data: {'_token': token, '_method': 'DELETE'},
+            success: function (response) {
+                if (response.status == "success") {
+                    window.location.reload()
+                }
+            }
+        });
+        e.preventDefault();
+    });
     </script>
 @endpush

@@ -26,7 +26,7 @@ class StoreEspace extends CoreRequest
     public function rules()
     {
         return [
-            'espace_name' => 'required'
+            'espace_name' => 'required|unique:espaces'
         ];
     }
 

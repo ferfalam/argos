@@ -41,8 +41,11 @@ class SellTypeContoller  extends AdminBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEspace $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'espace_name' => 'required|unique:sell_types'
+        ]);
         $category = new SellType();
         $category->espace_name = $request->espace_name;
         $category->save();
@@ -80,6 +83,9 @@ class SellTypeContoller  extends AdminBaseController
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'espace_name' => 'required|unique:sell_types'
+        ]);
         $category = SellType::find($id);
         $category->espace_name = $request->espace_name;
         $category->save();

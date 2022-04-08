@@ -102,7 +102,7 @@ class ClientDetails extends BaseModel
     public function projects()
     {   
         // Log::info((json_encode($this->belongsTo(Project::class, 'client_id'))));
-        return $this->belongsTo(Project::class, 'client_id');
+        return $this->hasMany(Project::class, 'client_id');
     }
 
     public function ClientProjects(){

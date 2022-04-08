@@ -74,7 +74,7 @@
 
     $('body').on('click', '.delete-category', function() {
         var id = $(this).data('cat-id');
-        var url = "{{ route('admin.sell-type.destroy',':id') }}";
+        var url = "{{ route('admin.payment-mode.destroy',':id') }}";
         url = url.replace(':id', id);
 
         var token = "{{ csrf_token() }}";
@@ -113,7 +113,7 @@
     $('#createEspace').on('submit', (e) => {
         e.preventDefault();
         $.easyAjax({
-            url: '{{route('admin.sell-type.store')}}',
+            url: '{{route('admin.payment-mode.store')}}',
             container: '#createEspace',
             type: "POST",
             data: $('#createEspace').serialize(),
@@ -147,7 +147,7 @@
     $('#updateEspace').on('submit', (e) => {
         e.preventDefault();
         var id = $("#espace_id_update").val();
-        var url = "{{ route('admin.sell-type.update', ':id')}}";
+        var url = "{{ route('admin.payment-mode.update', ':id')}}";
         url = url.replace(':id', id);
         $.easyAjax({
             url: url,

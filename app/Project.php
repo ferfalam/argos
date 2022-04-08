@@ -40,14 +40,9 @@ class Project extends BaseModel
         return $this->hasOne(ProjectRating::class);
     }
 
-    public function client()
-    {
-        return $this->belongsTo(ClientDetails::class, 'client_id', 'user_id');
-    }
-
     public function clientdetails()
     {
-        return $this->belongsTo(ClientDetails::class, 'client_id', 'user_id');
+        return $this->belongsTo(ClientDetails::class, 'client_id');
     }
 
     public function spvdetails()

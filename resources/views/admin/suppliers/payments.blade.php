@@ -17,6 +17,10 @@
 
     <x-tab-container title="app.menu.payments"> 
         
+        <x-slot name="btns">
+            <button class="btn btn-cs-blue addDocs m-t-10 m-b-10 " id="show-payment-modal" style="">
+                <i class="fa fa-plus"></i> @lang('app.add') @lang('app.menu.payments')</button>
+        </x-slot>
         <div class="table-responsive">
             <table class="table"> 
                 <thead>
@@ -69,6 +73,49 @@
                 </tbody>
             </table>
         </div>
+        {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-lg in" id="add-payment-modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Ajax Modal Ends--}}
+
+    {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-lg in" id="add-payment-mode" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Ajax Modal Ends--}}
     </x-tab-container>
 
 @endsection
@@ -76,5 +123,11 @@
 @push('footer-script')
     <script>
         $('ul.showClientTabs .clientPayments').addClass('tab-current');
+
+        $('#show-payment-modal').click(function(){
+            var url = '{{ route('admin.suppliers.payments.createPayment', $supplierDetail->id)}}';
+            $('#modelHeading').html('Add Payment');
+            $.ajaxModal('#add-payment-modal',url);
+        })
     </script>
 @endpush

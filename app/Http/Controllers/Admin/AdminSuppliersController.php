@@ -294,7 +294,7 @@ class AdminSuppliersController extends AdminBaseController
         }
 
         
-        // $this->clientStats = $this->clientStats($id);
+        $this->clientStats = $this->clientStats($id);
         $this->country = Country::where('id',$this->supplierDetail->country_id)->first();
         $this->category = SupplierCategory::where('id',$this->supplierDetail->category_id)->first();
         $this->sub_category = SupplierSubCategory::where('id',$this->supplierDetail->sub_category_id)->first();
@@ -516,7 +516,7 @@ class AdminSuppliersController extends AdminBaseController
     public function showPayments($id){
         
         $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
-        $this->supplierStats = $this->clientStats($id);
+        $this->clientStats = $this->clientStats($id);
 
         if (!is_null($this->supplierDetail)) {
             $this->supplierDetail = $this->supplierDetail->withCustomFields();

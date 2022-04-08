@@ -27,7 +27,7 @@
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
-                @forelse($clientDetail->ClientProjects as $key=>$project)
+                @forelse($clientDetail->projects as $key=>$project)
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ ucwords($project->project_name) }}</td>

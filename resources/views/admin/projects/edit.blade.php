@@ -222,7 +222,7 @@
                                                         @if($project->client_id == $client->id)
                                                         selected
                                                         @endif
-                                                >{{ ucwords($client->name) }}</option>
+                                                >{{ ucwords($client->company_name) }}</option>
                                             @empty
                                                 <option value="">@lang('modules.projects.selectClient')</option>
                                             @endforelse

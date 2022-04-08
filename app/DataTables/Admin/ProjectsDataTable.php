@@ -92,7 +92,7 @@ class ProjectsDataTable extends BaseDataTable
                 if (is_null($row->client_id)) {
                     return '';
                 }
-                return (!is_null($row->clientdetails) && $row->clientdetails->company_name != '') ? ucwords($row->client ? $row->client->name : '') . '<br>[' . $row->clientdetails->company_name . ']' : ucwords($row->client ? $row->client->name : '');
+                return  ucwords($row->clientdetails->company_name);
             })
             ->editColumn('status', function ($row) {
                 $status = '';
@@ -171,7 +171,7 @@ class ProjectsDataTable extends BaseDataTable
         $request = $this->request();
 
         $model = $model
-            ->with('members', 'members.user', 'client', 'clientdetails', 'currency')
+            ->with('members', 'members.user','clientdetails', 'currency')
             ->leftJoin('project_members', 'project_members.project_id', 'projects.id')
             ->selectRaw('projects.id, projects.project_name, projects.project_admin, projects.project_summary, projects.start_date, projects.deadline,
          projects.notes, projects.place_id, projects.client_id, projects.feedback, projects.category_id, projects.completion_percent, projects.created_at, projects.updated_at,

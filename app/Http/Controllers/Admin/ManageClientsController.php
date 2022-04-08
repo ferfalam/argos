@@ -560,8 +560,9 @@ class ManageClientsController extends AdminBaseController
         // if (!$this->client) {
         //     abort(404);
         // }
-
-        $this->clientDetail = ClientDetails::where('id', '=', $id)->with('ClientProjects')->first();
+            
+        $this->clientDetail = ClientDetails::where('id', '=', $id)->with('projects')->first();
+        // dd($this->clientDetail);
 
        
         $this->clientStats = $this->clientStats($id);
@@ -590,17 +591,15 @@ class ManageClientsController extends AdminBaseController
             $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
         }
 
-        $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.total, currencies.currency_symbol, invoices.issue_date, invoices.id,
-            ( select payments.amount from payments where invoice_id = invoices.id) as paid_payment')
+        $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.total, invoices.sub_total, invoices.sell_type, invoices.status, invoices.issue_date, invoices.id, projects.project_name ')
             ->leftJoin('projects', 'projects.id', '=', 'invoices.project_id')
-            ->join('currencies', 'currencies.id', '=', 'invoices.currency_id')
             ->where(function ($query) use ($id) {
-                $query->where('projects.client_detail_id', $id)
+                $query->where('projects.client_id', $id)
                     ->orWhere('invoices.client_detail_id', $id);
             })
             ->get();
 
-
+            // dd($this->invoices);
         return view('admin.clients.invoices', $this->data);
     }
 
@@ -712,7 +711,7 @@ class ManageClientsController extends AdminBaseController
         return DB::table('users')
             ->select(
                 DB::raw('(select count(projects.id) from `projects` WHERE projects.client_id = ' . $id . ' and projects.company_id = ' . company()->id . ') as totalProjects'),
-                DB::raw('(select count(invoices.id) from `invoices` left join projects on projects.id=invoices.project_id WHERE invoices.status != "paid" and invoices.status != "canceled" and (projects.client_id = ' . $id . ' or invoices.client_id = ' . $id . ') and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
+                DB::raw('(select sum(invoices.total) from `invoices` left join projects on projects.id=invoices.project_id WHERE invoices.status != "paid" and invoices.status != "canceled" and (projects.client_id = ' . $id . ' or invoices.client_id = ' . $id . ') and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
                 DB::raw('(select sum(payments.amount) from `payments` left join projects on projects.id=payments.project_id left join invoices on invoices.id= payments.invoice_id
                 WHERE payments.status = "complete" and (projects.client_id = ' . $id . ' or  invoices.client_id = ' . $id. ' )and payments.company_id = ' . company()->id . ') as projectPayments'),
 
