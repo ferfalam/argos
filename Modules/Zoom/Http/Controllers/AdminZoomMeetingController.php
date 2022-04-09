@@ -48,6 +48,7 @@ class AdminZoomMeetingController extends AdminBaseController
      */
     public function index()
     {
+        $this->users = User::allUsersByCompany(user()->company_id);
         $this->employees = User::allEmployeesByCompany(user()->company_id);
         $this->clients = User::allClientsByCompany(user()->company_id);
         $this->admins = User::allAdminsByCompany(user()->company_id);
@@ -102,6 +103,7 @@ class AdminZoomMeetingController extends AdminBaseController
     public function edit($id)
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
+        $this->users = User::allUsersByCompany(user()->company_id);
         $this->employees = User::allEmployeesByCompany(user()->company_id);
         $this->clients = User::allClientsByCompany(user()->company_id);
         $this->admins = User::allAdminsByCompany(user()->company_id);

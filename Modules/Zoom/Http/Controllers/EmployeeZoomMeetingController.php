@@ -45,6 +45,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
     public function index(MeetingDataTable $dataTable)
     {
         //if ($this->user->zoomSetting()->get()[0]->api_key) {
+            $this->users = User::allUsersByCompany(user()->company_id);
             $this->employees = User::allEmployeesByCompany(user()->company_id);
             $this->clients = User::allClientsByCompany(user()->company_id);
             $this->admins = User::allAdminsByCompany(user()->company_id);
@@ -105,6 +106,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
     public function edit($id)
     {
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
+        $this->users = User::allUsersByCompany(user()->company_id);
         $this->employees = User::allEmployeesByCompany(user()->company_id);
         $this->clients = User::allClientsByCompany(user()->company_id);
         $this->admins = User::allAdminsByCompany(user()->company_id);

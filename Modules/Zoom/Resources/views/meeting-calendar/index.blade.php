@@ -142,6 +142,10 @@
                                           <option value="{{ $emp->id }}">{{ ucwords($emp->name) }} @if($emp->id == $user->id)
                                                   (YOU) @endif</option>
                                       @endforeach
+                                      @foreach($admins as $emp)
+                                          <option value="{{ $emp->id }}">{{ ucwords($emp->name) }} @if($emp->id == $user->id)
+                                                  (YOU) @endif</option>
+                                      @endforeach
                                   </select>
                               </div>
                           </div>

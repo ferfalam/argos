@@ -81,11 +81,13 @@
             <select id="employee_ids" class="select2 m-b-10 select2-multiple " multiple="multiple"
                         data-placeholder="@lang('zoom::modules.message.chooseMember')" name="employee_id[]"> 
                     @foreach($admins as $admin)
-                        <option value="{{ $admin->id }}" {{in_array($admin->id, $event->attendees->pluck('id')->toArray())  ? 'selected' : ''}}>{{ ucwords($admin->name) }}
+                        <option value="{{ $admin->id }}" {{in_array($admin->id, $event->attendees->pluck('id')->toArray())  ? 'selected' : ''}}>{{ ucwords($admin->name) }}@if($emp->id == $user->id)
+                            (YOU) @endif
                         </option>
                     @endforeach
                     @foreach($employees as $emp)
-                        <option value="{{ $emp->id }}" {{in_array($emp->id, $event->attendees->pluck('id')->toArray())  ? 'selected' : ''}}>{{ ucwords($emp->name) }}
+                        <option value="{{ $emp->id }}" {{in_array($emp->id, $event->attendees->pluck('id')->toArray())  ? 'selected' : ''}}>{{ ucwords($emp->name) }}@if($emp->id == $user->id)
+                            (YOU) @endif
                         </option>
                     @endforeach
             </select>
@@ -151,10 +153,12 @@
             <div class="form-group">
                   <label class="control-label">@lang('zoom::modules.zoommeeting.meetingHost')</label>
                   <select class="select2 form-control" id="created_by" name="created_by">
-                      @foreach($employees as $emp)
-                          <option @if($emp->id == $event->created_by)
-                              selected
-                              @endif value="{{ $emp->id }}">{{ ucwords($emp->name) }}</option>
+                      @foreach($users as $emp)
+                        @if($emp->id == $event->created_by)
+                            <option @if($emp->id == $event->created_by)
+                                selected
+                                @endif value="{{ $emp->id }}">{{ ucwords($emp->name) }}</option>
+                        @endif
                       @endforeach
                   </select>
             </div>
