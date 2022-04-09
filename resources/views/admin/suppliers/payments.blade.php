@@ -26,9 +26,12 @@
                 <thead>
                     <tr>
                         <th>{{ __('app.project') }}</th>
-                        <th>{{ __('app.invoice') . '#' }}</th>
-                        <th>{{ __('modules.invoices.amount') }}</th>
-                        <th>{{ __('modules.payments.paidOn') }}</th>
+                        <th>N° {{ __('app.invoice') }}</th>
+                        <th>@lang('app.date') @lang('modules.module.invoices')</th>
+                        <th>@lang('app.date') @lang('modules.module.payments')</th>
+                        <th>@lang('modules.payments.amount')  @lang('modules.module.payments')</th>
+                        <th>@lang('modules.payments.paymentMode')</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,23 +45,38 @@
                             @endif
                         </td>
                         <td>
-                            @if (!is_null($payment->invoice))
-                                <a href="{{ route('admin.all-invoices.show', $payment->invoice_id) }}">{{ ucfirst($payment->invoice->invoice_number) }}</a>
+                            @if (!is_null($payment->invoice)){{ ucfirst($payment->invoice->invoice_number) }}
+                                {{-- <a href="{{ route('admin.all-invoices.show', $payment->invoice_id) }}"></a> --}}
                             @else
                                 --
                             @endif     
                         </td>
                         <td>
-                            {{ currency_formatter($payment->amount,'') .' ('.$payment->currency->currency_code . ')' }}
+                            {{ \Carbon\Carbon::parse($payment->issue_date)->format($global->date_format)}}
+                        </td>
+
+
+                        <td>
+                            {{ \Carbon\Carbon::parse($payment->due_date)->format($global->date_format) }}
                         </td>
 
                         <td>
-                            {{ $payment->paid_on->format($global->date_format . ' ' . $global->time_format) }}
+                            {{ currency_formatter($payment->amount,'') .' €' }}
+                        </td>
+
+                        <td>
+                            {{$payment->gateway }}
+                        </td>
+
+                        <td>
+                            {{-- <a href="{{ route('admin.invoices.download', $invoice->id) }}" data-toggle="tooltip" data-original-title="View" class="btn btn-default btn-circle"><i class="fa fa-eye"></i></a> --}}
+                            <a href="javascript:;" data-id="{{$payment->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
+                            <a href="javascript:;" data-id="{{$payment->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-circle delete-invoice"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4">
+                        <td colspan="7">
                             <div class="text-center">
                                 <div class="empty-space" style="height: 200px;">
                                     <div class="empty-space-inner">
@@ -129,5 +147,33 @@
             $('#modelHeading').html('Add Payment');
             $.ajaxModal('#add-payment-modal',url);
         })
+        
+        $('.edit-invoice-modal').click(function(event){
+            var id = $(this).data('id');
+            var url = "{{ route('admin.suppliers.payments.createPayment', [$supplierDetail->id, ':id'])}}";
+            url = url.replace(':id', id);
+            $('#modelHeading').html('Add Invoice');
+            $.ajaxModal('#add-payment-modal',url);
+        })
+
+        $('body').on('click', '.delete-invoice', function(e) {
+            var id = $(this).data('id');
+            var url = "{{ route('admin.delete-payment',':id') }}";
+            url = url.replace(':id', id);
+
+            var token = "{{ csrf_token() }}";
+
+            $.easyAjax({
+                type: 'POST',
+                url: url,
+                data: {'_token': token, '_method': 'DELETE'},
+                success: function (response) {
+                    if (response.status == "success") {
+                        window.location.reload()
+                    }
+                }
+            });
+            e.preventDefault();
+        });
     </script>
 @endpush

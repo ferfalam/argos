@@ -10,7 +10,7 @@
         <x-link type="link" url="javascript:;" id="createTaskCategory" classes="btn btn-cs-blue" icon="fa fa-plus" title="modules.taskCategory.addTaskCategory"/>
         <x-link type="link" url="{{ route('admin.all-tasks.create') }}"  classes="btn btn-cs-green" title="modules.tasks.newTask"/>
         {{-- <x-link type="link" url="javascript:;"  classes="btn btn-cs-blue pinnedItem" icon="icon-pin icon-2" title="app.pinnedTask"/> --}}
-        {{-- <x-link type="link" url="{{ route('admin.task-label.index') }}"  classes="btn btn-cs-green " title="app.menu.taskLabel"/> --}}
+        <x-link type="link" url="{{ route('admin.task-label.index') }}"  classes="btn btn-cs-green " title="app.menu.taskLabel"/>
         {{-- <x-link type="link" url="{{ route('admin.task-request.index') }}"  classes="btn btn-cs-blue"  title="app.menu.taskRequest"/> --}}
     </x-slot>
 </x-main-header>

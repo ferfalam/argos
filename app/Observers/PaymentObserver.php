@@ -26,10 +26,10 @@ class PaymentObserver
         if (!isSeedingData()) {
             if( $payment->project != null){
                 if (($payment->project_id && $payment->project->client_id != null) || ($payment->invoice_id && $payment->invoice->client_id != null)) {
-                    $clientId = ($payment->project_id && $payment->project->client_id != null) ? $payment->project->client_id : $payment->invoice->client_id;
-                    // Notify client
-                    $notifyUser = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($clientId);
-                    $notifyUser->notify(new NewPayment($payment));
+                    // $clientId = ($payment->project_id && $payment->project->client_id != null) ? $payment->project->client_id : $payment->invoice->client_id;
+                    // // Notify client
+                    // $notifyUser = User::withoutGlobalScopes(['active', CompanyScope::class])->findOrFail($clientId);
+                    // $notifyUser->notify(new NewPayment($payment));
                 }
             }else{
                 // dd($payment->invoice);

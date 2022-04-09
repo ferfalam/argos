@@ -208,7 +208,7 @@ class AllTasksDataTable extends BaseDataTable
             ->columns($this->processTitle($this->getColumns()))
             ->minifiedAjax()
             ->dom("<'row'<'col-md-6'l><'col-md-6'Bf>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>")
-            ->orderBy(0)
+            ->orderBy(2)
             ->destroy(true)
             ->responsive(true)
             ->serverSide(true)

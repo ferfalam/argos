@@ -65,11 +65,34 @@
 
                                             <div class="form-body">
                                                 <div class="row">
-                                                    <div class="col-xs-12">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label required">@lang('app.title')</label>
+                                                            <a href="javascript:;"
+                                                            id="createTaskTitle"
+                                                            class="btn btn-xs btn-outline btn-success">
+                                                                <i class="fa fa-plus"></i> 
+                                                            </a>
                                                             <input type="text" id="heading" name="title"
                                                                     class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@lang('modules.projects.milestones')
+                                                                <a href="javascript:;"
+                                                                   id="createTaskLabel"
+                                                                   class="btn btn-xs btn-outline btn-success">
+                                                                    <i class="fa fa-plus"></i> @lang('app.add') @lang('modules.projects.milestones')
+                                                                    <a href="javascript:;"
+                                                                </a>
+                                                            </label>
+                                                            <select id="" name="milestone_id"  class="select2 form-control newclass">
+                                                                <option value="">---</option>
+                                                                @foreach($milestones as $milestone)
+                                                                    <option value="{{ $milestone->id }}">{{ $milestone->milestone_title }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <!--/span-->
@@ -177,7 +200,7 @@
                                                         </div>
                                                     </div>
                                                     <!--/span-->
-                                                    <div class="col-xs-12">
+                                                    {{-- <div class="col-xs-12">
                                                         <label class="control-label">@lang('modules.projects.milestones')</label>
                                                         <div class="form-group">
                                                             <select class="selectpicker" name="milestone_id" id="milestone_id"
@@ -188,7 +211,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-xs-12">
                                                         <label class="control-label select-required">@lang('modules.tasks.assignTo')</label>
                                                         <div class="form-group">
@@ -775,5 +798,11 @@
         $.ajaxModal('#taskCategoryModal', url);
     })
     $('ul.showProjectTabs .projectTasks').addClass('tab-current');
+
+    $('#createTaskTitle').click(function(){
+        var url = '{{ route('admin.task-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+        $.ajaxModal('#taskCategoryModal', url);
+    })
 </script>
 @endpush

@@ -92,10 +92,10 @@
                     rData = response.data;
                     $.each(rData, function( index, value ) {
                         var selectData = '';
-                        selectData = '<option value="'+value.id+'">'+value.espace_name.toUpperCase()+'</option>';
+                        selectData = '<option value="'+value.espace_name+'">'+value.espace_name.toUpperCase()+'</option>';
                         options.push(selectData);
                     });
-                    $('#espace_id').html(options);
+                    $('#sell_type_id').html(options);
                     //$('#espace_id').selectpicker('refresh');
                 }
                 
@@ -125,7 +125,7 @@
                     rData = response.data;
                     $.each(rData, function (index, value) {
                         var selectData = '';
-                        selectData = '<option value="' + value.id + '">' + value.espace_name.toUpperCase() + '</option>';
+                        selectData = '<option value="' + value.espace_name + '">' + value.espace_name.toUpperCase() + '</option>';
                         options.push(selectData);
                         listData += '<tr id="cat-' + value.id + '">'+
                             '<td>'+(index+1)+'</td>'+
@@ -135,7 +135,7 @@
                     });
 
                     $('.category-table tbody' ).html(listData);
-                    $('#espace_id').html(options);
+                    $('#sell_type_id').html(options);
                     //$('#espace_id').selectpicker('refresh');
                     $('#espace_name').val('');
                 }
@@ -162,7 +162,7 @@
                     rData = response.data;
                     $.each(rData, function (index, value) {
                         var selectData = '';
-                        selectData = '<option value="' + value.id + '">' + value.espace_name.toUpperCase() + '</option>';
+                        selectData = '<option value="' + value.espace_name + '">' + value.espace_name.toUpperCase() + '</option>';
                         options.push(selectData);
                         listData += '<tr id="cat-' + value.id + '">'+
                             '<td>'+(index+1)+'</td>'+
@@ -173,7 +173,7 @@
 
                     $('.category-table tbody' ).html(listData);
                     $('#espace_name').val('');
-                    $('#espace_id').html(options);
+                    $('#sell_type_id').html(options);
                     //$('#espace_id').selectpicker('refresh');
                     $('#update-section').hide()
                     $('#create-section').show()

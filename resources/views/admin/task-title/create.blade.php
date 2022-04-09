@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">@lang('modules.projects.milestoneTitle')</h4>
+    <h4 class="modal-title">@lang('modules.projects.tastTitle')</h4>
 </div>
 <div class="modal-body">
     <div class="portlet-body">
@@ -9,7 +9,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>@lang('modules.projects.milestoneTitle')</th>
+                    <th>@lang('modules.projects.tastTitle')</th>
                     <th>@lang('app.action')</th>
                 </tr>
                 </thead>
@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-xs-12 ">
                         <div class="form-group">
-                            <label>@lang('modules.projects.milestoneTitle')</label>
+                            <label>@lang('modules.projects.tastTitle')</label>
                             <input type="text" name="name" id="name" class="form-control">
                         </div>
                     </div>

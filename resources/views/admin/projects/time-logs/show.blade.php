@@ -71,47 +71,56 @@
 
                     <div class="form-body">
                         <div class="row m-t-30">
-                            <div class="col-md-3 ">
-                                <div class="form-group">
-                                    <label>@lang('modules.timeLogs.task')</label>
-                                    <select class="select2 form-control" name="task_id"
-                                            id="task_id" data-style="form-control">
-                                        @forelse($tasks as $task)
-                                            <option value="{{ $task->id }}">{{ ucfirst($task->heading) }}</option>
-                                        @empty
-                                            <option value="">@lang('messages.noTaskAddedToProject')</option>
-                                        @endforelse
-                                    </select>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label>@lang('modules.timeLogs.task')</label>
+                                        <select class="select2 form-control" name="task_id"
+                                                id="task_id" data-style="form-control">
+                                            @forelse($tasks as $task)
+                                                <option value="{{ $task->id }}">{{ ucfirst($task->heading) }}</option>
+                                            @empty
+                                                <option value="">@lang('messages.noTaskAddedToProject')</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                            
                                 </div>
-                                        
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="form-group">
-                                    <label>@lang('modules.timeLogs.employeeName')</label>
-                                    <select class="select2 form-control" name="user_id"
-                                            id="user_id" data-style="form-control">
-                                        @forelse($project->members as $member)
-                                            <option value="{{ $member->user->id }}">{{ $member->user->name }}</option>
-                                        @empty
-                                            <option value="">@lang('messages.noMemberAddedToProject')</option>
-                                        @endforelse
-                                    </select>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label>@lang('modules.timeLogs.employeeName')</label>
+                                        <select class="select2 form-control" name="user_id"
+                                                id="user_id" data-style="form-control">
+                                            @forelse($project->members as $member)
+                                                <option value="{{ $member->user->id }}">{{ $member->user->name }}</option>
+                                            @empty
+                                                <option value="">@lang('messages.noMemberAddedToProject')</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label>@lang('modules.timeLogs.startDate')</label>
+                                        <input id="start_date" name="start_date" type="text"
+                                                class="form-control"
+                                                value="{{ \Carbon\Carbon::today()->format($global->date_format) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label>@lang('modules.timeLogs.endDate')</label>
+                                        <input id="end_date" name="end_date" type="text"
+                                                class="form-control"
+                                                value="{{ \Carbon\Carbon::today()->format($global->date_format) }}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>@lang('modules.timeLogs.startDate')</label>
-                                    <input id="start_date" name="start_date" type="text"
-                                            class="form-control"
-                                            value="{{ \Carbon\Carbon::today()->format($global->date_format) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="form-group">
-                                    <label>@lang('modules.timeLogs.endDate')</label>
-                                    <input id="end_date" name="end_date" type="text"
-                                            class="form-control"
-                                            value="{{ \Carbon\Carbon::today()->format($global->date_format) }}">
+                                    <label for="memo">@lang('modules.timeLogs.memo')</label>
+                                    <textarea rows="4" cols="100%" name="memo" id="memo"
+                                            class="form-control"> </textarea>
                                 </div>
                             </div>
                         </div>
@@ -138,13 +147,6 @@
                         </div>
 
                         <div class="row m-t-20">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label for="memo">@lang('modules.timeLogs.memo')</label>
-                                    <input type="text" name="memo" id="memo"
-                                            class="form-control">
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="form-actions m-t-30">

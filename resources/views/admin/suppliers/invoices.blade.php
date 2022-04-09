@@ -26,49 +26,45 @@
             <button class="btn btn-cs-blue addDocs m-t-10 m-b-10 " id="show-invoice-modal" style="">
                 <i class="fa fa-plus"></i> @lang('app.add') @lang('app.menu.invoices')</button>
         </x-slot>
-        <ul class="list-group" id="invoices-list">
-            @forelse($invoices as $invoice)
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-7">
-                            @lang('app.invoice') # {{ $invoice->invoice_number }}
-                        </div>
-                        <div class="col-md-2">
-                            {{ currency_formatter($invoice->total ,$invoice->currency_symbol) }} 
-                        </div>
-                        <div class="col-md-3">
-                            {{-- <a href="{{ route('admin.invoices.download', $invoice->id) }}" data-toggle="tooltip" data-original-title="View" class="btn btn-default btn-circle"><i class="fa fa-eye"></i></a> --}}
-                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-default btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
-                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-default btn-circle delete-invoice"><i class="fa fa-times"></i></a>
-                            <span class="m-l-10">{{ $invoice->issue_date->format('d M, y') }}</span>
-                        </div>
-                    </div>
-                </li>
-                @if($loop->last)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-7 ">
-                                <span class="pull-right">@lang('modules.invoices.totalUnpaidInvoice')</span>
-                            </div>
-                            <div class="col-md-2 text-danger">
-                                {{ currency_formatter($invoices->sum('total')-$invoices->sum('paid_payment'),$invoice->currency_symbol) }} 
-                            </div>
-                            <div class="col-md-3">
-
-                            </div>
-                        </div>
-                    </li>
-                @endif
-            @empty
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-7">
-                            @lang('modules.invoices.noInvoiceForClient')
-                        </div>
-                    </div>
-                </li>
-            @endforelse
-        </ul>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>@lang('modules.invoices.project')</th>
+                    <th>N° @lang('app.menu.invoices')</th>
+                    <th>@lang('app.date')</th>
+                    <th>@lang('modules.invoices.amount') HT</th>
+                    <th>@lang('modules.invoices.amount') TVA</th>
+                    <th>@lang('modules.invoices.amount') TTC</th>
+                    <th>@lang('app.status')</th>
+                    <th>@lang('app.action')</th>
+                </tr>
+                </thead>
+                @forelse($invoices as $key=>$invoice)
+                    <tr>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $invoice->project_name}}</td>
+                        <td>{{ $invoice->invoice_number}}</td>
+                        <td>{{ $invoice->issue_date}}</td>
+                        <td>{{ $invoice->sub_total}}</td>
+                        <td>{{ $invoice->tva}}</td>
+                        <td>{{ $invoice->total}}</td>
+                        <td>{{ __('modules.invoices.'.$invoice->status)}}</td>
+                        <td>
+                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
+                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-circle delete-invoice"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="9">@lang('messages.noInvoiceFound')</td>
+                    </tr>
+                @endforelse
+                </tbody>
+                <tbody id="timer-list">
+            </table>
+        </div>
     </x-tab-container>
     {{--Ajax Modal--}}
     <div class="modal fade bs-modal-lg in" id="add-invoice-modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -128,8 +124,8 @@
 
 
         $('.edit-invoice-modal').click(function(event){
-            var url = "{{ route('admin.suppliers.invoices.createInvoice', [$supplierDetail->id, ':id'])}}";
             var id = $(event.target).data().id;
+            var url = "{{ route('admin.suppliers.invoices.createInvoice', [$supplierDetail->id, ':id'])}}";
             url = url.replace(':id', id);
             $('#modelHeading').html('Add Invoice');
             $.ajaxModal('#add-invoice-modal',url);

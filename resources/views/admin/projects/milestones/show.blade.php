@@ -60,23 +60,24 @@
                         <div class="form-body">
                             <div class="row">
     
-                                <div class="col-md-6 ">
-                                    <div class="form-group">
-                                        <label class="required">@lang('modules.projects.milestoneTitle')</label>
-                                        <a href="javascript:;"
-                                            id="createMilestoneTitle"
-                                            class="btn btn-xs btn-outline btn-success">
-                                                <i class="fa fa-plus"></i> 
-                                            </a>
-                                        <select name="milestone_title" id="milestone_title" class="select2 form-control">
-                                            @foreach ($milestoneTitle as $item)
-                                            <option value="{{$item->name}}">{{$item->name}}</option>
-                                                
-                                            @endforeach
-                                        </select>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="required">@lang('modules.projects.milestoneTitle')</label>
+                                            <a href="javascript:;"
+                                                id="createMilestoneTitle"
+                                                class="btn btn-xs btn-outline btn-success">
+                                                    <i class="fa fa-plus"></i> 
+                                                </a>
+                                            <select name="milestone_title" id="milestone_title" class="select2 form-control">
+                                                @foreach ($milestoneTitle as $item)
+                                                <option value="{{$item->name}}">{{$item->name}}</option>
+                                                    
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 ">
+                                    <div class="row">
                                         <div class="form-group">
                                             <label>@lang('app.status')</label>
                                             <select name="status" id="status" class="select2 form-control">
@@ -84,24 +85,36 @@
                                                 <option value="complete">@lang('app.complete')</option>
                                             </select>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    
+                                    <div class="form-group">
+                                        <label class="required" for="">@lang('app.milestone_type')</label>
+                                    </div>
+                                    <div class="form-group" style="margin: 0">
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" value="None">
+                                        <label class="form-check-label" style="margin: 0"  for="none">None</label>
+                                    </div>
+                                    <div class="form-group" style="margin: 0">
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" value="Research">
+                                        <label class="form-check-label" style="margin: 0" for="research">Research</label>
+                                    </div>
+                                    <div class="form-group" style="margin: 0">
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" value="Development">
+                                        <label class="form-check-label" style="margin: 0" for="development">Development</label>
+                                    </div>
+                                    <div class="form-group" style="margin: 0">
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" value="Construction">
+                                        <label class="form-check-label" style="margin: 0" for="construction">Construction</label>
+                                    </div>
+                                    <div class="form-group" style="margin: 0">
+                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" value="Exploitation">
+                                        <label class="form-check-label" style="margin: 0" for="exploitation">Exploitation</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-check-label required" for="">@lang('app.milestone_type')</label>
-                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" value="None">
-                                        <label class="form-check-label"  for="none">None</label>
-                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" value="Research">
-                                        <label class="form-check-label" for="research">Research</label>
-                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" value="Development">
-                                        <label class="form-check-label" for="development">Development</label>
-                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" value="Construction">
-                                        <label class="form-check-label" for="construction">Construction</label>
-                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" value="Exploitation">
-                                        <label class="form-check-label" for="exploitation">Exploitation</label>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
@@ -178,6 +191,30 @@
 
     {{--Ajax Modal--}}
     <div class="modal fade bs-modal-md in" id="editTimeLogModal" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {{--Ajax Modal Ends--}}
+
+
+    {{--Ajax Modal--}}
+    <div class="modal fade bs-modal-md in" id="MilestoneTitleModal" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" id="modal-data-application">
             <div class="modal-content">
@@ -323,7 +360,7 @@
     $('#createMilestoneTitle').click(function(){
         var url = '{{ route('admin.milestone-title.create')}}';
         $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
-        $.ajaxModal('#editTimeLogModal', url);
+        $.ajaxModal('#MilestoneTitleModal', url);
     })
 </script>
 @endpush

@@ -10,6 +10,7 @@ use App\Notifications\TaskCompleted;
 use App\Notifications\TaskUpdated;
 use App\Notifications\TaskUpdatedClient;
 use App\Project;
+use App\ProjectMilestone;
 use App\SubTask;
 use App\Task;
 use App\TaskboardColumn;
@@ -79,6 +80,7 @@ class ManageTasksController extends AdminBaseController
             $task->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
         }
         $task->project_id = $request->project_id;
+        $task->milestone_id = $request->milestone_id;
         $task->priority = $request->priority;
         $task->board_column_id = $taskBoardColumn->id;
         $task->task_category_id = $request->category_id;
@@ -110,6 +112,7 @@ class ManageTasksController extends AdminBaseController
     public function show($id)
     {
         $this->project = Project::findOrFail($id);
+        $this->milestones = ProjectMilestone::all();
         $this->categories = TaskCategory::all();
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
@@ -142,6 +145,7 @@ class ManageTasksController extends AdminBaseController
         $this->task = Task::findOrFail($id);
         $this->taskBoardColumns = TaskboardColumn::all();
         $this->categories = TaskCategory::all();
+        $this->milestones = ProjectMilestone::all();
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
             $this->allTasks = Task::where('board_column_id', $completedTaskColumn->id)
@@ -181,6 +185,7 @@ class ManageTasksController extends AdminBaseController
             $task->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
         }
         $task->priority = $request->priority;
+        $task->milestone_id = $request->milestone_id;
         $task->task_category_id = $request->category_id;
         $task->board_column_id = $request->status;
         $task->dependent_task_id = $request->has('dependent') && $request->dependent == 'yes' && $request->has('dependent_task_id') && $request->dependent_task_id != '' ? $request->dependent_task_id : null;

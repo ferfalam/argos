@@ -23,76 +23,80 @@
 
                                     <div class="form-body">
                                         <div class="row">
-                                            
-                                            <div class="col-md-8 ">
-                                                <div class="form-group">
-                                                    <label class="required" >@lang('modules.projects.milestoneTitle')</label>
-                                                    <a href="javascript:;"
-                                                        id="editMilestoneTitle"
-                                                        class="btn btn-xs btn-outline btn-success">
-                                                            <i class="fa fa-plus"></i> 
-                                                        </a>
-                                                    <select name="milestone_title" id="milestone_title" class="select2 form-control">
-                                                        @foreach ($milestoneTitle as $item)
-                                                            <option value="{{$item->name}}" @if ($milestone->milestone_title == $item->name) selected @endif >{{$item->name}}</option>
-                                                            
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            
-                                            </div>
-                                            <div class="row">
-                                            <div class="col-md-4 ">
-                                                    <div class="form-group">
-                                                        <label>@lang('app.status')</label>
-                                                        <select name="status" id="status" class="form-control">
-                                                            <option 
-                                                            @if($milestone->status == 'incomplete') selected @endif
-                                                            value="incomplete">@lang('app.incomplete')</option>
-                                                            <option 
-                                                            @if($milestone->status == 'complete') selected @endif
-                                                            value="complete">@lang('app.complete')</option>
-                                                        </select>
-                                                    </div>
-                                            </div>
+                                            <div class="col-md-8">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label class="form-check-label required" for="">@lang('app.milestone_type')</label>
-                                                            <div class="form-group">
-                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" @if ($milestone->type =='None') checked @endif value="None">
-                                                                <label class="form-check-label"  for="none">None</label>
-
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" @if ($milestone->type =='Research') checked @endif value="Research">
-                                                                <label class="form-check-label" for="research">Research</label>
-
-                                                            </div>
-                                                            <div class="form-group">
-
-                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" @if ($milestone->type =='Development') checked @endif value="Development">
-                                                                <label class="form-check-label" for="development">Development</label>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" @if ($milestone->type =='Construction') checked @endif value="Construction">
-                                                                <label class="form-check-label" for="construction">Construction</label>
-                                                                
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" @if ($milestone->type =='Exploitation') checked @endif value="Exploitation">
-                                                                <label class="form-check-label" for="exploitation">Exploitation</label>
-                                                                
-                                                            </div>
+                                                            <label class="required" >@lang('modules.projects.milestoneTitle')</label>
+                                                            <a href="javascript:;"
+                                                                id="editMilestoneTitle"
+                                                                class="btn btn-xs btn-outline btn-success">
+                                                                    <i class="fa fa-plus"></i> 
+                                                                </a>
+                                                            <select name="milestone_title" id="milestone_title" class="select2 form-control">
+                                                                @foreach ($milestoneTitle as $item)
+                                                                    <option value="{{$item->name}}" @if ($milestone->milestone_title == $item->name) selected @endif >{{$item->name}}</option>
+                                                                    
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label>@lang('app.status')</label>
+                                                            <select name="status" id="status" class="form-control">
+                                                                <option 
+                                                                @if($milestone->status == 'incomplete') selected @endif
+                                                                value="incomplete">@lang('app.incomplete')</option>
+                                                                <option 
+                                                                @if($milestone->status == 'complete') selected @endif
+                                                                value="complete">@lang('app.complete')</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-check-label required" for="">@lang('app.milestone_type')</label>
+                                                    <div class="form-group" style="margin: 0">
+                                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="none" name="milestone_type" @if ($milestone->type =='None') checked @endif value="None">
+                                                        <label class="form-check-label" style="margin: 0"  for="none">None</label>
+    
+                                                    </div>
+                                                    <div class="form-group" style="margin: 0">
+                                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="research" name="milestone_type" @if ($milestone->type =='Research') checked @endif value="Research">
+                                                        <label class="form-check-label" style="margin: 0" for="research">Research</label>
+    
+                                                    </div>
+                                                    <div class="form-group" style="margin: 0">
+    
+                                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="development" name="milestone_type" @if ($milestone->type =='Development') checked @endif value="Development">
+                                                        <label class="form-check-label" style="margin: 0" for="development">Development</label>
+                                                    </div>
+                                                    <div class="form-group" style="margin: 0">
+                                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="construction" name="milestone_type" @if ($milestone->type =='Construction') checked @endif value="Construction">
+                                                        <label class="form-check-label" style="margin: 0" for="construction">Construction</label>
+                                                        
+                                                    </div>
+                                                    <div class="form-group" style="margin: 0">
+                                                        <input class="form-check-input" required style="min-height:0px !important" type="radio" id="exploitation" name="milestone_type" @if ($milestone->type =='Exploitation') checked @endif value="Exploitation">
+                                                        <label class="form-check-label" style="margin: 0" for="exploitation">Exploitation</label>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>@lang('modules.projects.milestoneCost')</label>
                                                     <input id="cost" name="cost" type="number" value="{{ $milestone->cost }}"
-                                                           class="form-control" value="0" min="0" step=".01">
+                                                            class="form-control" value="0" min="0" step=".01">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -100,14 +104,9 @@
                                                     <label>@lang('app.deadline')</label>
                                                     <input type="text" class="form-control" name="due_date" id="due_date_edit"
                                                     value=" @if($milestone->due_date != null) {{$milestone->due_date->format($global->date_format) }}  @endif">
-
-
                                                 </div>
                                             </div>
-                                            
                                         </div>
-                                        
-
                                         <div class="row">
                                             <div class="col-md-9">
                                                 <div class="form-group">

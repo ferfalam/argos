@@ -76,30 +76,32 @@ class ManageAllTasksController extends AdminBaseController
         $this->fields = $this->task->getCustomFieldGroupsWithFields()->fields;
         $this->task_request_file = TaskRequestFile::where('task_id', $this->task->task_request_id )->get();
         
-
+        
         $this->labelIds         = $this->task->label->pluck('label_id')->toArray();
         $this->projects        = Project::all();
         $this->employees        = User::allEmployees();
         $this->categories       = TaskCategory::all();
         $this->taskLabels       = TaskLabelList::all();
         $this->taskBoardColumns = TaskboardColumn::all();
-
+        $this->milestones = ProjectMilestone::all();
+        
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
             $this->allTasks = Task::where('board_column_id', $completedTaskColumn->id)
-                ->where('id', '!=', $id);
+            ->where('id', '!=', $id);
 
             if ($this->task->project_id != '') {
                 $this->allTasks = $this->allTasks->where('project_id', $this->task->project_id);
             }
-
+            
             $this->allTasks = $this->allTasks->get();
         } else {
             $this->allTasks = [];
         }
-
+        
         $this->upload = can_upload();
-
+        
+        // dd($this->task->milestone_id);
         return view('admin.tasks.edit', $this->data);
     }
 
@@ -119,6 +121,7 @@ class ManageAllTasksController extends AdminBaseController
             $task->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
         }
         $task->task_category_id  = $request->category_id;
+        $task->milestone_id  = $request->milestone_id;
         $task->priority          = $request->priority;
         $task->board_column_id   = $request->status;
         $task->dependent_task_id = $request->has('dependent') && $request->dependent == 'yes' && $request->has('dependent_task_id') && $request->dependent_task_id != '' ? $request->dependent_task_id : null;
@@ -194,6 +197,7 @@ class ManageAllTasksController extends AdminBaseController
         $this->employees  = User::allEmployees();
         $this->categories = TaskCategory::all();
         $this->taskLabels = TaskLabelList::all();
+        $this->milestones = ProjectMilestone::all();
         if(request()->id != null){
             $this->taskRequests = TaskRequest::findOrFail(request()->id);
         }
@@ -257,6 +261,7 @@ class ManageAllTasksController extends AdminBaseController
             $task->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
         }
         $task->project_id = $request->project_id;
+        $task->milestone_id = $request->milestone_id;
         $task->task_category_id = $request->category_id;
         $task->priority = $request->priority;
         $task->board_column_id = $taskBoardColumn->id;

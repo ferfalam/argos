@@ -77,18 +77,18 @@
 
         <li>
             <a href="#third" data-toggle="collapse"
-                aria-expanded="{{ request()->routeIs('admin.clients.index') ? 'true' : 'false' }}">
+                aria-expanded="{{ request()->routeIs('admin.clients.*') || request()->routeIs('admin.suppliers.*') ? 'true' : 'false' }}">
                 <ion-icon name="grid"></ion-icon>@lang('app.menu.tiers')
             </a>
-            <ul class="collapse list-unstyled {{ request()->routeIs('admin.clients.index') || request()->routeIs('admin.suppliers.index') ? 'in' : '' }}"
+            <ul class="collapse list-unstyled {{ request()->routeIs('admin.clients.*') || request()->routeIs('admin.suppliers.*') ? 'in' : '' }}"
                 id="third">
                 <li>
                     <a href="{{ route('admin.clients.index') }}"
-                        class="{{ request()->routeIs('admin.clients.index') ? 'active' : '' }}">
-                        @lang('app.menu.client') </a>
+                        class="{{ request()->routeIs('admin.clients.*') ? 'active' : '' }}">
+                        {{ucfirst(__('app.menu.client'))}} </a>
                 </li>
                 <li><a href="{{ route('admin.suppliers.index') }}"
-                        class="{{ request()->routeIs('admin.suppliers.index') ? 'active' : '' }}">@lang('app.menu.fournisseur') </a>
+                        class="{{ request()->routeIs('admin.suppliers.*') ? 'active' : '' }}">@lang('app.menu.fournisseur') </a>
                 </li>
             </ul>
         </li>

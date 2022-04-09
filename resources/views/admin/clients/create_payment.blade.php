@@ -17,6 +17,10 @@
         <div class="form-body">
 
             {!! Form::hidden('client_id', $client->id) !!}
+
+            @if ($invoice->id)
+                {!! Form::hidden('payment_id', $invoice->id) !!}  
+            @endif
             {{-- {!! Form::hidden('company_name', $project->clientdetails->company_name ? $project->clientdetails->company_name : $project->clientdetails->name) !!} --}}
             <div class="row">
 
@@ -49,10 +53,10 @@
                                 <div class="input-icon">
                                     <select class="form-control" name="invoice_id" id="currency_id">
                                         <option value="none" >---</option>
-                                        @foreach($invoices as $invoice)
-                                            <option value="{{ $invoice->id }}" @if ($invoice->invoice_id == $invoice->id)
+                                        @foreach($invoices as $in)
+                                            <option value="{{ $in->id }}" @if ($invoice->invoice_id == $in->id)
                                                 selected
-                                            @endif>{{ $invoice->invoice_number  }}</option>
+                                            @endif>{{ $in->invoice_number  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -68,7 +72,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control " name="issue_date" id="invoice_date" value="{{$invoice->issue_date ?? Carbon\Carbon::today()->format($global->date_format) }}">
+                                    <input type="text" class="form-control " name="issue_date" id="invoice_date" value="{{$invoice->issue_date ? Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
                                 </div>
                             </div>
                         </div>
@@ -86,7 +90,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control " name="due_date" id="invoice_date" value="{{$invoice->issue_date ?? Carbon\Carbon::today()->format($global->date_format) }}">
+                                    <input type="text" class="form-control " name="due_date" id="invoice_date" value="{{$invoice->due_date ? Carbon\Carbon::parse($invoice->due_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
                                 </div>
                             </div>
                         </div>
@@ -120,7 +124,7 @@
                         <label class="control-label">Mode de Paiement</label>
                         <a class="btn btn-outlined-success" id="plus-payment-mode" style="">
                             <i class="fa fa-plus"></i></a>
-                        <select class="form-control select2" name="gateway" id="currency_id">
+                        <select class="form-control select2" name="gateway" id="gateway_id">
                             {{-- <option value="none" >---</option> --}}
                             @if ($types)
                                 @foreach($types as $type)

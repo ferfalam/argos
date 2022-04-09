@@ -134,7 +134,7 @@
                         <label class="control-label">Type Vente</label>
                         <a class="btn btn-outlined-success" id="plus-sell-type" style="">
                             <i class="fa fa-plus"></i></a>
-                        <select class="form-control select2" name="sell_type" id="currency_id">
+                        <select class="form-control select2" name="sell_type" id="sell_type_id">
                             {{-- <option value="none" >---</option> --}}
                             @if ($types)
                                 @foreach($types as $type)

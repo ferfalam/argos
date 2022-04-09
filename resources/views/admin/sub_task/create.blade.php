@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-xs-12 ">
                     <div class="form-group">
-                        <label>@lang('app.name')</label>
+                        <label>@lang('modules.projects.subtaskTitle')</label>
                         <input type="text" name="name" id="name" class="form-control">
                         <input type="hidden" name="taskID" id="taskID" value="{{ $taskID }}">
                     </div>

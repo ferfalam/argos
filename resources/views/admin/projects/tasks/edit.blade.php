@@ -19,10 +19,35 @@
 
             <div class="form-body">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label required">@lang('app.title')</label>
+                            <a href="javascript:;"
+                            id="createTaskTitle"
+                            class="btn btn-xs btn-outline btn-success">
+                                <i class="fa fa-plus"></i> 
+                            </a>
                             <input type="text" id="heading" name="title" class="form-control" value="{{ $task->heading }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@lang('modules.projects.milestones')
+                                <a href="javascript:;"
+                                   id="createTaskLabel"
+                                   class="btn btn-xs btn-outline btn-success">
+                                    <i class="fa fa-plus"></i> @lang('app.add') @lang('modules.projects.milestones')
+                                    <a href="javascript:;"
+                                </a>
+                            </label>
+                            <select id="" name="milestone_id"  class="select2 form-control newclass">
+                                <option value="">---</option>
+                                @foreach($milestones as $milestone)
+                                    <option value="{{ $milestone->id }}" @if ($task->milestone_id == $milestone->id)
+                                        selected
+                                    @endif>{{ $milestone->milestone_title }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <!--/span-->
@@ -393,5 +418,10 @@
         else{
             $('#set-time-estimate-fields-2').hide();
         }
+    })
+    $('#createTaskTitle').click(function(){
+        var url = '{{ route('admin.task-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+        $.ajaxModal('#taskCategoryModal', url);
     })
 </script>

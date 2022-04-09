@@ -57,6 +57,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label required">@lang('app.title')</label>
+
+                                    <a href="javascript:;"
+                                    id="createTaskTitle"
+                                    class="btn btn-xs btn-outline btn-success">
+                                        <i class="fa fa-plus"></i> 
+                                    </a>
                                     <input type="text" id="heading" name="title" class="form-control" value="{{ $task->heading }}">
                                 </div>
                             </div>
@@ -185,8 +191,8 @@
                                 </div>
                             </div>
                             <!--/span-->
-                            <div class="row">
-                                <div class="col-xs-12">
+                            <div class="row" style="display: flex">
+                                <div class="col-xs-4">
                                     <div class="form-group">
                                         <label class="control-label">@lang('app.label')
                                             <a href="javascript:;"
@@ -202,10 +208,31 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="control-label">@lang('modules.projects.milestones')
+                                            <a href="javascript:;"
+                                            id="createTaskLabel"
+                                            class="btn btn-xs btn-outline btn-success">
+                                            <i class="fa fa-plus"></i> @lang('app.add') @lang('modules.projects.milestones')
+                                            <a href="javascript:;"
+                                        </a>
+                                    </label>
+                                        <select id="" name="milestone_id"  class="select2 form-control newclass">
+                                            <option value="">---</option>
+                                            @foreach($milestones as $milestone)
+                                                <option value="{{ $milestone->id }}" @if ($task->milestone_id == $milestone->id)
+                                                    selected
+                                                @endif >{{ $milestone->milestone_title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             @if(count($fields) > 0)
-                            <h3 class="box-title">@lang('modules.projects.otherInfo')</h3>
+                                <h3 class="box-title">@lang('modules.projects.otherInfo')</h3>
                                 <div class="row">
                                     @foreach($fields as $field)
                                         <div class="col-md-3">
@@ -256,30 +283,33 @@
                                         </div>
                                     </div>
                                     @endforeach
-                            </div>
+                                </div>
                             @endif
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label required">@lang('app.startDate')</label>
-                                    <input type="text" name="start_date" id="start_date2" class="form-control" autocomplete="off" value="@if($task->start_date != '-0001-11-30 00:00:00' && $task->start_date != null) {{ $task->start_date->format($global->date_format) }} @endif">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-3" id="duedateBox">
-                                <div class="form-group">
-                                    <label class="control-label required">@lang('app.dueDate')</label>
-                                    <input type="text" name="due_date" id="due_date2" class="form-control" autocomplete="off" value="@if($task->due_date != '') {{ $task->due_date->format($global->date_format) }} @endif">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding-top: 25px;">
-                                    <div class="checkbox checkbox-info">
-                                            <input id="without_duedate" @if($task->due_date == null) checked @endif  name="without_duedate" value="true"
-                                               type="checkbox">
-                                        <label for="without_deadline">@lang('modules.tasks.withoutDuedate')</label>
+                            <div class="row" style="display: flex">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label required">@lang('app.startDate')</label>
+                                            <input type="text" name="start_date" id="start_date2" class="form-control" autocomplete="off" value="@if($task->start_date != '-0001-11-30 00:00:00' && $task->start_date != null) {{ $task->start_date->format($global->date_format) }} @endif">
+                                        </div>
                                     </div>
-                                </div>
+                                    
+                                    <div class="col-md-3" id="duedateBox">
+                                        <div class="form-group">
+                                            <label class="control-label required">@lang('app.dueDate')</label>
+                                            <input type="text" name="due_date" id="due_date2" class="form-control" autocomplete="off" value="@if($task->due_date != '') {{ $task->due_date->format($global->date_format) }} @endif">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group" style="padding-top: 25px;">
+                                            <div class="checkbox checkbox-info">
+                                                    <input id="without_duedate" @if($task->due_date == null) checked @endif  name="without_duedate" value="true"
+                                                    type="checkbox">
+                                                <label for="without_deadline">@lang('modules.tasks.withoutDuedate')</label>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div> 
                         <div class="row">   
@@ -344,101 +374,101 @@
                                     </select>
                                 </div>
                             </div>
-                            <!--/span-->
-                            <!--/span-->
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label class="control-label">@lang('modules.tasks.priority')</label>
+                        </div>
+                        <!--/span-->
+                        <!--/span-->
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">@lang('modules.tasks.priority')</label>
 
-                                    <div class="radio radio-danger">
-                                        <input type="radio" name="priority" id="radio13" @if($task->priority == 'high') checked
-                                        @endif value="high">
-                                        <label for="radio13" class="text-danger">
-                                                @lang('modules.tasks.high') </label>
-                                    </div>
-                                    <div class="radio radio-warning">
-                                        <input type="radio" name="priority" @if($task->priority == 'medium') checked @endif
-                                        id="radio14" value="medium">
-                                        <label for="radio14" class="text-warning">
-                                                @lang('modules.tasks.medium') </label>
-                                    </div>
-                                    <div class="radio radio-success">
-                                        <input type="radio" name="priority" id="radio15" @if($task->priority == 'low') checked
-                                        @endif value="low">
-                                        <label for="radio15" class="text-success">
-                                                @lang('modules.tasks.low') </label>
-                                    </div>
+                                <div class="radio radio-danger">
+                                    <input type="radio" name="priority" id="radio13" @if($task->priority == 'high') checked
+                                    @endif value="high">
+                                    <label for="radio13" class="text-danger">
+                                            @lang('modules.tasks.high') </label>
+                                </div>
+                                <div class="radio radio-warning">
+                                    <input type="radio" name="priority" @if($task->priority == 'medium') checked @endif
+                                    id="radio14" value="medium">
+                                    <label for="radio14" class="text-warning">
+                                            @lang('modules.tasks.medium') </label>
+                                </div>
+                                <div class="radio radio-success">
+                                    <input type="radio" name="priority" id="radio15" @if($task->priority == 'low') checked
+                                    @endif value="low">
+                                    <label for="radio15" class="text-success">
+                                            @lang('modules.tasks.low') </label>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row m-b-20">
-                                <div class="col-xs-12">
-                                    @if($upload)
-                                        <button type="button" class="btn btn-block btn-outline-info btn-sm col-md-2 select-image-button" style="margin-bottom: 10px;display: none "><i class="fa fa-upload"></i> File Select Or Upload</button>
-                                        <div id="file-upload-box" >
-                                            <div class="row" id="file-dropzone">
-                                                <div class="col-xs-12">
-                                                    <div class="dropzone"
-                                                         id="file-upload-dropzone">
-                                                        {{ csrf_field() }}
-                                                        <div class="fallback">
-                                                            <input name="file" type="file" multiple/>
-                                                        </div>
-                                                        <input name="image_url" id="image_url"type="hidden" />
+                        <div class="row m-b-20">
+                            <div class="col-xs-12">
+                                @if($upload)
+                                    <button type="button" class="btn btn-block btn-outline-info btn-sm col-md-2 select-image-button" style="margin-bottom: 10px;display: none "><i class="fa fa-upload"></i> File Select Or Upload</button>
+                                    <div id="file-upload-box" >
+                                        <div class="row" id="file-dropzone">
+                                            <div class="col-xs-12">
+                                                <div class="dropzone"
+                                                     id="file-upload-dropzone">
+                                                    {{ csrf_field() }}
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" multiple/>
                                                     </div>
+                                                    <input name="image_url" id="image_url"type="hidden" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="taskID" id="taskID">
-                                    @else
-                                        <div class="alert alert-danger">@lang('messages.storageLimitExceed', ['here' => '<a href='.route('admin.billing.packages'). '>Here</a>'])</div>
-                                    @endif
-                                </div>
+                                    </div>
+                                    <input type="hidden" name="taskID" id="taskID">
+                                @else
+                                    <div class="alert alert-danger">@lang('messages.storageLimitExceed', ['here' => '<a href='.route('admin.billing.packages'). '>Here</a>'])</div>
+                                @endif
                             </div>
-                            <div class="row" id="list">
-                                <ul class="list-group" id="files-list">
-                                    @forelse($task->files as $file)
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-md-9">
-                                                    {{ $file->filename }}
-                                                </div>
-                                                <div class="col-md-3">
-                                                        <a target="_blank" href="{{ $file->file_url }}"
-                                                           data-toggle="tooltip" data-original-title="View"
-                                                           class="btn btn-info btn-circle"><i
-                                                                    class="fa fa-search"></i></a>
+                        </div>
+                        <div class="row" id="list">
+                            <ul class="list-group" id="files-list">
+                                @forelse($task->files as $file)
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                {{ $file->filename }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                    <a target="_blank" href="{{ $file->file_url }}"
+                                                       data-toggle="tooltip" data-original-title="View"
+                                                       class="btn btn-info btn-circle"><i
+                                                                class="fa fa-search"></i></a>
 
-                                                    @if(is_null($file->external_link))
-                                                        &nbsp;&nbsp;
-                                                        <a href="{{ route('admin.task-files.download', $file->id) }}"
-                                                           data-toggle="tooltip" data-original-title="Download"
-                                                           class="btn btn-inverse btn-circle"><i
-                                                                    class="fa fa-download"></i></a>
-                                                    @endif
+                                                @if(is_null($file->external_link))
                                                     &nbsp;&nbsp;
-                                                    <a href="javascript:;" data-toggle="tooltip"
-                                                       data-original-title="Delete"
-                                                       data-file-id="{{ $file->id }}"
-                                                       class="btn btn-danger btn-circle sa-params" data-pk="list"><i
-                                                                class="fa fa-times"></i></a>
+                                                    <a href="{{ route('admin.task-files.download', $file->id) }}"
+                                                       data-toggle="tooltip" data-original-title="Download"
+                                                       class="btn btn-inverse btn-circle"><i
+                                                                class="fa fa-download"></i></a>
+                                                @endif
+                                                &nbsp;&nbsp;
+                                                <a href="javascript:;" data-toggle="tooltip"
+                                                   data-original-title="Delete"
+                                                   data-file-id="{{ $file->id }}"
+                                                   class="btn btn-danger btn-circle sa-params" data-pk="list"><i
+                                                            class="fa fa-times"></i></a>
 
-                                                    <span class="m-l-10">{{ $file->created_at->diffForHumans() }}</span>
-                                                </div>
+                                                <span class="m-l-10">{{ $file->created_at->diffForHumans() }}</span>
                                             </div>
-                                        </li>
-                                    @empty
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    @lang('messages.noFileUploaded')
-                                                </div>
+                                        </div>
+                                    </li>
+                                @empty
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                @lang('messages.noFileUploaded')
                                             </div>
-                                        </li>
-                                    @endforelse
+                                        </div>
+                                    </li>
+                                @endforelse
 
-                                </ul>
-                            </div>
+                            </ul>
                         </div>
                         <!--/row-->
 
@@ -796,6 +826,12 @@
     $('#createTaskLabel').click(function(){
         var url = '{{ route('admin.task-label.create-label')}}';
         $('#modelHeading').html("");
+        $.ajaxModal('#taskLabelModal', url);
+    })
+
+    $('#createTaskTitle').click(function(){
+        var url = '{{ route('admin.task-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
         $.ajaxModal('#taskLabelModal', url);
     })
 

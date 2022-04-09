@@ -71,12 +71,12 @@ class ManagePaymentsController extends AdminBaseController
         $this->invoiceSetting = InvoiceSetting::first();
         $this->taxes = Tax::all();
         $this->zero = '';
-        // dd($request->invoiceId);
-        if ($request->invoiceId) {
-            $this->invoice = Payment::findOrFail($request->invoiceId);
+        if ($request->invoice) {
+            $this->invoice = Payment::findOrFail($request->invoice);
         }else{
             $this->invoice = new Payment();
         }
+        // dd($this->invoice);
         if (strlen($this->lastInvoice) < $this->invoiceSetting->invoice_digit){
             for ($i = 0; $i < $this->invoiceSetting->invoice_digit - strlen($this->lastInvoice); $i++){
                 $this->zero = '0'.$this->zero;
@@ -91,9 +91,8 @@ class ManagePaymentsController extends AdminBaseController
             'amount' =>  'required',
             'gateway' =>  'required'
         ]);
-        // dd($request->all());
-        if ($request->invoice_id != "none") {
-            $invoice = Payment::find($request->invoice_id);
+        if ($request->payment_id) {
+            $invoice = Payment::find($request->payment_id);
         }else{
             $invoice = new Payment();
         }
@@ -105,6 +104,7 @@ class ManagePaymentsController extends AdminBaseController
         $invoice->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
         $invoice->gateway = $request->gateway;
         $invoice->amount = $request->amount;
+        // dd($invoice);
         $invoice->save();
         return Reply::success(__('messages.paymentSuccess'));
     }
@@ -115,15 +115,46 @@ class ManagePaymentsController extends AdminBaseController
         $this->currencies = Currency::all();
         $this->types = PaymentMode::all();
         $this->lastInvoice = Invoice::count() + 1;
+        $this->invoices = Invoice::where('supplier_detail_id', $request->id)->get();
         $this->invoiceSetting = InvoiceSetting::first();
         $this->taxes = Tax::all();
         $this->zero = '';
+        if ($request->invoiceID) {
+            $this->invoice = Payment::findOrFail($request->invoiceID);
+        }else{
+            $this->invoice = new Payment();
+        }
+        // dd($request->invoiceID);
         if (strlen($this->lastInvoice) < $this->invoiceSetting->invoice_digit){
             for ($i = 0; $i < $this->invoiceSetting->invoice_digit - strlen($this->lastInvoice); $i++){
                 $this->zero = '0'.$this->zero;
             }
         }
         return view('admin.suppliers.create_payment', $this->data);
+    }
+
+    public function storePaymentSupplier(Request $request)
+    {
+        $request->validate([
+            'amount' =>  'required',
+            'gateway' =>  'required'
+        ]);
+        if ($request->payment_id) {
+            $invoice = Payment::find($request->payment_id);
+        }else{
+            $invoice = new Payment();
+        }
+        $invoice->company_id = company()->id;
+        $invoice->customer_id = $request->client_id;
+        $invoice->project_id = $request->project_id != "none" ?  $request->project_id : null;
+        $invoice->invoice_id = $request->invoice_id != "none" ?  $request->invoice_id : null;
+        $invoice->issue_date = Carbon::createFromFormat($this->global->date_format, $request->issue_date)->format('Y-m-d');
+        $invoice->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
+        $invoice->gateway = $request->gateway;
+        $invoice->amount = $request->amount;
+        // dd($invoice);
+        $invoice->save();
+        return Reply::success(__('messages.paymentSuccess'));
     }
 
     public function store(StorePayment $request)
@@ -334,6 +365,21 @@ class ManagePaymentsController extends AdminBaseController
         }
 
         return Reply::dataOnly(['invoices' => $option]);
+    }
+
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyIn($id)
+    {
+        $invoice = Payment::findOrFail($id);
+        Payment::destroy($id);
+        return Reply::success(__('messages.invoiceDeleted'));
     }
 
 }

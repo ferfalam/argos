@@ -107,7 +107,7 @@ class SupplierNotesController extends AdminBaseController
 
         //  $this->client = User::findClient($id);
         $this->supplierDetail = SupplierDetails::where('id',$id)->first();
-        // $this->clientStats = $this->clientStats($id);
+        $this->clientStats = $this->clientStats($id);
         return view('admin.suppliers-notes.show', $this->data);
     }
 
@@ -185,13 +185,17 @@ class SupplierNotesController extends AdminBaseController
     public function clientStats($id)
     {
         return DB::table('users')
-            ->select(
-                DB::raw('(select count(projects.id) from `projects` WHERE projects.client_id = '.$id.') as totalProjects'),
-                DB::raw('(select count(invoices.id) from `invoices` left join projects on projects.id=invoices.project_id WHERE invoices.status != "paid" and invoices.status != "canceled" and (projects.client_id = '.$id.' or invoices.client_id = '.$id.')) as totalUnpaidInvoices'),
-                DB::raw('(select sum(payments.amount) from `payments` left join projects on projects.id=payments.project_id WHERE payments.status = "complete" and projects.client_id = '.$id.') as projectPayments'),
-                DB::raw('(select sum(payments.amount) from `payments` inner join invoices on invoices.id=payments.invoice_id  WHERE payments.status = "complete" and invoices.client_id = '.$id.') as invoicePayments'),
-                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_id = '.$id.') as totalContracts')
-            )
-            ->first();
+        ->select(
+            DB::raw('(select count(projects.id) from `projects` WHERE projects.client_id = ' . $id . ' and projects.company_id = ' . company()->id . ') as totalProjects'),
+            DB::raw('(select sum(invoices.total) from `invoices` WHERE invoices.status != "paid" and invoices.status != "canceled" and invoices.supplier_detail_id = ' . $id . ' and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
+            DB::raw('(select sum(payments.amount) from `payments` WHERE payments.customer_id = ' . $id. ' and payments.company_id = ' . company()->id . ') as projectPayments'),
+
+
+            // DB::raw('(select sum(payments.amount) from `payments` inner join invoices on invoices.id=payments.invoice_id  WHERE payments.status = "complete" and invoices.client_id = ' . $id . ' and payments.company_id = ' . company()->id . ') as invoicePayments'),
+
+
+            DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
+        )
+        ->first();
     }
 }

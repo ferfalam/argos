@@ -35,13 +35,13 @@
           <tr>
             <td><p>@lang('modules.dashboard.totalInvoices') :</p></td>
             <td><span>
-              {{ $clientStats->projectPayments  }}
+              {{ $clientStats->totalUnpaidInvoices ?? 0}}
             </span></td>
           </tr>
           <tr>
             <td><p>@lang('modules.dashboard.totalPaidAmount') :</p></td>
             <td><span>
-              {{ $clientStats->totalUnpaidInvoices}}
+              {{ $clientStats->projectPayments ?? 0}}
             </span></td>
           </tr>
         </table>
