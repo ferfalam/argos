@@ -20,8 +20,14 @@ class ManageProjectPaymentsController extends AdminBaseController
 
     public function show($id)
     {
-        $this->project = Project::with('payments', 'payments.currency')->findorFail($id);
+        $this->project = Project::with('supplierpayments')->findorFail($id);
         return view('admin.projects.payments.show', $this->data);
+    }
+
+    public function showreglement($id)
+    {
+        $this->project = Project::with('clientpayments')->findorFail($id);
+        return view('admin.projects.reglement.show', $this->data);
     }
 
 }

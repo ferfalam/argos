@@ -15,6 +15,7 @@ use App\SubTask;
 use App\Task;
 use App\TaskboardColumn;
 use App\TaskCategory;
+use App\TaskTitle;
 use App\TaskUser;
 use App\Traits\ProjectProgress;
 use App\User;
@@ -113,6 +114,7 @@ class ManageTasksController extends AdminBaseController
     {
         $this->project = Project::findOrFail($id);
         $this->milestones = ProjectMilestone::all();
+        $this->titles = TaskTitle::all();
         $this->categories = TaskCategory::all();
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
@@ -145,6 +147,7 @@ class ManageTasksController extends AdminBaseController
         $this->task = Task::findOrFail($id);
         $this->taskBoardColumns = TaskboardColumn::all();
         $this->categories = TaskCategory::all();
+        $this->titles = TaskTitle::all();
         $this->milestones = ProjectMilestone::all();
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {

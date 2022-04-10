@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <div class="form-group">
                                             <label class="control-label">@lang('app.label')
                                                 <a href="javascript:;"
@@ -171,21 +171,21 @@
                                                     <i class="fa fa-plus"></i> @lang('app.add') @lang('app.menu.taskLabel')
                                                 </a>
                                             </label>
-                                            <select id="multiselect" name="task_labels[]"  multiple="multiple" class="selectpicker form-control newclass">
+                                            <select id="" name="task_labels[]"  multiple="multiple" class="selectpicker form-control newclass">
                                                 @foreach($taskLabels as $label)
-                                                    <option id data-content="<label class='badge b-all' style='background:{{ $label->label_color }};'>{{ $label->label_name }}</label> " value="{{ $label->id }}">{{ $label->label_name }}</option>
+                                                    <option id data-content="<label class='badge-cus b-all' style='background:{{ $label->label_color }};'>{{ $label->label_name }}</label> " value="{{ $label->id }}">{{ $label->label_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">@lang('modules.projects.milestones')
-                                                <a href="javascript:;"
+                                                {{-- <a href="javascript:;"
                                                    id="createTaskLabel"
                                                    class="btn btn-xs btn-outline btn-success">
                                                     <i class="fa fa-plus"></i> @lang('app.add') @lang('modules.projects.milestones')
-                                                    <a href="javascript:;"
+                                                    <a href="javascript:;" --}}
                                                 </a>
                                             </label>
                                             <select id="" name="milestone_id"  class="select2 form-control newclass">
@@ -197,7 +197,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row m-t-20">
                                     <!--/span-->
                                     <div class="col-md-4">
                                         <div class="form-group">

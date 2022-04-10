@@ -33,7 +33,7 @@ class Invoice extends BaseModel
 
     public function client()
     {
-        return $this->belongsTo(User::class, 'client_id')->withoutGlobalScopes([CompanyScope::class, 'active']);
+        return $this->belongsTo(User::class, 'client_detail_id')->withoutGlobalScopes([CompanyScope::class, 'active']);
     }
 
     public function estimate()
@@ -53,7 +53,12 @@ class Invoice extends BaseModel
 
     public function clientdetails()
     {
-        return $this->belongsTo(ClientDetails::class, 'client_id', 'user_id');
+        return $this->belongsTo(ClientDetails::class, 'client_detail_id');
+    }
+
+    public function supplierdetails()
+    {
+        return $this->belongsTo(SupplierDetails::class, 'supplier_detail_id');
     }
 
     public function credit_notes()

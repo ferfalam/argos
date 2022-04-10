@@ -63,7 +63,16 @@
                                     class="btn btn-xs btn-outline btn-success">
                                         <i class="fa fa-plus"></i> 
                                     </a>
-                                    <input type="text" id="heading" name="title" class="form-control" value="{{ $task->heading }}">
+                                    
+                                    <select class="select2 form-control" name="title"
+                                        id="heading"
+                                        data-style="form-control">
+                                        @foreach($titles as $category)
+                                                <option value="{{ $category->name }}" @if ($category->name == $task->heading)
+                                                    selected
+                                                @endif>{{ ucwords($category->name) }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             @if(in_array('projects', $modules))
@@ -127,7 +136,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <div class="form-group">
 
                                     <div class="checkbox checkbox-info">
@@ -139,7 +148,7 @@
                                         <label for="billable-task">@lang('modules.tasks.billable') <a class="mytooltip font-12" href="javascript:void(0)"> <i class="fa fa-info-circle"></i><span class="tooltip-content5"><span class="tooltip-text3"><span class="tooltip-inner2">@lang('modules.tasks.billableInfo')</span></span></span></a></label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -192,7 +201,7 @@
                             </div>
                             <!--/span-->
                             <div class="row" style="display: flex">
-                                <div class="col-xs-4">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label class="control-label">@lang('app.label')
                                             <a href="javascript:;"
@@ -203,21 +212,21 @@
                                         </label>
                                             <select id="multiselect" name="task_labels[]"  multiple="multiple" class="selectpicker form-control">
                                             @foreach($taskLabels as $label)
-                                                <option data-content="<label class='badge b-all' style='background:{{ $label->label_color }};'>{{ $label->label_name }}</label> " value="{{ $label->id }}">{{ $label->label_name }}</option>
+                                                <option data-content="<label class='badge-cus b-all' style='background:{{ $label->label_color }};'>{{ $label->label_name }}</label> " value="{{ $label->id }}">{{ $label->label_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-md-8">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">@lang('modules.projects.milestones')
-                                            <a href="javascript:;"
+                                            {{-- <a href="javascript:;"
                                             id="createTaskLabel"
                                             class="btn btn-xs btn-outline btn-success">
                                             <i class="fa fa-plus"></i> @lang('app.add') @lang('modules.projects.milestones')
                                             <a href="javascript:;"
-                                        </a>
+                                        </a> --}}
                                     </label>
                                         <select id="" name="milestone_id"  class="select2 form-control newclass">
                                             <option value="">---</option>
@@ -286,7 +295,7 @@
                                 </div>
                             @endif
 
-                            <div class="row" style="display: flex">
+                            <div class="row m-t-20" style="display: flex">
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -430,7 +439,7 @@
                             <ul class="list-group" id="files-list">
                                 @forelse($task->files as $file)
                                     <li class="list-group-item">
-                                        <div class="row">
+                                        <div class="row" style="display: flex">
                                             <div class="col-md-9">
                                                 {{ $file->filename }}
                                             </div>
@@ -460,7 +469,7 @@
                                     </li>
                                 @empty
                                     <li class="list-group-item">
-                                        <div class="row">
+                                        <div class="row" style="display: flex">
                                             <div class="col-md-10">
                                                 @lang('messages.noFileUploaded')
                                             </div>

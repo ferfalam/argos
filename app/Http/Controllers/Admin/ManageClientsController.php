@@ -616,8 +616,7 @@ class ManageClientsController extends AdminBaseController
         $this->invoices = Invoice::selectRaw('invoices.invoice_number, invoices.tva, invoices.total, invoices.sub_total, invoices.sell_type, invoices.status, invoices.issue_date, invoices.id, projects.project_name ')
             ->leftJoin('projects', 'projects.id', '=', 'invoices.project_id')
             ->where(function ($query) use ($id) {
-                $query->where('projects.client_id', $id)
-                    ->orWhere('invoices.client_detail_id', $id);
+                $query->where('invoices.client_detail_id', $id);
             })
             ->get();
 

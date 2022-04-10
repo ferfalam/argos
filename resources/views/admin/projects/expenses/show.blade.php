@@ -43,46 +43,45 @@
         <div class="col-xs-12">
             <section id="section-line-3" class="show m-t-20">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover toggle-circle default footable-loaded footable">
+                    <table class="table">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>@lang('modules.expenses.itemName')</th>
-                                <th>@lang('app.price')</th>
-                                <th>@lang('modules.expenses.purchaseFrom')</th>
-                                <th>@lang('app.menu.employees')</th>
-                                <th>@lang('modules.expenses.purchaseDate')</th>
-                                <th>@lang('app.status')</th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>@lang('app.menu.suppliers')</th>
+                            <th>N° @lang('app.menu.invoices')</th>
+                            <th>@lang('app.date')</th>
+                            <th>@lang('modules.invoices.amount') HT</th>
+                            <th>@lang('modules.invoices.amount') TVA</th>
+                            <th>@lang('modules.invoices.amount') TTC</th>
+                            <th>@lang('app.status')</th>
+                            {{-- <th>@lang('app.action')</th> --}}
+                        </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($project->expenses as $key=>$item)
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ ucfirst($item->item_name) }}</td>
-                                    <td>{{ $item->currency->currency_symbol.$item->price }}</td>
-                                    <td>{{ $item->purchase_from }}</td>
-                                    <td>{{ ucwords($item->user->name) }}</td>
-                                    <td>{{ $item->purchase_date->format($global->date_format) }}</td>
-                                    <td>
-                                        @if ($item->status == 'pending')
-                                            <label class="label label-warning">{{ strtoupper($item->status) }}</label>
-                                        @elseif ($item->status == 'approved')
-                                            <label class="label label-success">{{ strtoupper($item->status) }}</label>
-                                        @else
-                                            <label class="label label-danger">{{ strtoupper($item->status) }}</label>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7">@lang('messages.noRecordFound')</td>
-                                </tr>
-                            @endforelse
+                        @forelse($project->supplierInvoices as $key=>$invoice)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $invoice->supplierdetails->company_name}}</td>
+                                <td>{{ $invoice->invoice_number}}</td>
+                                <td>{{ \Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format)}}</td>
+                                <td>{{ $invoice->sub_total}}</td>
+                                <td>{{ $invoice->tva}}</td>
+                                <td>{{ $invoice->total}}</td>
+                                <td>{{ __('modules.invoices.'.$invoice->status)}}</td>
+                                {{-- <td>
+                                    <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
+                                    <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-circle delete-invoice"><i class="fa fa-times"></i></a>
+                                </td> --}}
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="9">@lang('messages.noInvoiceFound')</td>
+                            </tr>
+                        @endforelse
                         </tbody>
+                        <tbody id="timer-list">
                     </table>
                 </div>
-            </section>
+</section>
         </div>
     </div>
 

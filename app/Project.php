@@ -75,9 +75,14 @@ class Project extends BaseModel
         return $this->hasMany(ProjectFile::class, 'project_id')->orderBy('id', 'desc');
     }
 
-    public function invoices()
+    public function clientInvoices()
     {
-        return $this->hasMany(Invoice::class, 'project_id')->orderBy('id', 'desc');
+        return $this->hasMany(Invoice::class, 'project_id')->whereNotNull('client_detail_id')->orderBy('id', 'desc');
+    }
+
+    public function supplierInvoices()
+    {
+        return $this->hasMany(Invoice::class, 'project_id')->whereNotNull('supplier_detail_id')->orderBy('id', 'desc');
     }
 
     public function issues()
@@ -105,9 +110,14 @@ class Project extends BaseModel
         return $this->hasMany(Expense::class, 'project_id')->orderBy('id', 'desc');
     }
 
-    public function payments()
+    public function supplierpayments()
     {
-        return $this->hasMany(Payment::class, 'project_id')->orderBy('id', 'desc');
+        return $this->hasMany(Payment::class, 'project_id')->where('customer_type', 'supplier')->orderBy('id', 'desc');
+    }
+
+    public function clientpayments()
+    {
+        return $this->hasMany(Payment::class, 'project_id')->where('customer_type', 'client')->orderBy('id', 'desc');
     }
 
     /**

@@ -73,19 +73,23 @@
                                                             class="btn btn-xs btn-outline btn-success">
                                                                 <i class="fa fa-plus"></i> 
                                                             </a>
-                                                            <input type="text" id="heading" name="title"
-                                                                    class="form-control">
+                                                            <select id="" name="title"  class="select2 form-control newclass">
+                                                                <option value="">---</option>
+                                                                @foreach($titles as $title)
+                                                                    <option value="{{ $title->name }}">{{ $title->name }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">@lang('modules.projects.milestones')
-                                                                <a href="javascript:;"
+                                                                {{-- <a href="javascript:;"
                                                                    id="createTaskLabel"
                                                                    class="btn btn-xs btn-outline btn-success">
                                                                     <i class="fa fa-plus"></i> @lang('app.add') @lang('modules.projects.milestones')
                                                                     <a href="javascript:;"
-                                                                </a>
+                                                                </a> --}}
                                                             </label>
                                                             <select id="" name="milestone_id"  class="select2 form-control newclass">
                                                                 <option value="">---</option>

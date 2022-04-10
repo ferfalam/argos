@@ -24,4 +24,10 @@ class ClientProjectPaymentsController extends ClientBaseController
         return view('client.project-payments.show', $this->data);
     }
 
+    public function showReglement($id)
+    {
+        $this->project = Project::with('payments', 'payments.currency')->findorFail($id);
+        return view('client.project-reglments.show', $this->data);
+    }
+
 }

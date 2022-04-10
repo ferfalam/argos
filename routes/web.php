@@ -698,6 +698,7 @@ Route::group(['middleware' => 'auth'], function () {
 
                         Route::resource('project-expenses', 'ManageProjectExpensesController');
                         Route::resource('project-payments', 'ManageProjectPaymentsController');
+                        Route::get('project-reglement/{id}', 'ManageProjectPaymentsController@showReglement')->name('project-payments.showreglement');
 
                         Route::resource('project-notes', 'AdminProjectNotesController');
                         Route::get('project-notes/data/{id}', ['uses' => 'AdminProjectNotesController@data'])->name('project-notes.data');

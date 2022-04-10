@@ -31,6 +31,16 @@ class Payment extends BaseModel
         return $this->belongsTo(Project::class, 'project_id');
     }
 
+    public function client()
+    {
+        return $this->belongsTo(ClientDetails::class, 'customer_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(SupplierDetails::class, 'customer_id');
+    }
+
     public function currency()
     {
         return $this->belongsTo(Currency::class, 'currency_id')->withoutGlobalScopes(['enable']);

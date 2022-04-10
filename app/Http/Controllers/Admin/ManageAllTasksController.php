@@ -80,6 +80,7 @@ class ManageAllTasksController extends AdminBaseController
         $this->labelIds         = $this->task->label->pluck('label_id')->toArray();
         $this->projects        = Project::all();
         $this->employees        = User::allEmployees();
+        $this->titles        = TaskTitle::all();
         $this->categories       = TaskCategory::all();
         $this->taskLabels       = TaskLabelList::all();
         $this->taskBoardColumns = TaskboardColumn::all();

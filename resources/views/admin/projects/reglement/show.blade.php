@@ -58,11 +58,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($project->supplierpayments as $payment)
+                                    @forelse($project->clientpayments as $payment)
                                     <tr >
                                         <td>
-                                            @if (!is_null($payment->supplier))
-                                                {{ ucfirst($payment->supplier->company_name) }}
+                                            @if (!is_null($payment->client))
+                                                {{ ucfirst($payment->client->company_name) }}
                                             @else
                                                 --
                                             @endif

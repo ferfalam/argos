@@ -61,10 +61,10 @@
                     @lang('app.menu.invoices')
                 </x-slot>
 
-                <x-slot name="btns">
+                {{-- <x-slot name="btns">
                     <a href="javascript:;" id="show-invoice-modal"
                        class="btn btn-success"><i class="ti-plus"></i> @lang('modules.invoices.addInvoice')</a>
-                </x-slot>
+                </x-slot> --}}
             </x-main-header>
         </div>
     </div>
@@ -79,8 +79,47 @@
                             <div class="row">
                                 <div class="col-xs-12" id="invoices-list-panel">
                                     <div class="white-box panel panel-default">
-
-                                        <ul class="list-group" id="invoices-list">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>@lang('app.menu.client')</th>
+                                                    <th>N° @lang('app.menu.invoices')</th>
+                                                    <th>@lang('app.date')</th>
+                                                    <th>@lang('modules.invoices.amount') HT</th>
+                                                    <th>@lang('modules.invoices.amount') TVA</th>
+                                                    <th>@lang('modules.invoices.amount') TTC</th>
+                                                    <th>@lang('app.status')</th>
+                                                    {{-- <th>@lang('app.action')</th> --}}
+                                                </tr>
+                                                </thead>
+                                                @forelse($project->clientInvoices as $key=>$invoice)
+                                                    <tr>
+                                                        <td>{{ $key+1 }}</td>
+                                                        <td>{{ $invoice->clientdetails->company_name}}</td>
+                                                        <td>{{ $invoice->invoice_number}}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format)}}</td>
+                                                        <td>{{ $invoice->sub_total}}</td>
+                                                        <td>{{ $invoice->tva}}</td>
+                                                        <td>{{ $invoice->total}}</td>
+                                                        <td>{{ __('modules.invoices.'.$invoice->status)}}</td>
+                                                        {{-- <td>
+                                                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>
+                                                            <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-circle delete-invoice"><i class="fa fa-times"></i></a>
+                                                        </td> --}}
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="9">@lang('messages.noInvoiceFound')</td>
+                                                    </tr>
+                                                @endforelse
+                                                </tbody>
+                                                <tbody id="timer-list">
+                                            </table>
+                                        </div>
+                                
+                                        {{-- <ul class="list-group" id="invoices-list">
                                             @forelse($project->invoices as $invoice)
                                                 <li class="list-group-item">
                                                     <div class="row">
@@ -88,7 +127,7 @@
                                                             {{ $invoice->invoice_number }}
                                                         </div>
                                                         <div class="col-sm-2">
-                                                            {{ currency_formatter($invoice->total, $invoice->currency->currency_symbol) }}
+                                                            {{ currency_formatter($invoice->total, $invoice->currency->currency_symbol ?? '€') }}
                                                         </div>
                                                         <div class="col-sm-2 col-xs-12">
                                                             @if ($invoice->credit_note)
@@ -130,7 +169,7 @@
                                                     </div>
                                                 </li>
                                             @endforelse
-                                        </ul>
+                                        </ul> --}}
                                     </div>
                                 </div>
 

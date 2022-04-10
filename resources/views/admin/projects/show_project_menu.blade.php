@@ -41,6 +41,8 @@
 
         <a class="tab-btn projectInvoices {{request()->routeIs('admin.invoices.show', $project->id) ? 'active' : ""}} " href="{{ route('admin.invoices.show', $project->id) }}">@lang('app.menu.invoices')</a>
         
+        <a class="tab-btn projectInvoices {{request()->routeIs('admin.project-payments.showreglement', $project->id) ? 'active' : ""}} " href="{{ route('admin.project-payments.showreglement', $project->id) }}">@lang('app.menu.reglement')</a>
+        
         <a class="tab-btn projectTimeLogs {{request()->routeIs('admin.time-logs.show', $project->id) ? 'active' : ""}} " href="{{ route('admin.time-logs.show', $project->id) }}">@lang('app.menu.timeLogs')</a>
         
         @if(in_array('invoices',$modules))
