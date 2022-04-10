@@ -44,7 +44,7 @@
                 @forelse($invoices as $key=>$invoice)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>{{ $invoice->project->project_name}}</td>
+                        <td>{{ $invoice->project ? $invoice->project->project_name : '---'}}</td>
                         <td>{{ $invoice->invoice_number}}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format)}}</td>
                         <td>{{ $invoice->sub_total}}</td>
