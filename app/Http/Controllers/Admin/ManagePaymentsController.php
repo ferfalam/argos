@@ -99,6 +99,7 @@ class ManagePaymentsController extends AdminBaseController
         }
         $invoice->company_id = company()->id;
         $invoice->customer_id = $request->client_id;
+        $invoice->customer_type = 'client';
         $invoice->project_id = $request->project_id != "none" ?  $request->project_id : null;
         $invoice->invoice_id = $request->invoice_id != "none" ?  $request->invoice_id : null;
         $invoice->issue_date = Carbon::createFromFormat($this->global->date_format, $request->issue_date)->format('Y-m-d');
@@ -147,6 +148,7 @@ class ManagePaymentsController extends AdminBaseController
             $invoice = new Payment();
         }
         $invoice->company_id = company()->id;
+        $invoice->customer_type = 'supplier';
         $invoice->customer_id = $request->client_id;
         $invoice->project_id = $request->project_id != "none" ?  $request->project_id : null;
         $invoice->invoice_id = $request->invoice_id != "none" ?  $request->invoice_id : null;

@@ -68,7 +68,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if (!is_null($payment->invoice)){{ ucfirst($payment->invoice->invoice_number) }}
+                                            @if (!is_null($payment->invoice))
+                                                {{ ucfirst($payment->invoice->invoice_number) }}
                                                 {{-- <a href="{{ route('admin.all-invoices.show', $payment->invoice_id) }}"></a> --}}
                                             @else
                                                 --
