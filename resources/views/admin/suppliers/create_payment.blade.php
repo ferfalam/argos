@@ -3,6 +3,10 @@
     .row{
         display: flex;
     }
+
+    .d-none{
+        display: none;
+    }
 </style>
 
 <div class="modal-header">
@@ -29,13 +33,11 @@
                         <label class="control-label">Projet</label>
                         <select class="form-control" name="project_id" id="currency_id">
                             <option value="none" >---</option>
-                            @if ($client->projects)
-                                @foreach($client->projects as $project)
-                                    <option value="{{ $project->id }}" @if ($invoice->project_id == $project->id)
-                                        selected
-                                    @endif>{{ $project->project_name  }}</option>
-                                @endforeach
-                            @endif
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}" @if ($invoice->project_id == $project->id)
+                                    selected
+                                @endif>{{ $project->project_name  }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -51,7 +53,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <select class="form-control" name="invoice_id" id="currency_id">
+                                    <select class="form-control" name="invoice_id" id="payment_id">
                                         <option value="none" >---</option>
                                         @foreach($invoices as $in)
                                             <option value="{{ $in->id }}" @if ($invoice->invoice_id == $in->id)
@@ -72,7 +74,13 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control " name="issue_date" id="invoice_date" value="{{$invoice->issue_date ? Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
+                                    @foreach ($invoices as $in)
+                                        @if ($invoice->invoice_id == $in->id)
+                                            <input type="text" class="form-control issue_date" name="issue_date" id="{{'invoice_date-'.$in->id}}" value="{{$in->issue_date ? Carbon\Carbon::parse($in->issue_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
+                                        @else
+                                            <input type="text" class="form-control issue_date d-none" disabled="disabled" name="issue_date" id="{{'invoice_date-'.$in->id}}" value="{{$in->issue_date ? Carbon\Carbon::parse($in->issue_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
+                                        @endif
+                                    @endforeach                                
                                 </div>
                             </div>
                         </div>
@@ -90,7 +98,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control " name="due_date" id="invoice_date" value="{{$invoice->due_date ? Carbon\Carbon::parse($invoice->due_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
+                                    <input type="text" class="form-control due_date" name="due_date" id="" value="{{$invoice->due_date ? Carbon\Carbon::parse($invoice->due_date)->format($global->date_format) : Carbon\Carbon::today()->format($global->date_format) }}">
                                 </div>
                             </div>
                         </div>
@@ -188,7 +196,7 @@
         $.ajaxModal('#taxModal', url);
     })
 
-    jQuery('#invoice_date, #due_date').datepicker({
+    jQuery('.issue_date, .due_date').datepicker({
         autoclose: true,
         todayHighlight: true,
         weekStart:'{{ $global->week_start }}',
@@ -450,5 +458,18 @@
         var url = '{{ route('admin.payment-mode.create')}}';
         $('#modelHeading').html('Add Payment Mode');
         $.ajaxModal('#add-payment-mode',url);
+    })
+
+    $("#payment_id").on('change', function (e) {
+        let val = $(this).val()
+        const issue_date = $('#invoice_date-'+val)
+        $('.issue_date').each(function () {
+            if (!$(this).hasClass('d_none')) {
+                $(this).addClass('d-none')
+            }
+        })
+        $( ".issue_date" ).prop( "disabled", true )
+        issue_date.removeClass('d-none')
+        issue_date.prop( "disabled", false )
     })
 </script>

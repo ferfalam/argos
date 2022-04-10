@@ -713,6 +713,7 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::post('save-consent-purpose-data/{client}', ['uses' => 'ManageClientsController@saveConsentLeadData'])->name('clients.save-consent-purpose-data');
                         Route::get('consent-purpose-data/{client}', ['uses' => 'ManageClientsController@consentPurposeData'])->name('clients.consent-purpose-data');
                         Route::get('gdpr/{id}', ['uses' => 'ManageClientsController@gdpr'])->name('clients.gdpr');
+                        Route::get('contracts/{id}', ['uses' => 'ManageClientsController@showContracts'])->name('clients.contracts');
                         Route::get('projects/{id}', ['uses' => 'ManageClientsController@showProjects'])->name('clients.projects');
                         Route::get('invoices/{id}', ['uses' => 'ManageClientsController@showInvoices'])->name('clients.invoices');
                         Route::get('payments/{id}', ['uses' => 'ManageClientsController@showPayments'])->name('clients.payments');
@@ -1042,7 +1043,7 @@ Route::group(['middleware' => 'auth'], function () {
 
                 //region contracts type routes
                 Route::get('contract-type/data', ['as' => 'contract-type.data', 'uses' => 'AdminContractTypeController@data']);
-                Route::post('contract-type/type-store', ['as' => 'contract-type.store-contract-type', 'uses' => 'AdminContractTypeController@storeContractType']);
+                Route::post('contract-type/type-store/{id?}', ['as' => 'contract-type.store-contract-type', 'uses' => 'AdminContractTypeController@storeContractType']);
                 Route::get('contract-type/type-create', ['as' => 'contract-type.create-contract-type', 'uses' => 'AdminContractTypeController@createContractType']);
                 Route::get('/moncommerce/payment/callback', 'PaystackController@handleMoncommerceGatewayCallback')->name('payments.moncommerce.callback');
                 Route::resource('contract-type', 'AdminContractTypeController')->parameters([
@@ -1130,6 +1131,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('suppliers', 'AdminSuppliersController', ['except' => ['create']]);
             Route::get('suppliers/contacts/{id}','AdminSuppliersController@showContacts')->name('supplier.contacts');
             Route::get('suppliers/projects/{id}','AdminSuppliersController@showProjects')->name('supplier.projects');
+            Route::get('suppliers/contracts/{id}','AdminSuppliersController@showContracts')->name('supplier.contracts');
             Route::get('suppliers/invoices/{id}','AdminSuppliersController@showInvoices')->name('supplier.invoices');
             Route::post('/suppliers/getSubcategory', ['uses' => 'AdminSuppliersController@getSubcategory'])->name('suppliers.getSubcategory');
 

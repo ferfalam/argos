@@ -28,13 +28,11 @@
                         <label class="control-label">Projet</label>
                         <select class="form-control" name="project_id" id="currency_id">
                             <option value="none" >---</option>
-                            @if ($client->projects)
-                                @foreach($client->projects as $project)
-                                    <option value="{{ $project->id }}" @if ($invoice->project && $invoice->project->id == $project->id)
-                                        selected
-                                    @endif >{{ $project->project_name  }}</option>
-                                @endforeach
-                            @endif
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}" @if ($invoice->project && $invoice->project->id == $project->id)
+                                    selected
+                                @endif >{{ $project->project_name  }}</option>
+                            @endforeach
                         </select>
                     </div>
 

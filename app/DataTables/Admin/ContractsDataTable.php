@@ -123,7 +123,8 @@ class ContractsDataTable extends BaseDataTable
             });
         }
         if ($request->clientID != 'all' && !is_null($request->clientID)) {
-            $model = $model->where('contracts.client_id', '=', $request->clientID);
+            $model = $model->where('contracts.client_detail_id', '=', $request->clientID)
+                ->orWhere('contracts.supplier_detail_id', '=', $request->clientID);
         }
 
         if ($request->contractType != 'all' && !is_null($request->contractType)) {

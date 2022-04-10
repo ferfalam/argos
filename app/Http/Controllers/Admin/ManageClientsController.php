@@ -575,6 +575,28 @@ class ManageClientsController extends AdminBaseController
         return view('admin.clients.projects', $this->data);
     }
 
+    public function showContracts($id)
+    {
+        // $this->client = User::findClient($id);
+
+        // if (!$this->client) {
+        //     abort(404);
+        // }
+            
+        $this->clientDetail = ClientDetails::where('id', '=', $id)->with('projects')->first();
+        // dd($this->clientDetail);
+
+        
+        $this->clientStats = $this->clientStats($id);
+
+        if (!is_null($this->clientDetail)) {
+            $this->clientDetail = $this->clientDetail->withCustomFields();
+            $this->fields = $this->clientDetail->getCustomFieldGroupsWithFields()->fields;
+        }
+
+        return view('admin.clients.contracts', $this->data);
+    }
+
     public function showInvoices($id)
     {
         // $this->client = User::findClient($id);
@@ -720,7 +742,7 @@ class ManageClientsController extends AdminBaseController
                 // DB::raw('(select sum(payments.amount) from `payments` inner join invoices on invoices.id=payments.invoice_id  WHERE payments.status = "complete" and invoices.client_id = ' . $id . ' and payments.company_id = ' . company()->id . ') as invoicePayments'),
 
 
-                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
+                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_detail_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
             )
             ->first();
     }

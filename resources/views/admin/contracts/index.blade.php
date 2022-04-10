@@ -78,9 +78,14 @@
                                     <div>
                                         <select class="select2 form-control" data-placeholder="@lang('app.client')" name="client" id="clientID">
                                             <option value="all">@lang('app.all')</option>
-                                            @foreach($clients as $client)
+                                            @foreach($cld as $org)
 
-                                                <option value="{{ $client->id }}">{{ ucwords($client->name) }}</option>
+                                                <option value="{{ $org->id }}">{{ ucwords($org->company_name) }}</option>
+                                            @endforeach
+
+                                            @foreach($spd as $org)
+
+                                                <option value="{{ $org->id }}">{{ ucwords($org->company_name) }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -1501,7 +1501,7 @@ return array(
         'qty' => 'Qté / HR',
         'unitPrice' => 'Prix unitaire',
         'tax' => 'Impôt',
-        'amount' => 'Montante',
+        'amount' => 'Montant',
         'addItem' => 'Ajouter un item',
         'subTotal' => 'Total',
         'discount' => 'Remise',
@@ -1584,6 +1584,7 @@ return array(
         'addComment' => 'Ajouter un commentaire',
         'contractValue' => 'Valeur du contrat',
         'contractNumber' => 'Numéro de contrat',
+        'startDate' => 'Date Entrée',
         'endDate' => 'Date de fin',
         'totalContracts' => 'Total des contrats',
         'expired' => 'Expiré',
@@ -1592,6 +1593,7 @@ return array(
         'manageContractType' => 'Gérer le type de contrat',
         'addContractType' => 'Ajouter un type de contrat',
         'notes' => 'Remarques',
+        'organisme' => 'Organisme',
         'editDiscussion' => 'Modifier la discussion',
         'discussionUpdated' => 'Discussion mise à jour avec succès.',
         'discussionDeleted' => 'Discussion supprimée avec succès.',
@@ -1609,7 +1611,7 @@ return array(
         'alternateAddress' => 'Adresse alternative',
         'companyLogo' => 'Logo d\'entreprise',
         'summary' => 'Résumé',
-        'signature' => 'Signature (client)',
+        'signature' => 'Signature',
     ),
     'burndown' =>
     array(

@@ -84,4 +84,11 @@ class SupplierDetails extends BaseModel
         return $this->hasMany(Project::class, 'supplier_detail_id');
     }
 
+
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class, 'supplier_detail_id');
+    }
+
+
 }

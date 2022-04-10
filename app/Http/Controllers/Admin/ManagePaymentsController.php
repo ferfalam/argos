@@ -66,6 +66,7 @@ class ManagePaymentsController extends AdminBaseController
         $this->client = ClientDetails::findOrFail($request->id) ?? null;
         $this->currencies = Currency::all();
         $this->types = PaymentMode::all();
+        $this->projects = Project::all();
         $this->lastInvoice = Invoice::count() + 1;
         $this->invoices = Invoice::where('client_detail_id', $request->id)->get();
         $this->invoiceSetting = InvoiceSetting::first();
@@ -119,6 +120,7 @@ class ManagePaymentsController extends AdminBaseController
         $this->invoiceSetting = InvoiceSetting::first();
         $this->taxes = Tax::all();
         $this->zero = '';
+        $this->projects = Project::all();
         if ($request->invoiceID) {
             $this->invoice = Payment::findOrFail($request->invoiceID);
         }else{

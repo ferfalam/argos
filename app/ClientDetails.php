@@ -111,7 +111,7 @@ class ClientDetails extends BaseModel
 
     public function contracts()
     {
-        return $this->hasMany(Contract::class, 'client_id', 'user_id');
+        return $this->hasMany(Contract::class, 'client_detail_id');
     }
 
     public function contects(){

@@ -44,10 +44,8 @@ class AdminContractController extends AdminBaseController
 
     public function index(ContractsDataTable $dataTable)
     {
-        $this->clients = ClientDetails::join('users', 'client_details.user_id', '=', 'users.id')
-            ->select('users.id', 'client_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'client_details.company_name', 'users.image')
-            ->where('users.status', 'active')
-            ->get();
+        $this->cld = ClientDetails::all();
+        $this->spd = SupplierDetails::all();
         $this->contractType = ContractType::all();
         $this->contractCounts = Contract::count();
         $this->expiredCounts = Contract::where(DB::raw('DATE(`end_date`)'), '<', Carbon::now()->format('Y-m-d'))->count();

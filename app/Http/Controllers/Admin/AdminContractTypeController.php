@@ -63,9 +63,13 @@ class AdminContractTypeController extends AdminBaseController
         return view('admin.contracts.create-contract-type', $this->data);
     }
 
-    public function storeContractType(StoreRequest $request)
+    public function storeContractType(StoreRequest $request, $id=null)
     {
-        $contractType = new ContractType();
+        if ($id) {
+            $contractType = ContractType::find($id);
+        }else{
+            $contractType = new ContractType();
+        }
         $contractType->name = $request->name;
         $contractType->save();
         $contractTypeData = ContractType::all();

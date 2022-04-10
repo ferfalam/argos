@@ -93,6 +93,7 @@ class ManageInvoicesController extends AdminBaseController
         $this->lastInvoice = Invoice::count() + 1;
         $this->invoiceSetting = InvoiceSetting::first();
         $this->taxes = Tax::all();
+        $this->projects = Project::all();
         $this->zero = '';
         if ($request->invoiceId) {
             $this->invoice = Invoice::findOrFail($request->invoiceId);
@@ -148,6 +149,7 @@ class ManageInvoicesController extends AdminBaseController
         $this->lastInvoice = Invoice::count() + 1;
         $this->invoiceSetting = InvoiceSetting::first();
         $this->taxes = Tax::all();
+        $this->projects = Project::all();
         $this->zero = '';
         if ($request->invoiceId) {
             $this->invoice = Invoice::findOrFail($request->invoiceId);

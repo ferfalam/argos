@@ -45,7 +45,7 @@
                         <td>{{ $key+1 }}</td>
                         <td>{{ $invoice->project_name}}</td>
                         <td>{{ $invoice->invoice_number}}</td>
-                        <td>{{ $invoice->issue_date}}</td>
+                        <td>{{ \Carbon\Carbon::parse($invoice->issue_date)->format($global->date_format)}}</td>
                         <td>{{ $invoice->sub_total}}</td>
                         <td>{{ $invoice->tva}}</td>
                         <td>{{ $invoice->total}}</td>
@@ -122,7 +122,7 @@
         })
         $('.edit-invoice-modal').click(function(event){
             var url = "{{ route('admin.clients.invoices.createInvoice', [$clientDetail->id, ':id'])}}";
-            var id = $(event.target).data().id;
+            var id = $(this).data().id;
             url = url.replace(':id', id);
             $('#modelHeading').html('Add Invoice');
             $.ajaxModal('#add-invoice-modal',url);

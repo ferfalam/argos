@@ -12,6 +12,7 @@
         <a class="tab-btn {{request()->routeIs('admin.suppliers.payments', $supplierDetail->id) ? 'active' : ""}}" href="{{ route('admin.suppliers.payments', $supplierDetail->id) }}"><span>@lang('app.menu.payments')</span></a>
         <a class="tab-btn {{request()->routeIs('admin.suppliersNotes.show', $supplierDetail->id) ? 'active' : ""}}" href="{{ route('admin.suppliersNotes.show', $supplierDetail->id) }}"><span>@lang('app.menu.notes')</span></a>
         <a class="tab-btn {{request()->routeIs('admin.suppliers-docs.show', $supplierDetail->id) ? 'active' : ""}}" href="{{ route('admin.suppliers-docs.show',$supplierDetail->id) }}"><span>@lang('app.menu.documents')</span></a>
+        <a class="tab-btn {{request()->routeIs('admin.supplier.contracts', $supplierDetail->id) ? 'active' : ""}}" href="{{ route('admin.supplier.contracts', $supplierDetail->id) }} "><span>@lang('app.menu.contracts')</span></a>
         @if($gdpr->enable_gdpr)
         <a class="tab-btn {{request()->routeIs('admin.clients.gdpr', $supplierDetail->id) ? 'active' : ""}}" href=""><span>@lang('modules.gdpr.gdpr')</span></a>
         @endif
