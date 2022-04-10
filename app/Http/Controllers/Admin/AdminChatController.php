@@ -135,8 +135,8 @@ class AdminChatController extends AdminBaseController
 
     public function create()
     {
-        $this->members = User::allEmployees($this->user->id);
-        $this->clients = User::allClients();
+        $this->members = User::allUsersByCompany(company()->id);
+        // $this->clients = User::allExterne();
         $this->messageSetting = MessageSetting::first();
         return view('admin.user-chat.create', $this->data);
     }

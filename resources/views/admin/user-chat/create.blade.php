@@ -16,12 +16,12 @@
                             <label for="user_employee">@lang('app.menu.employees')</label>
                         </div>
                     </label>
-                    <label class="radio-inline">
+                    {{-- <label class="radio-inline">
                         <div class="radio radio-info">
                             <input type="radio" name="user_type" id="user_client" value="client">
                             <label for="user_client">@lang('app.menu.clients')</label>
                         </div>
-                    </label>
+                    </label> --}}
                 </div>
             </div>
             @endif
@@ -32,13 +32,15 @@
                         <label>@lang("modules.messages.chooseMember")</label>
                         <select class="select2 form-control" data-placeholder="@lang("modules.messages.chooseMember")" name="user_id" id="user_id">
                             @foreach($members as $member)
-                                <option
-                                        value="{{ $member->id }}">{{ ucwords($member->name) }}</option>
+                                @if ($member->id != user()->id)
+                                    <option
+                                            value="{{ $member->id }}">{{ ucwords($member->name) }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
                 </div>
-                @if($messageSetting->allow_client_admin == 'yes')
+                {{-- @if($messageSetting->allow_client_admin == 'yes')
                 <div class="col-xs-12 " id="client-list" style="display: none">
                     <div class="form-group">
                         <label>@lang("modules.client.clientName")</label>
@@ -50,7 +52,7 @@
                         </select>
                     </div>
                 </div>
-                @endif
+                @endif --}}
             </div>
 
             <div class="row">

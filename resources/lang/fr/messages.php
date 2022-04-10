@@ -1,6 +1,7 @@
 <?php
 
 return array(
+  'deleteChat' => 'Supprimer la conversation',
   'continue' => 'Oui, continuer!',
   'unAuthorisedUser' => 'Vous n\'êtes pas utilisateur autorisé.',
   'cronIsNotRunning' => 'Il ressemble à votre travail cron hasn \'t Exécutez au cours des 48 dernières heures, vous devez vérifier si votre travail Cron Cron est configuré correctement.Ce message disparaîtra automatiquement après que le travail cron commence à nouveau à fonctionner correctement',

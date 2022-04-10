@@ -1,5 +1,18 @@
+<style>
+    .f-left{
+        float: left;
+    }
+    .f-right{
+        float: right;
+    }
+</style>
+
 @forelse($chatDetails as $chatDetail)
-    <div class="chat-message {{$chatDetail->from == $user->id ? 'chat-message-sent' : 'chat-message-received'}}">
+
+<div class="chat-message {{$chatDetail->from == $user->id ? 'chat-message-sent' : 'chat-message-received'}}">
+        <div class="m-b-5 m-r-0">
+            <a href="javascript:;" data-id="{{$chatDetail->id}}" class="text-danger f-right delete-message"><i class="fa fa-times "></i></a>
+        </div>
         <p class="text">
             {{ $chatDetail->message }}
         </p>
@@ -46,3 +59,58 @@
         <div class="message">@lang('messages.noMessage')</div>
     </li>
 @endforelse
+
+
+<script>
+        function deleteMessage(messageId)
+    {
+        var id = messageId;
+        swal({
+            title: "@lang('messages.sweetAlertTitle')",
+            text: "@lang('messages.confirmation.recoverDeletedMessage')",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "@lang('messages.deleteConfirmation')",
+            cancelButtonText: "@lang('messages.confirmNoArchive')",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+
+                var url = "{{ route('admin.user-chat.destroy',':id') }}";
+                url = url.replace(':id', id);
+
+                var token = "{{ csrf_token() }}";
+
+                $.easyAjax({
+                    type: 'POST',
+                    url: url,
+                    data: {'_token': token, '_method': 'DELETE'},
+                    success: function (response) {
+                       // if (response.status == "success") {
+                           // $('.commonMessageItem').each(function(){
+                                var dpID = $('#dpID').val();
+                                var dpName = $('#dpName').val();
+                                scroll = true;
+                                //set chat data
+                                getChatData(dpID, dpName);
+                                //set user list
+                                 $('.userList').html(response.userList);
+                                if (dpID) {
+                                    $('#dp_' + dpID + 'a').addClass('active');
+                                }
+                                window.location.reload()
+                           // })
+                       // }
+                    }
+                });
+            }
+        });
+    }
+
+    $(".delete-message").on('click', function (e) {
+        deleteMessage($(this).data().id)
+    })
+
+</script>
