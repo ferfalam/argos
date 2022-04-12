@@ -303,7 +303,9 @@
                                     </x-slot>
                                 </x-main-header>
 
-
+                                <div class="bg-title" style="display: flex;margin: 0px;padding: 5px;justify-content: flex-end;">
+                                    <div class="text-right"></div>
+                                </div>
                                 <div class="table-responsive table-container m-t-30">
                                     <table class="table table-bordered table-hover toggle-circle default footable-loaded footable"
                                             id="tasks-table">
@@ -508,6 +510,16 @@
                 {data: 'due_date', name: 'due_date'},
                 {data: 'board_column', name: 'taskboard_columns.column_name'},
                 {data: 'action', name: 'action', "searchable": false}
+            ],
+            buttons: [
+                {
+                    extend: 'collection',
+                    text: 'Exportation',
+                    buttons: [
+                        'excel',
+                        'csv',
+                    ]
+                }
             ]
         });
     }

@@ -149,6 +149,10 @@
   </div>
 
 
+  <div class="bg-title" style="display: flex;margin: 0px;padding: 5px;justify-content: flex-end;">
+    <div class="text-right"></div>
+</div>
+
      <div class="table-responsive">
         {!! $dataTable->table(['class' => 'table table-bordered table-hover toggle-circle default footable-loaded footable']) !!}
     </div>
