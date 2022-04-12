@@ -443,8 +443,6 @@
         data['billable'] = billable;
         data['milestone'] = milestone;
         data['task_category'] = task_category;
-
-
     });
 
     table = '';

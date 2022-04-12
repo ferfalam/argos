@@ -498,7 +498,7 @@
                 $("td:first", nRow).html(iDisplayIndex +1);
                 return nRow;
             },
-            "order": [[0, "desc"]],
+            "order": [[1, "asc"]],
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'heading', name: 'heading'},
