@@ -1198,7 +1198,8 @@ return array(
     'suppliers' => array(
         'createTitle' => 'Fiche Fournisseur',
         'supplierCategory' => 'Categories Fournisseurs',
-        'supplierSubCategory' => 'Sous-Categories Fournisseurs'
+        'supplierSubCategory' => 'Sous-Categories Fournisseurs',
+        'balance' => 'Solde à payer'
     ),
     'projectTemplate' =>
     array(
@@ -1626,7 +1627,8 @@ return array(
         'clientCategory' => 'Catégorie client',
         'clientSubCategory' => 'Sous-catégorie client',
         'subcategoryName' => 'Nom de la sous-catégorie',
-        'country' => 'Littoraly'
+        'country' => 'Littoraly',
+        'balance' => 'Solde à recevoir',
     ),
     'discussions' =>
     array(

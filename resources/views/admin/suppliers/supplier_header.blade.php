@@ -39,6 +39,12 @@
               {{ $clientStats->projectPayments  }}
             </span></td>
           </tr>
+          <tr>
+            <td><p>@lang('modules.suppliers.balance') :</p></td>
+            <td><span>
+              {{  $clientStats->totalUnpaidInvoices - $clientStats->projectPayments  }}
+            </span></td>
+          </tr>
         </table>
       </div>
     </div>

@@ -47,14 +47,17 @@ class DataRoomsDataTable extends BaseDataTable
                         $url = route("client.sub-task-files.download", $row->file->id);
                     }
                 }
-                $action = '<a target="_blank" href="'.$row->file->file_url. '" data-doc-id="' . $row->id . '"
-                            data-toggle="tooltip" data-original-title="View"
-                            class="btn btn-info btn-circle view-doc"><i
-                                    class="fa fa-search"></i></a>
-                <a href="'.$url. '"
-                    data-toggle="tooltip" data-original-title="Download" data-doc-id="' . $row->id . '"
-                    class="btn btn-info btn-circle download-doc"><i
-                            class="fa fa-download"></i></a>';
+                $action ='';
+                if (user()->isSupervisor(company()->supervisor_id) || $row->canSee() == "all" || (is_array($row->canSee()) && $row->checkVisibility(user()->id))){
+                    $action .= '<a target="_blank" href="'.$row->file->file_url. '" data-doc-id="' . $row->id . '"
+                                data-toggle="tooltip" data-original-title="View"
+                                class="btn btn-info btn-circle view-doc"><i
+                                        class="fa fa-search"></i></a>
+                    <a href="'.$url. '"
+                        data-toggle="tooltip" data-original-title="Download" data-doc-id="' . $row->id . '"
+                        class="btn btn-info btn-circle download-doc"><i
+                                class="fa fa-download"></i></a>';
+                }
                 if (user()->isSupervisor(company()->supervisor_id)){
                     $action.=' <a href="javascript:;"
                         data-toggle="tooltip" data-original-title="Edit" data-doc-id="'.$row->id.'"
@@ -127,7 +130,8 @@ class DataRoomsDataTable extends BaseDataTable
     {
 
         $request = $this->request();
-
+        
+        // Log::info($request->espace_id);
         $model = $model
             //->with('members', 'members.user', 'client', 'clientdetails', 'currency')
             ->leftJoin('espaces', 'espaces.id', 'data_rooms.espace_id')
@@ -143,13 +147,13 @@ class DataRoomsDataTable extends BaseDataTable
         if (!is_null($request->publish) && $request->publish != 'all') {
             $model->where('publish', $request->publish);
         }
-        // if (!is_null($request->start_date) && !is_null($request->end_date)) {
-        //     $startDate = \Carbon\Carbon::parse($request->start_date)->format("Y-m-d");
-        //     $endDate = \Carbon\Carbon::parse($request->end_date)->format("Y-m-d");
-        //     Log::info(json_encode(array($startDate, $endDate)));
-        //     $model->whereBetween('data_rooms.created_at', [$startDate, $endDate]);
-        // }
-        Log::info($request->espace_id);
+        if (!is_null($request->start_date) && !is_null($request->end_date)) {
+            $startDate = \Carbon\Carbon::parse($request->start_date)->format("Y-m-d");
+            $endDate = \Carbon\Carbon::parse($request->end_date)->format("Y-m-d");
+            Log::info(json_encode(array($startDate, $endDate)));
+            $model->where('data_rooms.created_at', '>=', $startDate);
+            $model->where('data_rooms.created_at', '<=', $endDate);
+        }
         if (!is_null($request->espace_id)) {
             $model->where('espace_id', $request->espace_id);
         }

@@ -97,16 +97,15 @@ class MeetingDataTable extends BaseDataTable
                 }
 
                 if ($row->status == 'live') {
+                    $action .= '<li>
+                        <a target="_blank" href="' . $url . '" >
+                            <i class="fa fa-play"></i> Rejoindre
+                        </a>
+                    </li>';
                     if ($row->created_by == $this->user->id) {
                         $action .= '<li>
                             <a href="javascript:;" class="end-meeting" data-meeting-id="' . $row->id . '" >
                                 <i class="fa fa-stop"></i> ' . __('zoom::modules.zoommeeting.endMeeting') . '
-                            </a>
-                        </li>';
-                    }else{
-                        $action .= '<li>
-                            <a target="_blank" href="' . $url . '" >
-                                <i class="fa fa-play"></i> Rejoindre
                             </a>
                         </li>';
                     }

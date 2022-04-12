@@ -37,6 +37,7 @@
                     <th>@lang('modules.invoices.amount') HT</th>
                     <th>@lang('modules.invoices.amount') TVA</th>
                     <th>@lang('modules.invoices.amount') TTC</th>
+                    <th>@lang('modules.suppliers.balance')</th>
                     <th>@lang('app.status')</th>
                     <th>@lang('app.action')</th>
                 </tr>
@@ -50,6 +51,7 @@
                         <td>{{ $invoice->sub_total}}</td>
                         <td>{{ $invoice->tva}}</td>
                         <td>{{ $invoice->total}}</td>
+                        <td>{{ $invoice->payment ? $invoice->total - $invoice->payment->sum('amount') : $invoice->total}}</td>
                         <td>{{ __('modules.invoices.'.$invoice->status)}}</td>
                         <td>
                             <a href="javascript:;" data-id="{{$invoice->id}}" data-toggle="tooltip" data-original-title="Edit" class="btn btn-primary btn-circle edit-invoice-modal"><i class="fa fa-pencil"></i></a>

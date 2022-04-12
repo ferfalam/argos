@@ -314,7 +314,7 @@ class AdminSuppliersController extends AdminBaseController
         return DB::table('users')
             ->select(
                 DB::raw('(select count(projects.id) from `projects` WHERE projects.client_id = ' . $id . ' and projects.company_id = ' . company()->id . ') as totalProjects'),
-                DB::raw('(select sum(invoices.total) from `invoices` WHERE invoices.status != "paid" and invoices.status != "canceled" and invoices.supplier_detail_id = ' . $id . ' and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
+                DB::raw('(select sum(invoices.total) from `invoices` WHERE invoices.supplier_detail_id = ' . $id . ' and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
                 DB::raw('(select sum(payments.amount) from `payments` WHERE payments.customer_id = ' . $id. ' and payments.company_id = ' . company()->id . ') as projectPayments'),
 
 

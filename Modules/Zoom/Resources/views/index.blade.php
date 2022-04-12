@@ -59,18 +59,18 @@
                  
                 <div class="row">
                     <div class="col-xs-6 ">
-                        <div class="form-group">
+                        <div class="form-group" style="display: none">
                             <label>@lang('zoom::modules.zoomsetting.openZoomApp')</label>
                             <div class="radio-list">
                                 <label class="radio-inline p-0">
                                     <div class="radio radio-info">
-                                        <input type="radio" name="meeting_app" checked id="zoom_app" value="zoom_app">
+                                        <input type="radio" name="meeting_app" id="zoom_app" value="zoom_app">
                                         <label for="zoom_app">@lang('app.yes')</label>
                                     </div>
                                 </label>
                                 <label class="radio-inline">
                                     <div class="radio radio-info">
-                                        <input type="radio" name="meeting_app" @if($zoom->meeting_app == 'in_app' || $zoom->meeting_app == null ) checked @endif id="in_app" value="in_app">
+                                        <input type="radio" name="meeting_app" checked id="in_app" value="in_app">
                                         <label for="in_app">@lang('app.no')</label>
                                     </div>
                                 </label>

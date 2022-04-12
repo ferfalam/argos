@@ -51,6 +51,15 @@ class DataRoom extends Model
         return '';
     }
 
+    public function checkVisibility($id)
+    {
+        $users_id = json_decode($this->visible_by);
+        if (in_array($id, $users_id)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Get the espace associated with the DataRoom
      *

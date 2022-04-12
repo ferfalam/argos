@@ -15,8 +15,8 @@ class UpdateSetting extends FormRequest
     {
         $rules = [
            
-            "api_key" => "required",
-            "secret_key" => "required",
+            "api_key" => "required | unique:zoom_setting",
+            "secret_key" => "required | unique:zoom_setting",
         ];
         return $rules;
     }

@@ -73,7 +73,7 @@ class Invoice extends BaseModel
 
     public function payment()
     {
-        return $this->hasMany(Payment::class, 'invoice_id')->where('status', 'complete')->orderBy('paid_on', 'desc');
+        return $this->hasMany(Payment::class, 'invoice_id')->orderBy('paid_on', 'desc');
     }
 
     public function currency()

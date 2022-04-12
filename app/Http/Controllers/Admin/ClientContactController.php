@@ -138,7 +138,7 @@ class ClientContactController extends AdminBaseController
                 // DB::raw('(select sum(payments.amount) from `payments` inner join invoices on invoices.id=payments.invoice_id  WHERE payments.status = "complete" and invoices.client_id = ' . $id . ' and payments.company_id = ' . company()->id . ') as invoicePayments'),
 
 
-                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
+                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_detail_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
             )
             ->first();
     }

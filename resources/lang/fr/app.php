@@ -206,7 +206,7 @@ return array(
     'contacts' => "Contacts",
     'suppliers' => 'Fournisseurs',
     'spv' => 'SPV',
-    'utilisateur' => 'Utulisateurs',
+    'utilisateur' => 'Utilisateurs',
 	  'projets' => 'Projets',	 
 	   'tiers' => 'Tiers',
 	  'client' => 'clients',
