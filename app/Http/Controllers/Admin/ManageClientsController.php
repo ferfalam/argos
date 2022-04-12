@@ -730,14 +730,14 @@ class ManageClientsController extends AdminBaseController
         return DB::table('users')
             ->select(
                 DB::raw('(select count(projects.id) from `projects` WHERE projects.client_id = ' . $id . ' and projects.company_id = ' . company()->id . ') as totalProjects'),
-                DB::raw('(select sum(invoices.total) from `invoices` WHERE invoices.supplier_detail_id = ' . $id . ' and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
+                DB::raw('(select sum(invoices.total) from `invoices` WHERE invoices.client_detail_id = ' . $id . ' and invoices.company_id = ' . company()->id . ') as totalUnpaidInvoices'),
                 DB::raw('(select sum(payments.amount) from `payments` WHERE payments.customer_id = ' . $id. ' and payments.company_id = ' . company()->id . ') as projectPayments'),
 
 
                 // DB::raw('(select sum(payments.amount) from `payments` inner join invoices on invoices.id=payments.invoice_id  WHERE payments.status = "complete" and invoices.client_id = ' . $id . ' and payments.company_id = ' . company()->id . ') as invoicePayments'),
 
 
-                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.supplier_detail_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
+                DB::raw('(select count(contracts.id) from `contracts` WHERE contracts.client_detail_id = ' . $id . ' and contracts.company_id = ' . company()->id . ') as totalContracts')
             )
         ->first();
     }
