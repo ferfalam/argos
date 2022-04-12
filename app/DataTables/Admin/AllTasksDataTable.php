@@ -216,7 +216,7 @@ class AllTasksDataTable extends BaseDataTable
             ->language(__('app.datatable'))
             ->orderBy(0)
             ->buttons(
-                Button::make(['extend' => 'export', 'buttons' => ['excel', 'csv'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>'])
+                Button::make(['extend' => 'export', 'buttons' => ['excel'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>'])
             )
             ->parameters([
                 'initComplete' => 'function () {

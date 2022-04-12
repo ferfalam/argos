@@ -228,7 +228,7 @@ class ProjectsDataTable extends BaseDataTable
             ->processing(true)
             ->language(__('app.datatable'))
             ->buttons(
-                Button::make(['extend' => 'export', 'buttons' => ['excel', 'csv'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>'])
+                Button::make(['extend' => 'export', 'buttons' => ['excel'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>'])
             )
             ->parameters([
                 'initComplete' => 'function () {
