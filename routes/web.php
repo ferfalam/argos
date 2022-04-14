@@ -558,6 +558,9 @@ Route::group(['middleware' => 'auth'], function () {
                         Route::get('currency/update/exchange-rates', ['uses' => 'CurrencySettingController@updateExchangeRate'])->name('currency.update-exchange-rates');
                         Route::resource('currency', 'CurrencySettingController');
 
+
+                        Route::resource('country', 'CountrySettingController');
+
                         Route::resource('tla', 'AdminCompanyTLAController');
                         Route::get('tla/create/{type}', 'AdminCompanyTLAController@create2');
                         Route::post('tla/destroy/{type}', 'AdminCompanyTLAController@destroy');

@@ -672,6 +672,16 @@ return array(
         'decimalSeparator' => "Decimal Separator"
 
     ),
+    'countrySettings' =>
+    array(
+        'countries' => 'Pays',
+        'updateTitle' => 'Mise à jour du Pays',
+        'addNewCountry' => 'Ajouter un pays',
+        'countryName' => 'Nom du pays',
+        'countrySymbol' => 'ISO',
+        'countryCode' => 'ISO3',
+        'countryPhoneCode' => 'Code Téléphonique'
+    ),
     'messages' =>
     array(
         'startConversation' => 'Démarrer la conversation',

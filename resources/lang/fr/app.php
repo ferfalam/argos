@@ -246,6 +246,7 @@ return array(
     'emailSettings' => 'Paramètres de messagerie',
     'moduleSettings' => 'Paramètres du module',
     'currencySettings' => 'Paramètres de devise',
+    'countrySettings' => 'Paramètres de pays',
     'contacts' => 'Contacts',
     'messages' => 'Chat',
     'themeSettings' => 'Réglage des thèmes',

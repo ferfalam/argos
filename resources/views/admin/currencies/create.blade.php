@@ -107,8 +107,8 @@
 @endsection
 
 @push('footer-script')
+<script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 <script>
-    <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 
     $("input[name=is_cryptocurrency]").click(function () {
         if($(this).val() == 'yes'){

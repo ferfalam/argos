@@ -12,6 +12,9 @@
     <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.currency.index' || \Illuminate\Support\Facades\Route::currentRouteName() == 'admin.currency.currency-format') active @endif">
         <a href="{{ route('admin.currency.index') }}">@lang('app.menu.currencySettings')</a></li>
 
+    <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.country.index' || \Illuminate\Support\Facades\Route::currentRouteName() == 'admin.country.currency-format') active @endif">
+        <a href="{{ route('admin.country.index') }}">@lang('app.menu.countrySettings')</a></li>
+
     {{-- @if($company->status != 'license_expired')
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.theme-settings.index') active @endif">
             <a href="{{ route('admin.theme-settings.index') }}">@lang('app.menu.themeSettings')</a></li>
