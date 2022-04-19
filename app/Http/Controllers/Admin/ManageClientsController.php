@@ -427,14 +427,20 @@ class ManageClientsController extends AdminBaseController
         //     $client->contacts_id = $request->contact;
         // }
 
-            if(!$request->contact_principal){
-                $client->contacts_id = null;
-            }else{
-                 $contact = Contect::find($request->contact_principal);
-                 $contact->client_detail_id = $client->id;
-                 $contact->contect_type = 'client';
-                 $contact->save();
-            }
+
+        if($request->contact_principal != 'create' && $request->contact_principal != 'without_user'){
+            $contact = Contect::find($request->contact_principal);
+        }
+        
+        if(isset($contact)){
+            $client->contacts_id = $contact->id; 
+        }
+        
+        if(isset($contact)){
+            $contact->client_detail_id = $client->id;
+            $contact->contect_type = 'client';
+            $contact->save();
+        }
 
         if(isset($contact)){
             $client->contacts_id = $contact->id; 
