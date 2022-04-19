@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/summernote/dist/summernote.css') }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
-<link rel="stylesheet" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
 
 <style>
     .swal-footer {
@@ -435,6 +435,7 @@
 <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     var newTaskpanel = $('#new-task-panel');
@@ -478,7 +479,7 @@
 
         url = url.replace(':projectId', '{{ $project->id }}');
 
-        table = $('#tasks-table').dataTable({
+        var table = $('#tasks-table').DataTable({
             destroy: true,
             responsive: true,
             processing: true,
@@ -488,6 +489,9 @@
                 "type": "POST"
             },
             deferRender: true,
+            buttons: [
+                'excel'
+            ],
             language: {
                 "url": "<?php echo __("app.datatable") ?>"
             },
@@ -501,7 +505,11 @@
                 return nRow;
             },
             "order": [[1, "asc"]],
-            columns: [
+            initComplete: function () {
+                console.log(table.buttons());
+                // table.buttons().container().appendTo($('.bg-title .text-right'));
+            },
+            "columns": [
                 {data: 'id', name: 'id'},
                 {data: 'heading', name: 'heading'},
                 {data: 'clientName', name: 'client.name', bSort: false},
@@ -510,23 +518,13 @@
                 {data: 'due_date', name: 'due_date'},
                 {data: 'board_column', name: 'taskboard_columns.column_name'},
                 {data: 'action', name: 'action', "searchable": false}
-            ],
-            buttons: [
-                {
-                    extend: 'collection',
-                    text: 'Exportation',
-                    buttons: [
-                        'excel',
-                        'csv',
-                    ]
-                }
             ]
         });
     }
 
     $('body').on('click', '.sa-params', function () {
         var id = $(this).data('task-id');
-
+        
         var buttons = {
             cancel: "No, cancel please!",
             confirm: {

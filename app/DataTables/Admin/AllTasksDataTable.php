@@ -7,6 +7,7 @@ use App\Task;
 use App\TaskboardColumn;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
@@ -108,7 +109,8 @@ class AllTasksDataTable extends BaseDataTable
                 $status .= '</div>';
                 return $status;
             })
-            ->addColumn('status', function ($row) {
+            ->editColumn('status', function ($row) {
+                Log::info($row);
                 return ucfirst($row->column_name);
             })
             ->editColumn('project_name', function ($row) {
@@ -214,7 +216,7 @@ class AllTasksDataTable extends BaseDataTable
             ->stateSave(true)
             ->processing(true)
             ->language(__('app.datatable'))
-            ->orderBy(0)
+            ->orderBy(4)
             ->buttons(
                 Button::make(['extend' => 'export', 'buttons' => ['excel'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>'])
             )
@@ -248,7 +250,7 @@ class AllTasksDataTable extends BaseDataTable
             __('modules.tasks.assigned') => ['data' => 'name', 'name' => 'name', 'visible' => false],
             __('modules.tasks.assignTo') => ['data' => 'users', 'name' => 'member.name', 'exportable' => false],
             __('app.dueDate') => ['data' => 'due_date', 'name' => 'due_date'],
-            __('app.status') => ['data' => 'status', 'name' => 'status', 'visible' => false],
+            __('app.status') => ['data' => 'status', 'name' => 'status'],
             __('app.columnStatus') => ['data' => 'board_column', 'name' => 'board_column', 'exportable' => false, 'searchable' => false],
             Column::computed('action', __('app.action'))
                 ->exportable(false)

@@ -166,7 +166,8 @@ class SupplierDataTable extends BaseDataTable
                     })
                 }',
             ])
-            ->buttons(Button::make(['extend' => 'export', 'buttons' => ['excel', 'csv'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>']));
+            ->buttons(Button::make());
+            // ->buttons(Button::make(['extend' => 'export', 'buttons' => ['excel'], 'text' => '<i class="fa fa-download"></i> ' . trans('app.exportExcel') . '&nbsp;<span class="caret"></span>']));
     }
 
     /**

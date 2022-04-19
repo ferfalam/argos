@@ -451,6 +451,7 @@
     table = '';
 
     function showTable() {
+        window.LaravelDataTables["allTasks-table"].order([[3, 'asc'], [2, 'asc']])
         window.LaravelDataTables["allTasks-table"].draw();
     }
 

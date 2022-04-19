@@ -336,7 +336,6 @@ return array(
         'otherInfo' => 'Autre info',
         'notes' => 'Remarques',
         'viewProjectDetails' => 'Voir les détails du projet',
-        'projectMembers' => "Project Members",
         'viewPublicGanttChart' => "View Public Gantt Chart",
     ),
     'tasks' =>
@@ -1284,6 +1283,7 @@ return array(
         'tastTitle' => 'Titre des Tâches',
         "readOnly" => "Lecture seulement",
         'projectBudget' => "Budget du projet",
+        'projectMembers' => "Membres du projet",
         'hours_allocated' => "Heures allouées",
         'clientTaskNotification' => "Notification de tâche client",
         'clientViewTask' => "Tâche View Client",

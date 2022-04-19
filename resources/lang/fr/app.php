@@ -65,7 +65,7 @@ return array(
   'markRead' => 'Marquer comme lu',
   'deadline' => 'Date limite',
   'project' => 'Projet',
-  'completion' => 'Achèvement',
+  'completion' => 'Progression',
   'address' => 'Adresse',
   'completed' => 'Complété',
   'hideCompletedTasks' => 'Masquer les tâches terminées',
