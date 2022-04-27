@@ -198,6 +198,7 @@ class ManageEmployeesController extends AdminBaseController
             
             $employee = new EmployeeDetails();
             $employee->user_id = $user->id;
+            $employee->company_id = company()->id;
             $employee->department_id = $request->department_id;
             $employee->designation_id = Designation::where('name', $request->input("qualification"))->where('company_id', company()->id)->first()->id;
             $employee->address = $user->address;

@@ -80,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-
+{{-- 
                     <div class="col-md-3">
                         <div class="form-group">
 
@@ -93,7 +93,7 @@
                                 <label for="billable-task-2">@lang('modules.tasks.billable') <a class="mytooltip font-12" href="javascript:void(0)"> <i class="fa fa-info-circle"></i><span class="tooltip-content5"><span class="tooltip-text3"><span class="tooltip-inner2">@lang('modules.tasks.billableInfo')</span></span></span></a></label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-2">
                         <div class="form-group">

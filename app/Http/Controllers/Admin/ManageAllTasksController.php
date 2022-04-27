@@ -56,8 +56,8 @@ class ManageAllTasksController extends AdminBaseController
     public function index(AllTasksDataTable $dataTable)
     {
         $this->projects = Project::all();
-        $this->milestones = ProjectMilestone::all();
-        $this->titles = MilestoneTitle::all();
+        $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();
+        $this->titles = MilestoneTitle::orderBy('name')->get();
         $this->clients = User::allExterne();
         $this->employees = User::allEmployees();
         $this->taskCategories = TaskCategory::all();
@@ -84,7 +84,7 @@ class ManageAllTasksController extends AdminBaseController
         $this->categories       = TaskCategory::all();
         $this->taskLabels       = TaskLabelList::all();
         $this->taskBoardColumns = TaskboardColumn::all();
-        $this->milestones = ProjectMilestone::all();
+        $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();
         
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
@@ -198,7 +198,7 @@ class ManageAllTasksController extends AdminBaseController
         $this->employees  = User::allEmployees();
         $this->categories = TaskCategory::all();
         $this->taskLabels = TaskLabelList::all();
-        $this->milestones = ProjectMilestone::all();
+        $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();
         if(request()->id != null){
             $this->taskRequests = TaskRequest::findOrFail(request()->id);
         }
