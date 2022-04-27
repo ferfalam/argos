@@ -78,8 +78,8 @@
 </head>
 <body>
 <div style="width: 80%; margin: auto;">
-    <h1>Translation Manager</h1>
-    <p>Warning, translations are not visible until they are exported back to the app/lang file, using 'php artisan translation:export' command or publish button.</p>
+    <h1>Gestion de la traduction</h1>
+    <p>Attention, les traductions ne sont pas visibles tant qu'elles ne sont pas réexportées vers le fichier app/lang, à l'aide du bouton de publication.</p>
     <div class="alert alert-success success-import" style="display:none;">
         <p>Done importing, processed <strong class="counter">N</strong> items! Reload this page to refresh the groups!</p>
     </div>
@@ -96,7 +96,15 @@
     <?php endif; ?>
     <p>
         <?php if(!isset($group)) : ?>
-        <form class="form-inline form-import" method="POST" action="<?= action('\Barryvdh\TranslationManager\Controller@postImport') ?>" data-remote="true" role="form">
+        <!-- <form class="form-inline form-import" method="POST" action="<?= action('\Barryvdh\TranslationManager\Controller@postImport') ?>" data-remote="true" role="form">
+            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            <select name="replace" class="form-control">
+                <option value="0">Append new translations</option>
+                <option value="1">Replace existing translations</option>
+            </select>
+            <button type="submit" class="btn btn-success"  data-disable-with="Loading..">Import groups</button>
+        </form>
+        <forrm-import" method="POST" action="<?= action('\Barryvdh\TranslationManager\Controller@postImport') ?>" data-remote="true" role="form">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <select name="replace" class="form-control">
                 <option value="0">Append new translations</option>
@@ -108,13 +116,17 @@
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <p></p>
             <button type="submit" class="btn btn-info" data-disable-with="Searching.." >Find translations in files</button>
-        </form>
+        </form>m class="form-inline form-find" method="POST" action="<?= action('\Barryvdh\TranslationManager\Controller@postFind') ?>" data-remote="true" role="form" data-confirm="Are you sure you want to scan you app folder? All found translation keys will be added to the database.">
+            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            <p></p>
+            <button type="submit" class="btn btn-info" data-disable-with="Searching.." >Find translations in files</button>
+        </form> -->
         <?php endif; ?>
         <?php if(isset($group)) : ?>
             <form class="form-inline form-publish" method="POST" action="<?= action('\Barryvdh\TranslationManager\Controller@postPublish', $group) ?>" data-remote="true" role="form" data-confirm="Are you sure you want to publish the translations group '<?= $group ?>? This will overwrite existing language files.">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                <button type="submit" class="btn btn-info" data-disable-with="Publishing.." >Publish translations</button>
-                <a href="<?= action('\Barryvdh\TranslationManager\Controller@getIndex') ?>" class="btn btn-default">Back</a>
+                <button type="submit" class="btn btn-info" data-disable-with="Publishing.." >Publier les modifications</button>
+                <a href="<?= action('\Barryvdh\TranslationManager\Controller@getIndex') ?>" class="btn btn-default">Retour</a>
             </form>
         <?php endif; ?>
     </p>
@@ -129,12 +141,12 @@
         </div>
     </form>
     <?php if($group): ?>
-        <form action="<?= action('\Barryvdh\TranslationManager\Controller@postAdd', array($group)) ?>" method="POST"  role="form">
+        <!-- <form action="<?= action('\Barryvdh\TranslationManager\Controller@postAdd', array($group)) ?>" method="POST"  role="form">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <textarea class="form-control" rows="3" name="keys" placeholder="Add 1 key per line, without the group prefix"></textarea>
             <p></p>
             <input type="submit" value="Add keys" class="btn btn-primary">
-        </form>
+        </form> -->
         <hr>
     <h4>Total: <?= $numTranslations ?>, changed: <?= $numChanged ?></h4>
     <table class="table">
@@ -172,7 +184,7 @@
         </tbody>
     </table>
     <?php else: ?>
-        <p>Choose a group to display the group translations. If no groups are visible, make sure you have run the migrations and imported the translations.</p>
+        <p>Choisissez un groupe pour afficher les traductions du groupe. Si aucun groupe n'est visible, assurez-vous d'avoir exécuté les migrations et importé les traductions.</p>
 
     <?php endif; ?>
 </div>

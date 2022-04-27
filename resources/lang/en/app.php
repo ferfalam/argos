@@ -1,7 +1,7 @@
 <?php
 
-return array(
-  "chat" => "Chat",
+return array (
+  'chat' => 'Chat',
   'loginAsEmployee' => 'Login As Employee',
   'ogImage' => 'Og Image',
   'loginAsAdmin' => 'Login As Admin',
@@ -15,7 +15,7 @@ return array(
   'note' => 'Note',
   'todefine' => 'To define',
   'nom1' => 'Name',
-	'docManagement' => 'Document Mangement',
+  'docManagement' => 'Document Mangement',
   'postesociete' => 'Position/Company',
   'poste' => 'Poste',
   'collaborateur' => 'Collaborators',
@@ -35,7 +35,7 @@ return array(
   'name' => 'COMPANY NAME',
   'name_ucfirst' => 'Company name',
   'legalForm' => 'Legal form',
-  'email' => 'Email',
+  'email' => 'E-mail',
   'google' => 'Google',
   'facebook' => 'Facebook',
   'friend' => 'Friend',
@@ -79,7 +79,6 @@ return array(
   'invoice' => 'Invoice',
   'date' => 'Date',
   'selectDateRange' => 'Select Date Range',
-  'selectProject' => 'Select Project',
   'apply' => 'Apply',
   'leadValue' => 'Lead Value',
   'filterResults' => 'Filter Results',
@@ -122,49 +121,41 @@ return array(
   'noDueDate' => 'No Due Date',
   'signUpSetting' => 'Sign Up Setting',
   'taxes' => 'Taxes',
-  'projectMember' => "Project Members",
-  'openTasks' => "Open Tasks",
-  'daysLeft' => "Days Left",
-
-
+  'projectMember' => 'Project Member',
+  'openTasks' => 'Open Tasks',
+  'daysLeft' => 'Days Left',
   'genralinfo' => 'General informations',
   'civility' => 'Gender',
   'lastnamefirstname' => 'Last & First Name ',
   'adresse' => 'Address',
   'pays' => 'Country',
   'cp' => 'Zip Code/City',
-  'user_id' => "User Id",
-  'start_date' => "Start Date",
-  'login_email' => "Login/Email",
-  'end_date' => "End Date",
-  'services' => "Serivces",
-  'compentancy' => "Compantancy",
-  'active' => 'Active',
-  'deactive' => "DeActive",
-  'notification' => "Notification",
+  'user_id' => 'User Id',
+  'start_date' => 'Start Date',
+  'login_email' => 'Login/Email',
+  'end_date' => 'End Date',
+  'services' => 'Serivces',
+  'compentancy' => 'Compantancy',
+  'deactive' => 'Inactive',
+  'notification' => 'Notification',
   'connexion' => 'Connexion',
-  // New Insertion
   'function' => 'Function',
   'addContact' => 'Add a Contact',
-  'contactList' => "Contact List",
-  'contactName' => "Contact Name",
-  'contactFile' => "Contact File",
-  'contact_type' => "Contact Type",
-  "visibility" => "Visibility",
-  'attach_to' => "Attach To",
-
-  'clientsList' => "Clients List",
-  "addClient" => "Add New Client",
-  "socailReason" => "Social Reason",
-  "identification" => "Identification",
-  "observation" => "Observation",
-  'created_at' => "Created At",
-
-  // SPV
+  'contactList' => 'Contact List',
+  'contactName' => 'Contact Name',
+  'contactFile' => 'Contact File',
+  'contact_type' => 'Contact Type',
+  'visibility' => 'Visibility',
+  'attach_to' => 'Attach To',
+  'clientsList' => 'Clients List',
+  'addClient' => 'Add New Client',
+  'socailReason' => 'Social Reason',
+  'identification' => 'Identification',
+  'observation' => 'Observations',
+  'created_at' => 'Created At',
   'spvList' => 'list of SPVs',
   'addAnSpv' => 'Add an SPV',
   'spvSheet' => 'SPV Sheet',
-
   'otherinfo' => 'Other information',
   'profil' => 'Profile',
   'qualification' => 'Qualification',
@@ -172,18 +163,15 @@ return array(
   'paysnaissance' => 'Native country',
   'nationalite' => 'Nationality',
   'langue' => 'Language',
-  'observation' => 'Observations',
   'fomatimage' => 'Format and limit of your image :',
   'cordonnees' => 'Cordonates',
-  'email' => 'E-mail',
   'tel' => 'Phone',
-  'mobile' => 'Mobile',
   'motdepasse' => 'Password',
   'annuler' => 'Cancel',
   'enregistrer' => 'Save',
   'ficheutilisateur' => 'USER FILE',
-  'months' =>
-  array(
+  'months' => 
+  array (
     'January' => 'January',
     'February' => 'February',
     'March' => 'March',
@@ -197,16 +185,16 @@ return array(
     'November' => 'November',
     'December' => 'December',
   ),
-  'menu' =>
-  array(
+  'menu' => 
+  array (
     'chat' => 'Chat',
     'home' => 'Home',
-	 'utilisateur' => 'Users',
-	  'projets' => 'Projects',	 
-	   'tiers' => 'Third Party',
-	  'client' => 'Customer',
-	  'fournisseur' => 'Suppliers',
-    'contacts' => "Contacts",
+    'utilisateur' => 'Users',
+    'projets' => 'Projects',
+    'tiers' => 'Third Party',
+    'client' => 'Customer',
+    'fournisseur' => 'Suppliers',
+    'contacts' => 'Contacts',
     'suppliers' => 'Suppliers',
     'spv' => 'SPV',
     'mailing' => 'Mailing',
@@ -242,7 +230,6 @@ return array(
     'emailSettings' => 'Email Settings',
     'moduleSettings' => 'Module Settings',
     'currencySettings' => 'Currency Settings',
-    'contacts' => 'Contacts',
     'messages' => 'Chat',
     'themeSettings' => 'Theme Settings',
     'estimates' => 'Estimates',
@@ -342,7 +329,7 @@ return array(
     'clientDocs' => 'Client Docs',
     'registrationPage' => 'Registration Page Status',
     'subTaskFiles' => 'Sub Task Files',
-    'googleCalendarSetting' => 'Google Calendar Setting'
+    'googleCalendarSetting' => 'Google Calendar Setting',
   ),
   'exportExcel' => 'Export',
   'datatable' => '//cdn.datatables.net/plug-ins/1.10.15/i18n/English.json',
@@ -440,7 +427,6 @@ return array(
   'language' => 'Language',
   'team' => 'Team',
   'manage' => 'Manage',
-  'deactive' => 'Inactive',
   'upcoming' => 'Upcoming',
   'source' => 'Source',
   'next_follow_up' => 'Next Follow Up',
@@ -539,8 +525,8 @@ return array(
   'decline' => 'Decline',
   'sign' => 'Sign',
   'signed' => 'Signed',
-  'contracts' =>
-  array(
+  'contracts' => 
+  array (
     'description' => 'Description',
   ),
   'content' => 'Content',
@@ -548,8 +534,8 @@ return array(
   'subject' => 'Subject',
   'renew' => 'Renew',
   'applyToInvoice' => 'Apply To Invoice',
-  'credit-notes' =>
-  array(
+  'credit-notes' => 
+  array (
     'invoiceDate' => 'Invoice Date',
     'invoiceAmount' => 'Invoice Amount',
     'invoiceBalanceDue' => 'Invoice Balance Due',
@@ -634,8 +620,8 @@ return array(
   'hrs' => 'hrs',
   'mins' => 'mins',
   'uploadReceipt' => 'Upload Receipt',
-  'socialAuthSettings' =>
-  array(
+  'socialAuthSettings' => 
+  array (
     'google' => 'Google',
     'facebook' => 'Facebook',
     'linkedin' => 'Linkedin',
@@ -696,7 +682,6 @@ return array(
   'goToCart' => 'Go to cart',
   'as' => 'As',
   'toAllEmployee' => 'Assign To All Employees',
-  'projectMember' => 'Project Member',
   'notes' => 'Notes',
   'chooseSubDomain' => 'Choose Your SubDomain',
   'heading' => 'Heading',
@@ -797,12 +782,12 @@ return array(
   'superAdminAllowCalendarMessage' => 'Please Contact to Super Admin for Google Calendar Option',
   'sent' => 'Sent',
   'createInvoice' => 'Create Invoice',
-  'publication' => "Publication",
+  'publication' => 'Publication',
   'documentName' => 'Document Name',
   'projectName' => 'Name of Project',
   'taskName' => 'Task Name',
-  'visibility' => 'Visibility',
   'authorizedPublications' => 'Authorized Publications',
   'unauthorizedPublications' => 'Unauthorized Publications',
   'totalDocuments' => 'Total Records',
+  'allUsers' => 'All Users',
 );
