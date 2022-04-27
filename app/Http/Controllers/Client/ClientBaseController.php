@@ -69,7 +69,7 @@ class ClientBaseController extends Controller
 
         $this->clientTheme = ThemeSetting::where('panel', 'client')->first();
         $this->languageSettings = LanguageSetting::where('status', 'enabled')->get();
-
+        
         $this->middleware(function ($request, $next) {
             if (!session()->has('client_company')) {
                 $clientDetails = EmployeeDetails::withoutGlobalScope(CompanyScope::class)

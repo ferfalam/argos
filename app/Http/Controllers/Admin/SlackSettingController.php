@@ -23,7 +23,7 @@ class SlackSettingController extends AdminBaseController
 
     public function index()
     {
-        $this->emailSettings = EmailNotificationSetting::all();
+        $this->emailSettings = EmailNotificationSetting::groupBy('setting_name')->get();
         $this->slackSettings = SlackSetting::first();
         return view('admin.slack-settings.index', $this->data);
     }

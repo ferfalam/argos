@@ -230,9 +230,7 @@ class LoginController extends FrontBaseController
             // $history->duration = "--";
             // $history->save();
             return 'admin/dashboard';
-        }
-
-        if ($user->hasRole('employee')) {
+        }elseif ($user->hasRole('employee')) {
             User::where('id', $user->id)->update([
                 // 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')
@@ -245,9 +243,7 @@ class LoginController extends FrontBaseController
             // $history->duration = "--";
             // $history->save();
             return 'member/dashboard';
-        }
-
-        if ($user->hasRole('client')) {
+        }else{
             User::where('id', $user->id)->update([
                 // 'online' => true,
                 'last_login' => Carbon::now()->format('Y-m-d H:i:s')

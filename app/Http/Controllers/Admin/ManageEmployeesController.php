@@ -107,6 +107,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->groups = Team::all();
         $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
+        $this->roles = Role::where('company_id', company()->id)->get();
 
         if (request()->ajax()) {
             return view('admin.employees.ajax-create', $this->data);
@@ -318,6 +319,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->groups = Team::all();
         $this->skills = Skill::where('company_id', company()->id)->get();
         $this->designations = Designation::with('members', 'members.user')->get();
+        $this->roles = Role::where('company_id', company()->id)->get();
 
         if (!is_null($this->employeeDetail)) {
             $this->employeeDetail = $this->employeeDetail->withCustomFields();

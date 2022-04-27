@@ -3,7 +3,7 @@
 @section('page-title')
     <div class="row bg-title">
         <!-- .page title -->
-         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 bg-title-left">@include('sections.ctrl_button')
+         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 bg-title-left">
             <h4 class="page-title">  {{ __($pageTitle) }}</h4>
         </div>
         <!-- /.page title -->

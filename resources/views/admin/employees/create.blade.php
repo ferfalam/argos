@@ -358,9 +358,9 @@
                                                 <td>
                                                     <select name="profil" id="profil" class="form-control select2">
                                                         {{-- <option value="Super Admin">Super Admin</option> --}}
-                                                        <option value="App Administrator">Admin</option>
-                                                        <option value="Collaborateur">Collaborateur</option>
-                                                        <option value="Externe">Externe</option>
+                                                        @foreach ($roles as $role)
+                                                            <option value="{{$role->display_name}}">{{$role->display_name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>

@@ -23,8 +23,9 @@ class EmailNotificationSettingController extends AdminBaseController
     public function index()
     {
         $company = company();
-        $this->emailSettings = EmailNotificationSetting::where('company_id', $company->id)->get();
+        $this->emailSettings = EmailNotificationSetting::where('company_id', $company->id)->groupBy('setting_name')->get();
         $this->smtpSetting = SmtpSetting::first();
+        // dd($this->emailSettings);
         return view('admin.email-settings.index', $this->data);
     }
 

@@ -22,7 +22,7 @@ class PushNotificationController extends AdminBaseController
 
     public function index()
     {
-        $this->emailSettings = EmailNotificationSetting::all();
+        $this->emailSettings = EmailNotificationSetting::groupBy('setting_name')->get();
         $this->pushSettings = PushNotificationSetting::first();
         return view('admin.push-settings.index', $this->data);
     }

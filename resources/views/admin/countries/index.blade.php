@@ -159,7 +159,7 @@
             });
         });
         $('ul.showClientTabs .countrySetting').addClass('tab-current');
-
+        
 
     </script>
 @endpush

@@ -24,7 +24,7 @@ class CountrySettingController extends AdminBaseController
 
     public function index()
     {
-        $this->countries = Country::all();
+        $this->countries = Country::orderBy('name')->get();
         return view('admin.countries.index', $this->data);
     }
 
