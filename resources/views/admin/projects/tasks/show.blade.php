@@ -118,7 +118,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
+{{-- 
                                                     <div class="col-md-3">
                                                         <div class="form-group">
 
@@ -128,7 +128,7 @@
                                                                 <label for="billable-task">@lang('modules.tasks.billable') <a class="mytooltip font-12" href="javascript:void(0)"> <i class="fa fa-info-circle"></i><span class="tooltip-content5"><span class="tooltip-text3"><span class="tooltip-inner2">@lang('modules.tasks.billableInfo')</span></span></span></a></label>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
 
                                                     <div class="col-md-2">
                                                         <div class="form-group">
@@ -374,7 +374,7 @@
             </div>
             <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->.
+        <!-- /.modal-dialog -->
     </div>
     {{--Ajax Modal Ends--}}
 
@@ -396,7 +396,7 @@
             </div>
             <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->.
+        <!-- /.modal-dialog -->
     </div>
     {{--Ajax Modal Ends--}}
 
@@ -407,6 +407,28 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <span class="caption-subject font-red-sunglo bold uppercase" id="subTaskModelHeading">Sub Task e</span>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->.
+    </div>
+    {{--Ajax Modal Ends--}}
+
+
+    <div class="modal fade bs-modal-lg in" id="taskLabelModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="modal-data-application">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <span class="caption-subject font-red-sunglo bold uppercase" id="modelHeading"></span>
                 </div>
                 <div class="modal-body">
                     Loading...

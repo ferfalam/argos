@@ -220,15 +220,17 @@
 //    }
 
     var assignRollPermission = function () {
-
         var roleId = $(this).data('role-id');
         var permissionId = $(this).data('permission-id');
 
-        if($(this).is(':checked'))
+        if($(this).is(':checked')){
             var assignPermission = 'yes';
-        else
+        }
+        else{
             var assignPermission = 'no';
+        }
 
+        // console.log(assignPermission);
         var url = '{{route('admin.role-permission.store')}}';
 
         $.easyAjax({

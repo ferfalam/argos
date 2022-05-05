@@ -346,7 +346,7 @@ return array (
     'assignTo' => 'Assigné à',
     'high' => 'Haut',
     'medium' => 'Moyen',
-    'low' => 'Meugler',
+    'low' => 'Bas',
     'priority' => 'Priorité',
     'updateTask' => 'Tâche de mise à jour',
     'chooseAssignee' => 'Choisissez un assigné',
@@ -1062,7 +1062,7 @@ return array (
     'leavePaidStatus' => 'Laisser le statut payé',
     'createLeaveType' => 'Create Leave Type',
   ),
-  'low' => 'Meugler',
+  'low' => 'Bas',
   'lead' => 
   array (
     'leadCategory' => 'Catégorie principale',
@@ -1240,7 +1240,7 @@ return array (
     'assignTo' => 'Assigné à',
     'high' => 'Haut',
     'medium' => 'Moyen',
-    'low' => 'Meugler',
+    'low' => 'Bas',
     'priority' => 'Priorité',
     'updateTask' => 'Mettre à jour la tâche du modèle',
     'chooseAssignee' => 'Choisissez un assigné',

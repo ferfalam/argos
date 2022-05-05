@@ -248,7 +248,6 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-
                                             <div class="checkbox checkbox-info">
                                                 <input id="private-task" name="is_private" value="true"
                                                 @if(isset($taskRequests))

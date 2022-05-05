@@ -10,8 +10,21 @@
             <div class="row">
                 <div class="col-xs-12 ">
                     <div class="form-group">
-                        <label>@lang('app.name')</label>
-                        <input type="text" name="name" id="name" value="{{ $subTask->title }}" class="form-control">
+                        <label>@lang('modules.projects.subtaskTitle')</label>
+                        <a href="javascript:;"
+                            id="createSubTaskTitle"
+                            class="btn btn-xs btn-outline btn-success">
+                            <i class="fa fa-plus"></i> 
+                        </a>
+                        <select class="select2 form-control" name="name"
+                        id="heading"
+                        data-style="form-control">
+                                @foreach($titles as $category)
+                                    <option value="{{ $category->name }}" @if ($subTask->title == $category->name)
+                                        selected
+                                    @endif>{{ ucwords($category->name) }}</option>
+                                @endforeach
+                        </select>
                         <input type="hidden" name="taskID" id="taskID" value="{{ $subTask->task_id }}">
                     </div>
                 </div>
@@ -225,4 +238,11 @@
              }
          })
      }
+
+
+    $('#createSubTaskTitle').click(function(){
+        var url = '{{ route('admin.sub-task-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+        $.ajaxModal('#taskLabelModal', url);
+    })
 </script>

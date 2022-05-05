@@ -113,7 +113,7 @@ class ManageTasksController extends AdminBaseController
     public function show($id)
     {
         $this->project = Project::findOrFail($id);
-        $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();
+        $this->milestones = ProjectMilestone::orderBy('milestone_title')->where('project_id', $id)->get();
         $this->titles = TaskTitle::all();
         $this->categories = TaskCategory::all();
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
@@ -148,7 +148,7 @@ class ManageTasksController extends AdminBaseController
         $this->taskBoardColumns = TaskboardColumn::all();
         $this->categories = TaskCategory::all();
         $this->titles = TaskTitle::all();
-        $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();
+        $this->milestones = ProjectMilestone::orderBy('milestone_title')->where('project_id', $this->task->project_id)->get();;
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
             $this->allTasks = Task::where('board_column_id', $completedTaskColumn->id)

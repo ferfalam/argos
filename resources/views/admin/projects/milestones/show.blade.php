@@ -263,7 +263,7 @@
                 selector: '[data-toggle="tooltip"]'
             });
         },
-        // "order": [[0, "desc"]],
+        "order": [[1, "asc"]],
         columns: [
             {data: 'id', name: 'id',"searchable":false },
             {data: 'milestone_title', name: 'milestone_title'},

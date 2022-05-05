@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Reply;
 use App\Http\Controllers\Controller;
-use App\MilestoneTitle;
+use App\SubTaskTitle;
 use Illuminate\Http\Request;
 
-class ManageMilestoneTitleController extends AdminBaseController
+class ManageSubTaskTitleController extends AdminBaseController
 {
     public function __construct()
     {
@@ -30,8 +30,8 @@ class ManageMilestoneTitleController extends AdminBaseController
      */
     public function create()
     {
-        $this->titles = MilestoneTitle::orderBy('name')->get();
-        return view('admin.milestone-title.create', $this->data);
+        $this->titles = SubTaskTitle::all();
+        return view('admin.sub-task-title.create', $this->data);
     }
 
     /**
@@ -45,10 +45,10 @@ class ManageMilestoneTitleController extends AdminBaseController
         $request->validate([
             'name' => 'required'
         ]);
-        $category = new MilestoneTitle();
+        $category = new SubTaskTitle();
         $category->name = $request->name;
         $category->save();
-        $categoryData = MilestoneTitle::orderBy('name')->get();
+        $categoryData = SubTaskTitle::all();
         return Reply::successWithData(__('messages.milestoneTitleAdded'), ['data' => $categoryData]);
     }
 
@@ -85,10 +85,10 @@ class ManageMilestoneTitleController extends AdminBaseController
         $request->validate([
             'name' => 'required'
         ]);
-        $category = MilestoneTitle::find($id);
+        $category = SubTaskTitle::find($id);
         $category->name = $request->name;
         $category->save();
-        $categoryData = MilestoneTitle::orderBy('name')->get();
+        $categoryData = SubTaskTitle::all();
         return Reply::successWithData(__('messages.milestoneTitleUpdated'), ['data' => $categoryData]);
     }
 
@@ -100,8 +100,8 @@ class ManageMilestoneTitleController extends AdminBaseController
      */
     public function destroy($id)
     {
-        MilestoneTitle::destroy($id);
-        $categoryData = MilestoneTitle::orderBy('name')->get();
+        SubTaskTitle::destroy($id);
+        $categoryData = SubTaskTitle::all();
         return Reply::successWithData(__('messages.milestoneTitleDeleted'), ['data' => $categoryData]);
     }
 }

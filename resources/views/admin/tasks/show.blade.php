@@ -657,7 +657,6 @@
     </div>
 </div>
 
-
 <script src="{{ asset('plugins/bower_components/moment/moment.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
 {{-- <script src="{{ asset('js/sweet-alert.js') }}"></script> --}}

@@ -13,7 +13,18 @@
                 <div class="col-xs-12 ">
                     <div class="form-group">
                         <label>@lang('modules.projects.subtaskTitle')</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <a href="javascript:;"
+                            id="createSubTaskTitle"
+                            class="btn btn-xs btn-outline btn-success">
+                            <i class="fa fa-plus"></i> 
+                        </a>
+                        <select class="select2 form-control" name="name"
+                        id="heading"
+                        data-style="form-control">
+                                @foreach($titles as $category)
+                                    <option value="{{ $category->name }}">{{ ucwords($category->name) }}</option>
+                                @endforeach
+                        </select>
                         <input type="hidden" name="taskID" id="taskID" value="{{ $taskID }}">
                     </div>
                 </div>
@@ -78,6 +89,7 @@
         {!! Form::close() !!}
     </div>
 </div>
+
 <script src="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.js') }}"></script>
 <script type="text/javascript" src="{{ asset('plugins/daterange-picker/daterangepicker.js') }}"></script>
 
@@ -180,5 +192,11 @@
             }
         })
     }
+
+    $('#createSubTaskTitle').click(function(){
+        var url = '{{ route('admin.sub-task-title.create')}}';
+        $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
+        $.ajaxModal('#taskLabelModal', url);
+    })
 
 </script>

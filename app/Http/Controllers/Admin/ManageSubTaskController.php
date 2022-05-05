@@ -8,6 +8,7 @@ use App\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubTask\StoreSubTask;
+use App\SubTaskTitle;
 
 class ManageSubTaskController extends AdminBaseController
 {
@@ -34,6 +35,7 @@ class ManageSubTaskController extends AdminBaseController
      */
     public function create(Request $request)
     {
+        $this->titles = SubTaskTitle::orderBy('name')->get();
         $this->taskID = $request->task_id;
         $this->upload = can_upload();
         return view('admin.sub_task.create', $this->data);
@@ -87,6 +89,8 @@ class ManageSubTaskController extends AdminBaseController
      */
     public function edit($id)
     {
+
+        $this->titles = SubTaskTitle::orderBy('name')->get();
         $this->subTask = SubTask::findOrFail($id);
         $this->upload = can_upload();
         return view('admin.sub_task.edit', $this->data);

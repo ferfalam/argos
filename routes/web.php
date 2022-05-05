@@ -407,6 +407,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::resource('events-category', 'EventCategoryController');
                 Route::resource('milestone-title', 'ManageMilestoneTitleController');
                 Route::resource('task-title', 'ManageTaskTitleController');
+                Route::resource('sub-task-title', 'ManageSubTaskTitleController');
                 Route::resource('room', 'RoomController');
 
                 Route::get('clientCategory/create-cat', ['uses' => 'ClientCategoryController@createCat'])->name('clientCategory.create-cat');

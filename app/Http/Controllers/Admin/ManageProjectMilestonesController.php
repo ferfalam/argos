@@ -84,7 +84,7 @@ class ManageProjectMilestonesController extends AdminBaseController
     {
         $this->project = Project::findorFail($id);
         $this->currencies = Currency::all();
-        $this->milestoneTitle = MilestoneTitle::all();
+        $this->milestoneTitle = MilestoneTitle::orderBy('name')->get();
         return view('admin.projects.milestones.show', $this->data);
     }
 
@@ -98,7 +98,7 @@ class ManageProjectMilestonesController extends AdminBaseController
     {
         $this->milestone = ProjectMilestone::findOrFail($id);
         $this->currencies = Currency::all();
-        $this->milestoneTitle = MilestoneTitle::all();
+        $this->milestoneTitle = MilestoneTitle::orderBy('name')->get();
         return view('admin.projects.milestones.edit', $this->data);
     }
 

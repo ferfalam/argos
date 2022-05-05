@@ -393,7 +393,7 @@ return array (
   'november' => 'novembre',
   'december' => 'décembre',
   'complete' => 'Compléter',
-  'low' => 'Meugler',
+  'low' => 'Bas',
   'Manage role' => 'Gérer le rôle',
   'Search:' => 'Chercher:',
   'mo' => 'Moche',

@@ -23,8 +23,8 @@
                         <div class="form-group">
                             <label class="control-label required">@lang('app.title')</label>
                             <a href="javascript:;"
-                            id="createTaskTitle"
-                            class="btn btn-xs btn-outline btn-success">
+                            id=""
+                            class="btn btn-xs btn-outline btn-success createTaskTitle">
                                 <i class="fa fa-plus"></i> 
                             </a>
                             
@@ -233,10 +233,11 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label class="control-label">@lang('modules.tasks.taskCategory') <a
+                            <label class="control-label">@lang('modules.tasks.taskCategory') 
+                                {{-- <a
                                         href="javascript:;" id="createTaskCategory"
                                         class="btn btn-sm btn-outline btn-success"><i
-                                            class="fa fa-plus"></i> @lang('modules.taskCategory.addTaskCategory')</a>
+                                            class="fa fa-plus"></i> @lang('modules.taskCategory.addTaskCategory')</a> --}}
                             </label>
                             <select class="selectpicker form-control" name="category_id" id="category_id"
                                     data-style="form-control">
@@ -427,7 +428,7 @@
             $('#set-time-estimate-fields-2').hide();
         }
     })
-    $('#createTaskTitle').click(function(){
+    $('.createTaskTitle').click(function(){
         var url = '{{ route('admin.task-title.create')}}';
         $('#modelHeading').html("@lang('modules.contracts.manageContractType')");
         $.ajaxModal('#taskCategoryModal', url);
