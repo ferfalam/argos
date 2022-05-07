@@ -32,7 +32,7 @@ class ManageDesignationController extends AdminBaseController
      */
     public function index()
     {
-        $this->groups = Designation::with('members', 'members.user')->get();
+        $this->groups = Designation::with('members', 'members.user')->where('company_id', company()->id)->orderBy('name')->get();
         return view('admin.designation.index', $this->data);
     }
 

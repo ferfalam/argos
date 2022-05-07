@@ -56,16 +56,16 @@
                             <div class="col-md-7">
                                 <h3 class="box-title m-b-0">@lang('modules.projects.members')</h3>
 
-                            @forelse($group->member as $member)
-                                    <div class="row">
+                            @forelse($group->member() as $member)
+                                    <div class="row" style="display: flex">
                                         <div class="col-sm-2 col-md-1 p-10">
-                                            {!!  '<img src="'.$member->user->image_url.'"
+                                            {!!  '<img src="'.$member->image_url.'"
                                                             alt="user" class="img-circle" width="40" height="40">' !!}
 
                                         </div>
                                         <div class="col-sm-7">
-                                            <h5>{{ ucwords($member->user->name) }}</h5>
-                                            <h6>{{ $member->user->email }}</h6>
+                                            <h5>{{ ucwords($member->name) }}</h5>
+                                            <h6>{{ $member->email }}</h6>
                                         </div>
                                         <div class="col-sm-3 p-20">
                                         </div>

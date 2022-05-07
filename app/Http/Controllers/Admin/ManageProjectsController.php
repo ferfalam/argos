@@ -70,12 +70,12 @@ class ManageProjectsController extends AdminBaseController
         $this->canceledProjects = Project::canceled()->count();
         $this->notStartedProjects = Project::notStarted()->count();
         $this->overdueProjects = Project::overdue()->count();
-        $this->allEmployees = User::allEmployees();
-        $this->projects = Project::all();
+        $this->allEmployees = User::allEmployeesByCompany(company()->id);
+        $this->projects = Project::orderBy('project_name')->get();
         //Budget Total
         $this->projectBudgetTotal = Project::sum('project_budget');
-        $this->categories = ProjectCategory::all();
-        $this->places = ProjectPlace::all();
+        $this->categories = ProjectCategory::orderBy('category_name')->get();
+        $this->places = ProjectPlace::orderBy('place_name')->get();
 
         $this->projectEarningTotal = Payment::join('projects', 'projects.id', '=', 'payments.project_id')
             ->where('payments.status', 'complete')
@@ -106,12 +106,13 @@ class ManageProjectsController extends AdminBaseController
     public function create()
     {
         $this->clients = User::allClients();
-        $this->categories = ProjectCategory::all();
-        $this->technologies = ProjectPlace::all();
+        $this->categories = ProjectCategory::orderBy('category_name')->get();
+        $this->technologies = ProjectPlace::orderBy('place_name')->get();
         $this->templates = ProjectTemplate::all();
         $this->currencies = Currency::all();
-        $this->employees = User::allEmployees()->where('status', 'active');
-        $this->spvs = SpvDetails::all();
+        $this->employees = User::allEmployeesByCompany(company()->id)->merge(User::allAdminsByCompany(company()->id));
+        // dd($this->employees);
+        $this->spvs = User::allSpv();
 
         $project = new Project();
         $this->upload = can_upload();
@@ -429,12 +430,12 @@ class ManageProjectsController extends AdminBaseController
     public function edit($id)
     {
         $this->clients = User::allClients();
-        $this->categories = ProjectCategory::all();
-        $this->places = ProjectPlace::all();
+        $this->categories = ProjectCategory::orderBy('category_name')->get();
+        $this->places = ProjectPlace::orderBy('place_name')->get();
         $this->project = Project::findOrFail($id)->withCustomFields();
         $this->fields = $this->project->getCustomFieldGroupsWithFields()->fields;
         $this->currencies = Currency::all();
-        $this->spvs = SpvDetails::all();
+        $this->spvs = User::allSpv();
         return view('admin.projects.edit', $this->data);
     }
 
@@ -785,13 +786,13 @@ class ManageProjectsController extends AdminBaseController
     public function ajaxCreate(Request $request, $projectId=null)
     {
         $this->pageName = 'ganttChart';
-        $this->employees  = User::allEmployees();
+        $this->employees  = User::allEmployeesByCompany(company()->id);
         if($projectId){
             $this->employees = ProjectMember::byProject($projectId);
             $this->projectId = $projectId;
 
         }
-        $this->projects = Project::all();
+        $this->projects = Project::orderBy('project_name')->get();
         $this->categories = TaskCategory::all();
 
         $this->parentGanttId = ($request->has('parent_gantt_id')) ? $request->parent_gantt_id : '';

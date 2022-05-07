@@ -17,6 +17,7 @@ use App\Http\Requests\Admin\Employee\StoreRequest;
 use App\Http\Requests\Admin\Employee\UpdateRequest;
 use App\Leave;
 use App\LeaveType;
+use App\Models\Messageuser;
 use App\Project;
 use App\ProjectMember;
 use App\ProjectTimeLog;
@@ -45,7 +46,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->pageTitle = 'app.menu.employees';
         $this->pageIcon = 'icon-user';
         $this->countries = Country::all();
-        $this->tla = CompanyTLA::all();
+        $this->tla = CompanyTLA::orderBy('name')->get();
         $this->middleware(function ($request, $next) {
             abort_if(!in_array('employees', $this->user->modules), 403);
             return $next($request);
@@ -59,29 +60,29 @@ class ManageEmployeesController extends AdminBaseController
      */
     public function index(EmployeesDataTable $dataTable)
     {
-        $this->employees = User::allEmployees();
-        $this->skills = Skill::all();
-        $this->departments = Team::all();
-        $this->designations = Designation::all();
+        $this->employees = User::allUsersByCompany(company()->id);
+        $this->skills = Skill::orderBy('name', 'asc')->get();
+        $this->departments = Team::orderBy('team_name', 'asc')->get();
+        $this->designations = Designation::orderBy('name', 'asc')->get();
         $this->totalEmployees = count(User::allUsersByCompany(company()->id));
-        $this->roles = Role::where('roles.name', 'Employee')->get();
+        $this->roles = Role::orderBy('name', 'asc')->where('company_id', company()->id)->get();
         $whoseProjectCompleted = ProjectMember::join('projects', 'projects.id', '=', 'project_members.project_id')
             ->join('users', 'users.id', '=', 'project_members.user_id')
             ->select('users.*')
             ->groupBy('project_members.user_id')
             ->havingRaw('min(projects.completion_percent) = 100 and max(projects.completion_percent) = 100')
-            ->orderBy('users.id')
+            ->orderBy('users.name')
             ->get();
 
         $notAssignedProject = User::join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name')->whereNotIn('users.id', function ($query) {
-
                 $query->select('user_id as id')->from('project_members');
             })
             // ->where('roles.name', 'Employee')
             ->where('users.super_admin', '0')
             ->where('users.company_id', company()->id)
+            ->orderBy('users.name', 'asc')
             ->get();
 
         $this->freeEmployees = $whoseProjectCompleted->merge($notAssignedProject)->count();
@@ -99,14 +100,14 @@ class ManageEmployeesController extends AdminBaseController
     {
         $employee = new EmployeeDetails();
         $this->fields = $employee->getCustomFieldGroupsWithFields()->fields;
-        $this->teams = Team::all();
-        $this->designations = Designation::all();
+        $this->teams = Team::orderBy('team_name', 'asc')->get();
+        $this->designations = Designation::orderBy('name', 'asc')->get();
         $this->lastEmployeeID = EmployeeDetails::count();
-        $this->countries = Country::all();
-        $this->roles = Role::all();
-        $this->groups = Team::all();
-        $this->skills = Skill::where('company_id', company()->id)->get();
-        $this->designations = Designation::with('members', 'members.user')->get();
+        $this->countries = Country::orderBy('name', 'asc')->get();
+        $this->roles = Role::orderBy('name', 'asc')->get();
+        $this->groups = Team::orderBy('team_name', 'asc')->get();
+        $this->skills = Skill::orderBy('name', 'asc')->where('company_id', company()->id)->get();
+        $this->designations = Designation::orderBy('name', 'asc')->with('members', 'members.user')->get();
         $this->roles = Role::where('company_id', company()->id)->get();
 
         if (request()->ajax()) {
@@ -237,7 +238,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->logSearchEntry($user->id, $user->name, 'admin.employees.show', 'employee');
 
         if ($request->has('ajax_create')) {
-            $teams = User::allEmployees();
+            $teams = User::allUsersByCompany(company()->id);
             $teamData = '';
 
             foreach ($teams as $team) {
@@ -312,15 +313,15 @@ class ManageEmployeesController extends AdminBaseController
         $this->userDetail = User::withoutGlobalScope('active')->findOrFail($id);
         //dd($this->userDetail);
         $this->employeeDetail = EmployeeDetails::where('user_id', '=', $this->userDetail->id)->first();
-        $this->teams = Team::all();
-        $this->designations = Designation::all();
-        $this->countries = Country::all();
+        $this->teams = Team::orderBy('team_name', 'asc')->get();
+        $this->designations = Designation::orderBy('name', 'asc')->get();
+        $this->countries = Country::orderBy('name', 'asc')->get();
         $this->userRole = Role::find($this->userDetail->role()->get()[0]->role_id);
         $this->EmployeeSkill = EmployeeSkill::where('user_id', $id)->pluck('skill_id')->toArray();
-        $this->groups = Team::all();
-        $this->skills = Skill::where('company_id', company()->id)->get();
-        $this->designations = Designation::with('members', 'members.user')->get();
-        $this->roles = Role::where('company_id', company()->id)->get();
+        $this->groups = Team::orderBy('team_name', 'asc')->get();
+        $this->skills = Skill::orderBy('name', 'asc')->where('company_id', company()->id)->get();
+        $this->designations = Designation::orderBy('name', 'asc')->with('members', 'members.user')->get();
+        $this->roles = Role::orderBy('name', 'asc')->where('company_id', company()->id)->get();
 
         if (!is_null($this->employeeDetail)) {
             $this->employeeDetail = $this->employeeDetail->withCustomFields();

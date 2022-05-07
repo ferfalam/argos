@@ -52,12 +52,12 @@ class AdminSPVController extends AdminBaseController
     $this->pageIcon = 'icon-people';
     $this->clients = User::allSpv();
     $this->totalClients = count($this->clients);
-    $this->categories = SpvCategory::all();
-    $this->projects = Project::all();
-    $this->contracts = ContractType::all();
-    $this->countries = Country::all();
-    $this->subcategories = SpvSubCategory::all();
-    $this->tla = CompanyTLA::all();
+    $this->categories = SpvCategory::orderBy('category_name')->get();
+    $this->projects = Project::orderBy('project_name')->get();
+    $this->contracts = ContractType::orderBy('name')->get();
+    $this->countries = Country::orderBy('name')->get();
+    $this->subcategories = SpvSubCategory::orderBy('category_name')->get();
+    $this->tla = CompanyTLA::orderBy('name')->get();
   }
 
   /**
@@ -67,7 +67,7 @@ class AdminSPVController extends AdminBaseController
    */
   public function index(SpvDataTable $dataTable)
   {
-    $this->spv = User::allClients();
+    $this->spv = User::allExternesByCompany(company()->id);
 
     $this->spv = $this->spv->first();
     return $dataTable->render('admin.spv.index', $this->data);
@@ -95,10 +95,10 @@ class AdminSPVController extends AdminBaseController
 
 
     $Spv = new SpvDetails();
-    $this->categories = SpvCategory::all();
-    $this->subcategories = SpvSubCategory::all();
+    $this->categories = SpvCategory::orderBy('category_name')->get();
+    $this->subcategories = SpvSubCategory::orderBy('category_name')->get();
     // $this->fields = $Spv->getCustomFieldGroupsWithFields()->fields;
-    $this->countries = Country::all();
+    $this->countries = Country::orderBy('name')->get();
     $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
     $this->designations = Designation::with('members', 'members.user')->get();
 
@@ -197,7 +197,7 @@ class AdminSPVController extends AdminBaseController
     }
 
     if ($request->has('ajax_create')) {
-        $teams = User::allClients();
+        $teams = User::allExternesByCompany(company()->id);
         $teamData = '';
 
         foreach ($teams as $team) {
@@ -215,8 +215,8 @@ class AdminSPVController extends AdminBaseController
 
   public function show($id)
   {
-    $this->categories = Spvcategory::all();
-    $this->subcategories = SpvSubCategory::all();
+    $this->categories = Spvcategory::orderBy('category_name')->get();
+    $this->subcategories = SpvSubCategory::orderBy('category_name')->get();
     $this->spvDetails = SpvDetails::where('id', '=', $id)->first();
     $this->clientStats = $this->clientStats($id);
     $this->country = Country::where('id', $this->spvDetails->country_id)->first();
@@ -250,9 +250,9 @@ class AdminSPVController extends AdminBaseController
     }
     $this->clientWebsite = $this->websiteCheck($this->spvDetails->website);
 
-    $this->countries = Country::all();
-    $this->categories = SpvCategory::all();
-    $this->subcategories = SpvSubCategory::all();
+    $this->countries = Country::orderBy('name')->get();
+    $this->categories = SpvCategory::orderBy('category_name')->get();
+    $this->subcategories = SpvSubCategory::orderBy('category_name')->get();
     $this->contects  = Contect::where('spv_detail_id',$id)->get();
 
     $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
@@ -472,7 +472,7 @@ class AdminSPVController extends AdminBaseController
   }
 
   // public function showNotes($id){
-  //   $this->clients = User::allClients();
+  //   $this->clients = User::allExt allExternesByCompany(company()->id);
   //   $this->employees = User::allEmployees();
 
   //   $this->notes = Notes::where('client_id',$id)->get();
@@ -487,7 +487,7 @@ class AdminSPVController extends AdminBaseController
     //  $this->client = User::findClient($id);
     // $this->clientStats = $this->clientStats($id);
 
-    $this->clients = User::allClients();
+    $this->clients = User::allExternesByCompany(company()->id);
     $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
     $this->notes = Notes::where('spv_detail_id', $id)->get();
     // $this->client = User::findClient($id);
@@ -686,7 +686,7 @@ class AdminSPVController extends AdminBaseController
 
   public function editNotes($id)
   {
-    $this->clients = User::allClients();
+    $this->clients = User::allExternesByCompany(company()->id);
     $this->employees = User::allEmployees()->where('id', '!=', $this->user->id);
     $this->notes = Notes::findOrFail($id);
     $this->spv_user_notes = SpvUserNotes::where('note_id', '=', $this->notes->id)->get();
@@ -720,7 +720,7 @@ class AdminSPVController extends AdminBaseController
   }
   public function viewNotes($id)
   {
-      $this->clients = User::allClients();
+      $this->clients = User::allExternesByCompany(company()->id);
       $this->employees = User::allEmployees();
       $this->notes = Notes::findOrFail($id);
       $this->spvMembers = $this->notes->spvMember->pluck('user_id')->toArray();

@@ -154,6 +154,8 @@
 
     <script>
         $(function() {
+
+            window.LaravelDataTables["clients-table"].order([[2, 'asc']]);
             var dateformat = '{{ $global->moment_format }}';
 
             var start = '';
@@ -246,6 +248,7 @@
                             success: function (response) {
                                 if (response.status == "success") {
                                     $.easyBlockUI('#clients-table');
+                                    window.LaravelDataTables["clients-table"].order([[1, 'asc']]);
                                     window.LaravelDataTables["clients-table"].draw();
                                     $.easyUnblockUI('#clients-table');
                                 }
@@ -296,6 +299,7 @@
 
             $.easyBlockUI('#clients-table');
 
+            window.LaravelDataTables["clients-table"].order([[1, 'asc']]);
             window.LaravelDataTables["clients-table"].draw();
             
             $.easyUnblockUI('#clients-table');
@@ -312,6 +316,7 @@
             $('#end-date').val('');
             $('#reportrange span').html('');
 
+            window.LaravelDataTables["clients-table"].order([[1, 'asc']]);
             window.LaravelDataTables["clients-table"].draw();
             $.easyUnblockUI('#clients-table');
         })

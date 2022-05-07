@@ -259,6 +259,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         $clients = ClientDetails::join('users', 'client_details.company_id', '=', 'users.company_id')
             ->select('client_details.id', 'client_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'client_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+            ->orderBy('client_details.company_name')
             ->groupBy('client_details.company_name')->get();
 
         return $clients;
@@ -269,6 +270,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         $clients = SupplierDetails::join('users', 'supplier_details.company_id', '=', 'users.company_id')
             ->select('supplier_details.id', 'supplier_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'supplier_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+            ->orderBy('supplier_details.company_name')
             ->groupBy('supplier_details.company_name')->get();
 
         return $clients;
@@ -278,6 +280,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         $clients = SpvDetails::join('users', 'spv_details.company_id', '=', 'users.company_id')
         ->select('spv_details.id', 'spv_details.name', 'users.email', 'users.email_notifications', 'users.created_at', 'spv_details.company_name', 'users.image', 'users.mobile', 'users.country_id')
+        ->orderBy('spv_details.company_name')
         ->groupBy('spv_details.company_name')
         ->get();
 
@@ -335,7 +338,8 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         if (!is_null($exceptId)) {
             $users->where('users.id', '<>', $exceptId);
         }
-
+        
+        $users->orderBy('users.name', 'asc');
         return $users->get();
     }
 
@@ -364,7 +368,8 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $users = User::join('employee_teams', 'employee_teams.user_id', '=', 'users.id')
             ->select('users.id', 'users.name', 'users.email', 'users.created_at')
             ->where('employee_teams.team_id', $teamId);
-
+        
+        $users->orderBy('users.name', 'asc');
         return $users->get();
     }
 
@@ -612,6 +617,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'users.created_at')
             ->where('roles.name', 'Employee')
+            ->orderBy('users.name', 'asc')
             ->groupBy('users.id')
             ->where('users.company_id', $companyID)
             ->get();
@@ -623,17 +629,19 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         ->join('roles', 'roles.id', '=', 'role_user.role_id')
         ->select('users.id', 'users.name', 'users.email', 'users.created_at')
         ->where('roles.name', 'admin')
+        ->orderBy('users.name', 'asc')
         ->groupBy('users.id')
         ->where('users.company_id', $companyID)
             ->get();
     }
 
-    public static function allClientsByCompany($companyID)
+    public static function allExternesByCompany($companyID)
     {
         return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
         ->join('roles', 'roles.id', '=', 'role_user.role_id')
         ->select('users.id', 'users.name', 'users.email', 'users.created_at')
         ->where('roles.name', 'client')
+        ->orderBy('users.name', 'asc')
         ->groupBy('users.id')
         ->where('users.company_id', $companyID)
         ->get();
@@ -645,6 +653,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return User::withoutGlobalScope('active')->join('role_user', 'role_user.user_id', '=', 'users.id')
         ->join('roles', 'roles.id', '=', 'role_user.role_id')
         ->select('users.id', 'users.name', 'users.email', 'users.created_at')
+        ->orderBy('users.name', 'asc')
         ->groupBy('users.id')
         ->where('users.super_admin', "0")
         ->where('users.company_id', $companyID)

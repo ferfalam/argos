@@ -33,7 +33,7 @@ class ManageTeamsController extends AdminBaseController
      */
     public function index()
     {
-        $this->groups = Team::where('company_id',company()->id)->get();
+        $this->groups = Team::where('company_id',company()->id)->orderBy('team_name')->get();
         return view('admin.teams.index', $this->data);
     }
 
@@ -81,7 +81,7 @@ class ManageTeamsController extends AdminBaseController
      */
     public function edit($id)
     {
-        $this->group = Team::with('member')->findOrFail($id);
+        $this->group = Team::with('members')->findOrFail($id);
 
         return view('admin.teams.edit', $this->data);
     }

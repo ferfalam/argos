@@ -337,6 +337,8 @@
 {!! $dataTable->scripts() !!}
 <script>
     $(function() {
+
+        window.LaravelDataTables["projects-table"].order([[2, 'asc']]);
         var dateformat = '{{ $global->moment_format }}';
 
         var start = '';
@@ -444,6 +446,7 @@
             data['espace_id'] = espace;
             data['publish'] = publish;
         });
+        window.LaravelDataTables["projects-table"].order([[2, 'asc']]);
         window.LaravelDataTables["projects-table"].draw();
     }
 

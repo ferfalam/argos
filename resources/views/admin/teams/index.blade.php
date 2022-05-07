@@ -53,7 +53,7 @@
                     <div class="btn-group dropdown m-r-10">
                         <span aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" type="button"><ion-icon name="ellipsis-vertical"></ion-icon></span>
                         <ul role="menu" class="dropdown-menu pull-right">
-                            <li><a href="{{ route('admin.teams.edit', [$group->id]) }}"><i class="icon-settings"></i> @lang('app.manage')</a></li>
+                            <li><a href="{{ route('admin.teams.edit', [$group->id]) }}"><i class="icon-settings"></i> @lang('app.modify')</a></li>
                             <li><a href="javascript:;"  data-group-id="{{ $group->id }}" class="sa-params"><i class="fa fa-times" aria-hidden="true"></i> @lang('app.delete') </a></li>
 
                         </ul>

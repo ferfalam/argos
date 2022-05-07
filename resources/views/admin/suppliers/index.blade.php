@@ -137,6 +137,7 @@
 
 <script>
     $(function() {
+            window.LaravelDataTables["suppliers-table"].order([[2, "asc"]]);
             var dateformat = '{{ $global->moment_format }}';
 
             var start = '';
@@ -233,6 +234,7 @@
                             success: function (response) {
                                 if (response.status == "success") {
                                     $.easyBlockUI('#suppliers-table');
+                                    window.LaravelDataTables["suppliers-table"].order([[2, "asc"]]);
                                     window.LaravelDataTables["suppliers-table"].draw();
                                     $.easyUnblockUI('#suppliers-table');
                                 }
@@ -279,6 +281,7 @@
                 data['country_id'] = country_id;
             });
             $.easyBlockUI('#suppliers-table');
+            window.LaravelDataTables["suppliers-table"].order([[2, "asc"]]);
             window.LaravelDataTables["suppliers-table"].draw();
             $.easyUnblockUI('#suppliers-table');
         });
@@ -293,6 +296,7 @@
             $('#end-date').val('');
             $('#reportrange span').html('');
 
+            window.LaravelDataTables["suppliers-table"].order([[2, "asc"]]);
             window.LaravelDataTables["suppliers-table"].draw();
             $.easyUnblockUI('#suppliers-table');
         })

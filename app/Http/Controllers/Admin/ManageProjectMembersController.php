@@ -82,10 +82,11 @@ class ManageProjectMembersController extends AdminBaseController
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.id', 'users.name', 'users.email', 'users.created_at')
             ->where('roles.name', 'employee')
+            ->where('users.company_id', company()->id)
             ->groupBy('users.id')
             ->distinct('users.id')
             ->get();
-        $this->groups = Team::all();
+        $this->groups = Team::orderBy('team_name')->get();
 
         return view('admin.projects.project-member.create', $this->data);
     }

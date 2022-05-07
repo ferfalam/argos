@@ -1346,6 +1346,7 @@ return array (
   array (
     'attendance' => 'Présence',
     'clients' => 'Clients',
+    'tiers' => 'Tiers',
     'employees' => 'Liste des Utilisateurs',
     'estimates' => 'Estimations',
     'events' => 'Événements',

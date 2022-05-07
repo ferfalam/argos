@@ -56,7 +56,7 @@
                                 <h3 class="box-title m-b-0">@lang('modules.projects.members')</h3>
 
                             @forelse($designation->members as $member)
-                                    <div class="row">
+                                    <div class="row" style="display: flex">
                                         <div class="col-sm-2 col-md-1 p-10">
                                             {!!  '<img src="'.$member->user->image_url.'"
                                                             alt="user" class="img-circle" width="40" height="40">' !!}

@@ -39,8 +39,8 @@ class AdminSuppliersController extends AdminBaseController
     parent::__construct();
     $this->pageTitle = 'app.menu.suppliers';
     $this->pageIcon = 'icon-people';
-    $this->countries = Country::all();
-    $this->tla = CompanyTLA::all();
+    $this->countries = Country::orderBy('name')->get();
+    $this->tla = CompanyTLA::orderBy('name')->get();
     $this->middleware(function ($request, $next) {
         abort_if(!in_array('clients', $this->user->modules), 403);
         return $next($request);
@@ -57,11 +57,11 @@ class AdminSuppliersController extends AdminBaseController
 
         $this->clients = User::allSuppliers();
         $this->totalClients = count($this->clients);
-        $this->categories = SupplierCategory::all();
-        $this->projects = Project::all();
-        $this->contracts = ContractType::all();
-        $this->countries = Country::all();
-        $this->subcategories = SupplierSubCategory::all();
+        $this->categories = SupplierCategory::orderBy('category_name')->get();;
+        $this->projects = Project::orderBy('project_name')->get();
+        $this->contracts = ContractType::orderBy('name')->get();;
+        $this->countries = Country::orderBy('name')->get();
+        $this->subcategories = SupplierSubCategory::orderBy('category_name')->get();;
         return $dataTable->render('admin.suppliers.index', $this->data);
   }
 
@@ -84,10 +84,10 @@ class AdminSuppliersController extends AdminBaseController
     }
 
       $client = new SupplierDetails();
-      $this->categories = SupplierCategory::all();
-      $this->subcategories = SupplierSubCategory::all();
+      $this->categories = SupplierCategory::orderBy('category_name')->get();;
+      $this->subcategories = SupplierSubCategory::orderBy('category_name')->get();;
       //$this->fields = $client->getCustomFieldGroupsWithFields()->fields;  
-      $this->countries = Country::all();
+      $this->countries = Country::orderBy('name')->get();
       $this->contects  = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
       $this->designations = Designation::with('members', 'members.user')->get();
 
@@ -268,9 +268,9 @@ class AdminSuppliersController extends AdminBaseController
     //         ->first();
 
     $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
-    $this->countries = Country::all();
-    $this->categories = SupplierCategory::all();
-    $this->subcategories = SupplierSubCategory::all();
+    $this->countries = Country::orderBy('name')->get();
+    $this->categories = SupplierCategory::orderBy('category_name')->get();;
+    $this->subcategories = SupplierSubCategory::orderBy('category_name')->get();;
     $this->contects  = Contect::where('supplier_detail_id',$id)->get();
 
     $this->freeContacts = Contect::where('client_detail_id',null)->where('supplier_detail_id',null)->where('spv_detail_id',null)->get();
@@ -285,8 +285,8 @@ class AdminSuppliersController extends AdminBaseController
         // $user = DB::table('users')->where('id',$id)->get(); 
 
         // $this->client = User::findClient($id);
-        $this->categories = SupplierCategory::all();
-        $this->subcategories = SupplierSubCategory::all();
+        $this->categories = SupplierCategory::orderBy('category_name')->get();;
+        $this->subcategories = SupplierSubCategory::orderBy('category_name')->get();;
         $this->supplierDetail = SupplierDetails::where('id', '=', $id)->first();
 
         if($this->supplierDetail->contacts_id != null){

@@ -179,6 +179,7 @@
                     type : type
                  },
             },
+            order:[1, 'asc'],
             deferRender: true,
             language: {
                 "url": "<?php echo __("app.datatable") ?>"
@@ -213,6 +214,7 @@
                 'url': '{{ route("admin.contact.getResult") }}',
                 'data':{ query : str_val },
             },
+            order:[1, 'asc'],
             deferRender: true,
             language: {
                 "url": "<?php echo __("app.datatable") ?>"

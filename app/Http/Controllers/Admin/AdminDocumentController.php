@@ -37,11 +37,12 @@ class AdminDocumentController extends AdminBaseController
     $this->totalDatarooms = DataRoom::count();
     $this->totalCanPublish = DataRoom::canPublish()->count();
     $this->totalCanNotPublish = DataRoom::canNotPublish()->count();
-    $this->datarooms = DataRoom::all();
-    $this->projects = Project::all();
-    $this->espaces = Espace::all();
+    $this->datarooms = DataRoom::orderBy('doc_name')->get();
+    $this->projects = Project::orderBy('project_name')->get();
+    $this->espaces = Espace::orderBy('espace_name')->get();
     $this->usedEspaces = DataRoom::select('espaces.*')
     ->join('espaces', 'espaces.id', 'data_rooms.espace_id')
+    ->orderBy('espaces.espace_name')
     ->groupBy('espace_id')
     ->get();
 

@@ -35,12 +35,12 @@ class AdminEventCalendarController extends AdminBaseController
     public function index()
     {
        
-        $this->employees = User::allEmployees();
+        $this->employees = User::allEmployeesByCompany(company()->id);
         $this->events = Event::all();
-        $this->rooms = Room::where('company_id', company()->id)->get();
-        $this->clients = User::allExterne();
-        $this->categories = EventCategory::all();
-        $this->eventTypes = EventType::all();
+        $this->rooms = Room::orderBy('name')->where('company_id', company()->id)->get();
+        $this->clients = User::allExternesByCompany(company()->id);
+        $this->categories = EventCategory::orderBy('category_name')->get();
+        $this->eventTypes = EventType::orderBy('name')->get();
         $this->unique_id = uniqid();
         return view('admin.event-calendar.index', $this->data);
     }
@@ -145,7 +145,7 @@ class AdminEventCalendarController extends AdminBaseController
         $event->save();
         $eventIds [] = $event->id;
         if ($request->all_employees) {
-            $attendees = User::allEmployees();
+            $attendees = User::allEmployeesByCompany(company()->id);
             foreach ($attendees as $attendee) {
                 EventAttendee::create(['user_id' => $attendee->id, 'event_id' => $event->id]);
             }
@@ -213,7 +213,7 @@ class AdminEventCalendarController extends AdminBaseController
                 $event->save();
 
                 if ($request->all_employees) {
-                    $attendees = User::allEmployees();
+                    $attendees = User::allEmployeesByCompany(company()->id);
                     foreach ($attendees as $attendee) {
                         EventAttendee::create(['user_id' => $attendee->id, 'event_id' => $event->id]);
                     }
@@ -237,11 +237,11 @@ class AdminEventCalendarController extends AdminBaseController
 
     public function edit($id)
     {
-        $this->employees = User::allEmployees();
-        $this->clients = User::allExterne();
+        $this->employees = User::allEmployeesByCompany(company()->id);
+        $this->clients = User::allExternesByCompany(company()->id);
         $this->event = Event::with('attendee')->findOrFail($id);
-        $this->categories = EventCategory::all();
-        $this->eventTypes = EventType::all();
+        $this->categories = EventCategory::orderBy('category_name')->get();
+        $this->eventTypes = EventType::orderBy('name')->get();
         $arr = [];
         foreach($this->event->attendee  as $emp){
             if(in_array($emp->user_id, $this->employees->pluck('id')->toArray())){
@@ -281,7 +281,7 @@ class AdminEventCalendarController extends AdminBaseController
 
 
         if ($request->all_employees) {
-            $attendees = User::allEmployees();
+            $attendees = User::allEmployeesByCompany(company()->id);
             foreach ($attendees as $attendee) {
                 $checkExists = EventAttendee::where('user_id', $attendee->id)->where('event_id', $event->id)->first();
                 if (!$checkExists) {
@@ -373,7 +373,7 @@ class AdminEventCalendarController extends AdminBaseController
                 $event->label_color = $request->label_color;
                 $event->save();
                 if ($request->all_employees) {
-                    $attendees = User::allEmployees();
+                    $attendees = User::allEmployeesByCompany(company()->id);
                     foreach ($attendees as $attendee) {
                         EventAttendee::create(['user_id' => $attendee->id, 'event_id' => $event->id]);
                     }

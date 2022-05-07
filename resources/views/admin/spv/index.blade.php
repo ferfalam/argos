@@ -150,6 +150,8 @@
 
     <script>
         $(function() {
+
+            window.LaravelDataTables["Spv-table"].order([[2, 'asc']]);
             var dateformat = '{{ $global->moment_format }}';
 
             var start = '';
@@ -241,7 +243,7 @@
                             data: {'_token': token, '_method': 'DELETE'},
                             success: function (response) {
                                 if (response.status == "success") {
-                                    $.easyBlockUI('#Spv-table');
+                                        window.LaravelDataTables["Spv-table"].order([[2, 'asc']]);$.easyBlockUI('#Spv-table');
                                     window.LaravelDataTables["Spv-table"].draw();
                                     $.easyUnblockUI('#Spv-table');
                                 }
@@ -291,7 +293,7 @@
             });
 
             $.easyBlockUI('#Spv-table');
-
+            window.LaravelDataTables["Spv-table"].order([[2, 'asc']]);
             window.LaravelDataTables["Spv-table"].draw();
             
             $.easyUnblockUI('#Spv-table');
@@ -307,7 +309,7 @@
             $('#start-date').val('');
             $('#end-date').val('');
             $('#reportrange span').html('');
-
+            window.LaravelDataTables["Spv-table"].order([[2, 'asc']]);
             window.LaravelDataTables["Spv-table"].draw();
             $.easyUnblockUI('#Spv-table');
         })

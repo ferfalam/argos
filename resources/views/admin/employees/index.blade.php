@@ -74,7 +74,7 @@
                         @if ($role->id <= 3)
                             <option value="{{$role->id}}">{{ __('app.' . $role->name) }}</option>
                         @else
-                            <option value="{{$role->id}}">{{ ucfirst($role->name )}}</option>
+                            <option value="{{$role->id}}">{{ ucfirst($role->display_name )}}</option>
                         @endif
                     @empty
                     @endforelse
@@ -220,6 +220,8 @@
         });
     });
     function loadTable(){
+
+        window.LaravelDataTables["employees-table"].order([[3, 'asc']])
         window.LaravelDataTables["employees-table"].draw();
     }
 

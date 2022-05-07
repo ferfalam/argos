@@ -35,12 +35,12 @@ class AdminContactController extends AdminBaseController
   public function index()
   {
     $this->pageTitle = 'app.menu.contacts';
-    $this->designations = Designation::all();
+    $this->designations = Designation::orderBy('name')->get();
     return view('admin.contact.index', $this->data);
   }
 
   public function create($type = null,$client_id = null)
-  {     
+  {    
     $this->type  =  $type;
     $this->pageTitle = 'app.addContact';
 
@@ -56,7 +56,7 @@ class AdminContactController extends AdminBaseController
       $this->clients = ClientDetails::all();
     }
 
-    $this->designations = Designation::with('members', 'members.user')->get();
+    $this->designations = Designation::with('members', 'members.user')->orderBy('name')->get();
     $this->employees = User::allEmployeesByCompany(company()->id);
     $this->admins = User::allAdminsByCompany(company()->id);
 

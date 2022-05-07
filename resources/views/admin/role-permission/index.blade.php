@@ -72,7 +72,7 @@
     
     
                                     <div class="col-md-12 b-t permission-section" style="display: none;" id="role-permission-{{ $role->id }}" >
-                                        <table class="table ">
+                                        {{-- <table class="table ">
                                             <thead>
                                             <tr class="bg-white">
                                                 <th>
@@ -124,7 +124,7 @@
                                                     @endif
                                                 @endforeach
                                             </tbody>
-                                        </table>
+                                        </table> --}}
                                     </div>
                                 </div>
                             </div>

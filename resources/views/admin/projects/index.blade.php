@@ -207,6 +207,7 @@
 
     $(function() {
 
+        window.LaravelDataTables["projects-table"].order([[1, 'asc']]);
         $('body').on('click', '.archive', function(){
             var id = $(this).data('user-id');
             swal({
@@ -333,6 +334,7 @@
             data['project_id'] = project_id;
 
         });
+        window.LaravelDataTables["projects-table"].order([[1, 'asc']]);
         window.LaravelDataTables["projects-table"].draw();
     }
 

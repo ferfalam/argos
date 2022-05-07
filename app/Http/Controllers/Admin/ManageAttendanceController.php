@@ -180,7 +180,7 @@ class ManageAttendanceController extends AdminBaseController
             ->where(DB::raw('DATE(attendances.clock_in_time)'), '=', $this->date)
             ->whereNull('attendances.clock_out_time')->count();
         $this->type = 'edit';
-        $this->tla = CompanyTLA::all();
+        $this->tla = CompanyTLA::orderBy('name')->get();
         return view('admin.attendance.attendance_mark', $this->data);
     }
 
@@ -250,7 +250,7 @@ class ManageAttendanceController extends AdminBaseController
 
         $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
         $attendances = Attendance::attendanceByDate($date);
-        $this->tla = CompanyTLA::all();
+        $this->tla = CompanyTLA::orderBy('name')->get();
         return DataTables::of($attendances)
         ->editColumn('id', function ($row) {
                 return view('admin.attendance.attendance_list', ['row' => $row, 'tla' => $this->tla, 'global' => $this->global, 'maxAttandenceInDay' => $this->maxAttandenceInDay])->render();
@@ -276,7 +276,7 @@ class ManageAttendanceController extends AdminBaseController
 
         $date = Carbon::createFromFormat($this->global->date_format, $request->date)->format('Y-m-d');
         $attendances = Attendance::attendanceByDate($date);
-        $this->tla = CompanyTLA::all();
+        $this->tla = CompanyTLA::orderBy('name')->get();
 
         return DataTables::of($attendances)
             ->editColumn('id', function ($row) {
@@ -563,7 +563,7 @@ class ManageAttendanceController extends AdminBaseController
         $this->year = $now->format('Y');
         $this->month = $now->format('m');
         $this->groups = Team::all();
-        $this->tla = CompanyTLA::all();
+        $this->tla = CompanyTLA::orderBy('name')->get();
 
         return view('admin.attendance.bulk-attendance', $this->data)->render();
     }
@@ -732,7 +732,7 @@ class ManageAttendanceController extends AdminBaseController
 
         $this->userid = $userid;
         $this->type = 'add';
-        $this->tla = CompanyTLA::all();
+        $this->tla = CompanyTLA::orderBy('name')->get();
         return view('admin.attendance.attendance_mark', $this->data);
     }
 

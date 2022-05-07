@@ -184,7 +184,7 @@ class EmployeesDataTable extends BaseDataTable
             ->minifiedAjax()
             ->dom("<'row'<'col-md-6'l><'col-md-6'Bf>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>")
             ->destroy(true)
-            ->orderBy(0)
+            ->orderBy([2, 'asc'])
             ->responsive(true)
             ->serverSide(true)
             ->stateSave(true)

@@ -52,8 +52,8 @@ class ManageLeavesController extends AdminBaseController
      */
     public function create()
     {
-        $this->employees = User::allEmployees();
-        $this->leaveTypes = LeaveType::all();
+        $this->employees = User::allUsersByCompany(company()->id);
+        $this->leaveTypes = LeaveType::orderBy('type_name')->get();
         return view('admin.leaves.create', $this->data);
     }
 
