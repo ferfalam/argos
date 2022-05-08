@@ -34,7 +34,7 @@ class ModuleSettingsController extends AdminBaseController
             $this->modulesData = ModuleSetting::where('type', 'admin')->whereIn('module_name', $moduleInPackage)->get();
             $this->type = 'admin';
         }
-
+        // dd($moduleInPackage);
         return view('admin.module-settings.index', $this->data);
     }
 

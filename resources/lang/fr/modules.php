@@ -1377,6 +1377,7 @@ return array (
     'sms' => 'sms',
     'Zoom' => 'Réunions',
     'ticket support' => 'Support de billet',
+    'settings' => 'Paramètrages',
   ),
   'paymentSetting' => 
   array (

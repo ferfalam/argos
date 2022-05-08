@@ -230,13 +230,14 @@
                 </a>
             </li>
         @endrole --}}
-
-        <li class="{{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
-            <a href="{{ route('admin.settings.index') }}">
-                <ion-icon name="settings-outline"></ion-icon>
-                @lang('app.menu.settings')
-            </a>
-        </li>
+        @if (in_array('settings', $modules))
+            <li class="{{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
+                <a href="{{ route('admin.settings.index') }}">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    @lang('app.menu.settings')
+                </a>
+            </li>
+        @endif
 
         {{-- <li>
             <a class="{{ request()->routeIs('admin.settings.index') ? 'active' : '' }}" href="#settings" data-toggle="collapse" aria-expanded="{{request()->routeIs('admin.settings.index') ? 'true' : 'false'}}">  
