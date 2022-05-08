@@ -14,6 +14,7 @@ use App\Role;
 use App\RoleUser;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManageRolePermissionController extends AdminBaseController
 {
@@ -27,7 +28,8 @@ class ManageRolePermissionController extends AdminBaseController
 
     public function index()
     {
-        $this->roles = Role::whereNotIn('name', ['admin', 'employee', 'client'])->get();
+        $this->roles = Role::whereNotIn('name', ['admin', 'employee', 'client'])
+            ->get();
         $this->totalPermissions = Permission::count();
         $packageModules = ModuleSetting::where('module_name', '<>', 'ticket support')
             ->where('module_name', '<>', 'reports')
@@ -102,8 +104,28 @@ class ManageRolePermissionController extends AdminBaseController
     {
         $roleUser = new Role();
         $roleUser->name = $request->name;
+        $roleUser->parent_id = $request->parent;
         $roleUser->display_name = ucwords($request->name);
         $roleUser->save();
+
+        $enums = array_map(function ($role)
+        {
+            return "'".$role->name."'";
+        }, ((array)Role::select('roles.name')->where('company_id',company()->id)->get())["\x00*\x00items"]);
+
+        DB::statement("ALTER TABLE module_settings CHANGE type type ENUM(".join(',', $enums).", '".$roleUser->name."') NOT NULL DEFAULT 'admin';");
+
+        $modules = ModuleSetting::where('company_id', company()->id)->where('type', $roleUser->parent->name)->get();
+
+        foreach ($modules as $k => $module) {
+            ModuleSetting::create([
+                'company_id' => company()->id,
+                'module_name' => $module->module_name,
+                'status' => $module->status,
+                'type' => $roleUser->name
+            ]);
+        }
+
         return Reply::success(__('messages.roleCreated'));
     }
 
@@ -135,13 +157,21 @@ class ManageRolePermissionController extends AdminBaseController
 
     public function deleteRole(Request $request)
     {
-        Role::whereId($request->roleId)->delete();
+        $roleUser = Role::whereId($request->roleId)->get()[0];
+        $modules = ModuleSetting::where('company_id', company()->id)->where('type', $roleUser->name)->get();
+
+        foreach ($modules as $k => $module) {
+            $module->delete();
+        }
+        $roleUser->delete();
         return Reply::dataOnly(['status' => 'success']);
     }
 
     public function create()
     {
         $this->roles = Role::all();
+        $this->parents = Role::whereIn('name', ['admin', 'employee', 'client'])->get();
+
         return view('admin.role-permission.create', $this->data);
     }
 
@@ -154,5 +184,7 @@ class ManageRolePermissionController extends AdminBaseController
 
         return Reply::successWithData(__('messages.roleUpdated'), ['display_name' => $roleUser->display_name]);
     }
+
+    
 
 }

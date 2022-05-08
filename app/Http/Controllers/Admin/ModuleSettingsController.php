@@ -87,7 +87,8 @@ class ModuleSettingsController extends AdminBaseController
             }
                 break;
         default:
-                return Reply::error(__('messages.disableTasksModuleMessage'), 'module_dependent');
+            break;
+            // return Reply::error(__('messages.disableTasksModuleMessage'), 'module_dependent');
         }
 
 

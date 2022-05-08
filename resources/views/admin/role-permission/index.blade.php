@@ -71,7 +71,7 @@
                                     </div>
     
     
-                                    <div class="col-md-12 b-t permission-section" style="display: none;" id="role-permission-{{ $role->id }}" >
+                                    <div class="col-md-12 b-t permission-section" style="display: none; margin-top:10px" id="role-permission-{{ $role->id }}" >
                                         {{-- <table class="table ">
                                             <thead>
                                             <tr class="bg-white">
@@ -125,6 +125,16 @@
                                                 @endforeach
                                             </tbody>
                                         </table> --}}
+                                        @foreach($role->modules as $setting)
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label col-xs-6" >@lang('modules.module.'.$setting->module_name)</label>
+                                                <div class="col-xs-6">
+                                                    <div class="switchery-demo">
+                                                        <input type="checkbox" @if($setting->status == 'active') checked @endif class="js-switch change-module-setting" data-setting-id="{{ $setting->id }}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -185,14 +195,39 @@
 @push('footer-script')
 <script src="{{ asset('plugins/bower_components/switchery/dist/switchery.min.js') }}"></script>
 <script>
-    $(function () {
-        $('.assign-role-permission').on('change', assignRollPermission);
-    });
+    // $(function () {
+    //     $('.assign-role-permission').on('change', assignRollPermission);
+    // });
 
     $('.toggle-permission').click(function () {
         var roleId = $(this).data('role-id');
         $('#role-permission-'+roleId).toggle();
     })
+
+    $('.change-module-setting').change(function () {
+        var id = $(this).data('setting-id');
+
+        if($(this).is(':checked'))
+            var moduleStatus = 'active';
+        else
+            var moduleStatus = 'deactive';
+
+        var url = '{{route('admin.module-settings.update', ':id')}}';
+        url = url.replace(':id', id);
+        $.easyAjax({
+            url: url,
+            type: "POST",
+            container:".data-section",
+            data: { 'id': id, 'status': moduleStatus, '_method': 'PUT', '_token': '{{ csrf_token() }}' },
+            success: function(res) {
+                if(res.status == 'fail' && res.error_name == 'module_dependent') {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000)
+                }
+            }
+        })
+    });
 
 
     // Switchery

@@ -26,4 +26,19 @@ class Role extends EntrustRole
         return $this->hasMany(RoleUser::class, 'role_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Role::class, 'parent_id');
+    }
+
+    /**
+     * Get all of the modules for the Role
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function modules()
+    {
+        return $this->hasMany(ModuleSetting::class, 'type', 'name');
+    }
+
 }

@@ -60,6 +60,7 @@ class ManageEmployeesController extends AdminBaseController
      */
     public function index(EmployeesDataTable $dataTable)
     {
+        // dd(user()->secondRole);
         $this->employees = User::allUsersByCompany(company()->id);
         $this->skills = Skill::orderBy('name', 'asc')->get();
         $this->departments = Team::orderBy('team_name', 'asc')->get();
@@ -104,11 +105,12 @@ class ManageEmployeesController extends AdminBaseController
         $this->designations = Designation::orderBy('name', 'asc')->get();
         $this->lastEmployeeID = EmployeeDetails::count();
         $this->countries = Country::orderBy('name', 'asc')->get();
-        $this->roles = Role::orderBy('name', 'asc')->get();
+        // $this->roles = Role::whereIn('name', ['admin', 'employee', 'client'])->orderBy('name', 'asc')->get();
+        $this->secondRoles = Role::whereNotIn('name', ['admin', 'employee', 'client'])->orderBy('name', 'asc')->get();
         $this->groups = Team::orderBy('team_name', 'asc')->get();
         $this->skills = Skill::orderBy('name', 'asc')->where('company_id', company()->id)->get();
         $this->designations = Designation::orderBy('name', 'asc')->with('members', 'members.user')->get();
-        $this->roles = Role::where('company_id', company()->id)->get();
+        $this->roles = Role::whereIn('name', ['admin', 'employee', 'client'])->where('company_id', company()->id)->get();
 
         if (request()->ajax()) {
             return view('admin.employees.ajax-create', $this->data);
@@ -163,6 +165,7 @@ class ManageEmployeesController extends AdminBaseController
             //$user->country_id = $request->input("phone_code");
             $user->observation = json_encode($observation);
 
+            $user->second_role_id = $request->second_role;
             $user->username = $request->input("username");
             //$user->local = company()->locale;
             $user->tel = "";
@@ -321,7 +324,8 @@ class ManageEmployeesController extends AdminBaseController
         $this->groups = Team::orderBy('team_name', 'asc')->get();
         $this->skills = Skill::orderBy('name', 'asc')->where('company_id', company()->id)->get();
         $this->designations = Designation::orderBy('name', 'asc')->with('members', 'members.user')->get();
-        $this->roles = Role::orderBy('name', 'asc')->where('company_id', company()->id)->get();
+        $this->roles = Role::whereIn('name', ['admin', 'employee', 'client'])->where('company_id', company()->id)->get();
+        $this->secondRoles = Role::whereNotIn('name', ['admin', 'employee', 'client'])->orderBy('name', 'asc')->get();
 
         if (!is_null($this->employeeDetail)) {
             $this->employeeDetail = $this->employeeDetail->withCustomFields();
@@ -377,6 +381,8 @@ class ManageEmployeesController extends AdminBaseController
             $user->user_id = user()->id;
             $user->address = $request->input('address') . '|' . $request->input('country') . '|' . $request->input('city');
 
+
+            $user->second_role_id = $request->second_role;
             $user->qualification = $request->input("qualification");
             $user->birthday = $request->input("birthday");
             $user->native_country = $request->input("native_country");

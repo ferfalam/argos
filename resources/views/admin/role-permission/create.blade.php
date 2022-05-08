@@ -10,6 +10,7 @@
                 <tr>
                     <th>#</th>
                     <th>@lang('app.role')</th>
+                    <th>@lang('modules.permission.roleProfil')</th>
                     <th>@lang('app.action')</th>
                 </tr>
                 </thead>
@@ -23,6 +24,9 @@
                             @else
                                 {{ __('app.'.$role->name) }}
                             @endif
+                        </td>
+                        <td>
+                            {{$role->parent ? $role->parent->name : ""}}
                         </td>
                           <td>
                               @if($role->name != 'admin' && $role->name != 'employee' && $role->name != 'client')
@@ -45,7 +49,19 @@
         {!! Form::open(['id'=>'createProjectCategory','class'=>'ajax-form','method'=>'POST', 'onSubmit'=>'return false']) !!}
         <div class="form-body">
             <div class="row">
-                <div class="col-xs-12 ">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label>@lang('modules.permission.roleProfil')</label>
+                        <select class="select2 m-b-10 select2-multiple " id="parent"
+                                data-placeholder="Sélectionner Compétences" name="parent" required>
+                            @foreach($parents as $role)
+                                <option value="{{ $role->id }}">{{ $role->display_name }} </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                </div>
+                <div class="col-xs-8 ">
                     <div class="form-group">
                         <label>@lang('modules.permission.roleName')</label>
                         <input type="text" name="name" id="name" class="form-control">

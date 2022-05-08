@@ -353,13 +353,31 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <label for="profil" class="required">@lang('app.profil')</label>
+                                                    <label for="profil" class="required">@lang('app.role')</label>
                                                 </td>
                                                 <td>
                                                     <select name="profil" id="profil" class="form-control select2">
                                                         {{-- <option value="Super Admin">Super Admin</option> --}}
                                                         @foreach ($roles as $role)
                                                             <option value="{{$role->display_name}}">{{$role->display_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="second_role" class="required">@lang('app.secondrole')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="second_role" id="second_role" class="form-control select2">
+                                                        <option value="none">---</option>
+                                                        @foreach ($secondRoles as $secondRole)
+                                                            <option value="{{$secondRole->id}}">{{$secondRole->display_name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>

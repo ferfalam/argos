@@ -1029,6 +1029,7 @@ return array (
     'addRoleMember' => 'Gérer les membres du rôle',
     'addMembers' => 'Ajouter des membres',
     'roleName' => 'Nom de rôle',
+    'roleProfil' => 'Profil du rôle',
   ),
   'leaves' => 
   array (

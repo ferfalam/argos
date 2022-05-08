@@ -220,6 +220,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->hasMany(ProjectTemplateMember::class, 'user_id');
     }
 
+    public function secondRole()
+    {
+        return $this->belongsTo(Role::class, 'second_role_id');
+    }
+
     public function role()
     {
         return $this->hasMany(RoleUser::class, 'user_id');
@@ -472,22 +477,39 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $module = new ModuleSetting();
 
             if ($user->hasRole('admin')) {
-                $module = $module->where('type', 'admin');
+                if (!is_null($user->secondRole)) {
+                    $module = $module->where('type', $user->secondRole->name);
+                    # code...
+                }else{
+                    $module = $module->where('type', 'admin');
+                }
             } elseif ($user->hasRole('client')) {
-                $module = $module->where('type', 'client');
+                if (!is_null($user->secondRole)) {
+                    $module = $module->where('type', $user->secondRole->name);
+                    # code...
+                }else{
+                    $module = $module->where('type', 'client');
+                }
             } elseif ($user->hasRole('employee')) {
-                $module = $module->where('type', 'employee');
+                if (!is_null($user->secondRole)) {
+                    $module = $module->where('type', $user->secondRole->name);
+                    # code...
+                }else{
+                    $module = $module->where('type', 'employee');
+                }
             }
 
             $module = $module->where('status', 'active');
             $module->select('module_name');
 
             $module = $module->get();
+
             $moduleArray = [];
             foreach ($module->toArray() as $item) {
                 array_push($moduleArray, array_values($item)[0]);
             }
 
+            // dd($module);
             return $moduleArray;
         }
 

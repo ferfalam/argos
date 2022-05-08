@@ -335,6 +335,7 @@ return array (
   'exportExcel' => 'Exportation',
   'datatable' => '//cdnDatatablesNet/plugIns /11015 /I18N /EnglishJson',
   'role' => 'Profil Utilisateur',
+  'secondrole' => 'Role',
   'projectAdminPanel' => 'Panneau d\'administration du projet',
   'loginAsProjectAdmin' => 'Connexion en tant que projet admin',
   'pending' => 'En attente',

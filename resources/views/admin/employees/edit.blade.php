@@ -387,6 +387,26 @@
                                                     </a>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="second_role" class="required">@lang('app.secondrole')</label>
+                                                </td>
+                                                <td>
+                                                    <select name="second_role" id="second_role" class="form-control select2">
+                                                        <option value="none">---</option>
+                                                        @foreach ($secondRoles as $secondRole)
+                                                            <option value="{{$secondRole->id}}" @if ($userDetail->second_role_id == $secondRole->id)
+                                                                selected
+                                                            @endif>{{$secondRole->display_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
                                             {{-- <tr>
                                                 <td>
                                                     <label for="qualification"
