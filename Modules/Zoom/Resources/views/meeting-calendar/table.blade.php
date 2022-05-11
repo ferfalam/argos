@@ -86,7 +86,7 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="control-label">@lang('modules.projects.selectClient')</label>
+                    <label class="control-label">@lang('modules.projects.selectExterne')</label>
                     <select class="form-control select2" name="client" id="client" data-style="form-control">
                         <option value="all">@lang('modules.client.all')</option>
                         @foreach ($clients as $client)
@@ -285,7 +285,7 @@
                                 </div>
                                 <div class="form-group">
                                     <select class="select2 m-b-10 select2-multiple " multiple="multiple"
-                                        data-placeholder="@lang('zoom::modules.message.selectClient')" name="client_id[]">
+                                        data-placeholder="@lang('zoom::modules.message.selectExterne')" name="client_id[]">
                                         @foreach ($clients as $client)
                                             <option value="{{ $client->id }}">{{ ucwords($client->name) }}
                                                 @if ($client->id == $user->id)

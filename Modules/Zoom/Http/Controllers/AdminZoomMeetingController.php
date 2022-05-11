@@ -50,7 +50,7 @@ class AdminZoomMeetingController extends AdminBaseController
     {
         $this->users = User::allUsersByCompany(user()->company_id);
         $this->employees = User::allEmployeesByCompany(user()->company_id);
-        $this->clients = User::allClientsByCompany(user()->company_id);
+        $this->clients = User::allExternesByCompany(user()->company_id);
         $this->admins = User::allAdminsByCompany(user()->company_id);
         $this->events = ZoomMeeting::all();
         $this->categories = Category::all();
@@ -105,7 +105,7 @@ class AdminZoomMeetingController extends AdminBaseController
         $this->event = ZoomMeeting::with('attendees')->findOrFail($id);
         $this->users = User::allUsersByCompany(user()->company_id);
         $this->employees = User::allEmployeesByCompany(user()->company_id);
-        $this->clients = User::allClientsByCompany(user()->company_id);
+        $this->clients = User::allExternesByCompany(user()->company_id);
         $this->admins = User::allAdminsByCompany(user()->company_id);
         $this->categories = Category::all();
         $this->projects = Project::all();
@@ -282,7 +282,7 @@ class AdminZoomMeetingController extends AdminBaseController
     public function tableView(MeetingDataTable $dataTable)
     {
         $this->employees = User::allEmployeesByCompany(user()->company_id);
-        $this->clients = User::allClientsByCompany(user()->company_id);
+        $this->clients = User::allExternesByCompany(user()->company_id);
         $this->admins = User::allAdminsByCompany(user()->company_id);
         $this->categories = Category::all();
         $this->projects = Project::all();

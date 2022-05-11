@@ -280,6 +280,7 @@ return array (
     'clientTaskNotification' => 'Notification de tâche client',
     'clientViewTask' => 'Tâche View Client',
     'selectClient' => 'Sélectionnez Client',
+    'selectExterne' => 'Sélectionnez Externe',
     'dropFile' => 'Téléverser un fichier',
     'budgetInfo' => 'Informations sur le budget',
     'clientInfo' => 'Informations client',
