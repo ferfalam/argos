@@ -17,7 +17,7 @@ class AdminContractTypeController extends AdminBaseController
         $this->pageIcon = 'user-follow';
         $this->pageTitle = 'contracts';
         $this->middleware(function ($request, $next) {
-            if(!in_array('contracts', $this->user->modules)){
+            if(!in_array('projects.contracts', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

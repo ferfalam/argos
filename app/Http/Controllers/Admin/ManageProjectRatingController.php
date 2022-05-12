@@ -26,7 +26,7 @@ class ManageProjectRatingController extends AdminBaseController
         $this->pageTitle = 'app.menu.projectRating';
         $this->pageIcon = 'icon-layers';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('projects', $this->user->modules), 403);
+            abort_if(!in_array('projects.title', $this->user->modules), 403);
             return $next($request);
         });
     }

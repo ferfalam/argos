@@ -27,16 +27,16 @@
         @endforeach
          --}}
         @foreach ($worksuitePlugins as $item)
-            @if(in_array(strtolower($item), $modules) || in_array($item, $modules))
+            {{-- @if(in_array(strtolower($item), $modules) || in_array($item, $modules)) --}}
                 @if(View::exists(strtolower($item).'::sections.member_left_sidebar'))
                     @include(strtolower($item).'::sections.member_left_sidebar')
                 @endif
-            @endif
+            {{-- @endif --}}
         @endforeach
 
 
         
-        @if(in_array('messages',$modules))
+        @if(in_array('chat',$modules))
         <li><a href="{{ route('member.user-chat.index') }}" class="waves-effect"><i class="icon-envelope fa-fw"></i> <span class="hide-menu">@lang("app.menu.messages") @if($unreadMessageCount > 0)<span class="label label-rouded label-custom pull-right">{{ $unreadMessageCount }}</span> @endif
                 </span>
             </a>
@@ -44,7 +44,7 @@
         @endif
 
         
-        @if(in_array('clients',$modules))
+        @if(in_array('tiers.clients',$modules))
         @if($user->cans('view_clients'))
             <li class="{{request()->routeIs('member.clients.index') ? 'active' : ''}}">
                 <a href="{{ route('member.clients.index') }}"> <ion-icon name="chatbubble-ellipses-outline"></ion-icon> @lang('app.menu.messages') </a>
@@ -53,14 +53,14 @@
         @endif
             
             
-        @if(in_array('projects',$modules))
+        @if(in_array('projects.title',$modules))
             <li class="{{request()->routeIs('member.projects.index') ? 'active' : ''}}">
                 <a href="{{ route('member.projects.index') }}"> <i class="icon-layers fa-fw"></i> @lang('app.menu.projects') </a>
             </li>
         @endif
 
         
-        {{-- @if(in_array('projects',$modules))
+        {{-- @if(in_array('projects.title',$modules))
         <li><a href="{{ route('member.projects.index') }}" class="waves-effect"><i class="icon-layers fa-fw"></i> <span class="hide-menu">@lang("app.menu.projects") </span> @if($unreadProjectCount > 0) <div class="notify notification-color"><span class="heartbit"></span><span class="point"></span></div>@endif</a> </li>
         @endif --}}
 
@@ -76,22 +76,24 @@
             </li>
         @endif --}}
 
-        @if(in_array('tasks',$modules) )
+        @if(in_array('projects.task',$modules) )
             <li class="{{request()->routeIs('member.task.index') ? 'active' : ''}}">
                 <a href="{{ route('member.task.index') }}"> <i class="ti-layout-list-thumb fa-fw"></i> @lang('app.menu.tasks') </a>
             </li>
         @endif
         
-        @if(in_array('events',$modules))
+        @if(in_array('evenements',$modules))
             <li><a href="{{ route('member.events.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang('app.menu.Events')</span></a> </li>
         @endif
 
+        @if (in_array('documents', $modules))
         <li class="{{ request()->routeIs('member.document.*') ? 'active' : '' }}">
             <a href="{{ route('member.document.index') }}">
                 <i class="fa fa-file"></i>
                 @lang('app.docManagement')
             </a>
         </li>
+        @endif
 
         {{-- @if (in_array('tasks', $modules))
             <li>
@@ -119,7 +121,7 @@
             </li>
         @endif
 
-        @if(in_array('attendance',$modules))
+        @if(in_array('users.presences',$modules))
             @if($user->cans('view_attendance'))
                 <li class="{{request()->routeIs('member.attendances.summary') ? 'active' : ''}}">
                     <a href="{{ route('member.attendances.summary') }}" class="waves-effect"><i class="icon-clock fa-fw"></i> <span class="hide-menu">@lang("app.menu.attendance") </span></a> 
@@ -137,7 +139,7 @@
             </li>
         @endif --}}
 
-        @if(in_array('leaves',$modules))
+        @if(in_array('users.absences',$modules))
         <li><a href="{{ route('member.leaves.index') }}" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">@lang('app.menu.leaves')</span></a> </li>
         @endif
 

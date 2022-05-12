@@ -37,7 +37,7 @@ class MemberEmployeesController extends MemberBaseController
         $this->pageTitle = 'app.menu.employees';
         $this->pageIcon = 'icon-user';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('employees', $this->user->modules), 403);
+            abort_if(!in_array('users.title', $this->user->modules), 403);
             return $next($request);
         });
     }

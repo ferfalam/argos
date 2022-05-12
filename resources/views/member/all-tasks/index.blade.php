@@ -70,7 +70,7 @@
             </div>
         </div>
     </div>
-        @if(in_array('projects', $modules))
+        @if(in_array('projects.title', $modules))
         <div class="col-xs-12">
             <div class="form-group">
                 <h5 class="box-title">@lang('app.selectProject')</h5>
@@ -211,7 +211,7 @@
                     <tr>
                         <th>#</th>
                         <th>@lang('app.task')</th>
-                        @if(in_array('projects', $modules))
+                        @if(in_array('projects.title', $modules))
                             <th>@lang('app.project')</th>
                         @endif
                         <th>@lang('modules.tasks.assignTo')</th>
@@ -409,7 +409,7 @@
             columns: [
                 { data: 'DT_RowIndex', orderable: false, searchable: false, width: '5%' },
                 {data: 'heading', name: 'heading', width: '20%'},
-                @if(in_array('projects', $modules))
+                @if(in_array('projects.title', $modules))
                     {data: 'project_name', name: 'projects.project_name', width: '18%'},
                 @endif
                 {data: 'name', name: 'users.name', width: '20%'},

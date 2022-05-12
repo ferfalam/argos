@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('zoom-meeting/updateOccurrence/{id}', 'EmployeeZoomMeetingController@updateOccurrence')->name('zoom-meeting.updateOccurrence');
         Route::get('zoom-meeting/invite/{meeting}', 'EmployeeZoomMeetingController@OnlineInvite')->name('zoom-meeting.invite');
         Route::resource('zoom-meeting', 'EmployeeZoomMeetingController');
-        Route::resource('zoom-setting', 'ZoomMeetingSettingController');
+        Route::resource('zoom-setting', 'MemberZoomMeetingSettingController');
     });
 
     // Client routes

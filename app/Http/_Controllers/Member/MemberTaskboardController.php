@@ -23,7 +23,7 @@ class MemberTaskboardController extends MemberBaseController
         $this->pageTitle = 'modules.tasks.taskBoard';
         $this->pageIcon = 'ti-layout-column3';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('tasks', $this->user->modules), 403);
+            abort_if(!in_array('projects.task', $this->user->modules), 403);
             return $next($request);
         });
     }

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/morrisjs/morris.css') }}">
 
 <div class="row dashboard-stats front-dashboard">
-    @if(in_array('leaves',$modules) && in_array('total_leaves_approved',$activeWidgets))
+    @if(in_array('users.absences',$modules) && in_array('total_leaves_approved',$activeWidgets))
         <div class="col-md-3 col-sm-6">
             <a href="{{ route('admin.leaves.index') }}">
                 <div class="white-box">
@@ -18,7 +18,7 @@
             </a>
         </div>
     @endif
-    @if(in_array('employees',$modules) && in_array('total_new_employee',$activeWidgets))
+    @if(in_array('users.title',$modules) && in_array('total_new_employee',$activeWidgets))
         <div class="col-md-3 col-sm-6">
             <a href="{{ route('admin.employees.index') }}">
                 <div class="white-box">
@@ -35,7 +35,7 @@
             </a>
         </div>
     @endif
-    @if(in_array('employees',$modules) && in_array('total_employee_exits',$activeWidgets))
+    @if(in_array('users.title',$modules) && in_array('total_employee_exits',$activeWidgets))
         <div class="col-md-3 col-sm-6">
             <a href="{{ route('admin.employees.index') }}">
                 <div class="white-box">
@@ -71,7 +71,7 @@
     @endif
 </div>
 <div class="row">
-    @if(in_array('employees',$modules) && in_array('department_wise_employee',$activeWidgets))
+    @if(in_array('users.title',$modules) && in_array('department_wise_employee',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.departmentWiseEmployee')
@@ -106,7 +106,7 @@
             
         </div>
     @endif
-    @if(in_array('employees',$modules) && in_array('designation_wise_employee',$activeWidgets))
+    @if(in_array('users.title',$modules) && in_array('designation_wise_employee',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.designationWiseEmployee')
@@ -143,7 +143,7 @@
         </div>
     @endif
 
-    @if(in_array('employees',$modules) && in_array('gender_wise_employee',$activeWidgets))
+    @if(in_array('users.title',$modules) && in_array('gender_wise_employee',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.genderWiseEmployee')
@@ -178,7 +178,7 @@
             
         </div>
     @endif
-    @if(in_array('employees',$modules) && in_array('role_wise_employee',$activeWidgets))
+    @if(in_array('users.title',$modules) && in_array('role_wise_employee',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.roleWiseEmployee')
@@ -214,7 +214,7 @@
         </div>
     @endif
 
-    @if(in_array('leaves',$modules) && in_array('leaves_taken',$activeWidgets))
+    @if(in_array('users.absences',$modules) && in_array('leaves_taken',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.leavesTaken')</div>
@@ -260,7 +260,7 @@
             </div>
         </div>
     @endif
-    @if(in_array('attendance',$modules) && in_array('late_attendance_mark',$activeWidgets))
+    @if(in_array('users.presences',$modules) && in_array('late_attendance_mark',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.lateAttendanceMark')</div>

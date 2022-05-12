@@ -41,7 +41,7 @@
             <div class="panel-body">
                 {!! Form::open(['id'=>'logTime','class'=>'ajax-form','method'=>'POST']) !!}
                         <div class="form-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-                            @if(in_array('projects', $modules))
+                            @if(in_array('projects.title', $modules))
                             <div class="form-group">
                                 <label class="required">@lang('app.selectProject')</label>
                                 <select class="select2 form-control" name="project_id" data-placeholder="@lang('app.selectProject')"  id="project_id2">

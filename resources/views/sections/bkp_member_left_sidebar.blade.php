@@ -119,7 +119,7 @@
             @endif
             @endif
 
-            @if(in_array('projects',$modules))
+            @if(in_array('projects.title',$modules))
             <li><a href="{{ route('member.projects.index') }}" class="waves-effect"><i class="icon-layers fa-fw"></i> <span class="hide-menu">@lang("app.menu.projects") </span> @if($unreadProjectCount > 0) <div class="notify notification-color"><span class="heartbit"></span><span class="point"></span></div>@endif</a> </li>
             @endif
 

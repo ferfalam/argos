@@ -40,7 +40,7 @@ class MemberAllTasksController extends MemberBaseController
         $this->pageTitle = 'app.menu.tasks';
         $this->pageIcon = 'ti-layout-list-thumb';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('tasks', $this->user->modules), 403);
+            abort_if(!in_array('projects.task', $this->user->modules), 403);
             return $next($request);
         });
     }

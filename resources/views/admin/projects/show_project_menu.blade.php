@@ -28,11 +28,11 @@
 <div class="tabs">
     <div class="tabs-header">
         <a class="tab-btn {{request()->routeIs('admin.projects.show', $project->id) ? 'active' : ""}} " href="{{ route('admin.projects.show', $project->id) }}">@lang('modules.projects.overview')</a>
-        @if(in_array('employees',$modules))
+        @if(in_array('users.title',$modules))
         <a class="tab-btn projectMembers {{request()->routeIs('admin.project-members.show', $project->id) ? 'active' : ""}} " href="{{ route('admin.project-members.show', $project->id) }}">@lang('modules.projects.members')</a>
         @endif
         <a class="tab-btn projectMilestones {{request()->routeIs('admin.milestones.show', $project->id) ? 'active' : ""}} " href="{{ route('admin.milestones.show', $project->id) }}">@lang('modules.projects.milestones')</a>
-        @if(in_array('tasks',$modules))
+        @if(in_array('projects.task',$modules))
         <a class="tab-btn {{request()->routeIs('admin.tasks.show', $project->id) ? 'active' : ""}} " href="{{ route('admin.tasks.show', $project->id) }}">@lang('app.menu.tasks')</a>
         <a class="tab-btn {{request()->routeIs('admin.tasks.kanbanboard', $project->id) ? 'active' : ""}} " href="{{ route('admin.tasks.kanbanboard', $project->id) }}">@lang('modules.tasks.taskBoard')</a>
         @endif

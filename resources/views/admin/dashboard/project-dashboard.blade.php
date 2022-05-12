@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/morrisjs/morris.css') }}">
 
 <div class="panel-container">
-    @if(in_array('projects',$modules) && in_array('total_project',$activeWidgets))
+    @if(in_array('projects.title',$modules) && in_array('total_project',$activeWidgets))
         <div class="panel panel-default">
             <div class="panel-body">
                 <img src="{{asset('img/card-1.png')}}" alt="" />
@@ -29,7 +29,7 @@
         </div>
     @endif
 
-    @if(in_array('projects',$modules) && in_array('total_overdue_project',$activeWidgets))
+    @if(in_array('projects.title',$modules) && in_array('total_overdue_project',$activeWidgets))
         <div class="panel panel-default">
             <div class="panel-body">
                 <img src="{{asset('img/card-2.png')}}" alt="" />
@@ -44,7 +44,7 @@
     @endif
 </div>
 <div class="row">
-    @if(in_array('projects',$modules) && in_array('status_wise_project',$activeWidgets))
+    @if(in_array('projects.title',$modules) && in_array('status_wise_project',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.statusWiseProject')
@@ -80,7 +80,7 @@
             
         </div>
     @endif
-    @if(in_array('projects',$modules) && in_array('pending_milestone',$activeWidgets))
+    @if(in_array('projects.title',$modules) && in_array('pending_milestone',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.pendingMilestone')</div>
@@ -137,7 +137,7 @@
 <script src="{{ asset('js/Chart.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        @if(!empty(json_decode($statusWiseProject)) && in_array('projects',$modules) && in_array('status_wise_project',$activeWidgets))
+        @if(!empty(json_decode($statusWiseProject)) && in_array('projects.title',$modules) && in_array('status_wise_project',$activeWidgets))
             function statusWiseProjectPieChart(statusWiseProject) {
                 var ctx2 = document.getElementById("statusWiseProject");
                 var data = new Array();

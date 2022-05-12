@@ -11,7 +11,7 @@
               value=""/>
   </x-filter-form-group>
 
-  @if(in_array('projects', $modules))
+  @if(in_array('projects.title', $modules))
   <x-filter-form-group label="app.selectProject">
       <select class="select2 form-control" data-placeholder="@lang('app.selectProject')" id="project_id">
           <option value="all">@lang('modules.client.all')</option>

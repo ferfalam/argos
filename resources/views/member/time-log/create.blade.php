@@ -5,7 +5,7 @@
     <h4 class="modal-title"><i class="ti-plus"></i> @lang('modules.timeLogs.startTimer')</h4>
 </div>
 <div class="modal-body">
-    @if(in_array('tasks',$modules))
+    @if(in_array('projects.task',$modules))
         {!! Form::open(['id'=>'startTimer','class'=>'ajax-form','method'=>'POST', 'onSubmit' => 'return false']) !!}
         <div class="form-body">
             <div class="row">

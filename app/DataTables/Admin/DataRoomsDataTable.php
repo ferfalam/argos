@@ -38,7 +38,7 @@ class DataRoomsDataTable extends BaseDataTable
                     if ($row->type == 'type') {
                         $url = route("member.task-files.download", $row->file->id);
                     }else{
-                        $url = route("member.sub-task-files.download", $row->file->id);
+                        $url = route("member.sub-task-memberfiles.download", $row->file->id);
                     }
                 } else{
                     if ($row->type == 'type') {

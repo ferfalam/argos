@@ -343,7 +343,7 @@
 
         </div>
     @endif
-    @if(in_array('payments',$modules) && in_array('projects',$modules) && in_array('earnings_by_projects',$activeWidgets))
+    @if(in_array('payments',$modules) && in_array('projects.title',$modules) && in_array('earnings_by_projects',$activeWidgets))
         <div class="col-md-12 m-t-20">
             <div class="row">
                 <div class="col-xs-12">
@@ -552,7 +552,7 @@
                 earningsByClientBarChart();
             @endif
         @endif
-        @if(in_array('payments',$modules) && in_array('projects',$modules) && in_array('earnings_by_projects',$activeWidgets))
+        @if(in_array('payments',$modules) && in_array('projects.title',$modules) && in_array('earnings_by_projects',$activeWidgets))
             @if(!empty(json_decode($earningsByProjects)))
 
                 var earningsByProjects = {!!  $earningsByProjects !!};

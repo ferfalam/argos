@@ -23,7 +23,7 @@ class Role extends EntrustRole
 
     public function roleuser()
     {
-        return $this->hasMany(RoleUser::class, 'role_id');
+        return $this->hasMany(User::class, 'second_role_id');
     }
 
     public function parent()
@@ -38,7 +38,21 @@ class Role extends EntrustRole
      */
     public function modules()
     {
-        return $this->hasMany(ModuleSetting::class, 'type', 'name');
+        $moduleInPackageInit = (array)json_decode(company()->package->module_in_package);
+        $moduleInPackage = array_map(function ($n)
+        {
+            $v =  explode('.', $n);
+            if($this->parent->name == "employee"){
+                return $n;
+            }else if($this->parent->name == "client"){
+                return $n;
+            } elseif (count($v) > 1 && $v[1] != 'title') {
+                return $n;
+            } else if(count($v) == 1 && !in_array($n, ["payments","leads","timelogs","invoices","expenses","tickets","products","reports","estimates","issues"])){
+                return $n;
+            }
+        }, $moduleInPackageInit);
+        return $this->hasMany(ModuleSetting::class, 'type', 'name')->whereIn('module_name', $moduleInPackage);
     }
 
 }

@@ -133,23 +133,33 @@ class SuperAdminCompanyController extends SuperAdminBaseController
             $adminRole = new Role();
             $adminRole->company_id = $companyDetail->id;
             $adminRole->name = 'admin';
-            $adminRole->display_name = 'App Administrator';
+            $adminRole->display_name = 'Admin';
             $adminRole->description = 'Admin is allowed to manage everything of the app.';
             $adminRole->save();
         }
         $user->roles()->attach($adminRole->id);
 
         $employeeRole = Role::where('name', 'employee')->where('company_id', $user->company_id)->first();
-
+        
         if (!$employeeRole) {
             $employeeRole = new Role();
             $employeeRole->company_id = $user->company_id;
             $employeeRole->name = 'employee';
-            $employeeRole->display_name = 'Employee';
+            $employeeRole->display_name = 'Collaborateur';
             $employeeRole->description = 'Employee can see tasks and projects assigned to him.';
             $employeeRole->save();
         }
-        $user->roles()->attach($employeeRole->id);
+        
+        $externeRole = Role::where('name', 'client')->where('company_id', $user->company_id)->first();
+        if (!$externeRole) {
+            $externeRole = new Role();
+            $externeRole->company_id = $user->company_id;
+            $externeRole->name = 'client';
+            $externeRole->display_name = 'Externe';
+            $externeRole->description = 'Employee can see tasks and projects assigned to him.';
+            $externeRole->save();
+        }
+        // $user->roles()->attach($employeeRole->id);
 
         $company->admin_id = $user->id;
         $company->save();

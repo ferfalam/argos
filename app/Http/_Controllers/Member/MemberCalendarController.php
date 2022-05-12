@@ -14,7 +14,7 @@ class MemberCalendarController extends MemberBaseController
         $this->pageTitle = 'app.menu.taskCalendar';
         $this->pageIcon = 'icon-calender';
         $this->middleware(function ($request, $next) {
-            if(!in_array('tasks', $this->user->modules)){
+            if(!in_array('projects.task', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

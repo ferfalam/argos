@@ -76,7 +76,7 @@
                                     </select>
                                 </div>
                             </div>
-                            @if(in_array('projects', $modules))
+                            @if(in_array('projects.title', $modules))
                                 <div class="col-xs-12">
                                     <h5 >@lang('app.project')</h5>
                                     <div class="form-group">
@@ -105,7 +105,7 @@
                         <thead>
                         <tr>
                             <th>@lang('app.id')</th>
-                            @if(in_array('projects', $modules))
+                            @if(in_array('projects.title', $modules))
                                 <th>@lang('app.project')</th>
                             @endif
                             <th>@lang('modules.invoices.amount')</th>
@@ -248,7 +248,7 @@
             },
             columns: [
                 { data: 'DT_RowIndex', orderable: false, searchable: false },
-                @if(in_array('projects', $modules))
+                @if(in_array('projects.title', $modules))
                     { data: 'project_id', name: 'project_id' },
                 @endif
                 { data: 'amount', name: 'amount' },

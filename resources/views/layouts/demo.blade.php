@@ -601,22 +601,22 @@
                     <i class="fa fa-plus-circle"></i>
                 </a>
                 <div class="dropdown-menu">
-                    @if(in_array('projects',$modules))
+                    @if(in_array('projects.title',$modules))
                         <a class="dropdown-item dropdown-custom"
                           href="{{ route('admin.projects.create') }}">@lang('app.add') @lang('app.project')</a>
                     @endif
 
-                    @if(in_array('tasks',$modules))
+                    @if(in_array('project.task',$modules))
                         <a class="dropdown-item dropdown-custom"
                           href="{{ route('admin.all-tasks.create') }}">@lang('app.add') @lang('app.task')</a>
                     @endif
 
-                    @if(in_array('clients',$modules))
+                    @if(in_array('tiers.clients',$modules))
                         <a class="dropdown-item dropdown-custom"
                           href="{{ route('admin.clients.create') }}">@lang('app.add') @lang('app.client')</a>
                     @endif
 
-                    @if(in_array('employees',$modules))
+                    @if(in_array('users.title',$modules))
                         <a class="dropdown-item dropdown-custom"
                           href="{{ route('admin.employees.create') }}">@lang('app.add') @lang('app.employee')</a>
                     @endif

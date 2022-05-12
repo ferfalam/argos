@@ -35,7 +35,7 @@
             <input type="hidden" class="form-control" id="end-date" placeholder="@lang('app.endDate')"
                    value=""/>
         </div>
-        @if(in_array('projects', $modules))
+        @if(in_array('projects.title', $modules))
             <div class="col-xs-12">
                 <h5 >@lang('app.project')</h5>
                 <div class="form-group">
@@ -50,7 +50,7 @@
                 </div>
             </div>
         @endif
-        @if(in_array('clients', $modules))
+        @if(in_array('tiers.clients', $modules))
         <div class="col-xs-12">
             <h5 >@lang('app.client')</h5>
             <div class="form-group">

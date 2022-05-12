@@ -48,7 +48,7 @@ class ManageEmployeesController extends AdminBaseController
         $this->countries = Country::all();
         $this->tla = CompanyTLA::orderBy('name')->get();
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('employees', $this->user->modules), 403);
+            abort_if(!in_array('users.title', $this->user->modules), 403);
             return $next($request);
         });
     }
@@ -165,7 +165,7 @@ class ManageEmployeesController extends AdminBaseController
             //$user->country_id = $request->input("phone_code");
             $user->observation = json_encode($observation);
 
-            $user->second_role_id = $request->second_role;
+            $user->second_role_id = $request->second_role == "none" ? null : $request->second_role;
             $user->username = $request->input("username");
             //$user->local = company()->locale;
             $user->tel = "";
@@ -382,7 +382,7 @@ class ManageEmployeesController extends AdminBaseController
             $user->address = $request->input('address') . '|' . $request->input('country') . '|' . $request->input('city');
 
 
-            $user->second_role_id = $request->second_role;
+            $user->second_role_id = $request->second_role == "none" ? null : $request->second_role;
             $user->qualification = $request->input("qualification");
             $user->birthday = $request->input("birthday");
             $user->native_country = $request->input("native_country");

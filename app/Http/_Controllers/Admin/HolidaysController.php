@@ -33,7 +33,7 @@ class HolidaysController extends AdminBaseController
         $this->pageTitle = 'app.menu.holiday';
 
         $this->middleware(function ($request, $next) {
-            if(!in_array('holidays', $this->user->modules)){
+            if(!in_array('users.vacances', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

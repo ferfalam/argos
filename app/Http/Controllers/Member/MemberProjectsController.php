@@ -44,7 +44,7 @@ class MemberProjectsController extends MemberBaseController
         $this->pageIcon = 'icon-layers';
 
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('projects', $this->user->modules), 403);
+            abort_if(!in_array('projects.title', $this->user->modules), 403);
             return $next($request);
         });
     }
@@ -263,7 +263,7 @@ class MemberProjectsController extends MemberBaseController
             })
             ->editColumn('client_id', function ($row) {
                 if (!is_null($row->client_id)) {
-                    return ucwords($row->client->name);
+                    return ucwords($row->clientdetails->company_name);
                 } else {
                     return '--';
                 }

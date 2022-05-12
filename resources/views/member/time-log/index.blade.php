@@ -60,7 +60,7 @@
 
         </div>
         </div>
-    @if(in_array('projects', $modules))
+    @if(in_array('projects.title', $modules))
         <div class="col-md-12">
             <div class="form-group" >
                 <h5 class="box-title">@lang('app.selectProject')</h5>
@@ -116,12 +116,12 @@
         <div class="col-xs-12 hide" id="hideShowTimeLogForm">
             <div class="panel panel-default">
                 <div class="panel-body" >
-                    @if(in_array('tasks',$modules))
+                    @if(in_array('projects.task',$modules))
                         {!! Form::open(['id'=>'logTime','class'=>'ajax-form','method'=>'POST']) !!}
         
                         <div class="form-body">
                             <div class="row m-t-30">
-                                @if(in_array('projects', $modules))
+                                @if(in_array('projects.title', $modules))
                                 <div class="col-md-4 ">
                                     <div class="form-group">
         

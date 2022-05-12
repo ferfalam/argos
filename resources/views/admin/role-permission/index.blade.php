@@ -71,7 +71,7 @@
                                     </div>
     
     
-                                    <div class="col-md-12 b-t permission-section" style="display: none; margin-top:10px" id="role-permission-{{ $role->id }}" >
+                                    <div class="col-md-12 b-t permission-section" style="display: none; padding-top:10px" id="role-permission-{{ $role->id }}" >
                                         {{-- <table class="table ">
                                             <thead>
                                             <tr class="bg-white">

@@ -22,7 +22,7 @@ class MemberProjectsMemberController extends MemberBaseController
         $this->pageIcon = 'icon-layers';
         $this->pageTitle = 'app.menu.projects';
         $this->middleware(function ($request, $next) {
-            if(!in_array('projects', $this->user->modules)){
+            if(!in_array('projects.title', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

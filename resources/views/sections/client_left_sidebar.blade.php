@@ -17,22 +17,24 @@
 
         <h4 class="sidebar-heading">@lang('app.main')</h4>
 
-        <li class="{{request()->routeIs("client.dashboard.index") ? 'active' : ''}}">
-            <a href="{{ route('client.dashboard.index') }}">
-                <i class="icon-grid fa-fw"></i>
-                Dashboard
-            </a>
-        </li>
+        @if (in_array('dashboard.title', $modules))
+            <li class="{{request()->routeIs("client.dashboard.index") ? 'active' : ''}}">
+                <a href="{{ route('client.dashboard.index') }}">
+                    <i class="icon-grid fa-fw"></i>
+                    Dashboard
+                </a>
+            </li>
+        @endif
 
         @foreach ($worksuitePlugins as $item)
-            @if(in_array(strtolower($item), $modules) || in_array($item, $modules))
+            {{-- @if(in_array(strtolower($item), $modules) || in_array($item, $modules)) --}}
                 @if(View::exists(strtolower($item).'::sections.client_left_sidebar'))
                     @include(strtolower($item).'::sections.client_left_sidebar')
                 @endif
-            @endif
+            {{-- @endif --}}
         @endforeach
 
-        @if(in_array('messages',$modules))
+        @if(in_array('chat',$modules))
             @if($messageSetting->allow_client_admin == 'yes' || $messageSetting->allow_client_employee == 'yes')
                 <li class="{{request()->routeIs("client.user-chat.index") ? 'active' : ''}}">
                     <a href="{{ route('client.user-chat.index') }}" class="waves-effect"><i class="icon-envelope fa-fw"></i> <span class="hide-menu">@lang('app.menu.messages') </a> 
@@ -40,24 +42,26 @@
             @endif
         @endif
 
-        @if(in_array('projects',$modules))
+        @if(in_array('projects.title',$modules))
             <li class="{{request()->routeIs('client.projects.index') ? 'active' : ''}}">
                 <a href="{{ route('client.projects.index') }}" class="waves-effect"><i class="icon-layers fa-fw"></i> <span class="hide-menu">@lang('app.menu.projects') </span> </a> 
             </li>
         @endif
 
-        @if(in_array('events',$modules))
+        @if(in_array('evenements',$modules))
             <li class="{{request()->routeIs('client.events.index') ? 'active' : ''}}">
                 <a href="{{ route('client.events.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang('app.menu.Events')</span></a> 
             </li>
         @endif
 
-        <li class="{{ request()->routeIs('client.document.*') ? 'active' : '' }}">
-            <a href="{{ route('client.document.index') }}">
-                <i class="fa fa-file"></i>
-                @lang('app.docManagement')
-            </a>
-        </li>
+        @if (in_array('documents', $modules))
+            <li class="{{ request()->routeIs('client.document.*') ? 'active' : '' }}">
+                <a href="{{ route('client.document.index') }}">
+                    <i class="fa fa-file"></i>
+                    @lang('app.docManagement')
+                </a>
+            </li>
+        @endif
 
         {{-- <h4 class="sidebar-heading">@lang('app.others')</h4> --}}
 
@@ -242,11 +246,11 @@
                  {{-- <li><a href="#" class="waves-effect" id="rtl"><i class="ti-settings fa-fw"></i> <span class="hide-menu"> RTL</span></a></li> --}}
            
                  @foreach ($worksuitePlugins as $item)
-                @if(in_array(strtolower($item), $modules) || in_array($item, $modules))
+                {{-- @if(in_array(strtolower($item), $modules) || in_array($item, $modules)) --}}
                     @if(View::exists(strtolower($item).'::sections.client_left_sidebar'))
                         @include(strtolower($item).'::sections.client_left_sidebar')
                     @endif
-                @endif
+                {{-- @endif --}}
             @endforeach
 
         </ul>

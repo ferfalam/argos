@@ -71,7 +71,7 @@
                         <div class="form-body">
 
                             <div class="row">
-                                @if(in_array('projects', $modules))
+                                @if(in_array('projects.title', $modules))
                                 <div class="col-md-4">
 
                                     <div class="form-group" >

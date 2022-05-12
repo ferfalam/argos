@@ -80,7 +80,7 @@
                                     </div>
 
                                 </div>
-                                @if(in_array('projects', $modules))
+                                @if(in_array('projects.title', $modules))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">@lang('app.project')</label>

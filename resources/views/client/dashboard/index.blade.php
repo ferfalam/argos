@@ -65,7 +65,7 @@
 
 @section('content')
     <x-panel-container>
-        @if(in_array('projects',$modules))
+        @if(in_array('projects.title',$modules))
         <x-stat-card count="{{ $counts->totalProjects }}" img="card-1.png" title="modules.dashboard.totalProjects"></x-stat-card>
         @endif
 
@@ -80,7 +80,7 @@
     </x-panel-container>
 
     <div class="row" >
-        @if(in_array('projects',$modules))
+        @if(in_array('projects.title',$modules))
         <div class="col-md-6" id="project-timeline">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang("modules.dashboard.projectActivityTimeline")</div>
@@ -103,7 +103,7 @@
         </div>
         @endif
 
-        @if(in_array('projects',$modules))
+        @if(in_array('projects.title',$modules))
         {{-- <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.upcomingPayments')</div>

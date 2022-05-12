@@ -24,7 +24,7 @@ class MemberLeavesController extends MemberBaseController
         $this->pageTitle = 'app.menu.leaves';
         $this->pageIcon = 'icon-logout';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('leaves', $this->user->modules), 403);
+            abort_if(!in_array('users.presences', $this->user->modules), 403);
             return $next($request);
         });
     }

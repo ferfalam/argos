@@ -18,7 +18,7 @@ class ManageTeamsController extends AdminBaseController
         $this->pageTitle = 'app.department';
         $this->pageIcon = 'icon-user';
         $this->middleware(function ($request, $next) {
-            if(!in_array('employees', $this->user->modules)){
+            if(!in_array('users.title', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

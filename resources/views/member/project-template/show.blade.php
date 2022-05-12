@@ -39,11 +39,11 @@
                             <ul>
                                 <li class="tab-current"><a href="{{ route('member.project-template.show', $project->id) }}"><span>@lang('modules.projects.overview')</span></a>
                                 </li>
-                                @if(in_array('employees',$modules))
+                                @if(in_array('users.title',$modules))
                                 <li><a href="{{ route('member.project-template-member.show', $project->id) }}"><span>@lang('modules.projects.members')</span></a></li>
                                 @endif
 
-                                @if(in_array('tasks',$modules))
+                                @if(in_array('project.tasks',$modules))
                                 <li><a href="{{ route('member.project-template-task.show', $project->id) }}"><span>@lang('app.menu.tasks')</span></a></li>
                                 @endif
 

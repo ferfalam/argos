@@ -27,7 +27,7 @@ class AdminEventCalendarController extends AdminBaseController
         $this->pageTitle = 'app.menu.Events';
         $this->pageIcon = 'icon-calender';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('events', $this->user->modules), 403);
+            abort_if(!in_array('evenements', $this->user->modules), 403);
             return $next($request);
         });
     }

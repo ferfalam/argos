@@ -60,20 +60,22 @@
                 overflow-y: auto;
             }
         }
-
+        .row{
+            display: flex;
+        }
     </style>
 @endpush
 
 @section('content')
 
 <div class="panel-container">
-    @if(in_array('projects',$modules))
+    @if(in_array('projects.title',$modules))
     <x-stat-card img="card-1.png" count="{{ $totalProjects }}" url="{{ route('member.projects.index') }}" title="modules.dashboard.totalProjects"></x-stat-card>
     @endif
     @if(in_array('timelogs',$modules))
     <x-stat-card img="card-2.png" count="{{ $counts->totalHoursLogged }}" url="{{ route('member.all-time-logs.index') }}" title="modules.dashboard.totalHoursLogged"></x-stat-card>
     @endif
-    @if(in_array('tasks',$modules))
+    @if(in_array('projects.task',$modules))
     <x-stat-card img="card-3.png" count="{{ $counts->totalPendingTasks }}" url="{{ route('member.all-tasks.index') }}" title="modules.dashboard.totalPendingTasks"></x-stat-card>
     @endif
     <x-stat-card img="card-4.png" count="{{ $counts->totalCompletedTasks }}" url="{{ route('member.all-tasks.index') }}" title="modules.dashboard.totalCompletedTasks"></x-stat-card>
@@ -82,7 +84,7 @@
 
 <div class="row">
 
-    @if(in_array('attendance',$modules))
+    @if(in_array('users.presences',$modules))
     <div class="col-md-6">
         <div class="panel panel-inverse">
             <div class="panel-heading">@lang('app.menu.attendance')</div>
@@ -179,7 +181,7 @@
     </div>
     @endif
 
-    @if(in_array('tasks',$modules))
+    @if(in_array('projects.task',$modules))
     <div class="col-md-6">
         <div class="panel panel-inverse">
             <div class="panel-heading">@lang('modules.dashboard.overdueTasks')</div>
@@ -230,7 +232,7 @@
 
 <div class="row" >
 
-    @if(in_array('projects',$modules))
+    @if(in_array('projects.title',$modules))
     <div class="col-md-6" id="project-timeline">
         <div class="panel panel-inverse">
             <div class="panel-heading">@lang('modules.dashboard.projectActivityTimeline')</div>
@@ -297,7 +299,7 @@
     </div>
     @endif
 
-    @if(in_array('employees',$modules))
+    @if(in_array('users.title',$modules))
     <div class="col-md-6">
         <div class="panel panel-inverse">
             <div class="panel-heading">@lang('modules.dashboard.userActivityTimeline')</div>

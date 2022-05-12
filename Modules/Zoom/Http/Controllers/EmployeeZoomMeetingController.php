@@ -32,7 +32,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
 
         $this->middleware(function ($request, $next) {
             ZoomSetting::setZoom();
-            if (!in_array('Zoom', $this->user->modules)) {
+            if (!in_array('reunions.title', $this->user->modules)) {
                 abort(403);
             }
             return $next($request);
@@ -47,7 +47,7 @@ class EmployeeZoomMeetingController extends MemberBaseController
         //if ($this->user->zoomSetting()->get()[0]->api_key) {
             $this->users = User::allUsersByCompany(user()->company_id);
             $this->employees = User::allEmployeesByCompany(user()->company_id);
-            $this->clients = User::allClientsByCompany(user()->company_id);
+            $this->clients = User::allExternesByCompany(user()->company_id);
             $this->admins = User::allAdminsByCompany(user()->company_id);
         //}
         $this->categories = Category::all();

@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/morrisjs/morris.css') }}">
 <div class="row dashboard-stats front-dashboard">
-    @if(in_array('clients',$modules) && in_array('total_clients',$activeWidgets))
+    @if(in_array('users.clients',$modules) && in_array('total_clients',$activeWidgets))
         <div class="col-md-3 col-sm-6">
             <a href="{{ route('admin.clients.index') }}">
                 <div class="white-box">
@@ -51,7 +51,7 @@
             </a>
         </div>
     @endif
-    @if(in_array('contracts',$modules) && in_array('total_contracts_generated',$activeWidgets))
+    @if(in_array('projects.contracts',$modules) && in_array('total_contracts_generated',$activeWidgets))
         <div class="col-md-3 col-sm-6">
             <a href="{{ route('admin.contracts.index') }}">
                 <div class="white-box">
@@ -68,7 +68,7 @@
             </a>
         </div>
     @endif
-    @if(in_array('contracts',$modules) && in_array('total_contracts_signed',$activeWidgets))
+    @if(in_array('project.contracts',$modules) && in_array('total_contracts_signed',$activeWidgets))
         <div class="col-md-3 col-sm-6">
             <a href="{{ route('admin.contracts.index') }}">
                 <div class="white-box">
@@ -237,7 +237,7 @@
 
         </div>
     @endif
-    @if(in_array('clients',$modules) && in_array('latest_client',$activeWidgets))
+    @if(in_array('users.clients',$modules) && in_array('latest_client',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.latestClient')</div>
@@ -277,7 +277,7 @@
             </div>
         </div>
     @endif
-    @if(in_array('clients',$modules) && in_array('recent_login_activities',$activeWidgets))
+    @if(in_array('users.clients',$modules) && in_array('recent_login_activities',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.recentLoginActivities')</div>

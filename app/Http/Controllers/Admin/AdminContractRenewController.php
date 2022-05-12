@@ -18,7 +18,7 @@ class AdminContractRenewController extends AdminBaseController
         $this->pageIcon = 'fa fa-file';
         $this->pageTitle = 'contracts';
         $this->middleware(function ($request, $next) {
-            if (!in_array('contracts', $this->user->modules)) {
+            if (!in_array('projects.contracts', $this->user->modules)) {
                 abort(403);
             }
             return $next($request);

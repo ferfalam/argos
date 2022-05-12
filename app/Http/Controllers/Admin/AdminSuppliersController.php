@@ -42,7 +42,7 @@ class AdminSuppliersController extends AdminBaseController
     $this->countries = Country::orderBy('name')->get();
     $this->tla = CompanyTLA::orderBy('name')->get();
     $this->middleware(function ($request, $next) {
-        abort_if(!in_array('clients', $this->user->modules), 403);
+        abort_if(!in_array('tiers.fournisseurs', $this->user->modules), 403);
         return $next($request);
     });
   }

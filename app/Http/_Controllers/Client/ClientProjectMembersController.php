@@ -17,7 +17,7 @@ class ClientProjectMembersController extends ClientBaseController
         $this->pageTitle = 'app.menu.projects';
         $this->pageIcon = 'icon-layers';
         $this->middleware(function ($request, $next) {
-            if(!in_array('projects', $this->user->modules)){
+            if(!in_array('projects.title', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

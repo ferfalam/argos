@@ -14,57 +14,65 @@
             </a>
         </div>
 
-        <li class="item-expanded">
-            <a href="#dashboard" data-toggle="collapse"
-                aria-expanded="{{ request()->routeIs('admin.dashboard') ? 'true' : 'false' }}">
-                <ion-icon name="rocket-outline"></ion-icon>@lang('app.menu.dashboard')
-            </a>
-            <ul class="collapse list-unstyled {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.projectDashboard') ? 'in' : '' }}"
-                id="dashboard">
-                <li><a href="{{ route('admin.dashboard') }}"
-                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Général </a></li>
-                <li><a href="{{ route('admin.projectDashboard') }}"
-                        class="{{ request()->routeIs('admin.projectDashboard') ? 'active' : '' }}">@lang('app.menu.projets') </a></li>
-            </ul>
-        </li>
+        @if (in_array('dashboard.title', $modules))
+            <li class="item-expanded">
+                <a href="#dashboard" data-toggle="collapse"
+                    aria-expanded="{{ request()->routeIs('admin.dashboard') ? 'true' : 'false' }}">
+                    <ion-icon name="rocket-outline"></ion-icon>@lang('app.menu.dashboard')
+                </a>
+                <ul class="collapse list-unstyled {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.projectDashboard') ? 'in' : '' }}"
+                    id="dashboard">
+                    @if (in_array('dashboard.general', $modules))
+                    <li><a href="{{ route('admin.dashboard') }}"
+                            class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Général </a></li>
+                    @endif
+                    @if (in_array('dashboard.project', $modules))
+                    <li><a href="{{ route('admin.projectDashboard') }}"
+                            class="{{ request()->routeIs('admin.projectDashboard') ? 'active' : '' }}">@lang('app.menu.projets') </a></li>
+                    @endif
+                </ul>
+            </li>
+        @endif
 
         @php
             $is_employee_active = request()->routeIs('admin.employees.index') || request()->routeIs('admin.teams.index') || request()->routeIs('admin.designations.index') || request()->routeIs('admin.attendances.summary') || request()->routeIs('admin.holidays.index') || request()->routeIs('admin.leaves.pending') || request()->routeIs('admin.attendances.myAttendance');
         @endphp
-        @if (in_array('employees', $modules) || in_array('attendance', $modules) || in_array('holidays', $modules) || in_array('leaves', $modules))
+        @if (in_array('users.title', $modules))
             <li>
                 <a href="#employees" data-toggle="collapse"
                     aria-expanded="{{ $is_employee_active ? 'true' : 'false' }}">
                     <ion-icon name="people-outline"></ion-icon> @lang('app.menu.utilisateur')
                 </a>
                 <ul class="collapse list-unstyled {{ $is_employee_active ? 'in' : '' }}" id="employees">
-                    @if (in_array('employees', $modules))
+                    @if (in_array('users.list', $modules))
                         <li><a href="{{ route('admin.employees.index') }}"
                                 class="{{ request()->routeIs('admin.employees.index') ? 'active' : '' }}">@lang('app.menu.employeeList')</a>
                         </li>
+                    @endif
+                    @if (in_array('users.departments', $modules))
                         <li><a href="{{ route('admin.teams.index') }}"
                                 class="{{ request()->routeIs('admin.teams.index') ? 'active' : '' }}">@lang('app.department')</a>
                         </li>
+                    @endif
+                    @if (in_array('users.qualifications', $modules))
                         <li><a href="{{ route('admin.designations.index') }}"
                                 class="{{ request()->routeIs('admin.designations.index') ? 'active' : '' }}">@lang('app.menu.designation')</a>
                         </li>
                     @endif
- 				
-           <li><a href="{{ route('admin.attendances.myAttendance') }}" class="{{ request()->routeIs('admin.attendances.myAttendance') ? 'active' : '' }}">@lang('app.timer') </a></li>
-                   
-                    @if (in_array('attendance', $modules))
+                    @if (in_array('users.timer', $modules))
+                        <li><a href="{{ route('admin.attendances.myAttendance') }}" class="{{ request()->routeIs('admin.attendances.myAttendance') ? 'active' : '' }}">@lang('app.timer') </a></li>
+                    @endif
+                    @if (in_array('users.presences', $modules))
                         <li><a href="{{ route('admin.attendances.summary') }}"
                                 class="{{ request()->routeIs('admin.attendances.summary') ? 'active' : '' }}">@lang('app.menu.attendance')
                             </a></li>
                     @endif
-
-                    @if (in_array('holidays', $modules))
+                    @if (in_array('users.vacances', $modules))
                         <li><a href="{{ route('admin.holidays.index') }}"
                                 class="{{ request()->routeIs('admin.holidays.index') ? 'active' : '' }}">@lang('app.menu.holiday')</a>
                         </li>
                     @endif
-
-                    @if (in_array('leaves', $modules))
+                    @if (in_array('users.absences', $modules))
                         <li><a href="{{ route('admin.leaves.pending') }}"
                                 class="{{ request()->routeIs('admin.leaves.pending') ? 'active' : '' }}">@lang('app.menu.leaves')</a>
                         </li>
@@ -74,7 +82,7 @@
         @endif
 
 
-        @if (in_array('tiers', $modules))
+        @if (in_array('tiers.title', $modules))
             <li>
                 <a href="#third" data-toggle="collapse"
                     aria-expanded="{{ request()->routeIs('admin.clients.*') || request()->routeIs('admin.suppliers.*') ? 'true' : 'false' }}">
@@ -82,26 +90,35 @@
                 </a>
                 <ul class="collapse list-unstyled {{ request()->routeIs('admin.clients.*') || request()->routeIs('admin.suppliers.*') ? 'in' : '' }}"
                     id="third">
+                    @if (in_array('tiers.clients', $modules))
                     <li>
                         <a href="{{ route('admin.clients.index') }}"
                             class="{{ request()->routeIs('admin.clients.*') ? 'active' : '' }}">
                             {{ucfirst(__('app.menu.client'))}} </a>
                     </li>
+                    @endif
+                    @if (in_array('tiers.fournisseurs', $modules))
                     <li><a href="{{ route('admin.suppliers.index') }}"
                             class="{{ request()->routeIs('admin.suppliers.*') ? 'active' : '' }}">@lang('app.menu.fournisseur') </a>
                     </li>
+                    @endif
                 </ul>
             </li>
         @endif
 
+
+        @if (in_array('contacts', $modules))
         <li class="{{ request()->routeIs('admin.contact.index') ? 'active' : '' }}">
             <a href="{{ route('admin.contact.index') }}">
                 <ion-icon name="bookmarks"></ion-icon>
                 @lang('app.menu.contacts')
             </a>
         </li>
+                    
+        @endif
 
-        @if (in_array('events', $modules))
+
+        @if (in_array('evenements', $modules))
             <li class="{{ request()->routeIs('admin.events.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.events.index') }}">
                     <ion-icon name="ticket-outline"></ion-icon>
@@ -110,15 +127,19 @@
             </li>
         @endif
 
+
+        @if (in_array('mailing', $modules))
         <li class="{{ request()->routeIs('admin.mailing.index') ? 'active' : '' }}">
             <a href="{{ route('admin.mailing.index') }}">
                 <ion-icon name="mail-open"></ion-icon>
                 Mailing (InBox)
             </a>
         </li>
+                    
+        @endif
 
 
-        @if (in_array('messages', $modules))
+        @if (in_array('chat', $modules))
             <li class="{{ request()->routeIs('admin.user-chat.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.user-chat.index') }}">
                     <ion-icon name="chatbubble-ellipses-outline"></ion-icon> @lang('app.menu.messages')
@@ -128,59 +149,79 @@
 
 
         @foreach ($worksuitePlugins as $item)
-            @if (in_array(strtolower($item), $modules) || in_array($item, $modules))
+            {{-- @if (in_array(strtolower($item), $modules) || in_array($item, $modules)) --}}
                 @if (View::exists(strtolower($item) . '::sections.left_sidebar'))
                     @include(strtolower($item).'::sections.left_sidebar')
                 @endif
-            @endif
+            {{-- @endif --}}
         @endforeach
 
-
+        
+        @if (in_array('spv', $modules))
         <li class="{{ request()->routeIs('admin.spv*') ? 'active' : '' }}">
             <a href="{{ route('admin.spv.index') }}">
                 <ion-icon name="document"></ion-icon>
                 SPV
             </a>
         </li>
+                    
+        @endif  
 
+
+        @if (in_array('documents', $modules))
         <li class="{{ request()->routeIs('admin.document.*') ? 'active' : '' }}">
             <a href="{{ route('admin.document.index') }}">
                 <ion-icon name="document-text"></ion-icon>
                 @lang('app.docManagement')
             </a>
         </li>
+                    
+        @endif
+
 
         @php
             $is_project_active = request()->routeIs('admin.projects.index') || request()->routeIs('admin.all-tasks.index') || request()->routeIs('admin.contracts.index');
         @endphp
 
-        @if (in_array('projects', $modules) || in_array('tasks', $modules) || in_array('timelogs', $modules) || in_array('contracts', $modules))
+        @if (in_array('projects.title', $modules) || in_array('tasks', $modules) || in_array('timelogs', $modules) || in_array('contracts', $modules))
             <li>
                 <a href="#projects" data-toggle="collapse" aria-expanded="{{$is_project_active ? 'true' : 'false'}}"> <ion-icon name="rocket-outline"></ion-icon>Projets </a>
                 <ul class="collapse list-unstyled {{$is_project_active ? 'in' : ''}}" id="projects">
-                    @if (in_array('projects', $modules))
+                    @if (in_array('projects.list', $modules))
                         <li><a href="{{ route('admin.projects.index') }}" class="{{ request()->routeIs('admin.projects.index') ? 'active' : '' }}">Liste des projets </a></li>
                     @endif
 
-                    @if (in_array('tasks', $modules))
+                    @if (in_array('projects.tasks', $modules))
                         <li><a href="{{ route('admin.all-tasks.index') }}"
                                 class="{{ request()->routeIs('admin.all-tasks.index') ? 'active' : '' }}">@lang('app.menu.tasks')
                             </a></li>
                         {{-- <li><a href="{{ route('admin.taskboard.index') }}" class="{{ request()->routeIs('admin.taskboard.index') ? 'active' : '' }}">@lang('modules.tasks.taskBoard')</a></li> --}}
-                        <li><a href="{{ route('admin.contracts.index') }}" class="{{ request()->routeIs('admin.contracts.index') ? 'active' : '' }}">Liste des Contrats</a></li>
+                    @endif
+
+                    @if (in_array('projects.contracts', $modules))
+                    <li><a href="{{ route('admin.contracts.index') }}" class="{{ request()->routeIs('admin.contracts.index') ? 'active' : '' }}">Liste des Contrats</a></li>
+                        
                     @endif
                 </ul>
             </li>
         @endif
 
-        <li class="{{ request()->routeIs('admin.coal.index') ? 'active' : '' }}">
-            <a href="{{ route('admin.coal.index') }}">
-                <i class="icon-pie-chart fa-fw"></i>
-                @lang('app.menu.coal_index')
-                {{-- Indice Carbonne --}}
-            </a>
-        </li>
 
+        @if (in_array('carbone', $modules))
+        
+                <li class="{{ request()->routeIs('admin.coal.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.coal.index') }}">
+                        <i class="icon-pie-chart fa-fw"></i>
+                        @lang('app.menu.coal_index')
+                        {{-- Indice Carbonne --}}
+                    </a>
+                </li>
+                    
+        @endif
+
+
+        @if (in_array('acceptability', $modules))
+        
         <li class="{{ request()->routeIs('admin.coal.acceptability') ? 'active' : '' }}">
             <a href="{{ route('admin.coal.acceptability') }}">
                 <ion-icon name="pie-chart"></ion-icon>
@@ -188,6 +229,8 @@
                 {{-- Indice Acceptabilité --}}
             </a>
         </li>
+                    
+        @endif
 
 
         {{-- @if (in_array('estimates', $modules) || in_array('invoices', $modules) || in_array('payments', $modules) || in_array('expenses', $modules))

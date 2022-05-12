@@ -23,7 +23,7 @@ class MemberLeaveDashboardController extends MemberBaseController
         $this->pageTitle = 'app.menu.leaves';
         $this->pageIcon = 'icon-logout';
         $this->middleware(function ($request, $next) {
-            if(!in_array('leaves', $this->user->modules)){
+            if(!in_array('users.vacances', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

@@ -35,7 +35,7 @@ class MemberTasksController extends MemberBaseController
         $this->pageIcon = 'icon-layers';
         $this->pageTitle = 'app.menu.projects';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('tasks', $this->user->modules), 403);
+            abort_if(!in_array('projects.task', $this->user->modules), 403);
             return $next($request);
         });
     }

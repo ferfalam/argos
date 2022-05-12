@@ -45,7 +45,7 @@
                                     <input type="hidden" value="{{ $projectId }}" name="project_id_direct">
                                 @endif
 
-                                @if(in_array('projects', $modules))
+                                @if(in_array('projects.title', $modules))
                                     <div class="col-md-12 ">
                                         <div class="form-group">
                                             <label>@lang('app.selectProject')</label>

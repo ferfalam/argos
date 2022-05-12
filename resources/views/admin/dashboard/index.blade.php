@@ -85,7 +85,7 @@
 @section('content')
 
     <div class="panel-container">
-        @if(in_array('projects',$modules)  && in_array('total_projects',$activeWidgets))
+        @if(in_array('projects.title',$modules)  && in_array('total_projects',$activeWidgets))
         <div class="panel panel-default">
             <div class="panel-body">
                 <img src="{{asset('img/card-1.png')}}" alt="" />
@@ -99,7 +99,7 @@
         </div>
         @endif
 
-        @if(in_array('clients',$modules)  && in_array('total_clients',$activeWidgets))
+        @if(in_array('tiers.clients',$modules)  && in_array('total_clients',$activeWidgets))
         <div class="panel panel-default">
             <div class="panel-body">
                 <img src="{{asset('img/card-2.png')}}" alt="" />
@@ -113,7 +113,7 @@
         </div>
         @endif
 
-        @if(in_array('tasks',$modules)  && in_array('total_pending_tasks',$activeWidgets))
+        @if(in_array('projects.task',$modules)  && in_array('total_pending_tasks',$activeWidgets))
         <div class="panel panel-default">
             <div class="panel-body">
                 <img src="{{asset('img/card-3.png')}}" alt="" />
@@ -127,7 +127,7 @@
         </div>
         @endif
 
-        @if(in_array('employees',$modules)  && in_array('total_employees',$activeWidgets))
+        @if(in_array('users.title',$modules)  && in_array('total_employees',$activeWidgets))
         <div class="panel panel-default">
             <div class="panel-body">
                 <img src="{{asset('img/card-4.png')}}" alt="" />
@@ -181,7 +181,7 @@
     <!-- .row -->
 
     <div class="row d-flex">
-        @if(in_array('leaves',$modules)  && in_array('settings_leaves',$activeWidgets))
+        @if(in_array('users.vacances',$modules)  && in_array('settings_leaves',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('app.menu.leaves')</div>
@@ -228,7 +228,7 @@
             {{--            </div>--}}
             {{--            @endif--}}
 
-        @if(in_array('tasks',$modules)  && in_array('overdue_tasks',$activeWidgets))
+        @if(in_array('projects.task',$modules)  && in_array('overdue_tasks',$activeWidgets))
                 <div class="col-md-6">
                     <div class="panel panel-inverse panel-height-max">
                         <div class="panel-heading">@lang('modules.dashboard.overdueTasks')</div>
@@ -265,7 +265,7 @@
     </div>
 
     <div class="row d-flex" >
-        @if(in_array('projects',$modules)  && in_array('project_activity_timeline',$activeWidgets))
+        @if(in_array('projects.title',$modules)  && in_array('project_activity_timeline',$activeWidgets))
         <div class="col-md-6" id="project-timeline">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.projectActivityTimeline')</div>
@@ -290,7 +290,7 @@
         </div>
         @endif
 
-        @if(in_array('employees',$modules)  && in_array('user_activity_timeline',$activeWidgets))
+        @if(in_array('users.title',$modules)  && in_array('user_activity_timeline',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
                 <div class="panel-heading">@lang('modules.dashboard.userActivityTimeline')</div>

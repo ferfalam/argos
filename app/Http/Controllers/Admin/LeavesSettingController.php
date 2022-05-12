@@ -17,7 +17,7 @@ class LeavesSettingController extends AdminBaseController
         $this->pageTitle = 'app.menu.leaveSettings';
         $this->pageIcon = 'ti-settings';
         $this->middleware(function ($request, $next) {
-            if(!in_array('leaves', $this->user->modules)){
+            if(!in_array('users.presences', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

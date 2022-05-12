@@ -17,7 +17,7 @@ class ClientEventController extends ClientBaseController
         $this->pageTitle = 'app.menu.Events';
         $this->pageIcon = 'icon-calender';
         $this->middleware(function ($request, $next) {
-            if(!in_array('events', $this->user->modules)){
+            if(!in_array('evenements', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

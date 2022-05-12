@@ -19,7 +19,7 @@ class MemberContractTypeController extends MemberBaseController
         $this->pageIcon = 'user-follow';
         $this->pageTitle = 'app.menu.contracts';
         $this->middleware(function ($request, $next) {
-            if(!in_array('contracts', $this->user->modules)){
+            if(!in_array('projects.contracts', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

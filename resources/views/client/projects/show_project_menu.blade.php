@@ -2,13 +2,13 @@
     <div class="tabs-header">
         <a class="tab-btn {{request()->routeIs('client.projects.show', $project->id) ? 'active' : ""}} " href="{{ route('client.projects.show', $project->id) }}">@lang('modules.projects.overview')</a>
         
-        @if(in_array('employees',$modules))
+        @if(in_array('users.title',$modules))
         <a class="tab-btn {{request()->routeIs('client.project-members.show', $project->id) ? 'active' : ""}} " href="{{ route('client.project-members.show', $project->id) }}">@lang('modules.projects.members')</a>
         @endif
 
         <a class="tab-btn {{request()->routeIs('client.milestones.show', $project->id) ? 'active' : ""}} " href="{{ route('client.milestones.show', $project->id) }}">@lang('modules.projects.milestones')</a>
 
-        @if($project->client_view_task == 'enable' && in_array('tasks',$modules))
+        @if($project->client_view_task == 'enable' && in_array('projects.task',$modules))
         <a class="tab-btn {{request()->routeIs('client.tasks.edit', $project->id) ? 'active' : ""}} " href="{{ route('client.tasks.edit', $project->id) }}">@lang('app.menu.tasks')</a>
         @endif
         

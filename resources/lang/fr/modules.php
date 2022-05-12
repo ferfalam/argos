@@ -1346,9 +1346,33 @@ return array (
   ),
   'module' => 
   array (
+    'dashboard' => [
+      'title' => 'Dashboard',
+      'general' => 'Général Dashboard',
+      'project' => 'Projet Dashboard',
+    ],
+    'users' => [
+      'title' => 'Utilisateurs',
+      'list' => "Liste des utilisateurs",
+      'departments' => "Départements",
+      'qualifications' => "Qualifications",
+      'timer' => "Timer",
+      'presences' => "Présences",
+      'absences' => "Absences",
+      'vacances' => "Vacances",
+    ],
     'attendance' => 'Présence',
     'clients' => 'Clients',
-    'tiers' => 'Tiers',
+    'tiers' => [
+      'title' => 'Tiers',
+      'clients' => 'Clients',
+      'fournisseurs' => 'Fournisseurs'
+    ],
+    'reunions' => [
+      'title' => 'Réunions',
+      'visio' => 'Visio-conférence',
+      'parameters' => 'Paramètres Zoom'
+    ],
     'employees' => 'Liste des Utilisateurs',
     'estimates' => 'Estimations',
     'events' => 'Événements',
@@ -1363,7 +1387,20 @@ return array (
     'notices' => 'Notification',
     'payments' => 'Paiements',
     'products' => 'Des produits',
-    'projects' => 'Projets',
+    'projects' => [
+      'title' => 'Projets',
+      'list' => 'Liste des projets',
+      'task' => 'Tâches',
+      'contracts' => 'Contrats'
+    ],
+    'contacts' => "Contacts",
+    'evenements' => "Evènements",
+    'mailing' => "Mailing",
+    'chat' => "Chat",
+    'spv' => "Spv",
+    'documents' => "Gestion des documents",
+    'acceptability' => "Indice Acceptabilité",
+    'carbone' => 'Indice carbone',
     'tasks' => 'Tâches',
     'tickets' => 'Des billets',
     'timelogs' => 'Journaux de temps',

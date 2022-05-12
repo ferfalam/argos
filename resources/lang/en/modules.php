@@ -1300,6 +1300,7 @@ return array (
   ),
   'module' => 
   array (
+    'dashboard' => 'Dashboard',
     'attendance' => 'Attendance',
     'clients' => 'Clients',
     'employees' => 'Employees',

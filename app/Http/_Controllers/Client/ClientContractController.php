@@ -33,7 +33,7 @@ class ClientContractController extends ClientBaseController
         $this->pageTitle = 'contracts';
 
         $this->middleware(function ($request, $next) {
-            if(!in_array('contracts', $this->user->modules)){
+            if(!in_array('projects.contracts', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

@@ -24,7 +24,7 @@ class MemberAttendanceController extends MemberBaseController
         $this->pageIcon = 'icon-clock';
         $this->pageTitle = 'app.menu.attendance';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('attendance', $this->user->modules), 403);
+            abort_if(!in_array('users.presences', $this->user->modules), 403);
             return $next($request);
         });
 

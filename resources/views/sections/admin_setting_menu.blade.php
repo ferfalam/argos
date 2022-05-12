@@ -34,7 +34,7 @@
 {{--            <a href="{{ route('admin.ticket-agents.index') }}">@lang('app.menu.ticketSettings')</a></li>--}}
 {{--    @endif--}}
 
-    @if(in_array('projects', $user->modules))
+    @if(in_array('projects.title', $user->modules))
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.project-settings.index') active @endif">
             <a href="{{ route('admin.project-settings.index') }}">@lang('app.menu.projectSettings')</a></li>
     @endif
@@ -77,7 +77,7 @@
             <a href="{{ route('admin.log-time-settings.index') }}">@lang('app.timeLog') @lang('app.menu.settings')</a></li>
     @endif
 
-    @if(in_array("tasks", $modules) )
+    @if(in_array("projects.task", $modules) )
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.task-settings.index') active @endif">
             <a href="{{ route('admin.task-settings.index') }}">@lang('app.task') @lang('app.menu.settings')</a></li>
     @endif

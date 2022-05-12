@@ -212,7 +212,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="form-group" id="user_id">
                                         <label class="required">@lang('modules.projects.addMemberTitle')</label>
-                                        @if(in_array('employees',$modules))
+                                        @if(in_array('users.title',$modules))
                                             <a href="javascript:;" id="add-employee" class="btn btn-xs btn-success btn-outline"><i class="fa fa-plus"></i></a>
                                         @endif
                                         <select class="select2 m-b-10 select2-multiple " id="selectEmployee" multiple="multiple"

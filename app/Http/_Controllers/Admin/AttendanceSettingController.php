@@ -17,7 +17,7 @@ class AttendanceSettingController extends AdminBaseController
         $this->pageTitle = 'app.menu.attendanceSettings';
         $this->pageIcon = 'icon-settings';
         $this->middleware(function ($request, $next) {
-            if(!in_array('attendance', $this->user->modules)){
+            if(!in_array('users.presences', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

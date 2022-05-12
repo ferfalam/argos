@@ -24,7 +24,7 @@ class ClientTaskRequestController extends ClientBaseController
         $this->pageTitle = 'app.menu.projects';
         $this->pageIcon = 'icon-layers';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('tasks', $this->user->modules), 403);
+            abort_if(!in_array('projects.task', $this->user->modules), 403);
             return $next($request);
         });
     }

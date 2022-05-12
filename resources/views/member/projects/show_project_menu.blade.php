@@ -30,7 +30,7 @@
     <div class="tabs-header">            
         <a class="tab-btn {{ request()->routeIs('member.projects.show', $project->id) ? 'active' : '' }}" href="{{ route('member.projects.show', $project->id) }}"><span>@lang('modules.projects.overview')</span></a>
         
-        @if(in_array('employees',$modules))
+        @if(in_array('users.title',$modules))
         <a class="tab-btn {{ request()->routeIs('member.project-members.show', $project->id) ? 'active' : '' }}"  href="{{ route('member.project-members.show', $project->id) }}"> <span>@lang('modules.projects.members')</span></a>
         @endif
 
@@ -38,7 +38,7 @@
         <a class="tab-btn {{ request()->routeIs('member.milestones.show', $project->id) ? 'active' : '' }}"  href="{{ route('member.milestones.show', $project->id) }}"> <span>@lang('modules.projects.milestones')</span></a>
         @endif
 
-        @if(in_array('tasks',$modules))
+        @if(in_array('projects.task',$modules))
         <a class="tab-btn {{ request()->routeIs('member.tasks.show', $project->id) ? 'active' : '' }}"  href="{{ route('member.tasks.show', $project->id) }}"> <span>@lang('app.menu.tasks')</span></a>
         @endif
 

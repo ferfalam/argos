@@ -19,18 +19,30 @@ class ModuleSettingsController extends AdminBaseController
     public function index(Request $request)
     {
 
-        $moduleInPackage = (array)json_decode(company()->package->module_in_package);
+        $moduleInPackageInit = (array)json_decode(company()->package->module_in_package);
         if($request->has('type')){
             if($request->get('type') == 'employee'){
+
+                $moduleInPackage =  $moduleInPackageInit;
                 $this->modulesData = ModuleSetting::where('type', 'employee')->whereIn('module_name', $moduleInPackage)->get();
                 $this->type = 'employee';
             }
             elseif($request->get('type') == 'client'){
+                $moduleInPackage =  $moduleInPackageInit;
                 $this->modulesData = ModuleSetting::where('type', 'client')->whereIn('module_name', $moduleInPackage)->get();
                 $this->type = 'client';
             }
         }
         else{
+            $moduleInPackage = array_map(function ($n)
+            {
+                $v =  explode('.', $n);
+                if (count($v) > 1 && $v[1] == 'title') {
+                    return $n;
+                }else if(count($v) == 1 && !in_array($n, ["payments","leads","timelogs","invoices","expenses","tickets","products","reports","estimates","issues"])){
+                    return $n;
+                }
+            }, $moduleInPackageInit);
             $this->modulesData = ModuleSetting::where('type', 'admin')->whereIn('module_name', $moduleInPackage)->get();
             $this->type = 'admin';
         }

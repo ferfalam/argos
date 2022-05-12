@@ -14,7 +14,7 @@ class MemberPinnedController extends MemberBaseController
         parent::__construct();
 
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('projects', $this->user->modules), 403);
+            abort_if(!in_array('projects.title', $this->user->modules), 403);
             return $next($request);
         });
     }

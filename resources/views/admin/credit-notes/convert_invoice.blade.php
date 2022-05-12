@@ -85,7 +85,7 @@
                                     </div>
 
                                 </div>
-                                @if(in_array('projects', $modules) && $creditNote->project)
+                                @if(in_array('projects.title', $modules) && $creditNote->project)
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">@lang('app.project')</label>

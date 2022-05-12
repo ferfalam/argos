@@ -66,7 +66,7 @@
                                            value=""/>
                                 </div>
                             </div>
-                            @if(in_array('projects', $modules))
+                            @if(in_array('projects.title', $modules))
                             <div class="col-xs-12">
                                 <h5 >@lang('app.project')</h5>
                                 <div class="form-group">
@@ -109,7 +109,7 @@
                         <tr>
                             <th>@lang('app.id')</th>
                             <th>@lang('app.invoice') #</th>
-                            @if(in_array('projects', $modules))
+                            @if(in_array('projects.title', $modules))
                                 <th>@lang('app.project')</th>
                             @endif
                             <th>@lang('app.client')</th>
@@ -320,7 +320,7 @@
             columns: [
                 { data: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'invoice_number', name: 'invoice_number' },
-                @if(in_array('projects', $modules))
+                @if(in_array('projects.title', $modules))
                     { data: 'project_name', name: 'project_name' },
                 @endif
                 { data: 'client_name', name: 'client_name' },

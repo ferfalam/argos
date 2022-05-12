@@ -40,7 +40,7 @@ class ManageClientsController extends AdminBaseController
         $this->pageTitle = 'app.menu.clients';
         $this->pageIcon = 'icon-people';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('clients', $this->user->modules), 403);
+            abort_if(!in_array('users.clients', $this->user->modules), 403);
             return $next($request);
         });
     }

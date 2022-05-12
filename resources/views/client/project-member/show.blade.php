@@ -39,11 +39,11 @@
                         <nav>
                             <ul>
                                 <li><a href="{{ route('client.projects.show', $project->id) }}"><span>@lang('modules.projects.overview')</span></a></li>
-                                @if(in_array('employees',$modules))
+                                @if(in_array('users.title',$modules))
                                 <li class="tab-current"><a href="{{ route('client.project-members.show', $project->id) }}"><span>@lang('modules.projects.members')</span></a></li>
                                 @endif
 
-                                @if($project->client_view_task == 'enable' && in_array('tasks',$modules))
+                                @if($project->client_view_task == 'enable' && in_array('project.task',$modules))
                                     <li><a href="{{ route('client.tasks.edit', $project->id) }}"><span>@lang('app.menu.tasks')</span></a></li>
                                 @endif
 

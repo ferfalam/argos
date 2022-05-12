@@ -329,7 +329,7 @@
         </div>
 
         <div class="row">
-            @if(in_array('tasks',$modules))
+            @if(in_array('project.task',$modules))
                 <div class="col-md-4">
                     <div class="panel b-all border-radius">
                         <div class="panel-heading b-b">@lang('app.menu.tasks')</div>

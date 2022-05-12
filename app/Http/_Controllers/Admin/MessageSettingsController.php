@@ -15,7 +15,7 @@ class MessageSettingsController extends AdminBaseController
         $this->pageTitle = 'app.menu.messageSettings';
         $this->pageIcon = 'ti-settings';
         $this->middleware(function ($request, $next) {
-            if(!in_array('messages', $this->user->modules)){
+            if(!in_array('chat', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

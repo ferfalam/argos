@@ -39,7 +39,7 @@
 <div class="row m-b-10">
     {!! Form::open(['id'=>'storePayments','class'=>'ajax-form','method'=>'POST']) !!}
 
-    @if(in_array('projects', $modules))
+    @if(in_array('projects.title', $modules))
         <div class="col-md-12 m-t-20">
             <h5 class="box-title">@lang('app.selectProject')</h5>
             <div class="form-group" >

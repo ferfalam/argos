@@ -37,7 +37,7 @@ class AdminContractController extends AdminBaseController
         $this->pageIcon = 'fa fa-file';
         $this->pageTitle = 'app.menu.contracts';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('contracts', $this->user->modules), 403);
+            abort_if(!in_array('projects.contracts', $this->user->modules), 403);
             return $next($request);
         });
     }

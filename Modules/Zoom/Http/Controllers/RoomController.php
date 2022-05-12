@@ -28,7 +28,7 @@ class RoomController extends AdminBaseController
 
         $this->middleware(function ($request, $next) {
             ZoomSetting::setZoom();
-            if (!in_array('Zoom', $this->user->modules)) {
+            if (!in_array('reunions.title', $this->user->modules)) {
                 abort(403);
             }
             return $next($request);

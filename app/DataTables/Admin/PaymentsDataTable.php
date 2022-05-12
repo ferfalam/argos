@@ -182,7 +182,7 @@ class PaymentsDataTable extends BaseDataTable
                 ->width(150)
                 ->addClass('text-center')
         ];
-        if (in_array('projects', $modules)) {
+        if (in_array('projects.title', $modules)) {
             $dsData = array_slice($dsData, 0, 3, true) + [__('app.project')  => ['data' => 'project_id', 'name' => 'project.project_name']] + array_slice($dsData, 3, count($dsData) - 1, true);
         }
 

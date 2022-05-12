@@ -18,7 +18,7 @@ class TaskLabelController extends MemberBaseController
         $this->pageIcon = 'fa fa-file';
         $this->pageTitle = 'app.menu.taskLabel';
         $this->middleware(function ($request, $next) {
-            if(!in_array('tasks', $this->user->modules)){
+            if(!in_array('projects.task', $this->user->modules)){
                 abort(403);
             }
             return $next($request);

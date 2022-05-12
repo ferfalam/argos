@@ -25,7 +25,7 @@ class AdminChatController extends AdminBaseController
         $this->pageTitle = 'app.menu.chat';
         $this->pageIcon = 'icon-envelope';
         $this->middleware(function ($request, $next) {
-            abort_if(!in_array('messages', $this->user->modules), 403);
+            abort_if(!in_array('chat', $this->user->modules), 403);
             return $next($request);
         });
     }

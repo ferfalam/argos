@@ -1041,21 +1041,21 @@ class CompanyObserver
         $admin = new Role();
         $admin->company_id = $company->id;
         $admin->name = 'admin';
-        $admin->display_name = 'App Administrator'; // optional
+        $admin->display_name = 'Admin'; // optional
         $admin->description = 'Admin is allowed to manage everything of the app.'; // optional
         $admin->save();
 
         $employee = new Role();
         $employee->company_id = $company->id;
         $employee->name = 'employee';
-        $employee->display_name = 'Employee'; // optional
+        $employee->display_name = 'Collaborateur'; // optional
         $employee->description = 'Employee can see tasks and projects assigned to him.'; // optional
         $employee->save();
 
         $client = new Role();
         $client->company_id = $company->id;
         $client->name = 'client';
-        $client->display_name = 'Client'; // optional
+        $client->display_name = 'Externe'; // optional
         $client->description = 'Client can see own tasks and projects.'; // optional
         $client->save();
     }
