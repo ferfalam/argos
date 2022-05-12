@@ -22,7 +22,7 @@
                             @if(!in_array($role->name, ['admin','employee' ,'client']))
                                 <a href="#"  data-name="name"  data-url="{{ route('admin.role-permission.update', $role->id) }}" class="roleEditable" data-type="text" data-pk="{{ $role->id }}" data-value="{{ ucfirst($role->name) }}" ></a>
                             @else
-                                {{ __('app.'.$role->name) }}
+                                {{$role->display_name }}
                             @endif
                         </td>
                         <td>
