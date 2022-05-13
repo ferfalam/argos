@@ -79,11 +79,11 @@ class ManageAllTasksController extends AdminBaseController
         
         $this->labelIds         = $this->task->label->pluck('label_id')->toArray();
         $this->projects        = Project::all();
-        $this->employees        = User::allEmployees();
-        $this->titles        = TaskTitle::all();
-        $this->categories       = TaskCategory::all();
-        $this->taskLabels       = TaskLabelList::all();
-        $this->taskBoardColumns = TaskboardColumn::all();
+        $this->employees        = User::allEmployeesByCompany(company()->id);
+        $this->titles        = TaskTitle::orderBy('name')->get();
+        $this->categories       = TaskCategory::orderBy('name')->get();
+        $this->taskLabels       = TaskLabelList::orderBy('label_name')->get();
+        $this->taskBoardColumns = TaskboardColumn::orderBy('column_name')->get();
         $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();
         
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
@@ -194,7 +194,7 @@ class ManageAllTasksController extends AdminBaseController
     public function create()
     {
         $this->projects   = Project::all();
-        $this->titles   = TaskTitle::all();
+        $this->titles   = TaskTitle::orderBy('name')->get();
         $this->employees  = User::allEmployees();
         $this->categories = TaskCategory::all();
         $this->taskLabels = TaskLabelList::all();

@@ -102,12 +102,12 @@ class AdminTaskboardController extends AdminBaseController
         $this->boardColumns = $boardColumns;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
-        $this->projects = Project::all();
-        $this->clients = User::allClients();
-        $this->employees = User::allEmployees();
-        $this->taskCategories = TaskCategory::all();
-        $this->taskLabels  = TaskLabelList::all();
-        $this->milestones  = ProjectMilestone::all();
+        $this->projects = Project::orderBy('project_name')->get();
+        $this->clients = User::allExternesByCompany(company()->id);
+        $this->employees = User::allEmployeesByCompany(company()->id);
+        $this->taskCategories = TaskCategory::orderBy('category_name')->get();
+        $this->taskLabels  = TaskLabelList::orderBy('label_name')->get();
+        $this->milestones  = ProjectMilestone::orderBy('milestone_title')->get();
         $this->upload = can_upload();
         $this->publicTaskboardLink = encrypt(company()->id);
 

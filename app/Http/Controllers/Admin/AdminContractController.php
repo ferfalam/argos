@@ -44,9 +44,9 @@ class AdminContractController extends AdminBaseController
 
     public function index(ContractsDataTable $dataTable)
     {
-        $this->cld = ClientDetails::all();
-        $this->spd = SupplierDetails::all();
-        $this->contractType = ContractType::all();
+        $this->cld = ClientDetails::orderBy('company_name')->get();
+        $this->spd = SupplierDetails::orderBy('company_name')->get();
+        $this->contractType = ContractType::orderBy('name')->get();
         $this->contractCounts = Contract::count();
         $this->expiredCounts = Contract::where(DB::raw('DATE(`end_date`)'), '<', Carbon::now()->format('Y-m-d'))->count();
         $this->aboutToExpireCounts = Contract::where(DB::raw('DATE(`end_date`)'), '>', Carbon::now()->format('Y-m-d'))
@@ -57,12 +57,12 @@ class AdminContractController extends AdminBaseController
 
     public function create()
     {
-        $this->clients = ClientDetails::all();
-        $this->suppliers = SupplierDetails::all();
-        $this->spvs = SpvDetails::all();
-        $this->tla = CompanyTLA::all();
-        $this->countries = Country::all();
-        $this->contractType = ContractType::all();
+        $this->clients = ClientDetails::orderBy('company_name')->get();
+        $this->suppliers = SupplierDetails::orderBy('company_name')->get();
+        $this->spvs = SpvDetails::orderBy('company_name')->get();
+        $this->tla = CompanyTLA::orderBy('name')->get();
+        $this->countries = Country::orderBy('name')->get();
+        $this->contractType = ContractType::orderBy('name')->get();
         $this->projects = Project::where('company_id', company()->id)->get();
         $this->company_users = User::where('users.company_id', company()->id)
                                 ->join('role_user', 'role_user.user_id', 'users.id')
@@ -94,12 +94,12 @@ class AdminContractController extends AdminBaseController
     public function edit($id)
     {
         $this->contract = Contract::find($id);
-        $this->clients = ClientDetails::all();
-        $this->suppliers = SupplierDetails::all();
-        $this->spvs = SpvDetails::all();
-        $this->tla = CompanyTLA::all();
-        $this->countries = Country::all();
-        $this->contractType = ContractType::all();
+        $this->clients = ClientDetails::orderBy('company_name')->get();
+        $this->suppliers = SupplierDetails::orderBy('company_name')->get();
+        $this->spvs = SpvDetails::orderBy('company_name')->get();
+        $this->tla = CompanyTLA::orderBy('name')->get();
+        $this->countries = Country::orderBy('name')->get();
+        $this->contractType = ContractType::orderBy('name')->get();
         $this->projects = Project::where('company_id', company()->id)->get();
         $this->company_users = User::where('users.company_id', company()->id)
             ->join('role_user', 'role_user.user_id', 'users.id')
@@ -286,10 +286,10 @@ class AdminContractController extends AdminBaseController
 
     public function copy($id)
     {
-        $this->clients = ClientDetails::all();
-        $this->suppliers = SupplierDetails::all();
-        $this->spvs = SpvDetails::all();
-        $this->contractType = ContractType::all();
+        $this->clients = ClientDetails::orderBy('company_name')->get();
+        $this->suppliers = SupplierDetails::orderBy('company_name')->get();
+        $this->spvs = SpvDetails::orderBy('company_name')->get();
+        $this->contractType = ContractType::orderBy('name')->get();
         $this->contract = Contract::with('signature', 'renew_history', 'renew_history.renewedBy')->find($id);
         return view('admin.contracts.copy', $this->data);
     }

@@ -114,12 +114,13 @@ class ManageTasksController extends AdminBaseController
     {
         $this->project = Project::findOrFail($id);
         $this->milestones = ProjectMilestone::orderBy('milestone_title')->where('project_id', $id)->get();
-        $this->titles = TaskTitle::all();
-        $this->categories = TaskCategory::all();
+        $this->titles = TaskTitle::orderBy('name')->get();
+        $this->categories = TaskCategory::orderBy('category_name')->get();
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {
             $this->allTasks = Task::where('board_column_id', $completedTaskColumn->id)
                 ->where('project_id', $id)
+                ->orderBy('column_name')
                 ->get();
         } else {
             $this->allTasks = [];
@@ -147,7 +148,7 @@ class ManageTasksController extends AdminBaseController
         $this->task = Task::findOrFail($id);
         $this->taskBoardColumns = TaskboardColumn::all();
         $this->categories = TaskCategory::all();
-        $this->titles = TaskTitle::all();
+        $this->titles = TaskTitle::orderBy('name')->get();
         $this->milestones = ProjectMilestone::orderBy('milestone_title')->where('project_id', $this->task->project_id)->get();;
         $completedTaskColumn = TaskboardColumn::where('slug', '!=', 'completed')->first();
         if ($completedTaskColumn) {

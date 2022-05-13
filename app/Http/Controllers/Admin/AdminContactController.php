@@ -53,7 +53,7 @@ class AdminContactController extends AdminBaseController
     }elseif($type == 'spv'){
       $this->clients = SpvDetails::where('id',$client_id)->get();
     }else{
-      $this->clients = ClientDetails::all();
+      $this->clients = ClientDetails::orderBy('company_name');
     }
 
     $this->designations = Designation::with('members', 'members.user')->orderBy('name')->get();
@@ -115,13 +115,13 @@ class AdminContactController extends AdminBaseController
   public function getCompany(Request $request){
       if($request->content_type == 'client')
       {
-        $company = ClientDetails::all();
+        $company = ClientDetails::orderBy('company_name');
       }
       elseif($request->content_type == 'supplier'){
-          $company = SupplierDetails::all();
+          $company = SupplierDetails::orderBy('company_name')->get();
       }
       elseif($request->content_type == 'spv'){
-          $company = SpvDetails::all();
+          $company = SpvDetails::orderBy('company_name')->get();
       }
 
       return response()->json(['company' => $company ]);
@@ -167,14 +167,14 @@ class AdminContactController extends AdminBaseController
     $this->clients =[];
 
     if($this->contact->contect_type == 'client'){
-        $this->clients = ClientDetails::all(); 
+        $this->clients = ClientDetails::orderBy('company_name'); 
     }
     if($this->contact->contect_type == 'supplier'){
-      $this->clients = SupplierDetails::all();
+      $this->clients = SupplierDetails::orderBy('company_name')->get();
     }
 
     if($this->contact->contect_type == 'spv'){
-      $this->clients = SpvDetails::all();
+      $this->clients = SpvDetails::orderBy('company_name')->get();
     }
 
 
@@ -305,7 +305,7 @@ class AdminContactController extends AdminBaseController
     if ($request['query'] != "*") {
       $timeLogs = Contect::where('name','like',$request['query'].'%')->get();
     }else{
-      $timeLogs = Contect::all();
+      $timeLogs = Contect::orderBy('name')->get();
     }
 
     return DataTables::of($timeLogs)

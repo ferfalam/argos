@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\ClientCategory;
 use App\ClientContact;
+use App\ClientDetails;
 use App\SpvDetails;
 use App\Contect;
 use App\ClientDocs;
@@ -535,8 +536,8 @@ class AdminSPVController extends AdminBaseController
   public function gdpr($id)
   {
     $this->client = User::findClient($id);
-    $this->categories = ClientCategory::all();
-    $this->subcategories = ClientSubCategory::all();
+    $this->categories = ClientCategory::orderBy('category_name')->get();
+    $this->subcategories = ClientSubCategory::orderBy('category_name')->get();
     $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
     $this->clientStats = $this->clientStats($id);
     $this->allConsents = PurposeConsent::with(['user' => function ($query) use ($id) {

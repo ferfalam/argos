@@ -26,7 +26,7 @@
                             @endif
                         </td>
                         <td>
-                            {{$role->parent ? $role->parent->name : ""}}
+                            {{$role->parent ? $role->parent->display_name : ""}}
                         </td>
                           <td>
                               @if($role->name != 'admin' && $role->name != 'employee' && $role->name != 'client')

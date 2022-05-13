@@ -34,7 +34,7 @@ class AdminContractTypeController extends AdminBaseController
 
     public function data()
     {
-        $contractType = ContractType::all();
+        $contractType = ContractType::orderBy('name')->get();
 
         return DataTables::of($contractType)
             ->addColumn('action', function($row){
@@ -59,7 +59,7 @@ class AdminContractTypeController extends AdminBaseController
 
     public function createContractType()
     {
-        $this->contractType = ContractType::all();
+        $this->contractType = ContractType::orderBy('name')->get();
         return view('admin.contracts.create-contract-type', $this->data);
     }
 
@@ -72,7 +72,7 @@ class AdminContractTypeController extends AdminBaseController
         }
         $contractType->name = $request->name;
         $contractType->save();
-        $contractTypeData = ContractType::all();
+        $contractTypeData = ContractType::orderBy('name')->get();
         return Reply::successWithData(__('messages.contractTypeAdded'), ['data' => $contractTypeData]);
     }
 
@@ -103,7 +103,7 @@ class AdminContractTypeController extends AdminBaseController
     public function destroy($id)
     {
         ContractType::destroy($id);
-        $contractTypeData = ContractType::all();
+        $contractTypeData = ContractType::orderBy('name')->get();
         return Reply::successWithData(__('messages.contractTypeDeleted'), ['data' => $contractTypeData]);
     }
 

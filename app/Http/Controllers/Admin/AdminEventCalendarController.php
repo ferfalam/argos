@@ -36,7 +36,7 @@ class AdminEventCalendarController extends AdminBaseController
     {
        
         $this->employees = User::allEmployeesByCompany(company()->id);
-        $this->events = Event::all();
+        $this->events = Event::orderBy('event_name')->get();
         $this->rooms = Room::orderBy('name')->where('company_id', company()->id)->get();
         $this->clients = User::allExternesByCompany(company()->id);
         $this->categories = EventCategory::orderBy('category_name')->get();

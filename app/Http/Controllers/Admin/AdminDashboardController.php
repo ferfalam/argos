@@ -89,7 +89,7 @@ class AdminDashboardController extends AdminBaseController
             ->whereNull('attendances.clock_in_time')
             ->groupBy('users.id')
             ->get();
-        $taskBoardColumn = TaskboardColumn::all();
+        $taskBoardColumn = TaskboardColumn::orderBy('column_name')->get();
 
         $incompletedTaskColumn = $taskBoardColumn->filter(function ($value, $key) {
             return $value->slug == 'incomplete';
