@@ -191,7 +191,7 @@
                         <li><a href="{{ route('admin.projects.index') }}" class="{{ request()->routeIs('admin.projects.index') ? 'active' : '' }}">Liste des projets </a></li>
                     @endif
 
-                    @if (in_array('projects.tasks', $modules))
+                    @if (in_array('projects.task', $modules))
                         <li><a href="{{ route('admin.all-tasks.index') }}"
                                 class="{{ request()->routeIs('admin.all-tasks.index') ? 'active' : '' }}">@lang('app.menu.tasks')
                             </a></li>
