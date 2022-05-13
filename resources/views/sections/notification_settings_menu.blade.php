@@ -4,8 +4,8 @@
         <a href="{{ route('admin.settings.index') }}" class="text-danger"><i class="ti-arrow-left"></i> @lang('app.menu.settings')</a></li>
     <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.email-settings.index') active @endif">
         <a href="{{ route('admin.email-settings.index') }}">@lang('app.menu.emailSettings')</a></li>
-    <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.slack-settings.index') active @endif">
-        <a href="{{ route('admin.slack-settings.index') }}">@lang('app.menu.slackSettings')</a></li>
+    {{-- <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.slack-settings.index') active @endif">
+        <a href="{{ route('admin.slack-settings.index') }}">@lang('app.menu.slackSettings')</a></li> --}}
     
     @if (!module_enabled('Subdomain'))
         <li class="tab @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'admin.push-notification-settings.index') active @endif">

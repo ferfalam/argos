@@ -27,7 +27,7 @@ class CurrencySettingController extends AdminBaseController
 
     public function index()
     {
-        $this->currencies = Currency::withoutGlobalScopes(['enable'])->get();
+        $this->currencies = Currency::withoutGlobalScopes(['enable'])->orderBy('currency_name')->get();
         return view('admin.currencies.index', $this->data);
     }
 
@@ -38,7 +38,7 @@ class CurrencySettingController extends AdminBaseController
 
     public function edit($id)
     {
-        $this->currency = Currency::withoutGlobalScope('enable')->findOrFail($id);
+        $this->currency = Currency::withoutGlobalScope('enable')->orderBy('currency_name')->findOrFail($id);
 
         return view('admin.currencies.edit', $this->data);
     }

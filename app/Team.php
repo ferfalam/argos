@@ -19,7 +19,7 @@ class Team extends BaseModel
 
     public function members()
     {
-        return $this->hasMany(EmployeeTeam::class, 'team_id');
+        return $this->hasMany(EmployeeTeam::class, 'team_id')->where('company_id', company()->id);
     }
 
     public function member()

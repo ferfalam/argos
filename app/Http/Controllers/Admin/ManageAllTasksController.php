@@ -81,7 +81,7 @@ class ManageAllTasksController extends AdminBaseController
         $this->projects        = Project::all();
         $this->employees        = User::allEmployeesByCompany(company()->id);
         $this->titles        = TaskTitle::orderBy('name')->get();
-        $this->categories       = TaskCategory::orderBy('name')->get();
+        $this->categories       = TaskCategory::orderBy('category_name')->get();
         $this->taskLabels       = TaskLabelList::orderBy('label_name')->get();
         $this->taskBoardColumns = TaskboardColumn::orderBy('column_name')->get();
         $this->milestones = ProjectMilestone::orderBy('milestone_title')->get();

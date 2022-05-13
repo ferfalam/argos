@@ -120,7 +120,7 @@ class ManageTasksController extends AdminBaseController
         if ($completedTaskColumn) {
             $this->allTasks = Task::where('board_column_id', $completedTaskColumn->id)
                 ->where('project_id', $id)
-                ->orderBy('column_name')
+                ->orderBy('heading')
                 ->get();
         } else {
             $this->allTasks = [];

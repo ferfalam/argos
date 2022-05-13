@@ -1028,7 +1028,7 @@ class AdminDashboardController extends AdminBaseController
         $this->fromDate = Carbon::now()->timezone($this->global->timezone)->subDays(30)->toDateString();
         $this->toDate = Carbon::now()->timezone($this->global->timezone)->toDateString();
 
-        $this->widgets = DashboardWidget::where('dashboard_type', 'admin-project-dashboard')->get();
+        $this->widgets = DashboardWidget::where('dashboard_type', 'admin-project-dashboard')->where('widget_name', "<>", "status_wise_project")->get();
         $this->activeWidgets = DashboardWidget::where('dashboard_type', 'admin-project-dashboard')->where('status', 1)->get()->pluck('widget_name')->toArray();
 
         if (request()->ajax()) {

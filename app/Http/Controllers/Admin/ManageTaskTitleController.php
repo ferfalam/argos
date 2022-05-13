@@ -30,7 +30,7 @@ class ManageTaskTitleController extends AdminBaseController
      */
     public function create()
     {
-        $this->titles = TaskTitle::orderBy('name')->get();
+        $this->titles = TaskTitle::all();
         return view('admin.task-title.create', $this->data);
     }
 
@@ -48,7 +48,7 @@ class ManageTaskTitleController extends AdminBaseController
         $category = new TaskTitle();
         $category->name = $request->name;
         $category->save();
-        $categoryData = TaskTitle::orderBy('name')->get();
+        $categoryData = TaskTitle::all();
         return Reply::successWithData(__('messages.milestoneTitleAdded'), ['data' => $categoryData]);
     }
 
@@ -88,7 +88,7 @@ class ManageTaskTitleController extends AdminBaseController
         $category = TaskTitle::find($id);
         $category->name = $request->name;
         $category->save();
-        $categoryData = TaskTitle::orderBy('name')->get();
+        $categoryData = TaskTitle::all();
         return Reply::successWithData(__('messages.milestoneTitleUpdated'), ['data' => $categoryData]);
     }
 
@@ -101,7 +101,7 @@ class ManageTaskTitleController extends AdminBaseController
     public function destroy($id)
     {
         TaskTitle::destroy($id);
-        $categoryData = TaskTitle::orderBy('name')->get();
+        $categoryData = TaskTitle::all();
         return Reply::successWithData(__('messages.milestoneTitleDeleted'), ['data' => $categoryData]);
     }
 }
