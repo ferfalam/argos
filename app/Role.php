@@ -42,9 +42,9 @@ class Role extends EntrustRole
         $moduleInPackage = array_map(function ($n)
         {
             $v =  explode('.', $n);
-            if($this->parent->name == "employee"){
+            if($this->parent && $this->parent->name == "employee"){
                 return $n;
-            }else if($this->parent->name == "client"){
+            }else if($this->parent && $this->parent->name == "client"){
                 return $n;
             } elseif (count($v) > 1 && $v[1] != 'title') {
                 return $n;
