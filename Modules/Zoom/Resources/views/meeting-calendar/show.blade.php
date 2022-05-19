@@ -168,14 +168,15 @@
                 } elseif (user()->id == $event->created_by && user()->hasRole('employee')) {
                     $url = route('member.zoom-meeting.startMeeting', $event->id);
                 }else{
-                $url = user()->id == $event->join_link;
+                    $url = $event->join_link;
                 }
             } else {
                 // if (user()->hasRole('client')) {
-                //     $url = route('client.zoom-meeting.startMeeting', $event->id);
-                // }
-                $url = user()->id == $event->join_link;
-            }
+                    //     $url = route('client.zoom-meeting.startMeeting', $event->id);
+                    // }
+                    $url = $event->join_link;
+                }
+                // dd($url);
         @endphp
 
         @if (user()->id == $event->created_by)
