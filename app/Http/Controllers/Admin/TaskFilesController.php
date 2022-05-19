@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Files;
 use App\Helper\Reply;
+use App\Task;
 use App\TaskFile;
 use App\TaskRequestFile;
 use Illuminate\Http\Request;
@@ -159,6 +160,8 @@ class TaskFilesController extends AdminBaseController
             }
         }
 
+        $this->task = Task::findOrFail($request->task_id);
+
         $this->taskFiles = TaskFile::where('task_id', $request->task_id)->get();
 
         $view = view('admin.tasks.ajax-list', $this->data)->render();
@@ -217,6 +220,7 @@ class TaskFilesController extends AdminBaseController
 
         TaskFile::destroy($id);
 
+        $this->task = Task::findOrFail($file->task_id);
         $this->taskFiles = TaskFile::where('task_id', $file->task_id)->get();
 
         $view = view('admin.tasks.ajax-list', $this->data)->render();
