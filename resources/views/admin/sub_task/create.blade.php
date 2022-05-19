@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="form-actions">
-            <button type="button" onclick="saveSubTaskWithFile()" class="btn btn-success"> <i class="fa fa-check"></i> @lang('app.save')</button>
+            <button type="button" onclick="saveSubTaskWithFile()" class="btn btn-success save-button"> <i class="fa fa-check"></i> @lang('app.save')</button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -142,14 +142,13 @@
     });
 
     mySubTaskDropzone.on('sending', function (file, xhr, formData) {
-        console.log(mySubTaskDropzone.getAddedFiles().length, 'sending');
         var ids = $('#subTaskID').val();
         formData.append('sub_task_id', ids);
     });
 
     mySubTaskDropzone.on('completemultiple', function () {
         var msgs = "@lang('messages.subTaskAdded')";
-        // $.showToastr(msgs, 'success');
+        $.showToastr(msgs, 'success');
         $('#subTaskModal').modal('hide');
     });
     @endif
@@ -162,7 +161,7 @@
             data: $('#createSubTask').serialize(),
             disableButton: true,
             success: function (response) {
-            $(".btn-success").prop('disabled', true);
+            $(".save-button").prop('disabled', true);
 
                 // $('#storeTask').trigger("reset");
                 // $('.summernote').summernote('code', '');
@@ -177,7 +176,7 @@
                     mySubTaskDropzone.processQueue();
                 } else {
                     var msgs = "@lang('messages.subTaskAdded')";
-                    // $.showToastr(msgs, 'success');
+                    $.showToastr(msgs, 'success');
                     {{--window.location.href = '{{ route('admin.all-tasks.index') }}'--}}
                 }
                 if (response.status == "success") {

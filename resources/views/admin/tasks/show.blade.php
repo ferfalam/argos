@@ -235,7 +235,7 @@
                                     <div class="row" id="fileList{{$subtask->id}}"></div>
                                     @foreach($subtask->files as  $key => $file)
                                         <li class="list-group-item sub-task-file nonTopBorder  @if($subTaskCount != ($key+1)) nonBottomBorder @endif" id="sub-task-file-{{  $file->id }}">
-                                            <div class="row">
+                                            <div class="row" style="display: contents">
                                                 <div class="col-md-6">
                                                     {{ $file->filename }}
                                                 </div>
@@ -259,7 +259,7 @@
                                                     data-pk="list" class="btn  btn-circle" style="background-color: #262626;"><i class="fa fa-times"></i></a>
                                                     @else
                                                     <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
-                                                    data-pk="list" class="btn btn-danger btn-circle file-delete"><i class="fa fa-times"></i></a>
+                                                    data-pk="list" class="btn btn-danger btn-circle sub-file-delete"><i class="fa fa-times"></i></a>
                                                     @endif
                                                     @if ($file->inDataRoom())
                                                     <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
@@ -299,7 +299,6 @@
                                             <input name="file" type="file" multiple/>
                                         </div>
                                     </form>
-
                                 @else
                                     <div class="alert alert-danger">@lang('messages.storageLimitExceed', ['here' => '<a href='.route('admin.billing.packages'). '>Here</a>'])</div>
                                 @endif
@@ -308,8 +307,8 @@
 
                         <ul class="list-group" id="files-list">
                             @forelse($task->files as $file)
-                            <li class="list-group-item" id="task-file-{{  $file->id }}">
-                                <div class="row" style="width: 75%;">
+                            <li class="list-group-item" id="sub-task-file-{{  $file->id }}">
+                                <div class="row" style="display:contents">
                                     <div class="col-md-6">
                                         {{ $file->filename }}
                                     </div>
@@ -716,7 +715,7 @@
 
 
     $('#show-dropzone').click(function () {
-        $('#file-dropzone').toggleClass('hide show');
+        $('#file-dropzone').toggleClass('hide d-flex');
         myDropzone.removeAllFiles();
 
     });
@@ -1161,6 +1160,45 @@
         console.log(url)
         $('#modelHeading').html("@lang('modules.dataRoom.title')");
         $.ajaxModal('#dataRoomModal',url);
+    });
+    $('body').on('click', '.sub-file-delete', function () {
+        var id = $(this).data('file-id');
+        swal({
+            title: "@lang('messages.sweetAlertTitle')",
+            text: "@lang('messages.confirmation.deleteFile')",
+            dangerMode: true,
+            icon: 'warning',
+            buttons: {
+                cancel: "@lang('messages.confirmNoArchive')",
+                confirm: {
+                    text: "@lang('messages.deleteConfirmation')!",
+                    value: true,
+                    visible: true,
+                    className: "danger",
+                }
+            }
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+
+                var url = "{{ route('admin.sub-task-files.destroy',':id') }}";
+                url = url.replace(':id', id);
+
+                var token = "{{ csrf_token() }}";
+
+                $.easyAjax({
+                    type: 'POST',
+                    url: url,
+                    data: {'_token': token, '_method': 'DELETE'},
+                    success: function (response) {
+                        if (response.status == "success") {
+                            $('#sub-task-file-'+id).remove();
+                            // $('#totalUploadedSubFiles').html(response.totalFiles);
+                            // $('#list ul.list-group').html(response.html);
+                        }
+                    }
+                });
+            }
+        });
     });
     $('body').on('click', '.file-delete', function () {
         var id = $(this).data('file-id');

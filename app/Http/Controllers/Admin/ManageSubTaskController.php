@@ -132,6 +132,9 @@ class ManageSubTaskController extends AdminBaseController
     public function destroy(Request $request, $id )
     {
         $subTask = SubTask::findOrFail($id);
+        if (count($subTask->files)>0) {
+            return Reply::error(__('messages.subTaskCanNotDeleted'));
+        }
         SubTask::destroy($id);
 
         $this->subTasks = SubTask::where('task_id', $subTask->task_id)->get();
@@ -158,7 +161,6 @@ class ManageSubTaskController extends AdminBaseController
         $this->totalSubTasks = count($this->task->subtasks);
         $this->completedSubtasks = count($this->task->completedSubtasks);
         $this->percentageTaskCompleted = floor(($this->completedSubtasks / ($this->totalSubTasks)) * 100);
-
         return Reply::dataOnly(['status' => 'success', 'view' => $view, 'data' => $this->data]);
     }
 

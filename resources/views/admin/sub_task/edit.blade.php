@@ -83,28 +83,37 @@
                 <ul class="list-group" id="files-list">
                     @forelse($subTask->files as $file)
                         <li class="list-group-item sub-task-file" id="sub-task-file-{{ $file->id }}">
-                            <div class="row">
-                                <div class="col-md-9">
+                            <div class="row" style="display: contents">
+                                <div class="col-md-8">
                                     {{ $file->filename }}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     {{-- <div class ="row"> --}}
-                                    <a target="_blank" href="{{ $file->file_url }}"
-                                       data-toggle="tooltip" data-original-title="View"
-                                       class="btn btn-info btn-circle"><i
-                                                class="fa fa-search"></i></a>
-                                    &nbsp;&nbsp;
-                                    <a href="javascript:;" data-toggle="tooltip"
-                                       data-original-title="Delete"
-                                       data-file-id="{{ $file->id }}"
-                                       class="btn btn-danger btn-circle task-file-delete" data-pk="list"><i
-                                                class="fa fa-times"></i></a>
-                                                @if(is_null($file->external_link))
-                                                <a href="{{ route('admin.sub-task-files.download', $file->id) }}"
+                                        <a target="_blank" href="{{ $file->file_url }}"
+                                            data-toggle="tooltip" data-original-title="View"
+                                            class="btn btn-info btn-circle"><i
+                                                     class="fa fa-search"></i></a>
+                                         @if(is_null($file->external_link))
+                                             <a href="{{ route('admin.sub-task-files.download', $file->id) }}"
                                                 data-toggle="tooltip" data-original-title="Download"
                                                 class="btn btn-inverse btn-circle"><i
-                                                            class="fa fa-download"></i></a>
-                                            @endif
+                                                         class="fa fa-download"></i></a>
+                                         @endif
+
+                                         @if ($file->inDataRoom())
+                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
+                                         data-pk="list" class="btn  btn-circle" style="background-color: #262626;"><i class="fa fa-times"></i></a>
+                                         @else
+                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="{{ $file->id }}"
+                                         data-pk="list" class="btn btn-danger btn-circle file-delete"><i class="fa fa-times"></i></a>
+                                         @endif
+                                         @if ($file->inDataRoom())
+                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-file-id="{{ $file->id }}"
+                                         data-pk="list" class="btn btn-circle" style="background-color: #262626;"><i class="fa fa-database"></i></a>
+                                         @else
+                                         <a href="javascript:;" data-toggle="tooltip" data-original-title="Data-Room" data-task-id="{{ $subTask->id }}" data-type="sub_task" data-file-id="{{ $file->id }}"
+                                             data-pk="list" class="btn btn-warning btn-circle file-in-dataRoom"><i class="fa fa-database"></i></a>
+                                         @endif
                                     {{-- </div> --}}
                                     <div class = "row">
                                     <span class="m-l-10">{{ $file->created_at->diffForHumans() }}</span>
@@ -126,7 +135,7 @@
             </div>
         </div>
         <div class="form-actions">
-            <button type="button" onclick="updateSubTaskWithFile({{$subTask->id}})" class="btn btn-success"> <i class="fa fa-check"></i> @lang('app.save')</button>
+            <button type="button" onclick="updateSubTaskWithFile({{$subTask->id}})" class="btn btn-success save-button"> <i class="fa fa-check"></i> @lang('app.save')</button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -193,12 +202,12 @@
      });
 
      mySubTaskDropzone.on('sending', function(file, xhr, formData) {
-         console.log(mySubTaskDropzone.getAddedFiles().length,'sending');
          var ids = '{{ $subTask->id }}';
          formData.append('sub_task_id', ids);
      });
 
      mySubTaskDropzone.on('completemultiple', function () {
+        var msgs = "@lang('messages.taskCreatedSuccessfully')";
          $.showToastr(msgs, 'success');
          $('#subTaskModal').modal('hide');
      });
@@ -214,7 +223,7 @@
             disableButton: true,
              data: $('#createSubTask').serialize(),
              success: function (response) {
-            $(".btn-success").prop('disabled', true);
+            $(".save-button").prop('disabled', true);
                  var dropzone = 0;
                  @if($upload)
                      dropzone = mySubTaskDropzone.getQueuedFiles().length;

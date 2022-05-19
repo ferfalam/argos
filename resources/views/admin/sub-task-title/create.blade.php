@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col-xs-12 ">
                         <div class="form-group">
-                            <label>@lang('modules.projects.milestoneTitle')</label>
+                            <label>@lang('modules.projects.subtaskTitle')</label>
                             <input type="hidden" name="" id="type_id_update" class="form-control">
                             <input type="text" name="name" id="name_update" class="form-control">
                         </div>
@@ -98,7 +98,7 @@
                     rData = response.data;
                     $.each(rData, function( index, value ) {
                         var selectData = '';
-                        selectData = '<option value="'+value.id+'">'+value.name+'</option>';
+                        selectData = '<option value="'+value.name+'">'+value.name+'</option>';
                         options.push(selectData);
                     });
 
@@ -129,7 +129,7 @@
                         rData = response.data;
                         $.each(rData, function( index, value ) {
                             var selectData = '';
-                            selectData = '<option value="'+value.id+'">'+value.name+'</option>';
+                            selectData = '<option value="'+value.name+'">'+value.name+'</option>';
                             options.push(selectData);
                             listData += '<tr id="cat-' + value.id + '">'+
                                 '<td>'+(index+1)+'</td>'+
@@ -170,7 +170,7 @@
                         rData = response.data;
                         $.each(rData, function( index, value ) {
                             var selectData = '';
-                            selectData = '<option value="'+value.id+'">'+value.name+'</option>';
+                            selectData = '<option value="'+value.name+'">'+value.name+'</option>';
                             options.push(selectData);
                             listData += '<tr id="cat-' + value.id + '">'+
                                 '<td>'+(index+1)+'</td>'+
