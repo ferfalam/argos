@@ -454,7 +454,7 @@
                                                     <select name="native_country" id="native_country"
                                                         class="form-control select2">
                                                         @foreach ($countries as $country)
-                                                            @if (explode('|', $userDetail->address)[1] == $country->name)
+                                                            @if ($userDetail->native_country == $country->name)
                                                                 <option value=" {{ $country->name }} " selected>
                                                                     {{ ucfirst($country->name) }}</option>
                                                             @else
@@ -479,7 +479,7 @@
                                                     <select name="nationality" id="nationality"
                                                         class="form-control select2">
                                                         @foreach ($countries as $country)
-                                                            @if (explode('|', $userDetail->address)[1] == $country->name)
+                                                            @if ($userDetail->nationality == $country->name)
                                                                 <option value=" {{ $country->name }} " selected>
                                                                     {{ ucfirst($country->name) }}</option>
                                                             @else
@@ -506,7 +506,7 @@
                                                         </option>
                                                         @foreach ($languageSettings as $language)
                                                             <option value="{{ $language->language_name }}"
-                                                                @if ($global->locale == $language->language_code) selected @endif>
+                                                                @if ($userDetail->language == $language->language_name) selected @endif>
                                                                 {{ $language->language_name }}
                                                             </option>
                                                         @endforeach
