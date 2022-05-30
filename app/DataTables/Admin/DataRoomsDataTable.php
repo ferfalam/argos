@@ -27,21 +27,21 @@ class DataRoomsDataTable extends BaseDataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                Log::info(json_encode($row));
+                // Log::info(json_encode($row));
                 if (User::isAdmin(user()->id)) {
-                    if ($row->type == 'type') {
+                    if ($row->type == 'task') {
                         $url = route("admin.task-files.download", $row->file->id);
                     }else{
                         $url = route("admin.sub-task-files.download", $row->file->id);
                     }
                 } elseif (User::isEmployee(user()->id)) {
-                    if ($row->type == 'type') {
+                    if ($row->type == 'task') {
                         $url = route("member.task-files.download", $row->file->id);
                     }else{
                         $url = route("member.sub-task-memberfiles.download", $row->file->id);
                     }
                 } else{
-                    if ($row->type == 'type') {
+                    if ($row->type == 'task') {
                         $url = route("client.task-files.download", $row->file->id);
                     }else{
                         $url = route("client.sub-task-files.download", $row->file->id);
@@ -150,7 +150,7 @@ class DataRoomsDataTable extends BaseDataTable
         if (!is_null($request->start_date) && !is_null($request->end_date)) {
             $startDate = \Carbon\Carbon::parse($request->start_date)->format("Y-m-d");
             $endDate = \Carbon\Carbon::parse($request->end_date)->format("Y-m-d");
-            Log::info(json_encode(array($startDate, $endDate)));
+            // Log::info(json_encode(array($startDate, $endDate)));
             $model->where('data_rooms.created_at', '>=', $startDate);
             $model->where('data_rooms.created_at', '<=', $endDate);
         }

@@ -384,7 +384,7 @@ class ManageEmployeesController extends AdminBaseController
 
             $user->second_role_id = $request->second_role == "none" ? null : $request->second_role;
             $user->qualification = $request->input("qualification");
-            $user->birthday = $request->input("birthday");
+            $user->birthday = ($request->input("birthday") != '') ? date('Y-m-d', strtotime($request->birthday)) : null;
             $user->native_country = $request->input("native_country");
             $user->nationality = $request->input("nationality");
             $user->language = $request->input("language");
