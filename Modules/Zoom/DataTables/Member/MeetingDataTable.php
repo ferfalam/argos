@@ -86,15 +86,15 @@ class MeetingDataTable extends BaseDataTable
                     }
                 }
 
-                if ($row->status == "finished") {
-                    if ($row->created_by == $this->user->id) {
-                        $action .= '<li>
-                            <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
-                                <i class="fa fa-pencil"></i> ' . __('app.edit') . '
-                            </a>
-                        </li>';
-                    }
-                }
+                // if ($row->status == "finished") {
+                //     if ($row->created_by == $this->user->id) {
+                //         $action .= '<li>
+                //             <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
+                //                 <i class="fa fa-pencil"></i> ' . __('app.edit') . '
+                //             </a>
+                //         </li>';
+                //     }
+                // }
 
                 if ($row->status == 'live') {
                     $action .= '<li>
@@ -161,15 +161,16 @@ class MeetingDataTable extends BaseDataTable
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
                     }
 
-                    if ($row->invite) {
-                        return  '<label class="label label-success">Confirmé</label>';
-                    }else{
-                        return  '<label class="label label-warning">'.__('zoom::modules.zoommeeting.waiting').'</label>';
-                    }
+                    // if ($row->invite) {
+                        return  '<label class="label label-info">Confirmé</label>';
+                    // }
+                    // else{
+                    //     return  '<label class="label label-warning">'.__('zoom::modules.zoommeeting.waiting').'</label>';
+                    // }
                     // if ($row->attendees) {
                     //     return  '<label class="label label-info">Confirmé</label>';
                     // }
-                    $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
+                    // $status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {
                     $status = '<i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">' . __('zoom::modules.zoommeeting.live') . '</span>';
                 } else if ($row->status == 'canceled') {

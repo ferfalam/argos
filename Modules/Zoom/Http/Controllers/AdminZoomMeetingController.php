@@ -239,7 +239,7 @@ class AdminZoomMeetingController extends AdminBaseController
                 return $meeting;
             } else {
                 $meeting->update($data);
-                $this->syncAttendees($request, $meeting);
+                $this->syncAttendees($request, $meeting, 'yes');
                 $this->createMeeting($user, $meeting, $id, null, $host);
             }
         }

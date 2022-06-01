@@ -53,23 +53,23 @@ class MeetingDataTable extends BaseDataTable
                     </a>
                 </li>';
 
-            if ($row->created_by == user()->id) {
-                $action .= '<li>
-                        <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
-                            <i class="fa fa-pencil"></i> ' . __('app.edit') . '
-                        </a>
-                    </li>';
-            }
+                if ($row->created_by == user()->id) {
+                    $action .= '<li>
+                            <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
+                                <i class="fa fa-pencil"></i> ' . __('app.edit') . '
+                            </a>
+                        </li>';
+                }
 
                 if ($row->status == 'waiting' && !$row->end_date_time->lt(Carbon::now())) {
                     $nowDate = Carbon::now(company_setting()->timezone)->toDateString();
                     $meetingDate = $row->start_date_time->toDateString();
                     if ($row->created_by == user()->id) {
-                        $action .= '<li>
-                            <a href="' . route('admin.zoom-meeting.invite', $row->id) . '" >
-                                <i class="fa fa-eye"></i> Invite
-                            </a>
-                            </li>';
+                        // $action .= '<li>
+                        //     <a href="' . route('admin.zoom-meeting.invite', $row->id) . '" >
+                        //         <i class="fa fa-eye"></i> Invite
+                        //     </a>
+                        //     </li>';
                         if (is_null($row->occurrence_id) || $nowDate == $meetingDate) {
                             $action .= '<li>
                                 <a target="_blank" href="' . $url . '" >
@@ -86,15 +86,15 @@ class MeetingDataTable extends BaseDataTable
                     }
                 }
 
-                if ($row->status == "finished") {
-                    if ($row->created_by == $this->user->id) {
-                        $action .= '<li>
-                            <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
-                                <i class="fa fa-pencil"></i> ' . __('app.edit') . '
-                            </a>
-                        </li>';
-                    }
-                }
+                // if ($row->status == "finished") {
+                //     if ($row->created_by == $this->user->id) {
+                //         $action .= '<li>
+                //             <a href="javascript:;" class="btnedit" data-id="' . $row->id . '"  >
+                //                 <i class="fa fa-pencil"></i> ' . __('app.edit') . '
+                //             </a>
+                //         </li>';
+                //     }
+                // }
 
                 if ($row->status == 'live') {
 
@@ -162,11 +162,13 @@ class MeetingDataTable extends BaseDataTable
                 if ($row->status == 'waiting') {
                     if ($row->end_date_time->lt(Carbon::now())) {
                         return  '<label class="label label-success">' . __('app.finished') . '</label>';
-                    }else if ($row->invite) {
-                        return  '<label class="label label-success">Confirmé</label>';
-                    } else {
-                        return  '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                     }
+                    // else if ($row->invite) {
+                        return  '<label class="label label-info">Confirmé</label>';
+                    // } 
+                    // else {
+                    //     return  '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
+                    // }
                     //$status = '<label class="label label-warning">' . __('zoom::modules.zoommeeting.waiting') . '</label>';
                 } else if ($row->status == 'live') {
                     $status = '<i class="fa fa-circle Blink" style="color: red"></i> <span class="font-semi-bold">' . __('zoom::modules.zoommeeting.live') . '</span>';
