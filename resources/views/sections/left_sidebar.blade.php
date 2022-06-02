@@ -10,7 +10,7 @@
 
         <div class="sidebar-logo">
             <a href="/" class="">
-                <img src="{{ asset('img/sidebar-logo.png') }}">
+                <img src="{{ $company->logo_url }}">
             </a>
         </div>
 
