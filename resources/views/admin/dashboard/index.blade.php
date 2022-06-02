@@ -184,7 +184,7 @@
         @if(in_array('users.vacances',$modules)  && in_array('settings_leaves',$activeWidgets))
         <div class="col-md-6">
             <div class="panel panel-inverse">
-                <div class="panel-heading">@lang('app.menu.leaves')</div>
+                <div class="panel-heading">@lang('modules.dashboard.eventPlanning')</div>
                 <div class="panel-wrapper collapse in" style="overflow: auto">
                     <div class="panel-body">
                         <div id="calendar"></div>
