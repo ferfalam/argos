@@ -26,10 +26,10 @@
                     <li><a href="{{ route('admin.dashboard') }}"
                             class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Général </a></li>
                     @endif
-                    @if (in_array('dashboard.project', $modules))
+                    {{-- @if (in_array('dashboard.project', $modules))
                     <li><a href="{{ route('admin.projectDashboard') }}"
                             class="{{ request()->routeIs('admin.projectDashboard') ? 'active' : '' }}">@lang('app.menu.projets') </a></li>
-                    @endif
+                    @endif --}}
                 </ul>
             </li>
         @endif
@@ -59,7 +59,7 @@
                                 class="{{ request()->routeIs('admin.designations.index') ? 'active' : '' }}">@lang('app.menu.designation')</a>
                         </li>
                     @endif
-                    @if (in_array('users.timer', $modules))
+                    {{-- @if (in_array('users.timer', $modules))
                         <li><a href="{{ route('admin.attendances.myAttendance') }}" class="{{ request()->routeIs('admin.attendances.myAttendance') ? 'active' : '' }}">@lang('app.timer') </a></li>
                     @endif
                     @if (in_array('users.presences', $modules))
@@ -76,7 +76,7 @@
                         <li><a href="{{ route('admin.leaves.pending') }}"
                                 class="{{ request()->routeIs('admin.leaves.pending') ? 'active' : '' }}">@lang('app.menu.leaves')</a>
                         </li>
-                    @endif
+                    @endif --}}
                 </ul>
             </li>
         @endif
@@ -128,7 +128,7 @@
         @endif
 
 
-        @if (in_array('mailing', $modules))
+        {{-- @if (in_array('mailing', $modules))
         <li class="{{ request()->routeIs('admin.mailing.index') ? 'active' : '' }}">
             <a href="{{ route('admin.mailing.index') }}">
                 <ion-icon name="mail-open"></ion-icon>
@@ -136,7 +136,7 @@
             </a>
         </li>
                     
-        @endif
+        @endif --}}
 
 
         @if (in_array('chat', $modules))
@@ -161,7 +161,7 @@
         <li class="{{ request()->routeIs('admin.spv*') ? 'active' : '' }}">
             <a href="{{ route('admin.spv.index') }}">
                 <ion-icon name="document"></ion-icon>
-                SPV
+                Programmes
             </a>
         </li>
                     
@@ -172,19 +172,26 @@
         <li class="{{ request()->routeIs('admin.document.*') ? 'active' : '' }}">
             <a href="{{ route('admin.document.index') }}">
                 <ion-icon name="document-text"></ion-icon>
-                @lang('app.docManagement')
+                {{-- @lang('app.docManagement') --}}Parcours
             </a>
         </li>
                     
         @endif
 
 
-        @php
+        {{-- @php
             $is_project_active = request()->routeIs('admin.projects.index') || request()->routeIs('admin.all-tasks.index') || request()->routeIs('admin.contracts.index');
-        @endphp
+        @endphp --}}
 
-        @if (in_array('projects.title', $modules) || in_array('tasks', $modules) || in_array('timelogs', $modules) || in_array('contracts', $modules))
-            <li>
+        @if (in_array('projects.title', $modules))
+        {{-- @if (in_array('projects.title', $modules) || in_array('tasks', $modules) || in_array('timelogs', $modules) || in_array('contracts', $modules)) --}}
+            <li class="{{ request()->routeIs('admin.projects.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.projects.index') }}">
+                    <ion-icon name="rocket-outline"></ion-icon>
+                    {{-- @lang('app.docManagement') --}}Coachs
+                </a>
+            </li>
+            {{-- <li>
                 <a href="#projects" data-toggle="collapse" aria-expanded="{{$is_project_active ? 'true' : 'false'}}"> <ion-icon name="rocket-outline"></ion-icon>Projets </a>
                 <ul class="collapse list-unstyled {{$is_project_active ? 'in' : ''}}" id="projects">
                     @if (in_array('projects.list', $modules))
@@ -195,7 +202,7 @@
                         <li><a href="{{ route('admin.all-tasks.index') }}"
                                 class="{{ request()->routeIs('admin.all-tasks.index') ? 'active' : '' }}">@lang('app.menu.tasks')
                             </a></li>
-                        {{-- <li><a href="{{ route('admin.taskboard.index') }}" class="{{ request()->routeIs('admin.taskboard.index') ? 'active' : '' }}">@lang('modules.tasks.taskBoard')</a></li> --}}
+                        <li><a href="{{ route('admin.taskboard.index') }}" class="{{ request()->routeIs('admin.taskboard.index') ? 'active' : '' }}">@lang('modules.tasks.taskBoard')</a></li>
                     @endif
 
                     @if (in_array('projects.contracts', $modules))
@@ -203,7 +210,7 @@
                         
                     @endif
                 </ul>
-            </li>
+            </li> --}}
         @endif
 
 
@@ -212,7 +219,7 @@
                 <li class="{{ request()->routeIs('admin.coal.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.coal.index') }}">
                         <i class="icon-pie-chart fa-fw"></i>
-                        @lang('app.menu.coal_index')
+                        {{-- @lang('app.menu.coal_index') --}} Séances
                         {{-- Indice Carbonne --}}
                     </a>
                 </li>
@@ -220,17 +227,17 @@
         @endif
 
 
-        @if (in_array('acceptability', $modules))
+        {{-- @if (in_array('acceptability', $modules))
         
         <li class="{{ request()->routeIs('admin.coal.acceptability') ? 'active' : '' }}">
             <a href="{{ route('admin.coal.acceptability') }}">
                 <ion-icon name="pie-chart"></ion-icon>
                 @lang('app.menu.coal_acceptability')
-                {{-- Indice Acceptabilité --}}
+                Indice Acceptabilité
             </a>
         </li>
                     
-        @endif
+        @endif --}}
 
 
         {{-- @if (in_array('estimates', $modules) || in_array('invoices', $modules) || in_array('payments', $modules) || in_array('expenses', $modules))

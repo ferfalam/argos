@@ -4,12 +4,12 @@
 
         <div class="sidebar-logo">
             <a href="/" class="">
-                <img src="{{asset('img/sidebar-logo.png')}}">
+                <img src="{{ $company->logo_url }}">
             </a>
         </div>
 
 
-        <h4 class="sidebar-heading">Main</h4>
+        {{-- <h4 class="sidebar-heading">Main</h4> --}}
 
         <li class="{{request()->routeIs("member.dashboard") ? 'active' : ''}}">
             <a href="{{ route('member.dashboard') }}">
@@ -17,7 +17,32 @@
                 Dashboard
             </a>
         </li>
+        {{-- Must change chat to contacts --}}
+        @if (in_array('chat', $modules))
+        <li class="{{ request()->routeIs('admin.contact.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.contact.index') }}">
+                <ion-icon name="bookmarks"></ion-icon>
+                @lang('app.menu.contacts')
+            </a>
+        </li>
+                    
+        @endif
+        
+        @if (in_array('evenements', $modules))
+            <li class="{{ request()->routeIs('member.events.index') ? 'active' : '' }}">
+                <a href="{{ route('member.events.index') }}">
+                    <ion-icon name="ticket-outline"></ion-icon>
+                    @lang('app.menu.Events')
+                </a>
+            </li>
+        @endif
 
+        @if(in_array('chat',$modules))
+        <li><a href="{{ route('member.user-chat.index') }}" class="waves-effect"><i class="icon-envelope fa-fw"></i> <span class="hide-menu">@lang("app.menu.messages") @if($unreadMessageCount > 0)<span class="label label-rouded label-custom pull-right">{{ $unreadMessageCount }}</span> @endif
+                </span>
+            </a>
+        </li>
+        @endif
         {{-- @foreach ($worksuitePlugins as $item)
             @if (in_array(strtolower($item), $modules) || in_array($item, $modules))
                 @if (View::exists(strtolower($item) . '::sections.left_sidebar'))
@@ -36,15 +61,9 @@
 
 
         
-        @if(in_array('chat',$modules))
-        <li><a href="{{ route('member.user-chat.index') }}" class="waves-effect"><i class="icon-envelope fa-fw"></i> <span class="hide-menu">@lang("app.menu.messages") @if($unreadMessageCount > 0)<span class="label label-rouded label-custom pull-right">{{ $unreadMessageCount }}</span> @endif
-                </span>
-            </a>
-        </li>
-        @endif
 
         
-        @if(in_array('tiers.clients',$modules))
+        {{-- @if(in_array('tiers.clients',$modules))
         @if($user->cans('view_clients'))
             <li class="{{request()->routeIs('member.clients.index') ? 'active' : ''}}">
                 <a href="{{ route('member.clients.index') }}"> <ion-icon name="chatbubble-ellipses-outline"></ion-icon> @lang('app.menu.messages') </a>
@@ -57,7 +76,7 @@
             <li class="{{request()->routeIs('member.projects.index') ? 'active' : ''}}">
                 <a href="{{ route('member.projects.index') }}"> <i class="icon-layers fa-fw"></i> @lang('app.menu.projects') </a>
             </li>
-        @endif
+        @endif --}}
 
         
         {{-- @if(in_array('projects.title',$modules))
@@ -76,15 +95,12 @@
             </li>
         @endif --}}
 
-        @if(in_array('projects.task',$modules) )
+        {{-- @if(in_array('projects.task',$modules) )
             <li class="{{request()->routeIs('member.task.index') ? 'active' : ''}}">
                 <a href="{{ route('member.task.index') }}"> <i class="ti-layout-list-thumb fa-fw"></i> @lang('app.menu.tasks') </a>
             </li>
         @endif
         
-        @if(in_array('evenements',$modules))
-            <li><a href="{{ route('member.events.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang('app.menu.Events')</span></a> </li>
-        @endif
 
         @if (in_array('documents', $modules))
         <li class="{{ request()->routeIs('member.document.*') ? 'active' : '' }}">
@@ -93,7 +109,7 @@
                 @lang('app.docManagement')
             </a>
         </li>
-        @endif
+        @endif --}}
 
         {{-- @if (in_array('tasks', $modules))
             <li>
@@ -107,7 +123,7 @@
             </li>
         @endif --}}
 
-        <h4 class="sidebar-heading">Others</h4>
+        {{-- <h4 class="sidebar-heading">Others</h4> --}}
 
         {{-- @if(in_array('leads',$modules))
             <li class="{{request()->routeIs('member.leads.index') ? 'active' : ''}}">
@@ -115,13 +131,13 @@
             </li>
         @endif --}}
 
-        @if(in_array('timelogs',$modules))
+        {{-- @if(in_array('timelogs',$modules))
             <li class="{{request()->routeIs('member.all-time-logs.index') ? 'active' : ''}}">
                 <a href="{{ route('member.all-time-logs.index') }}" class="{{ request()->routeIs('member.task-label.index') ? 'active' : '' }}"> <i class="icon-clock fa-fw"></i> @lang('app.menu.timeLogs') </a>
             </li>
-        @endif
+        @endif --}}
 
-        @if(in_array('users.presences',$modules))
+        {{-- @if(in_array('users.presences',$modules))
             @if($user->cans('view_attendance'))
                 <li class="{{request()->routeIs('member.attendances.summary') ? 'active' : ''}}">
                     <a href="{{ route('member.attendances.summary') }}" class="waves-effect"><i class="icon-clock fa-fw"></i> <span class="hide-menu">@lang("app.menu.attendance") </span></a> 
@@ -131,7 +147,7 @@
                     <a href="{{ route('member.attendances.index') }}" class="waves-effect"><i class="icon-clock fa-fw"></i> <span class="hide-menu">@lang("app.menu.attendance") </span></a> 
                 </li>
             @endif
-        @endif
+        @endif --}}
 
         {{-- @if(in_array('holidays',$modules))
             <li class="{{request()->routeIs('member.holidays.index') ? 'active' : ''}}">
@@ -139,8 +155,30 @@
             </li>
         @endif --}}
 
-        @if(in_array('users.absences',$modules))
+        {{-- @if(in_array('users.absences',$modules))
         <li><a href="{{ route('member.leaves.index') }}" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">@lang('app.menu.leaves')</span></a> </li>
+        @endif --}}
+
+        {{-- Must change module name --}}
+        @if (in_array('timelogs', $modules))
+        
+                <li class="{{ request()->routeIs('admin.coal.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.coal.index') }}">
+                        <i class="icon-pie-chart fa-fw"></i>
+                        {{-- @lang('app.menu.coal_index') --}} Séances
+                        {{-- Indice Carbonne --}}
+                    </a>
+                </li>
+                    
+        @endif
+
+        @if (in_array('timelogs', $modules))
+            <li class="{{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
+                <a href="{{ route('admin.settings.index') }}">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    @lang('app.menu.settings')
+                </a>
+            </li>
         @endif
 
     </ul>    

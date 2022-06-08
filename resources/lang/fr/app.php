@@ -251,7 +251,7 @@ return array (
     'attendance' => 'Présences',
     'finance' => 'Ventes',
     'customFields' => 'Les champs personnalisés',
-    'Events' => 'Événements',
+    'Events' => 'Planning',
     'payroll' => 'Paie',
     'rolesPermission' => 'Rôles et autorisations',
     'leaves' => 'Absences',

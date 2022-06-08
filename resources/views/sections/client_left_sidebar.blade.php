@@ -10,7 +10,7 @@
 
         <div class="sidebar-logo">
             <a href="/" class="">
-                <img src="{{asset('img/sidebar-logo.png')}}">
+                <img src="{{ company()->logo_url }}">
             </a>
         </div>
 
@@ -26,13 +26,12 @@
             </li>
         @endif
 
-        @foreach ($worksuitePlugins as $item)
-            {{-- @if(in_array(strtolower($item), $modules) || in_array($item, $modules)) --}}
-                @if(View::exists(strtolower($item).'::sections.client_left_sidebar'))
-                    @include(strtolower($item).'::sections.client_left_sidebar')
-                @endif
-            {{-- @endif --}}
-        @endforeach
+        @if(in_array('documents',$modules))
+            <li class="{{request()->routeIs('client.events.index') ? 'active' : ''}}">
+                <a href="{{ route('client.events.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang('app.menu.Events')</span></a> 
+            </li>
+        @endif
+
 
         @if(in_array('chat',$modules))
             @if($messageSetting->allow_client_admin == 'yes' || $messageSetting->allow_client_employee == 'yes')
@@ -42,15 +41,29 @@
             @endif
         @endif
 
-        @if(in_array('projects.title',$modules))
-            <li class="{{request()->routeIs('client.projects.index') ? 'active' : ''}}">
-                <a href="{{ route('client.projects.index') }}" class="waves-effect"><i class="icon-layers fa-fw"></i> <span class="hide-menu">@lang('app.menu.projects') </span> </a> 
-            </li>
+        @foreach ($worksuitePlugins as $item)
+            {{-- @if(in_array(strtolower($item), $modules) || in_array($item, $modules)) --}}
+                @if(View::exists(strtolower($item).'::sections.client_left_sidebar'))
+                    @include(strtolower($item).'::sections.client_left_sidebar')
+                @endif
+            {{-- @endif --}}
+        @endforeach
+
+        @if (in_array('documents', $modules))
+        
+                <li class="{{ request()->routeIs('admin.coal.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.coal.index') }}">
+                        <i class="icon-pie-chart fa-fw"></i>
+                        {{-- @lang('app.menu.coal_index') --}} Séances
+                        {{-- Indice Carbonne --}}
+                    </a>
+                </li>
+                    
         @endif
 
-        @if(in_array('evenements',$modules))
-            <li class="{{request()->routeIs('client.events.index') ? 'active' : ''}}">
-                <a href="{{ route('client.events.index') }}" class="waves-effect"><i class="icon-calender fa-fw"></i> <span class="hide-menu">@lang('app.menu.Events')</span></a> 
+        {{-- @if(in_array('projects.title',$modules))
+            <li class="{{request()->routeIs('client.projects.index') ? 'active' : ''}}">
+                <a href="{{ route('client.projects.index') }}" class="waves-effect"><i class="icon-layers fa-fw"></i> <span class="hide-menu">@lang('app.menu.projects') </span> </a> 
             </li>
         @endif
 
@@ -61,7 +74,7 @@
                     @lang('app.docManagement')
                 </a>
             </li>
-        @endif
+        @endif --}}
 
         {{-- <h4 class="sidebar-heading">@lang('app.others')</h4> --}}
 
