@@ -205,7 +205,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Projet</label>
+                                        <label>Programme</label>
                                         <select class="select2 form-control" data-placeholder="@lang('app.client')" name="project_id" id="project_id">
                                             @foreach($projects as $project)
                                                 <option value="{{ $project->id }}" @if ($contract->project()->first()->id == $project->id)

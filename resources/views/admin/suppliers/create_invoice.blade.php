@@ -25,7 +25,7 @@
 
                 <div class="col-xs-12">
                     <div class="form-group">
-                        <label class="control-label">Projet</label>
+                        <label class="control-label">Programme</label>
                         <select class="form-control" name="project_id" id="currency_id">
                             <option value="none" >---</option>
                             @foreach($projects as $project)

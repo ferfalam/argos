@@ -1625,7 +1625,8 @@ a.article:hover {
 .panel-container .panel-body-info h2 {
     font-size: 25px;
     margin: 0px !important;
-    font-weight: 400 !important;
+    /* font-weight: 400 !important; */
+    font-weight: 600 !important;
     text-align: center;
 }
 

@@ -179,7 +179,7 @@ class ClientsDataTable extends BaseDataTable
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
-            __('modules.client.companyName') => ['data' => 'company_name', 'name' => 'client_details.company_name'],
+            __('modules.client.clientName') => ['data' => 'company_name', 'name' => 'client_details.company_name'],
             __('Contact principal') => ['data' => 'name', 'name' => 'contects.name'],
             __('app.city') => ['data' => 'city', 'name' => 'city'],
             __('app.country') => ['data' => 'country', 'name' => 'country'],

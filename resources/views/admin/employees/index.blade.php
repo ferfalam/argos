@@ -14,6 +14,10 @@
     .action-align{
       text-align: center !important;
     }
+    .panel-body-info *{
+        font-family: "Roboto", sans-serif ;
+        font-weight: 600 !important;
+      }
 </style>
 @endsection
 

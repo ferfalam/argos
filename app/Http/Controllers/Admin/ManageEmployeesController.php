@@ -262,6 +262,7 @@ class ManageEmployeesController extends AdminBaseController
      */
     public function show($id)
     {
+        $this->pageTitle = 'modules.employees.employeePage';
         $this->employee = User::with(['employeeDetail', 'employeeDetail.designation', 'employeeDetail.department', 'leaveTypes', 'country', 'roles'])->withoutGlobalScope('active')->findOrFail($id);
         $this->employeeDetail = EmployeeDetails::where('user_id', '=', $this->employee->id)->first();
         $this->cityName = CompanyTLA::where('id', $this->employee->city_id)->first();

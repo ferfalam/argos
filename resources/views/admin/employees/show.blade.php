@@ -74,14 +74,14 @@
                             <div class="row row-in">
                                 <div class="col-md-6 row-in-br b-t">
                                     <div class="col-in row">
-                                            <h3 class="box-title color-black">@lang('modules.leaves.leavesTaken')</h3>
+                                            <h3 class="box-title color-black">@lang('modules.employees.leavesTaken')</h3>
                                             <div class="col-xs-4"><i class="icon-logout text-warning"></i></div>
                                             <div class="col-xs-8 text-right counter">{{ $leavesCount }}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 row-in-br  b-r-none b-t">
                                     <div class="col-in row">
-                                            <h3 class="box-title color-black">@lang('modules.leaves.remainingLeaves')</h3>
+                                            <h3 class="box-title color-black">@lang('modules.employees.remainingLeaves')</h3>
                                         <div class="col-xs-4"><i class="icon-logout text-danger"></i></div>
                                         <div class="col-xs-8 text-right counter">{{ ($allowedLeaves-count($leaves)) }}</div>
                                     </div>
@@ -302,7 +302,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>@lang('app.project')</th>
+                                            <th>@lang('app.menu.projects')</th>
                                             <th>@lang('app.deadline')</th>
                                             <th>@lang('app.completion')</th>
                                         </tr>
@@ -334,7 +334,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="3">@lang('messages.noProjectFound')</td>
+                                                <td colspan="4">@lang('messages.noProjectFound')</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

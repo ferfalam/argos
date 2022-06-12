@@ -248,7 +248,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td><label for="username" class="required">@lang('app.user_id')
                                                     </label></td>
                                                 <td>
@@ -259,7 +259,7 @@
                                                         <img src="{{ asset('img/plus.png') }}" alt="">
                                                     </a>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
                                             <tr>
                                                 <td><label for="name" class="required">@lang('app.lastnamefirstname')
                                                     </label></td>
@@ -334,6 +334,24 @@
                                                         {{-- <option value="Admin" disabled>Admin</option>
                                                         <option value="Collaborateur" disabled>Collaborateur</option>
                                                         <option value="Profil Externe" disabled>Profil Externe</option> --}}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a href="#!" class="invisible">
+                                                        <img src="{{ asset('img/plus.png') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="departement_id" class="">@lang('app.services')</label>
+                                                </td>
+                                                <td>
+                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
+                                                            data-placeholder="Sélectionner Départements" name="departement_id[]" required>
+                                                        @foreach($groups as $group)
+                                                            <option value="{{ $group->id }}">{{ $group->team_name }} </option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
@@ -603,24 +621,7 @@
                                                 </td>
                                             </tr>
 
-                                            <tr>
-                                                <td>
-                                                    <label for="departement_id" class="">@lang('app.services')</label>
-                                                </td>
-                                                <td>
-                                                    <select class="select2 m-b-10 select2-multiple " multiple="multiple" id="departement_id"
-                                                            data-placeholder="Sélectionner Départements" name="departement_id[]" required>
-                                                        @foreach($groups as $group)
-                                                            <option value="{{ $group->id }}">{{ $group->team_name }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#!" class="invisible">
-                                                        <img src="{{ asset('img/plus.png') }}" alt="">
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            
 
                                            
 

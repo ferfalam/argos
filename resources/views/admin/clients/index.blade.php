@@ -71,7 +71,7 @@
             </select>
         </x-filter-form-group>
 
-        <x-filter-form-group label="modules.logTimeSetting.project">
+        <x-filter-form-group label="app.project">
             <select class="form-control select2" name="project_id" id="project_id"
             data-style="form-control">
                 <option value="all">@lang('modules.client.all')</option>

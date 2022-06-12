@@ -41,9 +41,9 @@
         background-color: #F2F2F2 !important;
       }
 
-      .panel-body-info h2{
+      .panel-body-info *{
         font-family: "Roboto", sans-serif ;
-        font-weight: 500;
+        font-weight: 600 !important;
       }
 
       .steamline .sl-left .img-circle{

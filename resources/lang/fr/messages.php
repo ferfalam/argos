@@ -29,7 +29,7 @@ return array(
   'fileUploadedSuccessfully' => 'Fichier téléchargé avec succès.',
   'isAddedAsProjectMember' => 'est ajouté en tant que membre du projet.',
   'memberRemovedFromProject' => 'Membre retiré du projet avec succès.',
-  'noProjectFound' => 'Aucun projet trouvé.',
+  'noProjectFound' => 'Aucun programme trouvé.',
   'noPaymentFound' => 'Aucun paiement trouvé',
   'paymentSuccessfullyDone' => 'Payment successfully done.',
   'noInvoiceFound' => 'Semble comme aucune facture n\'a été générée.',

@@ -161,7 +161,7 @@
         <li class="{{ request()->routeIs('admin.spv*') ? 'active' : '' }}">
             <a href="{{ route('admin.spv.index') }}">
                 <ion-icon name="document"></ion-icon>
-                Programmes
+                @lang('app.menu.projects')
             </a>
         </li>
                     
@@ -172,7 +172,7 @@
         <li class="{{ request()->routeIs('admin.document.*') ? 'active' : '' }}">
             <a href="{{ route('admin.document.index') }}">
                 <ion-icon name="document-text"></ion-icon>
-                {{-- @lang('app.docManagement') --}}Parcours
+                @lang('app.menu.tasks')
             </a>
         </li>
                     
@@ -219,7 +219,7 @@
                 <li class="{{ request()->routeIs('admin.coal.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.coal.index') }}">
                         <i class="icon-pie-chart fa-fw"></i>
-                        {{-- @lang('app.menu.coal_index') --}} Séances
+                        @lang('app.menu.leaves') 
                         {{-- Indice Carbonne --}}
                     </a>
                 </li>

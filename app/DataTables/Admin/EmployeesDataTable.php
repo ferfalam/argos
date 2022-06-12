@@ -216,7 +216,7 @@ class EmployeesDataTable extends BaseDataTable
         return [
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'DT_RowIndex', 'orderable' => false, 'searchable' => false],
-            __('modules.employees.employeeId') => ['data' => 'username', 'name' => 'employee_details.employee_id'],
+            // __('modules.employees.employeeId') => ['data' => 'username', 'name' => 'employee_details.employee_id'],
             __('app.name') => ['data' => 'name', 'name' => 'name', 'exportable' => false],
             __('app.employee_name') => ['data' => 'employee_name', 'employee_name' => 'employee_name', 'visible' => false],
             __('app.email') => ['data' => 'email', 'name' => 'email'],

@@ -250,7 +250,7 @@
                                             <legend>Identifications</legend>
                                             <table>
                                                 <tr>
-                                                    <td><label for="company_name" class="required">@lang('app.name_ucfirst')</label></td>
+                                                    <td><label for="company_name" class="required">@lang('app.nom1')/@lang('app.name_ucfirst')</label></td>
                                                     <td>
                                                         <input type="text" class="form-control" id="company_name" name="company_name" value="">
                                                     </td>
